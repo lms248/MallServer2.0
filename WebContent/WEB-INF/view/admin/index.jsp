@@ -62,12 +62,12 @@
             </div>
 
             <!--sidebar nav start-->
-            <ul class="nav nav-pills nav-stacked custom-nav">
+            <ul id="sidebar" class="nav nav-pills nav-stacked custom-nav">
                 <li class="active"><a href="/admin"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                <li><a href="#"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
+                <li><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
                 <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Layouts</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#"> Blank Page</a></li>
+                        <li><a href="#" uri="authority"> Blank Page</a></li>
                         <li><a href="#"> Boxed Page</a></li>
                         <li><a href="#"> Sidebar Collapsed</a></li>
                         <li><a href="#"> Horizontal Menu</a></li>
@@ -209,9 +209,7 @@
         <!-- page heading end-->
 
         <!--body wrapper start-->
-        <div class="wrapper">
-        
-        </div>
+        <div class="wrapper"></div>
         <!--body wrapper end-->
 
         <!--footer section start-->
@@ -234,7 +232,7 @@
 <script src="/res/js/jquery.nicescroll.js"></script>
 
 <!--common scripts for all pages-->
-<script src="/res/js/scripts.js"></script>
+<script src="/res/js/common-scripts.js"></script>
 
 </body>
 </html>

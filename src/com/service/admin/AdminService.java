@@ -77,63 +77,63 @@ public class AdminService {
 	/** 权限管理 **/
 	@RequestMapping(value="authority", method=RequestMethod.POST)
 	public ModelAndView authority(){
-		ModelAndView view = new ModelAndView("admin/main-content/authority");
+		ModelAndView view = new ModelAndView("admin/authority");
 		return view;
 	}
 	
 	/** 用户管理 **/
 	@RequestMapping(value="user", method=RequestMethod.POST)
 	public ModelAndView user(){
-		ModelAndView view = new ModelAndView("admin/main-content/user");
+		ModelAndView view = new ModelAndView("admin/user");
 		return view;
 	}
 	
 	/** 公会管理 **/
 	@RequestMapping(value="guild", method=RequestMethod.POST)
 	public ModelAndView guild(){
-		ModelAndView view = new ModelAndView("admin/main-content/guild");
+		ModelAndView view = new ModelAndView("admin/guild");
 		return view;
 	}
 	
 	/** 游戏中心 **/
 	@RequestMapping(value="game", method=RequestMethod.POST)
 	public ModelAndView game(){
-		ModelAndView view = new ModelAndView("admin/main-content/game");
+		ModelAndView view = new ModelAndView("admin/game");
 		return view;
 	}
 	
 	/** 礼包商城 **/
 	@RequestMapping(value="mall", method=RequestMethod.POST)
 	public ModelAndView mall(){
-		ModelAndView view = new ModelAndView("admin/main-content/mall");
+		ModelAndView view = new ModelAndView("admin/mall");
 		return view;
 	}
 	
 	/** 活动管理 **/
 	@RequestMapping(value="activities", method=RequestMethod.POST)
 	public ModelAndView activities(){
-		ModelAndView view = new ModelAndView("admin/main-content/activities");
+		ModelAndView view = new ModelAndView("admin/activities");
 		return view;
 	}
 	
 	/** 新闻公告 **/
 	@RequestMapping(value="news", method=RequestMethod.POST)
 	public ModelAndView news(){
-		ModelAndView view = new ModelAndView("admin/main-content/news");
+		ModelAndView view = new ModelAndView("admin/news");
 		return view;
 	}
 	
 	/** 消息管理 **/
 	@RequestMapping(value="message", method=RequestMethod.POST)
 	public ModelAndView message(){
-		ModelAndView view = new ModelAndView("admin/main-content/message");
+		ModelAndView view = new ModelAndView("admin/message");
 		return view;
 	}
 	
 	/** 日志管理 **/
 	@RequestMapping(value="log", method=RequestMethod.POST)
 	public ModelAndView log(){
-		ModelAndView view = new ModelAndView("admin/main-content/log");
+		ModelAndView view = new ModelAndView("admin/log");
 		return view;
 	}
 }

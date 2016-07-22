@@ -64,7 +64,32 @@
    }, function(){
       jQuery(this).removeClass('nav-hover');
    });
-
+   
+   // Toggle Left Menu item
+   jQuery('#sidebar > li > a').click(function() {
+	   //alert(jQuery('.active', $('#sidebar')).removeClass("active").title());
+	  /* while(jQuery('.active', $('#sidebar') != undefined)){
+		   jQuery('.active', $('#sidebar')).removeClass("active");
+	   }*/
+	   jQuery('.active', $('#sidebar')).removeClass("active");
+	   jQuery('.menu-list .nav-active', $('#sidebar')).removeClass("nav-active");
+	   jQuery(this).parent().addClass("active");
+	   
+	   //alert($(this).attr("uri"));
+	   if ($(this).attr("uri") != undefined) {
+		   $(".wrapper").load("admin/"+$(this).attr("uri"),{});
+	   }
+   });
+   jQuery('.menu-list .sub-menu-list > li > a').click(function() {
+	   jQuery('.active', $('#sidebar')).removeClass("active");
+	   jQuery('.menu-list .nav-active', $('#sidebar')).removeClass("nav-active");
+	   jQuery(this).parent().addClass("active");
+	   
+	   //alert($(this).attr("uri"));
+	   if ($(this).attr("uri") != undefined) {
+		   $(".wrapper").load("admin/"+$(this).attr("uri"),{});
+	   }
+   });
 
    // Menu Toggle
    jQuery('.toggle-btn').click(function(){
