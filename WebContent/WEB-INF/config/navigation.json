@@ -1,0 +1,22 @@
+[
+	{"name":"权限管理","uri":"authority","level":1},
+	{"name":"用户管理","uri":"user","level":2},
+	{"name":"公会管理","uri":"guild","level":3},
+	{"name":"已审批","uri":"#","level":3.1},
+	{"name":"未审批","uri":"#","level":3.2},
+	{"name":"已解散","uri":"#","level":3.3},
+	{"name":"游戏中心","uri":"game","level":4},
+	{"name":"安卓","uri":"#","level":4.1},
+	{"name":"苹果","uri":"#","level":4.2},
+	{"name":"礼包商城","uri":"mall","level":5},
+	{"name":"普通礼包","uri":"#","level":5.1},
+	{"name":"充返礼包","uri":"#","level":5.2},
+	{"name":"活动管理","uri":"activities","level":6},
+	{"name":"进行中","uri":"#","level":6.1},
+	{"name":"已结束","uri":"#","level":6.2},
+	{"name":"新闻公告","uri":"news","level":7},
+	{"name":"消息","uri":"message","level":8},
+	{"name":"日志管理","uri":"log","level":9},
+	{"name":"登录日志","uri":"#","level":9.1},
+	{"name":"操作日志","uri":"#","level":9.2}
+]

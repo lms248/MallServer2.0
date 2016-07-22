@@ -1,0 +1,6 @@
+[
+	{"id":0,"name":"管理员","authCode":"all"},
+	{"id":1,"name":"运营","authCode":""},
+	{"id":2,"name":"策划","authCode":""},
+	{"id":3,"name":"编辑","authCode":""}
+]

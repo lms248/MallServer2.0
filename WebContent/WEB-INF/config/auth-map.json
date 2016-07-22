@@ -1,0 +1,11 @@
+[
+	{"name":"权限管理","uri":"authority","authCode":1},
+	{"name":"用户管理","uri":"user","authCode":2},
+	{"name":"公会管理","uri":"guild","authCode":3},
+	{"name":"游戏中心","uri":"game","authCode":4},
+	{"name":"礼包商城","uri":"mall","authCode":5},
+	{"name":"活动管理","uri":"activities","authCode":6},
+	{"name":"新闻公告","uri":"news","authCode":7},
+	{"name":"消息","uri":"message","authCode":8},
+	{"name":"日志管理","uri":"log","authCode":9}
+]

@@ -1,0 +1,10 @@
+#不配默认在项目logs文件夹
+#LOG_PATH=/logs
+#默认输出格式 可选格式[%level %time %class %method %line %msg]
+#PATTERN=[%level %time %class %method %line] %msg
+#输出选项 可选参数[INFO,DEBUG,ERROR]
+#LEVELS=INFO,DEBUG,ERROR
+#输出渠道 可选参数[APPENDER_CONTROLLER,APPENDER_FILE]
+#APPENDERS=APPENDER_CONTROLLER,APPENDER_FILE
+#日志回写频率（秒），只有配置APPENDER_FILE才会生效
+#FlUSH_TIME=30
