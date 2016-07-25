@@ -6,25 +6,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.client.UserBean;
+import bean.client.ShopBean;
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
- * 用户dao
+ * 商店dao
  */
-public class UserDao {
+public class ShopDao {
 	private static Logger log=LoggerManager.getLogger();
 	
 	/**
 	 * 加载数据
-	 * @param uid
+	 * @param shopid
 	 * @return
 	 */
-	public static UserBean loadByUid(long uid){
-		UserBean bean=null;
+	public static ShopBean loadByShopId(long shopid){
+		ShopBean bean=null;
 		try {
-			bean=dbUtils.read(UserBean.class, "where uid=?", uid);
+			bean=dbUtils.read(ShopBean.class, "where shopid=?", shopid);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -37,10 +37,10 @@ public class UserDao {
 	 * @param uid
 	 * @return
 	 */
-	public static UserBean loadByUsername(String username){
-		UserBean bean=null;
+	public static ShopBean loadByShopname(String username){
+		ShopBean bean=null;
 		try {
-			bean=dbUtils.read(UserBean.class, "where username=?", username);
+			bean=dbUtils.read(ShopBean.class, "where username=?", username);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -53,10 +53,10 @@ public class UserDao {
 	 * @param count
 	 * @return
 	 */
-	public static UserBean loadByCount(int count){
-		UserBean bean=null;
+	public static ShopBean loadByCount(int count){
+		ShopBean bean=null;
 		try {
-			bean=dbUtils.read(UserBean.class, "order by id desc limit ?", count);
+			bean=dbUtils.read(ShopBean.class, "order by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -69,43 +69,43 @@ public class UserDao {
 	 * 加载所有列表
 	 * @return List
 	 */
-	public static List<UserBean> loadAllUser(){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<ShopBean> loadAllShop(){
+		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, " order by id desc");
+			Shoplist=dbUtils.query(ShopBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return Shoplist;
 	}
 	
 	/**
 	 * 加载所有列表
-	 * @param UserType ,pageNum(页码),pageSize(页数)
+	 * @param ShopType ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<UserBean> loadAllUser(int pageNum, int pageSize){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<ShopBean> loadAllShop(int pageNum, int pageSize){
+		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, 
+			Shoplist=dbUtils.query(ShopBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return Shoplist;
 	}
-	public static List<UserBean> loadUser4type(int pageNum, int pageSize, int type){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<ShopBean> loadShop4type(int pageNum, int pageSize, int type){
+		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, 
+			Shoplist=dbUtils.query(ShopBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return Shoplist;
 	}
 	
 	
@@ -115,25 +115,25 @@ public class UserDao {
 	 * @return int
 	 */
 	public static int Count(){
-		int UserCount=0;
+		int ShopCount=0;
 		try {
-			UserCount=dbUtils.stat(UserBean.class, "select COUNT(*) from User_gw");
+			ShopCount=dbUtils.stat(ShopBean.class, "select COUNT(*) from Shop_gw");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return UserCount;
+		return ShopCount;
 	}
 	public static int Count(int type){
-		int UserCount=0;
+		int ShopCount=0;
 		try {
-			UserCount=dbUtils.stat(UserBean.class, 
-					"select COUNT(*) from User_gw where type=?", type);
+			ShopCount=dbUtils.stat(ShopBean.class, 
+					"select COUNT(*) from Shop_gw where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return UserCount;
+		return ShopCount;
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class UserDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int save(UserBean bean){
+	public static int save(ShopBean bean){
 		try {
 			return dbUtils.insert(bean);
 		} catch (SQLException e) {
@@ -156,7 +156,7 @@ public class UserDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int update(UserBean bean){
+	public static int update(ShopBean bean){
 		try {
 			return dbUtils.update(bean);
 		} catch (Exception e) {
@@ -172,7 +172,7 @@ public class UserDao {
 	 */
 	public static int delete(int id){
 		try {
-			return dbUtils.delete(UserBean.class, id);
+			return dbUtils.delete(ShopBean.class, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

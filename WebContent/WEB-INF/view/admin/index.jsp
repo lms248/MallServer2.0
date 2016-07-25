@@ -63,8 +63,8 @@
 
             <!--sidebar nav start-->
             <ul id="sidebar" class="nav nav-pills nav-stacked custom-nav">
-                <li class="active"><a href="/admin"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                <li><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
+                <li class="menu-1 active"><a href="/admin"><i class="fa fa-home"></i> <span>Home</span></a></li>
+                <li class="menu-1"><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
                 <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Layouts</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#" uri="authority"> Blank Page</a></li>

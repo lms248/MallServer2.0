@@ -6,41 +6,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.client.UserBean;
+import bean.client.GoodsBean;
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
- * 用户dao
+ * 商品dao
  */
-public class UserDao {
+public class GoodsDao {
 	private static Logger log=LoggerManager.getLogger();
 	
 	/**
 	 * 加载数据
-	 * @param uid
+	 * @param goodsid
 	 * @return
 	 */
-	public static UserBean loadByUid(long uid){
-		UserBean bean=null;
+	public static GoodsBean loadByGoodsId(long goodsid){
+		GoodsBean bean=null;
 		try {
-			bean=dbUtils.read(UserBean.class, "where uid=?", uid);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return bean;
-	}
-	
-	/**
-	 * 加载数据
-	 * @param uid
-	 * @return
-	 */
-	public static UserBean loadByUsername(String username){
-		UserBean bean=null;
-		try {
-			bean=dbUtils.read(UserBean.class, "where username=?", username);
+			bean=dbUtils.read(GoodsBean.class, "where goodsid=?", goodsid);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -53,10 +37,10 @@ public class UserDao {
 	 * @param count
 	 * @return
 	 */
-	public static UserBean loadByCount(int count){
-		UserBean bean=null;
+	public static GoodsBean loadByCount(int count){
+		GoodsBean bean=null;
 		try {
-			bean=dbUtils.read(UserBean.class, "order by id desc limit ?", count);
+			bean=dbUtils.read(GoodsBean.class, "order by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -64,48 +48,63 @@ public class UserDao {
 		return bean;
 	}
 	
-			
 	/**
-	 * 加载所有列表
-	 * @return List
+	 * 加载数据
+	 * @param type
+	 * @return
 	 */
-	public static List<UserBean> loadAllUser(){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<GoodsBean> loadByType(int type){
+		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, " order by id desc");
+			Goodslist=dbUtils.query(GoodsBean.class, "where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return Goodslist;
 	}
 	
 	/**
 	 * 加载所有列表
-	 * @param UserType ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<UserBean> loadAllUser(int pageNum, int pageSize){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<GoodsBean> loadAllGoods(){
+		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, 
+			Goodslist=dbUtils.query(GoodsBean.class, " order by id desc");
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return Goodslist;
+	}
+	
+	/**
+	 * 加载所有列表
+	 * @param GoodsType ,pageNum(页码),pageSize(页数)
+	 * @return List
+	 */
+	public static List<GoodsBean> loadAllGoods(int pageNum, int pageSize){
+		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
+		try {
+			Goodslist=dbUtils.query(GoodsBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return Goodslist;
 	}
-	public static List<UserBean> loadUser4type(int pageNum, int pageSize, int type){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<GoodsBean> loadGoods4type(int pageNum, int pageSize, int type){
+		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, 
+			Goodslist=dbUtils.query(GoodsBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return Goodslist;
 	}
 	
 	
@@ -115,25 +114,25 @@ public class UserDao {
 	 * @return int
 	 */
 	public static int Count(){
-		int UserCount=0;
+		int GoodsCount=0;
 		try {
-			UserCount=dbUtils.stat(UserBean.class, "select COUNT(*) from User_gw");
+			GoodsCount=dbUtils.stat(GoodsBean.class, "select COUNT(*) from Goods_gw");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return UserCount;
+		return GoodsCount;
 	}
 	public static int Count(int type){
-		int UserCount=0;
+		int GoodsCount=0;
 		try {
-			UserCount=dbUtils.stat(UserBean.class, 
-					"select COUNT(*) from User_gw where type=?", type);
+			GoodsCount=dbUtils.stat(GoodsBean.class, 
+					"select COUNT(*) from Goods_gw where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return UserCount;
+		return GoodsCount;
 	}
 	
 	/**
@@ -141,7 +140,7 @@ public class UserDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int save(UserBean bean){
+	public static int save(GoodsBean bean){
 		try {
 			return dbUtils.insert(bean);
 		} catch (SQLException e) {
@@ -156,7 +155,7 @@ public class UserDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int update(UserBean bean){
+	public static int update(GoodsBean bean){
 		try {
 			return dbUtils.update(bean);
 		} catch (Exception e) {
@@ -172,7 +171,7 @@ public class UserDao {
 	 */
 	public static int delete(int id){
 		try {
-			return dbUtils.delete(UserBean.class, id);
+			return dbUtils.delete(GoodsBean.class, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

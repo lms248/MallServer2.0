@@ -21,6 +21,8 @@ public class UserBean extends Pojo {
 	private String nickname;
 	/** 头像 */
 	private String avatar;
+	/** 缩略图 */
+	private String thumbnail;
 	/** 令牌*/
 	private String token;
 	/** 注册时间 */
@@ -67,6 +69,12 @@ public class UserBean extends Pojo {
 	}
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 	public String getToken() {
 		return token;
