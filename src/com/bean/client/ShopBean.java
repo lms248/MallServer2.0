@@ -19,6 +19,8 @@ public class ShopBean extends Pojo {
 	private String thumbnail;
 	/** 图片 */
 	private String image;
+	/** 类型 */
+	private String type;
 	/** 注册时间 */
 	private Long time;
 	
@@ -57,6 +59,12 @@ public class ShopBean extends Pojo {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public Long getTime() {
 		return time;

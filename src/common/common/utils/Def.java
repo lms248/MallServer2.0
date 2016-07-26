@@ -41,6 +41,9 @@ public class Def {
 	/**业务路由失败*/
 	public static final int CODE_ROUTE_FAIL=3;
 	
+	/*****************************商店类型**********************************/
+	
+	
 	/*****************************商品类型**********************************/
 	/**商品促销活动banner*/
 	public static final int GOODS_TYPE_BANNER=0;

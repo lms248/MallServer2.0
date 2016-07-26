@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.GoodsBean;
+import bean.client.ShopBean;
 import common.utils.Def;
+import common.utils.JsonUtils;
 import dao.client.GoodsDao;
+import dao.client.ShopDao;
+import dao.client.UserDao;
 
 @Controller
 @RequestMapping("/page")
@@ -36,7 +40,7 @@ public class PageService {
 		//首页banner
 		JSONObject obj_banner = new JSONObject();
 		JSONArray arr_banner = new JSONArray();
-		List<GoodsBean> bannerList = GoodsDao.loadByType(Def.GOODS_TYPE_BANNER);
+		List<GoodsBean> bannerList = GoodsDao.loadGoods4type(Def.GOODS_TYPE_BANNER, 1, 5);
 		for (int i = 0; i < bannerList.size(); i++) {
 			obj_banner.put("goodid", bannerList.get(i).getGoodsid());
 			obj_banner.put("image", bannerList.get(i).getImagelist().split(",")[0]);
@@ -46,18 +50,27 @@ public class PageService {
 		//首页精选促销
 		JSONObject obj_promotion = new JSONObject();
 		JSONArray arr_promotion = new JSONArray();
-		List<GoodsBean> promotionList = GoodsDao.loadByType(Def.GOODS_TYPE_BANNER);
+		List<GoodsBean> promotionList = GoodsDao.loadGoods4type(Def.GOODS_TYPE_PROMOTION, 1, 9);
 		for (int i = 0; i < promotionList.size(); i++) {
 			obj_promotion.put("goodid", promotionList.get(i).getGoodsid());
 			obj_promotion.put("image", promotionList.get(i).getImagelist().split(",")[0]);
 			arr_promotion.add(obj_promotion);
 		}
 		
-		//TODO 首页商城商户
+		//首页商城商户
+		JSONObject obj_shop = new JSONObject();
+		JSONArray arr_shop = new JSONArray();
+		List<ShopBean> shopList = ShopDao.loadAllShop(1, 4);
+		for (int i = 0; i < shopList.size(); i++) {
+			obj_shop.put("shopid", shopList.get(i).getShopid());
+			obj_shop.put("image", shopList.get(i).getImage());
+			arr_shop.add(obj_shop);
+		}
 		
 		JSONObject obj_data = new JSONObject();
 		obj_data.put("banner", arr_banner);
 		obj_data.put("promotion", arr_promotion);
+		obj_data.put("shop", arr_shop);
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
@@ -102,10 +115,7 @@ public class PageService {
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "购物车数据");
-		//JSONObject obj_banner = new JSONObject();
-		//obj_banner.put("image", "");
-		//obj_banner.put("url", "");
-		obj.put("data", "");
+		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadAllGoods(1, 10)));
 		out.print(obj);
 		
 		out.flush();

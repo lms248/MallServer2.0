@@ -95,7 +95,7 @@ public class GoodsDao {
 		}
 		return Goodslist;
 	}
-	public static List<GoodsBean> loadGoods4type(int pageNum, int pageSize, int type){
+	public static List<GoodsBean> loadGoods4type(int type, int pageNum, int pageSize){
 		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
 		try {
 			Goodslist=dbUtils.query(GoodsBean.class, 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-07-25 20:49:44
+Date: 2016-07-26 20:48:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -36,7 +36,7 @@ CREATE TABLE `goods` (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `time` bigint(20) DEFAULT NULL COMMENT '添加时间',
   PRIMARY KEY (`id`,`goodsid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order
@@ -81,6 +81,6 @@ CREATE TABLE `user` (
   `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
-  `time注册时间` bigint(20) DEFAULT NULL,
+  `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
