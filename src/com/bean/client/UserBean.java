@@ -91,5 +91,4 @@ public class UserBean extends Pojo {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
 }

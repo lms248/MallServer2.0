@@ -6,7 +6,7 @@ import common.db.Pojo;
  * 商店bean
  * */
 public class ShopBean extends Pojo {
-	private static long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	/** 序号ID */
 	private int id;
 	/** 商店ID */

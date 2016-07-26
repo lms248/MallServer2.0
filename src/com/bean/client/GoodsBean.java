@@ -6,7 +6,7 @@ import common.db.Pojo;
  * 商品bean
  * */
 public class GoodsBean extends Pojo {
-	private static long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	/** 序号ID */
 	private int id;
 	/** 商品ID */
@@ -38,12 +38,6 @@ public class GoodsBean extends Pojo {
 	/** 添加时间 */
 	private Long time;
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	public static void setSerialversionuid(long serialversionuid) {
-		serialVersionUID = serialversionuid;
-	}
 	public int getId() {
 		return id;
 	}
@@ -134,5 +128,7 @@ public class GoodsBean extends Pojo {
 	public void setTime(Long time) {
 		this.time = time;
 	}
-	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 }
