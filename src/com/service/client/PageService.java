@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
+
 import common.utils.Def;
 import common.utils.JsonUtils;
+
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
-import dao.client.UserDao;
 
+/**
+ * 界面
+ */
 @Controller
 @RequestMapping("/page")
 public class PageService {

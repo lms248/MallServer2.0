@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import common.utils.Def;
 import common.utils.JsonUtils;
 
-import dao.client.GoodsDao;
+import dao.client.ShopDao;
 
 /**
- * 商品
+ * 商店
  */
 @Controller
-@RequestMapping("/goods")
-public class GoodsService {
-	/** 商品详情 */
+@RequestMapping("/shop")
+public class ShopService {
+	/** 商店信息 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody
 	public void info(HttpServletRequest request, HttpServletResponse response)
@@ -35,12 +35,12 @@ public class GoodsService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int goodsid = Integer.parseInt(request.getParameter("goodsid")); 
+		int shopid = Integer.parseInt(request.getParameter("shopid")); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "商品详情");
-		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodsid)));
+		obj.put("msg", "商店信息");
+		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopid)));
 		out.print(obj);
 		
 		out.flush();

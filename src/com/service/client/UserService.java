@@ -26,9 +26,34 @@ import common.utils.JsonUtils;
 
 import dao.client.UserDao;
 
+/**
+ * 用户
+ */
 @Controller
 @RequestMapping("/user")
 public class UserService {
+	/** 用户信息 */
+	@RequestMapping(value ="info",method=RequestMethod.GET)
+	@ResponseBody
+	public void info(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		int uid = Integer.parseInt(request.getParameter("uid")); 
+		
+		JSONObject obj = new JSONObject();
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "用户信息");
+		obj.put("data", JsonUtils.jsonFromObject(UserDao.loadByUid(uid)));
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 用户登录 */
 	@RequestMapping(value ="login",method=RequestMethod.POST)
 	@ResponseBody
