@@ -9,7 +9,7 @@
   <meta name="author" content="ThemeBucket">
   <link rel="shortcut icon" href="#" type="image/png">
 
-  <title>AdminEx</title>
+  <title>MallServer Admin</title>
 
   <!--common-->
   <link href="/res/css/style.css" rel="stylesheet">
@@ -43,90 +43,34 @@
 
         <div class="left-side-inner">
 
-            <!-- visible to small devices only -->
-            <div class="visible-xs hidden-sm hidden-md hidden-lg">
-                <div class="media logged-user">
-                    <img alt="" src="/res/img/user-avatar.png" class="media-object">
-                    <div class="media-body">
-                        <h4><a href="#">John Doe</a></h4>
-                        <span>"Hello There..."</span>
-                    </div>
-                </div>
-
-                <h5 class="left-nav-title">Account Information</h5>
-                <ul class="nav nav-pills nav-stacked custom-nav">
-                  <li><a href="#"><i class="fa fa-user"></i> <span>Profile</span></a></li>
-                  <li><a href="#"><i class="fa fa-cog"></i> <span>Settings</span></a></li>
-                  <li><a href="#"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>
-                </ul>
-            </div>
-
             <!--sidebar nav start-->
             <ul id="sidebar" class="nav nav-pills nav-stacked custom-nav">
-                <li class="menu-1 active"><a href="/admin"><i class="fa fa-home"></i> <span>Home</span></a></li>
-                <li class="menu-1"><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
-                <li class="menu-list"><a href=""><i class="fa fa-laptop"></i> <span>Layouts</span></a>
+                <li class="menu-1 active"><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
+                <li class="menu-1"><a href="#"><i class="fa fa-user"></i> <span>用户</span></a></li>
+                <li class="menu-1"><a href="#"><i class="fa fa-th-large"></i> <span>商店</span></a></li>
+                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>商品</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#" uri="authority"> Blank Page</a></li>
-                        <li><a href="#"> Boxed Page</a></li>
-                        <li><a href="#"> Sidebar Collapsed</a></li>
-                        <li><a href="#"> Horizontal Menu</a></li>
-
+                        <li><a href="#"> 推荐商品</a></li>
+                        <li><a href="#"> 热销商品</a></li>
+                        <li><a href="#"> 全部</a></li>
                     </ul>
                 </li>
-                <li class="menu-list"><a href=""><i class="fa fa-book"></i> <span>UI Elements</span></a>
+                <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>订单</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#"> General</a></li>
-                        <li><a href="#"> Buttons</a></li>
-                        <li><a href="#"> Tabs & Accordions</a></li>
-                        <li><a href="#"> Typography</a></li>
-                        <li><a href="#"> Slider</a></li>
-                        <li><a href="#"> Panels</a></li>
+                        <li><a href="#"> 代付款</a></li>
+                        <li><a href="#"> 待收货</a></li>
+                        <li><a href="#"> 已收货</a></li>
+                        <li><a href="#"> 申请退货</a></li>
+                        <li><a href="#"> 全部</a></li>
                     </ul>
                 </li>
-                <li class="menu-list"><a href=""><i class="fa fa-envelope"></i> <span>Mail</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="#"> Inbox</a></li>
-                        <li><a href="#"> Compose Mail</a></li>
-                        <li><a href="#"> View Mail</a></li>
-                    </ul>
-                </li>
-                <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>Forms</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="#"> Form Layouts</a></li>
-                        <li><a href="#"> Advanced Components</a></li>
-                        <li><a href="#"> Form Wizards</a></li>
-                        <li><a href="#"> Form Validation</a></li>
-                        <li><a href="#"> Editors</a></li>
-                        <li><a href="#"> Inline Editors</a></li>
-                        <li><a href="#"> Pickers</a></li>
-                        <li><a href="#"> Dropzone</a></li>
-                        <li><a href="#"> More</a></li>
-                    </ul>
-                </li>
-                <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>Charts</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="#"> Flot Charts</a></li>
-                        <li><a href="#"> Morris Charts</a></li>
-                        <li><a href="#"> Chartjs</a></li>
-                        <li><a href="#"> C3 Charts</a></li>
-                    </ul>
-                </li>
-                <li class="menu-list"><a href="#"><i class="fa fa-th-list"></i> <span>Data Tables</span></a>
-                    <ul class="sub-menu-list">
-                        <li><a href="#"> Basic Table</a></li>
-                        <li><a href="#"> Advanced Table</a></li>
-                        <li><a href="#"> Responsive Table</a></li>
-                        <li><a href="#"> Edit Table</a></li>
-                    </ul>
-                </li>
-                <li class="menu-list"><a href=""><i class="fa fa-file-text"></i> <span>Extra Pages</span></a>
+                <li class="menu-1"><a href="#"><i class="fa fa-envelope"></i> <span>反馈</span></a></li>
+                <li class="menu-list"><a href="#"><i class="fa fa-file-text"></i> <span>日志</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#"> 404 Error</a></li>
                         <li><a href="#"> 500 Error</a></li>
                     </ul>
                 </li>
-                <li><a href="/admin/login"><i class="fa fa-sign-in"></i> <span>Login Page</span></a></li>
 
             </ul>
             <!--sidebar nav end-->
@@ -161,9 +105,9 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                            <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
-                            <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>
-                            <li><a href="#"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                            <li><a href="#"><i class="fa fa-user"></i> <span>个人中心</span></a></li>
+                  			<li><a href="#"><i class="fa fa-cog"></i> <span>设置</span></a></li>
+                  			<li><a href="#"><i class="fa fa-sign-out"></i> <span>注销登录</span></a></li>
                         </ul>
                     </li>
 
