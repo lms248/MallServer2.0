@@ -10,9 +10,9 @@ public class GoodsBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 商品ID */
-	private Long goodsid;
+	private Long goodsId;
 	/** 商店ID */
-	private Long shopid;
+	private Long shopId;
 	/** 商品名 */
 	private String name;
 	/** 标题 */
@@ -20,17 +20,17 @@ public class GoodsBean extends Pojo {
 	/** 缩略图 */
 	private String thumbnail;
 	/** 图片列表 */
-	private String imagelist;
+	private String imageList;
 	/** 当前价格 */
-	private String cur_price;
+	private String curPrice;
 	/** 原来价格 */
-	private String pre_price;
+	private String prePrice;
 	/** 颜色 */
 	private String color;
 	/** 尺寸 */
 	private String size;
 	/** 介绍 */
-	private String introduction;
+	private String desc;
 	/** 类型 */
 	private String type;
 	/** 状态 */
@@ -44,17 +44,17 @@ public class GoodsBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getGoodsid() {
-		return goodsid;
+	public Long getGoodsId() {
+		return goodsId;
 	}
-	public void setGoodsid(Long goodsid) {
-		this.goodsid = goodsid;
+	public void setGoodsId(Long goodsId) {
+		this.goodsId = goodsId;
 	}
-	public Long getShopid() {
-		return shopid;
+	public Long getShopId() {
+		return shopId;
 	}
-	public void setShopid(Long shopid) {
-		this.shopid = shopid;
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 	public String getName() {
 		return name;
@@ -74,23 +74,23 @@ public class GoodsBean extends Pojo {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-	public String getImagelist() {
-		return imagelist;
+	public String getImageList() {
+		return imageList;
 	}
-	public void setImagelist(String imagelist) {
-		this.imagelist = imagelist;
+	public void setImageList(String imageList) {
+		this.imageList = imageList;
 	}
-	public String getCur_price() {
-		return cur_price;
+	public String getCurPrice() {
+		return curPrice;
 	}
-	public void setCur_price(String cur_price) {
-		this.cur_price = cur_price;
+	public void setCurPrice(String curPrice) {
+		this.curPrice = curPrice;
 	}
-	public String getPre_price() {
-		return pre_price;
+	public String getPrePrice() {
+		return prePrice;
 	}
-	public void setPre_price(String pre_price) {
-		this.pre_price = pre_price;
+	public void setPrePrice(String prePrice) {
+		this.prePrice = prePrice;
 	}
 	public String getColor() {
 		return color;
@@ -104,11 +104,11 @@ public class GoodsBean extends Pojo {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public String getIntroduction() {
-		return introduction;
+	public String getDesc() {
+		return desc;
 	}
-	public void setIntroduction(String introduction) {
-		this.introduction = introduction;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 	public String getType() {
 		return type;

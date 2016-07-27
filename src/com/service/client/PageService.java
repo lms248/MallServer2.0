@@ -46,8 +46,8 @@ public class PageService {
 		JSONArray arr_banner = new JSONArray();
 		List<GoodsBean> bannerList = GoodsDao.loadGoods4type(Def.GOODS_TYPE_BANNER, 1, 5);
 		for (int i = 0; i < bannerList.size(); i++) {
-			obj_banner.put("goodid", bannerList.get(i).getGoodsid());
-			obj_banner.put("image", bannerList.get(i).getImagelist().split(",")[0]);
+			obj_banner.put("goodId", bannerList.get(i).getGoodsId());
+			obj_banner.put("image", bannerList.get(i).getImageList().split(",")[0]);
 			arr_banner.add(obj_banner);
 		}
 		
@@ -56,8 +56,8 @@ public class PageService {
 		JSONArray arr_promotion = new JSONArray();
 		List<GoodsBean> promotionList = GoodsDao.loadGoods4type(Def.GOODS_TYPE_PROMOTION, 1, 9);
 		for (int i = 0; i < promotionList.size(); i++) {
-			obj_promotion.put("goodid", promotionList.get(i).getGoodsid());
-			obj_promotion.put("image", promotionList.get(i).getImagelist().split(",")[0]);
+			obj_promotion.put("goodId", promotionList.get(i).getGoodsId());
+			obj_promotion.put("image", promotionList.get(i).getImageList().split(",")[0]);
 			arr_promotion.add(obj_promotion);
 		}
 		
@@ -66,7 +66,7 @@ public class PageService {
 		JSONArray arr_shop = new JSONArray();
 		List<ShopBean> shopList = ShopDao.loadAllShop(1, 4);
 		for (int i = 0; i < shopList.size(); i++) {
-			obj_shop.put("shopid", shopList.get(i).getShopid());
+			obj_shop.put("shopId", shopList.get(i).getShopId());
 			obj_shop.put("image", shopList.get(i).getImage());
 			arr_shop.add(obj_shop);
 		}

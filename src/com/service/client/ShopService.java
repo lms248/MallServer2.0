@@ -35,12 +35,12 @@ public class ShopService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int shopid = Integer.parseInt(request.getParameter("shopid")); 
+		int shopId = Integer.parseInt(request.getParameter("shopId")); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商店信息");
-		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopid)));
+		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopId)));
 		out.print(obj);
 		
 		out.flush();

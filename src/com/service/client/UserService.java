@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.UserBean;
-
 import common.utils.Def;
+import common.utils.HttpUtils;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
 import dao.client.UserDao;
 
 /**
@@ -125,7 +124,7 @@ public class UserService {
 	}
 	
 	/** 用户手机注册 */
-	@RequestMapping(value ="register",method=RequestMethod.GET)
+	@RequestMapping(value ="register",method=RequestMethod.POST)
 	@ResponseBody
 	public void register(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
@@ -138,23 +137,15 @@ public class UserService {
 		String session_phone = (String) request.getSession().getAttribute("phone");
 		String session_phoneCode = (String) request.getSession().getAttribute("phoneCode");
 		
-        StringBuffer sb = new StringBuffer("");  
-		BufferedReader reader = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream(),"utf-8"));
-		String line;
-		while((line = reader.readLine())!=null) {
-			System.out.println(line);
-			sb.append(line);
-		}
-		
 		/*读取客户端发送的参数*/
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		//String username = request.getParameter("username");
+		//String password = request.getParameter("password");
 		
 		/*读取客户端提交的json数据*/
-		/*JSONObject req_obj = JSONObject.fromObject(sb.toString());
+		JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
 		String username = req_obj.getString("username");
 		String password = req_obj.getString("password");
-		String phoneCode = req_obj.getString("phoneCode");*/
+		String phoneCode = req_obj.getString("phoneCode");
 		
 		JSONObject obj = new JSONObject();
 		

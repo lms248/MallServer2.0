@@ -17,15 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import common.utils.Def;
 import common.utils.JsonUtils;
 
-import dao.client.GoodsDao;
+import dao.client.CommunityDao;
 
 /**
- * 商品
+ * 社区
  */
 @Controller
-@RequestMapping("/goods")
-public class GoodsService {
-	/** 商品详情 */
+@RequestMapping("/community")
+public class CommunityService {
+	/** 社区信息 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody
 	public void info(HttpServletRequest request, HttpServletResponse response)
@@ -35,12 +35,34 @@ public class GoodsService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int goodsId = Integer.parseInt(request.getParameter("goodsId")); 
+		int communityId = Integer.parseInt(request.getParameter("communityId")); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "商品详情");
-		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodsId)));
+		obj.put("msg", "社区信息");
+		obj.put("data", JsonUtils.jsonFromObject(CommunityDao.loadByCommunityId(communityId)));
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 发布信息 */
+	@RequestMapping(value ="publish",method=RequestMethod.GET)
+	@ResponseBody
+	public void publish(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		//TODO 读取客户端提交的json数据
+		
+		JSONObject obj = new JSONObject();
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "社区信息");
+		obj.put("data", "");
 		out.print(obj);
 		
 		out.flush();

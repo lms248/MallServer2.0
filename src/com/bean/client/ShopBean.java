@@ -10,7 +10,7 @@ public class ShopBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 商店ID */
-	private Long shopid;
+	private Long shopId;
 	/** 商店名 */
 	private String name;
 	/** 标题 */
@@ -30,11 +30,11 @@ public class ShopBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getShopid() {
-		return shopid;
+	public Long getShopId() {
+		return shopId;
 	}
-	public void setShopid(Long shopid) {
-		this.shopid = shopid;
+	public void setShopId(Long shopId) {
+		this.shopId = shopId;
 	}
 	public String getName() {
 		return name;
