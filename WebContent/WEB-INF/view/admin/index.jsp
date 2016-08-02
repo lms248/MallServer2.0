@@ -47,7 +47,7 @@
             <ul id="sidebar" class="nav nav-pills nav-stacked custom-nav">
                 <li class="menu-1 active"><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
                 <li class="menu-1"><a href="#"><i class="fa fa-user"></i> <span>用户</span></a></li>
-                <li class="menu-1"><a href="#"><i class="fa fa-th-large"></i> <span>商店</span></a></li>
+                <li class="menu-1"><a href="#" uri="shop"><i class="fa fa-th-large"></i> <span>商店</span></a></li>
                 <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>商品</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#"> 推荐商品</a></li>
@@ -119,7 +119,7 @@
         <!-- header section end-->
 
         <!-- page heading start-->
-        <div class="page-heading">
+        <div class="page-heading" style="display: none;">
             <h3>
                 Home 主页
             </h3>
@@ -129,7 +129,7 @@
                 </li>
                 <li class="active"> My Home </li>
             </ul>
-            <div class="state-info">
+            <div class="state-info" style="display: none;">
                 <section class="panel">
                     <div class="panel-body">
                         <div class="summary">
@@ -157,7 +157,7 @@
         <!--body wrapper end-->
 
         <!--footer section start-->
-        <footer>
+        <footer style="display: none;">
             2016 &copy; AdminEx by <a href="http://www.dbfor.com/" target="_blank">dbfor</a>
         </footer>
         <!--footer section end-->

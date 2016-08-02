@@ -84,10 +84,10 @@ public class AdminService {
 		return view;
 	}
 	
-	/** 公会管理 **/
-	@RequestMapping(value="guild", method=RequestMethod.POST)
-	public ModelAndView guild(){
-		ModelAndView view = new ModelAndView("admin/guild");
+	/** 商店管理 **/
+	@RequestMapping(value="shop", method=RequestMethod.POST)
+	public ModelAndView shop(){
+		ModelAndView view = new ModelAndView("admin/shop");
 		return view;
 	}
 	

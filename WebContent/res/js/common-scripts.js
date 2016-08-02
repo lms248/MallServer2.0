@@ -73,6 +73,7 @@
            jQuery('.active', $('#sidebar')).removeClass("active");
 		   jQuery(this).parent().addClass("active");
 		   
+		   //alert($(this).attr("uri"));
 		   if ($(this).attr("uri") != undefined) {
 			   $(".wrapper").load("admin/"+$(this).attr("uri"),{});
 		   }

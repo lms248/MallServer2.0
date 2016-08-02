@@ -14,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -25,13 +27,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.utils.HttpUtils;
 import common.utils.ImageUtils;
 
 /**
  * 文件上传业务
  */
 @Controller
-@RequestMapping("service/uploadfile")
+@RequestMapping("/service/upload")
 public class UploadfileService {
 	/** 上传文件到本地服务器 */
 	public String uploadfile(HttpServletRequest request, HttpServletResponse response)
@@ -123,6 +126,10 @@ public class UploadfileService {
 		int width = 200;
 		int height = 200;
 		
+		Date now = new Date(); //new Date()为获取当前系统时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
+		String time = df.format(now);
+		
 		while (it.hasNext()) {
 			FileItem item = it.next();
 			
@@ -189,7 +196,7 @@ public class UploadfileService {
 					folder = "file";
 				}
 				
-				savePath = request.getSession().getServletContext().getRealPath("/upload/"+folder);
+				savePath = request.getSession().getServletContext().getRealPath("/upload/"+folder+"/"+time);
 				imageInputStream = item.getInputStream();
 			}
 			
@@ -198,6 +205,12 @@ public class UploadfileService {
 		//生成文件名：
 		String fileName = UUID.randomUUID().toString().replaceAll("-", "") + extName;
 		System.err.println("width="+width+";height="+height+";proportion="+proportion);
+		
+		File file = new File(savePath);
+        if (!file.exists()) {
+        	file.mkdirs();//创建文件目录
+        }
+        
 		ImageUtils imageUtils = new ImageUtils();
 		int success = imageUtils.compress(
 				imageInputStream, savePath, fileName, width, height, proportion);
@@ -206,12 +219,12 @@ public class UploadfileService {
 		System.out.println("###fileName==="+fileName);
 		System.out.println("###success==="+success);
 		
-		return (fileName);
+		return (time+"/"+fileName);
 	}
 	
 	/** 上传图片进行压缩并存储到本地服务器 */
-	public String uploadAndCompressImage(HttpServletRequest request, HttpServletResponse response, int width, int height, int proportion)
-			throws ServletException, IOException{
+	public String uploadAndCompressImage(HttpServletRequest request, HttpServletResponse response, 
+			int width, int height, int proportion) throws ServletException, IOException{
 		String savePath = "";
 		DiskFileItemFactory fac = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(fac);
@@ -364,23 +377,6 @@ public class UploadfileService {
 		out.close();
 	}
 	
-	/** 上传图片文件,压缩到200x200 */
-	@RequestMapping(value ="image200",method=RequestMethod.POST)
-	@ResponseBody
-	public void image200(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-		response.setContentType("text/html;charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		
-		String filename = uploadAndCompressImage(request, response, 200, 200, ImageUtils.PROPORTION_INPUT);
-		out.print(filename);
-		
-		out.flush();
-		out.close();
-	}
-	
 	/** 上传图片文件,按原长宽大小进行压缩 */
 	@RequestMapping(value ="image4compress",method=RequestMethod.POST)
 	@ResponseBody
@@ -397,6 +393,29 @@ public class UploadfileService {
 		out.flush();
 		out.close();
 	}
+	
+	/** 上传图片文件,并生成缩略图 */
+	@RequestMapping(value ="imageAndThumbnail",method=RequestMethod.POST)
+	@ResponseBody
+	public void imageAndThumbnail(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		/*读取客户端提交的json数据*/
+		JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
+		String width = req_obj.getString("width");
+		System.out.println("width====="+width);
+		String filename = uploadAndCompressImage(request, response);
+		out.print(filename);
+		
+		out.flush();
+		out.close();
+	}
+	
+	
 	
 	/** 上传cdk数据文件 */
 	@RequestMapping(value ="cdk",method=RequestMethod.POST)
