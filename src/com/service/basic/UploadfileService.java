@@ -34,8 +34,9 @@ import common.utils.ImageUtils;
  * 文件上传业务
  */
 @Controller
-@RequestMapping("/service/upload")
+@RequestMapping("/service/upload2")
 public class UploadfileService {
+
 	/** 上传文件到本地服务器 */
 	public String uploadfile(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
