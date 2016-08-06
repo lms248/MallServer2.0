@@ -7,10 +7,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -21,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.config.Config;
 import common.utils.ImageUtils;
+import common.utils.TimerManagerUtils;
 
 /**
  * 文件上传业务
@@ -35,13 +41,14 @@ public class UploadService {
 	private String suffix = ""; //后缀名
 	private String savePath = ""; //存储路径
 	private InputStream inputStream = null; //上传的数据流
+	private InputStream thumb_inputStream = null; //上传的数据流
 	
 	private int width = 200; //原图宽度
 	private int height = 200; //原图高度
-	private int proportion = ImageUtils.PROPORTION_OLD; //原图缩放类型
+	private boolean aspectRatio = false; //不保持原纵横比（原图）
 	private int thumb_width = 50; //缩略图宽度
 	private int thumb_height = 50; //缩略图高度
-	private int thumb_proportion = ImageUtils.PROPORTION_OLD; //缩略图缩放类型
+	private boolean thumb_aspectRatio = false; //不保持原纵横比（缩略图）
 	
 	private Uploader<UploadService> uploader;
 	
@@ -82,13 +89,15 @@ public class UploadService {
 					}
 					System.out.println("height=="+height);
 					break;
-				case "proportion":
+				case "aspectRatio":
 					try {
-						proportion = Integer.parseInt(paramValue);
+						if (Integer.parseInt(paramValue) == 1) {
+							aspectRatio = true;
+						}
 					} catch (Exception e) {
-						proportion = ImageUtils.PROPORTION_OLD;
+						aspectRatio = false;
 					}
-					System.out.println("proportion=="+proportion);
+					System.out.println("aspectRatio=="+aspectRatio);
 					break;
 				case "thumb_width":
 					try {
@@ -106,13 +115,15 @@ public class UploadService {
 					}
 					System.out.println("thumb_height=="+thumb_height);
 					break;
-				case "thumb_proportion":
+				case "thumb_aspectRatio":
 					try {
-						thumb_proportion = Integer.parseInt(paramValue);
+						if (Integer.parseInt(paramValue) == 1) {
+							thumb_aspectRatio = true;
+						}
 					} catch (Exception e) {
-						thumb_proportion = ImageUtils.PROPORTION_OLD;
+						thumb_aspectRatio = false;
 					}
-					System.out.println("thumb_proportion=="+thumb_proportion);
+					System.out.println("thumb_aspectRatio=="+thumb_aspectRatio);
 					break;
 				default:
 					break;
@@ -137,6 +148,7 @@ public class UploadService {
 				String folder = "/upload/image/"+time;
 				savePath = request.getSession().getServletContext().getRealPath(folder);
 				inputStream = item.getInputStream();
+				thumb_inputStream = item.getInputStream();
 			}
 		}
 	}
@@ -164,37 +176,30 @@ public class UploadService {
 		
 		//生成文件名：
 		fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
-		System.err.println("width="+width+";height="+height+";proportion="+proportion);
+		System.err.println("width="+width+";height="+height+";aspectRatio="+aspectRatio);
 		
 		File file = new File(savePath);
         if (!file.exists()) {
         	file.mkdirs();//创建文件目录
         }
+        //生成原图
+        Thumbnails.of(inputStream)
+        .size(width, height)
+        .keepAspectRatio(aspectRatio)
+        .toFile(new File(savePath+"/"+fileName));
         
-		ImageUtils imageUtils = new ImageUtils();
-		int success = imageUtils.compress(
-				inputStream, savePath, fileName, width, height, proportion);
-		
-		//原图
-		/*TimerManagerUtils.scheduleOne(() -> {
-			String folder = "/upload/image/"+time;
-			savePath = request.getSession().getServletContext().getRealPath(folder);
-			int success = imageUtils.compress(inputStream, savePath, fileName, width, height, proportion);
-			System.out.println("image###success==="+success);
-		}, 0, TimeUnit.SECONDS);*/
-		
-		//缩略图
-		/*TimerManagerUtils.scheduleOne(() -> {
-			String folder = "/upload/thumbnail/"+time;
-			savePath = request.getSession().getServletContext().getRealPath(folder);
-			int success = imageUtils.compress(inputStream, savePath, fileName, thumb_width, thumb_height, thumb_proportion);
-			System.out.println("thumbnail###success==="+success);
-		}, 0, TimeUnit.SECONDS);*/
-		
-		System.out.println("###savePath==="+savePath);
-		System.out.println("###fileName==="+fileName);
-		System.out.println("###success==="+success);
-		
+        String folder_thumbnail = Config.WEB_BASE+"/upload/thumb/"+time;
+		String savePath_thumbnail = request.getSession().getServletContext().getRealPath(folder_thumbnail);
+		File file_thumb = new File(savePath_thumbnail);
+        if (!file_thumb.exists()) {
+        	file_thumb.mkdirs();//创建文件目录
+        }
+        //生成缩略图
+        Thumbnails.of(thumb_inputStream)
+        .size(thumb_width, thumb_height)
+        .keepAspectRatio(thumb_aspectRatio)
+        .toFile(new File(savePath_thumbnail+"/"+fileName));
+        
 		return (time+"/"+fileName);
 	}
 

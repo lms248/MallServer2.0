@@ -114,7 +114,7 @@ uploader = WebUploader.create({
     auto: true,
     // 不进行图片压缩
     compress: null,
-    formData: {width:100, height:100, proportion:2, thumb_width:50, thumb_height:50, thumb_proportion:2},
+    formData: {width:100, height:100, aspectRatio:1, thumb_width:50, thumb_height:50, thumb_aspectRatio:0},
  	// 只允许选择文件，可选。
     accept: {
         title: 'Images',
@@ -124,7 +124,7 @@ uploader = WebUploader.create({
 });
 
 uploader.on( 'uploadSuccess', function( file, response ) {
-    var logo = "/upload/image/"+response._raw;
+    var logo = "/upload/thumb/"+response._raw;
     var img = "<img src='"+logo+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
 	$("#logo_show").html(img);
 	$("#logo_url").html(response._raw);

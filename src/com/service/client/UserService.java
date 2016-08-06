@@ -1,13 +1,10 @@
 package service.client;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.UserBean;
+
 import common.utils.Def;
 import common.utils.HttpUtils;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+
 import dao.client.UserDao;
 
 /**
@@ -32,7 +31,7 @@ import dao.client.UserDao;
 @RequestMapping("/user")
 public class UserService {
 	/** 用户信息 */
-	@RequestMapping(value ="info",method=RequestMethod.GET)
+	@RequestMapping(value ="info",method=RequestMethod.POST)
 	@ResponseBody
 	public void info(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
@@ -41,12 +40,19 @@ public class UserService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int uid = Integer.parseInt(request.getParameter("uid")); 
+		String token = request.getParameter("token"); 
 		
 		JSONObject obj = new JSONObject();
+		UserBean ubean = UserDao.loadByToken(token);
+		if (ubean == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+		}
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "用户信息");
-		obj.put("data", JsonUtils.jsonFromObject(UserDao.loadByUid(uid)));
+		obj.put("data", JsonUtils.jsonFromObject(ubean));
 		out.print(obj);
 		
 		out.flush();
@@ -68,23 +74,14 @@ public class UserService {
 		//String password = request.getParameter("password");
 		
 		/*读取客户端提交的json数据*/
-		StringBuffer sb = new StringBuffer("");  
-		BufferedReader reader = new BufferedReader(new InputStreamReader((ServletInputStream)request.getInputStream(),"utf-8"));
-		String line;
-		while((line = reader.readLine())!=null) {
-			System.out.println(line);
-			sb.append(line);
-		}
-		JSONObject req_obj = JSONObject.fromObject(sb.toString());
+		JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
 		String username = req_obj.getString("username");
 		String password = req_obj.getString("password");
 		
 		/*读取数据库数据*/
 		UserBean ubean = UserDao.loadByUsername(username);
 		JSONObject obj = new JSONObject();
-		
-		if(ubean!=null && password.equals(ubean.getPassword())){
-			request.getSession().setAttribute("username", username.trim());
+		if(ubean == null || !password.equals(ubean.getPassword())){
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "账号或密码错误");
 			out.print(obj);
@@ -147,6 +144,9 @@ public class UserService {
 		String password = req_obj.getString("password");
 		String phoneCode = req_obj.getString("phoneCode");
 		
+		System.out.println("register::::usernam===="+username);
+		System.out.println("register::::password===="+password);
+		
 		JSONObject obj = new JSONObject();
 		
 		if (username==null || password==null) {
@@ -197,6 +197,52 @@ public class UserService {
 		out.close();
 	}
 	
+	/** 修改密码 */
+	@RequestMapping(value ="updatePassword",method=RequestMethod.POST)
+	@ResponseBody
+	public void updatePassword(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		/*读取客户端提交的json数据*/
+		JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
+		String username = req_obj.getString("username");
+		String password_old = req_obj.getString("password_old");
+		String password_new = req_obj.getString("password_new");
+		
+		JSONObject obj = new JSONObject();
+		UserBean ubean = UserDao.loadByUsername(username);
+		if (ubean == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			return;
+		}
+		
+		if (password_old == null || !ubean.getPassword().equals(password_old)) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户名或密码不正确");
+			out.print(obj);
+			return;
+		}
+		
+		ubean.setPassword(password_new);
+		UserDao.update(ubean);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "修改密码成功");
+		obj.put("data", JsonUtils.jsonFromObject(ubean));
+		out.print(obj);
+		System.out.println(obj.toString());
+		
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 用户手机找回密码 */
 	@RequestMapping(value ="resetPassword",method=RequestMethod.POST)
 	@ResponseBody
@@ -208,31 +254,31 @@ public class UserService {
 		PrintWriter out = response.getWriter();
 		
 		//从服务器端的session中取出手机号和手机验证码
-		String session_phone = (String) request.getSession().getAttribute("phone");
-		String session_phoneCode = (String) request.getSession().getAttribute("phoneCode");
+		//String session_phone = (String) request.getSession().getAttribute("phone");
+		//String session_phoneCode = (String) request.getSession().getAttribute("phoneCode");
 		/*获取需要添加到数据库的数据*/
-		String phone = request.getParameter("phone");
-		String password = request.getParameter("password");
-		String phoneCode = request.getParameter("phoneCode");
+		//String phone = request.getParameter("phone");
+		//String password = request.getParameter("password");
+		//String phoneCode = request.getParameter("phoneCode");
 		
-		if(password==null || password.length()<6){
+		/*if(password==null || password.length()<6){
 			out.print("密码长度不能少于6喔！");
 			return;
-		}
+		}*/
 		
-		if(session_phone==null || session_phoneCode==null){
+		/*if(session_phone==null || session_phoneCode==null){
 			out.print("手机号验证码未获取！");
 			return;
 		}
 		else if(!session_phone.equals(phone) || !session_phoneCode.equals(phoneCode)){
 			out.print("手机号和验证码不对应！");
 			return;
-		}
+		}*/
 		
 		
 		
-		request.getSession().setAttribute("username", phone);
-		request.getSession().setAttribute("phone", phone);
+		/*request.getSession().setAttribute("username", phone);
+		request.getSession().setAttribute("phone", phone);*/
 		
 		out.flush();
 		out.close();

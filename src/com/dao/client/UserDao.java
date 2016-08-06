@@ -49,6 +49,22 @@ public class UserDao {
 	}
 	
 	/**
+	 * 加载数据
+	 * @param uid
+	 * @return
+	 */
+	public static UserBean loadByToken(String token){
+		UserBean bean=null;
+		try {
+			bean=dbUtils.read(UserBean.class, "where token=?", token);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return bean;
+	}
+	
+	/**
 	 * 加载倒序排序后相应数据
 	 * @param count
 	 * @return
