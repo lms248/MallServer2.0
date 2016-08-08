@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import common.config.Config;
 import common.utils.Def;
+import common.utils.MD5;
+import common.utils.UuidUtils;
 
 /**
  * 文件上传业务
@@ -41,7 +43,7 @@ public class UploadService {
 	private String suffix = ""; //后缀名
 	private String folder_image = Config.WEB_BASE+"/upload/image"; //原图存储文件夹
 	private String folder_thumb = Config.WEB_BASE+"/upload/thumb"; //缩略图存储文件夹
-	private String savePath_image =""; //原图存储路径
+	private String savePath_image = ""; //原图存储路径
 	private String savePath_thumb = ""; //缩略图存储路径
 	private InputStream inputStream = null; //上传的数据流
 	private InputStream inputStream_thumb = null; //上传的数据流
@@ -160,59 +162,9 @@ public class UploadService {
 	}
 	
 	/** 上传图片文件,并进行压缩 */
-	@RequestMapping(value ="image",method=RequestMethod.POST)
+	@RequestMapping(value ="imageOutJson",method=RequestMethod.POST)
 	@ResponseBody
-	public String image(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		DiskFileItemFactory fac = new DiskFileItemFactory();
-		ServletFileUpload upload = new ServletFileUpload(fac);
-		upload.setHeaderEncoding("utf-8");
-		List<FileItem> fileList = null;
-		try {
-			fileList = upload.parseRequest(request);
-		} catch (FileUploadException ex) {
-			return "";
-		}
-		
-		Date now = new Date(); //new Date()为获取当前系统时间
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
-		String time = df.format(now);
-		
-		setUploadParams(request, fileList, time);
-		
-		//生成文件名：
-		fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
-		System.err.println("width="+width+";height="+height+";aspectRatio="+aspectRatio);
-		
-		File file = new File(savePath_image);
-        if (!file.exists()) {
-        	file.mkdirs();//创建文件目录
-        }
-        //生成原图
-        Thumbnails.of(inputStream)
-        .size(width, height)
-        .keepAspectRatio(aspectRatio)
-        .toFile(new File(savePath_image+"/"+fileName));
-        
-        String folder_thumbnail = Config.WEB_BASE+"/upload/thumb/"+time;
-		String savePath_thumbnail = request.getSession().getServletContext().getRealPath(folder_thumbnail);
-		File file_thumb = new File(savePath_thumbnail);
-        if (!file_thumb.exists()) {
-        	file_thumb.mkdirs();//创建文件目录
-        }
-        //生成缩略图
-        Thumbnails.of(inputStream_thumb)
-        .size(thumb_width, thumb_height)
-        .keepAspectRatio(thumb_aspectRatio)
-        .toFile(new File(savePath_thumbnail+"/"+fileName));
-        
-		return (time+"/"+fileName);
-	}
-	
-	/** 上传图片文件,并进行压缩 */
-	@RequestMapping(value ="image2",method=RequestMethod.POST)
-	@ResponseBody
-	public JSONObject image2(HttpServletRequest request, HttpServletResponse response) 
+	public JSONObject imageOutJson(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		DiskFileItemFactory fac = new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(fac);
@@ -232,7 +184,9 @@ public class UploadService {
 		setUploadParams(request, fileList, time);
 		
 		//生成文件名：
-		fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
+		//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
+		fileName = UuidUtils.getUuid4MD5_16() + suffix;
+		fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
 		System.err.println("width="+width+";height="+height+";aspectRatio="+aspectRatio);
 		
 		File file = new File(savePath_image);
@@ -268,5 +222,56 @@ public class UploadService {
         
 		System.out.println(obj_out.toString());
 		return obj_out;
+	}
+	
+	/** 上传图片文件,并进行压缩 */
+	@RequestMapping(value ="imageOutStr",method=RequestMethod.POST)
+	@ResponseBody
+	public String imageOutStr(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		DiskFileItemFactory fac = new DiskFileItemFactory();
+		ServletFileUpload upload = new ServletFileUpload(fac);
+		upload.setHeaderEncoding("utf-8");
+		List<FileItem> fileList = null;
+		try {
+			fileList = upload.parseRequest(request);
+		} catch (FileUploadException ex) {
+			return "";
+		}
+		
+		Date now = new Date(); //new Date()为获取当前系统时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
+		String time = df.format(now);
+		
+		setUploadParams(request, fileList, time);
+		
+		//生成文件名：
+		//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
+		fileName = UuidUtils.getUuid4MD5_16() + suffix;
+		System.err.println("width="+width+";height="+height+";aspectRatio="+aspectRatio);
+		
+		File file = new File(savePath_image);
+        if (!file.exists()) {
+        	file.mkdirs();//创建文件目录
+        }
+        //生成原图
+        Thumbnails.of(inputStream)
+        .size(width, height)
+        .keepAspectRatio(aspectRatio)
+        .toFile(new File(savePath_image+"/"+fileName));
+        
+        String folder_thumbnail = Config.WEB_BASE+"/upload/thumb/"+time;
+		String savePath_thumbnail = request.getSession().getServletContext().getRealPath(folder_thumbnail);
+		File file_thumb = new File(savePath_thumbnail);
+        if (!file_thumb.exists()) {
+        	file_thumb.mkdirs();//创建文件目录
+        }
+        //生成缩略图
+        Thumbnails.of(inputStream_thumb)
+        .size(thumb_width, thumb_height)
+        .keepAspectRatio(thumb_aspectRatio)
+        .toFile(new File(savePath_thumbnail+"/"+fileName));
+        
+		return (time+"/"+fileName);
 	}
 }

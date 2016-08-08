@@ -48,12 +48,13 @@ public class UserService {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
 			out.print(obj);
+		} else {
+			ubean.setPassword("****");
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "用户信息");
+			obj.put("data", JsonUtils.jsonFromObject(ubean));
+			out.print(obj);
 		}
-		
-		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "用户信息");
-		obj.put("data", JsonUtils.jsonFromObject(ubean));
-		out.print(obj);
 		
 		out.flush();
 		out.close();
@@ -87,9 +88,10 @@ public class UserService {
 			out.print(obj);
 		}
 		else {
+			ubean.setPassword("****");
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "登录成功");
-			obj.put("data", JsonUtils.jsonFromObject(UserDao.loadByUid(ubean.getUid())));
+			obj.put("data", JsonUtils.jsonFromObject(ubean));
 			out.print(obj);
 			System.out.println(obj.toString());
 		}
@@ -175,9 +177,10 @@ public class UserService {
 		
 		UserDao.save(ubean);
 		
+		ubean.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "注册成功");
-		obj.put("data", JsonUtils.jsonFromObject(UserDao.loadByUid(uid)));
+		obj.put("data", JsonUtils.jsonFromObject(ubean));
 		out.print(obj);
 		System.out.println(obj.toString());
 		
@@ -232,6 +235,7 @@ public class UserService {
 		ubean.setPassword(password_new);
 		UserDao.update(ubean);
 		
+		ubean.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改密码成功");
 		obj.put("data", JsonUtils.jsonFromObject(ubean));
