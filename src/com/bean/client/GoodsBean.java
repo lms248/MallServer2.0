@@ -10,9 +10,9 @@ public class GoodsBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 商品ID */
-	private Long goodsId;
+	private long goodsId;
 	/** 商店ID */
-	private Long shopId;
+	private long shopId;
 	/** 商品名 */
 	private String name;
 	/** 标题 */
@@ -36,7 +36,7 @@ public class GoodsBean extends Pojo {
 	/** 状态 */
 	private String status;
 	/** 添加时间 */
-	private Long time;
+	private long time;
 	
 	public int getId() {
 		return id;
@@ -44,16 +44,16 @@ public class GoodsBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getGoodsId() {
+	public long getGoodsId() {
 		return goodsId;
 	}
-	public void setGoodsId(Long goodsId) {
+	public void setGoodsId(long goodsId) {
 		this.goodsId = goodsId;
 	}
-	public Long getShopId() {
+	public long getShopId() {
 		return shopId;
 	}
-	public void setShopId(Long shopId) {
+	public void setShopId(long shopId) {
 		this.shopId = shopId;
 	}
 	public String getName() {
@@ -122,10 +122,10 @@ public class GoodsBean extends Pojo {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public Long getTime() {
+	public long getTime() {
 		return time;
 	}
-	public void setTime(Long time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 	public static long getSerialversionuid() {

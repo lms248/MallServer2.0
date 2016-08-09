@@ -10,7 +10,7 @@ public class UserBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 用户ID */
-	private Long uid;
+	private long uid;
 	/** 用户名 */
 	private String username;
 	/** 密码 */
@@ -26,7 +26,7 @@ public class UserBean extends Pojo {
 	/** 令牌*/
 	private String token;
 	/** 注册时间 */
-	private Long time;
+	private long time;
 	
 	public int getId() {
 		return id;
@@ -34,10 +34,10 @@ public class UserBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getUid() {
+	public long getUid() {
 		return uid;
 	}
-	public void setUid(Long uid) {
+	public void setUid(long uid) {
 		this.uid = uid;
 	}
 	public String getUsername() {
@@ -82,10 +82,10 @@ public class UserBean extends Pojo {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public Long getTime() {
+	public long getTime() {
 		return time;
 	}
-	public void setTime(Long time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 	public static long getSerialversionuid() {

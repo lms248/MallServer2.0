@@ -14,6 +14,7 @@
   <!--common-->
   <link href="/res/css/style.css" rel="stylesheet">
   <link href="/res/css/style-responsive.css" rel="stylesheet">
+  <link href="/res/css/page.css" rel="stylesheet">
 
 
 

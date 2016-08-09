@@ -85,7 +85,7 @@ public class CommunityDao {
 	 * @param CommunityType ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<CommunityBean> loadAllCommunity(int pageNum, int pageSize){
+	public static List<CommunityBean> loadAllCommunity4page(int pageNum, int pageSize){
 		List<CommunityBean> Communitylist=new ArrayList<CommunityBean>();
 		try {
 			Communitylist=dbUtils.query(CommunityBean.class, 
@@ -96,18 +96,25 @@ public class CommunityDao {
 		}
 		return Communitylist;
 	}
-	public static List<CommunityBean> loadCommunity4type(int pageNum, int pageSize, int type){
+	
+	/**
+	 * 加载对应区间列表
+	 * 
+	 * @param index
+	 * @param size
+	 * @return
+	 */
+	public static List<CommunityBean> loadAllCommunity(int index, int size){
 		List<CommunityBean> Communitylist=new ArrayList<CommunityBean>();
 		try {
 			Communitylist=dbUtils.query(CommunityBean.class, 
-					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
+					" order by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return Communitylist;
 	}
-	
 	
 	/**
 	 * 查询表的数据总数量

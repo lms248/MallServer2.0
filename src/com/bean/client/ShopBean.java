@@ -10,7 +10,7 @@ public class ShopBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 商店ID */
-	private Long shopId;
+	private long shopId;
 	/** 商店名 */
 	private String name;
 	/** 标题 */
@@ -22,7 +22,7 @@ public class ShopBean extends Pojo {
 	/** 类型 */
 	private String type;
 	/** 注册时间 */
-	private Long time;
+	private long time;
 	
 	public int getId() {
 		return id;
@@ -30,10 +30,10 @@ public class ShopBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getShopId() {
+	public long getShopId() {
 		return shopId;
 	}
-	public void setShopId(Long shopId) {
+	public void setShopId(long shopId) {
 		this.shopId = shopId;
 	}
 	public String getName() {
@@ -66,10 +66,10 @@ public class ShopBean extends Pojo {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Long getTime() {
+	public long getTime() {
 		return time;
 	}
-	public void setTime(Long time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 	public static long getSerialversionuid() {

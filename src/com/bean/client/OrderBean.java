@@ -10,7 +10,7 @@ public class OrderBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 订单ID */
-	private Long ordeId;
+	private long ordeId;
 	/** 用户ID */
 	private String uid;
 	/** 商品ID */
@@ -22,7 +22,7 @@ public class OrderBean extends Pojo {
 	/** 尺寸 */
 	private String size;
 	/** 下单时间 */
-	private Long time;
+	private long time;
 	
 	public int getId() {
 		return id;
@@ -30,10 +30,10 @@ public class OrderBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Long getOrdeId() {
+	public long getOrdeId() {
 		return ordeId;
 	}
-	public void setOrdeId(Long ordeId) {
+	public void setOrdeId(long ordeId) {
 		this.ordeId = ordeId;
 	}
 	public String getUid() {
@@ -66,10 +66,10 @@ public class OrderBean extends Pojo {
 	public void setSize(String size) {
 		this.size = size;
 	}
-	public Long getTime() {
+	public long getTime() {
 		return time;
 	}
-	public void setTime(Long time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 	public static long getSerialversionuid() {
