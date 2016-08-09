@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 172.16.8.9
-Source Server Version : 50132
-Source Host           : 172.16.8.9:3306
-Source Database       : mserver
+Source Server         : MySQL
+Source Server Version : 50615
+Source Host           : localhost:3306
+Source Database       : mall
 
 Target Server Type    : MYSQL
-Target Server Version : 50132
+Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-07-27 20:49:14
+Date: 2016-08-09 21:08:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -24,6 +24,7 @@ CREATE TABLE `community` (
   `communityId` int(11) DEFAULT NULL COMMENT '社区ID',
   `uid` int(11) DEFAULT NULL COMMENT '用户ID',
   `desc` varchar(1000) DEFAULT NULL COMMENT '描述',
+  `imageList` varchar(1000) DEFAULT NULL COMMENT '图片列表',
   `time` bigint(20) DEFAULT NULL COMMENT '发布时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
