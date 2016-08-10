@@ -151,10 +151,8 @@ public class UploadService {
 					suffix = name.substring(name.lastIndexOf("."));
 				}
 				
-				folder_image = folder_image+"/"+time;
-				folder_thumb = folder_thumb+"/"+time;
-				savePath_image = request.getSession().getServletContext().getRealPath(folder_image);
-				savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb);
+				savePath_image = request.getSession().getServletContext().getRealPath(folder_image+"/"+time);
+				savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb+"/"+time);
 				inputStream = item.getInputStream();
 				inputStream_thumb = item.getInputStream();
 			}
@@ -186,7 +184,7 @@ public class UploadService {
 		//生成文件名：
 		//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
 		fileName = UuidUtils.getUuid4MD5_16() + suffix;
-		fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
+		//fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
 		System.err.println("width="+width+";height="+height+";aspectRatio="+aspectRatio);
 		
 		File file = new File(savePath_image);
@@ -199,7 +197,6 @@ public class UploadService {
         .keepAspectRatio(aspectRatio)
         .toFile(new File(savePath_image+"/"+fileName));
         
-		savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb);
 		File file_thumb = new File(savePath_thumb);
         if (!file_thumb.exists()) {
         	file_thumb.mkdirs();//创建文件目录
@@ -213,8 +210,8 @@ public class UploadService {
 		JSONObject obj_out = new JSONObject();
 		JSONObject obj_data = new JSONObject();
 		JSONArray arr_data = new JSONArray();
-		obj_data.put("thumb", folder_thumb);
-		obj_data.put("image", folder_image);
+		obj_data.put("thumb", folder_thumb+"/"+time+"/"+fileName);
+		obj_data.put("image", folder_image+"/"+time+"/"+fileName);
 		arr_data.add(obj_data);
 		obj_out.put("code", Def.CODE_SUCCESS);
 		obj_out.put("msg", "上传图片成功");

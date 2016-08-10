@@ -51,6 +51,12 @@ public class CommunityService {
 		String desc = request.getParameter("desc");
 		String imageList = request.getParameter("imageList");
 		
+		System.out.println("----------community::::publish----------");
+		System.out.println("token===="+token);
+		System.out.println("desc===="+desc);
+		System.out.println("imageList===="+imageList);
+		System.out.println("----------------------------------------");
+		
 		long communityId = IdGen.get().nextId();
 		UserBean ubean = UserDao.loadByToken(token);
 		JSONObject obj = new JSONObject();

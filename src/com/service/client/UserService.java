@@ -237,21 +237,23 @@ public class UserService {
 		String password_new = req_obj.getString("password_new");*/
 		//String phoneCode = req_obj.getString("phoneCode");
 		String username = request.getParameter("username");
-		String password_old = request.getParameter("password_old");
 		String password_new = request.getParameter("password_new");
+		String phoneCode = request.getParameter("phoneCode");
+		
 		
 		JSONObject obj = new JSONObject();
-		UserBean ubean = UserDao.loadByUsername(username);
-		if (ubean == null) {
+		
+		if (username == null || password_new == null) {
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "用户不存在");
+			obj.put("msg", "用户名或密码不正确");
 			out.print(obj);
 			return;
 		}
 		
-		if (password_old == null || !ubean.getPassword().equals(password_old)) {
+		UserBean ubean = UserDao.loadByUsername(username);
+		if (ubean == null) {
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "用户名或密码不正确");
+			obj.put("msg", "用户不存在");
 			out.print(obj);
 			return;
 		}
