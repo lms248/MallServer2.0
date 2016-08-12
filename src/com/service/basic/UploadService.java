@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import common.config.Config;
 import common.utils.Def;
+import common.utils.ImageUtils;
 import common.utils.UuidUtils;
 
 /**
@@ -298,13 +299,17 @@ public class UploadService {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
 		String time = df.format(now);
 		
-		setUploadParams2(request, fileList, time);
+		//setUploadParams2(request, fileList, time);
 		
 		JSONObject obj_out = new JSONObject();
 		JSONObject obj_data = new JSONObject();
 		JSONArray arr_data = new JSONArray();
 		for (MultipartFile file : fileList) {
 			System.out.println(file.getName()+"::::"+file.getSize());
+			savePath_image = request.getSession().getServletContext().getRealPath(folder_image+"/"+time);
+			savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb+"/"+time);
+			inputStream = file.getInputStream();
+			inputStream_thumb = file.getInputStream();
 			//生成文件名：
 			//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
 			fileName = UuidUtils.getUuid4MD5_16() + suffix;
@@ -316,21 +321,24 @@ public class UploadService {
 	        if (!file_image.exists()) {
 	        	file_image.mkdirs();//创建文件目录
 	        }
+	        ImageUtils imageUtils = new ImageUtils();
+			imageUtils.compress(
+					file.getInputStream(), savePath_image, fileName, width, height, 2);
 	        //生成原图
-	        Thumbnails.of(inputStream)
+	        /*Thumbnails.of(inputStream)
 	        .size(width, height)
 	        .keepAspectRatio(aspectRatio)
-	        .toFile(new File(savePath_image+"/"+fileName));
+	        .toFile(new File(savePath_image+"/"+fileName));*/
 	        
 			File file_thumb = new File(savePath_thumb);
 	        if (!file_thumb.exists()) {
 	        	file_thumb.mkdirs();//创建文件目录
 	        }
 	        //生成缩略图
-	        Thumbnails.of(inputStream_thumb)
+	        /*Thumbnails.of(inputStream_thumb)
 	        .size(thumb_width, thumb_height)
 	        .keepAspectRatio(thumb_aspectRatio)
-	        .toFile(new File(savePath_thumb+"/"+fileName));
+	        .toFile(new File(savePath_thumb+"/"+fileName));*/
 	        
 	        obj_data.put("thumb", folder_thumb+"/"+time+"/"+fileName);
 			obj_data.put("image", folder_image+"/"+time+"/"+fileName);
