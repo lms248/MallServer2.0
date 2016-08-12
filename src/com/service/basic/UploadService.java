@@ -312,6 +312,7 @@ public class UploadService {
 			inputStream_thumb = file.getInputStream();
 			//生成文件名：
 			//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
+			suffix = file.getName().substring(file.getName().lastIndexOf("."));
 			fileName = UuidUtils.getUuid4MD5_16() + suffix;
 			System.out.println("fileName===="+fileName);
 			//fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
@@ -321,14 +322,11 @@ public class UploadService {
 	        if (!file_image.exists()) {
 	        	file_image.mkdirs();//创建文件目录
 	        }
-	        ImageUtils imageUtils = new ImageUtils();
-			imageUtils.compress(
-					file.getInputStream(), savePath_image, fileName, width, height, 2);
 	        //生成原图
-	        /*Thumbnails.of(inputStream)
+	        Thumbnails.of(inputStream)
 	        .size(width, height)
 	        .keepAspectRatio(aspectRatio)
-	        .toFile(new File(savePath_image+"/"+fileName));*/
+	        .toFile(new File(savePath_image+"/"+fileName));
 	        
 			File file_thumb = new File(savePath_thumb);
 	        if (!file_thumb.exists()) {
