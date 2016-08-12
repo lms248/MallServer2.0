@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +21,15 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import common.config.Config;
 import common.utils.Def;
-import common.utils.MD5;
 import common.utils.UuidUtils;
 
 /**
@@ -56,20 +57,6 @@ public class UploadService {
 	private boolean thumb_aspectRatio = false; //不保持原纵横比（缩略图）
 	
 	private Uploader<UploadService> uploader;
-	
-
-	/*public UploadService(int width, int height, int proportion,
-			int thumb_width, int thumb_height, int thumb_proportion,
-			Uploader<UploadService> uploader) {
-		super();
-		this.width = width;
-		this.height = height;
-		this.proportion = proportion;
-		this.thumb_width = thumb_width;
-		this.thumb_height = thumb_height;
-		this.thumb_proportion = thumb_proportion;
-		this.uploader = uploader;
-	}*/
 
 	public void setUploadParams(HttpServletRequest request, List<FileItem> fileList, String time) throws IOException {
 		for (FileItem item : fileList) {
@@ -156,6 +143,21 @@ public class UploadService {
 				inputStream = item.getInputStream();
 				inputStream_thumb = item.getInputStream();
 			}
+		}
+	}
+	
+	public void setUploadParams2(HttpServletRequest request, List<MultipartFile> fileList, String time) throws IOException {
+		for (MultipartFile file : fileList) {
+			System.out.println("file.getSize()===="+file.getSize());
+			//扩展名格式：  
+			if (name.lastIndexOf(".") >= 0) {
+				suffix = name.substring(name.lastIndexOf("."));
+			}
+			
+			savePath_image = request.getSession().getServletContext().getRealPath(folder_image+"/"+time);
+			savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb+"/"+time);
+			inputStream = file.getInputStream();
+			inputStream_thumb = file.getInputStream();
 		}
 	}
 	
@@ -270,5 +272,75 @@ public class UploadService {
         .toFile(new File(savePath_thumbnail+"/"+fileName));
         
 		return (time+"/"+fileName);
+	}
+	
+	@RequestMapping(value ="image",method=RequestMethod.POST)
+	public JSONObject uploadFiles(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		//转型为MultipartHttpServletRequest
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		//获得上传的文件（根据前台的name名称得到上传的文件）
+		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
+		System.out.println("----------------------------------------------------");
+		System.out.println(multiValueMap);
+		System.out.println("----------------------------------------------------");
+		List<MultipartFile> fileList = multiValueMap.get("imageList");
+		//MultipartFile file = multipartRequest.getFile("clientFile");
+		
+		System.out.println("fileList.size()===="+fileList.size());
+		
+		if (fileList.isEmpty()) {
+			return null;
+		}
+		
+		Date now = new Date(); //new Date()为获取当前系统时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
+		String time = df.format(now);
+		
+		setUploadParams2(request, fileList, time);
+		
+		JSONObject obj_out = new JSONObject();
+		JSONObject obj_data = new JSONObject();
+		JSONArray arr_data = new JSONArray();
+		for (MultipartFile file : fileList) {
+			System.out.println(file.getName()+"::::"+file.getSize());
+			//生成文件名：
+			//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
+			fileName = UuidUtils.getUuid4MD5_16() + suffix;
+			System.out.println("fileName===="+fileName);
+			//fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
+			System.err.println("width="+width+";height="+height+";aspectRatio="+aspectRatio);
+			
+			File file_image = new File(savePath_image);
+	        if (!file_image.exists()) {
+	        	file_image.mkdirs();//创建文件目录
+	        }
+	        //生成原图
+	        Thumbnails.of(inputStream)
+	        .size(width, height)
+	        .keepAspectRatio(aspectRatio)
+	        .toFile(new File(savePath_image+"/"+fileName));
+	        
+			File file_thumb = new File(savePath_thumb);
+	        if (!file_thumb.exists()) {
+	        	file_thumb.mkdirs();//创建文件目录
+	        }
+	        //生成缩略图
+	        Thumbnails.of(inputStream_thumb)
+	        .size(thumb_width, thumb_height)
+	        .keepAspectRatio(thumb_aspectRatio)
+	        .toFile(new File(savePath_thumb+"/"+fileName));
+	        
+	        obj_data.put("thumb", folder_thumb+"/"+time+"/"+fileName);
+			obj_data.put("image", folder_image+"/"+time+"/"+fileName);
+			arr_data.add(obj_data);
+		}
+		
+		obj_out.put("code", Def.CODE_SUCCESS);
+		obj_out.put("msg", "上传图片成功");
+		obj_out.put("data", arr_data.toString());
+        
+		System.out.println(obj_out.toString());
+		return obj_out;
 	}
 }

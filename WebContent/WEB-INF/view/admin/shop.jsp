@@ -87,6 +87,12 @@
   	</tr>
 	</table>
   	 
+  	 <form method="post" action="/service/upload/image" enctype="multipart/form-data">  
+            <input type="text" name="name"/>  
+            <input type="file" name="imageList"/>  
+            <input type="submit"/>  
+        </form>  
+  	 
 	<div id="newsdb"></div>
     
   </div>
@@ -103,12 +109,12 @@ uploader = WebUploader.create({
     // swf文件路径
     swf: '/res/webuploader/Uploader.swf',
     // 文件接收服务端。
-    server: '/service/upload/imageOutStr',
+    server: '/service/uploadfile/image',
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
     	id: '#logo_upload',
     	innerHTML: '上传商店Logo',
-    	multiple: false
+    	multiple: true
     },
  	// 自动上传。
     auto: true,
