@@ -149,6 +149,7 @@ public class UploadService {
 	public void setUploadParams2(HttpServletRequest request, List<MultipartFile> fileList, String time) throws IOException {
 		for (MultipartFile file : fileList) {
 			System.out.println("file.getSize()===="+file.getSize());
+			name = file.getName();
 			//扩展名格式：  
 			if (name.lastIndexOf(".") >= 0) {
 				suffix = name.substring(name.lastIndexOf("."));
