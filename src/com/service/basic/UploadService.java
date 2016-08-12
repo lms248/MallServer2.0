@@ -312,7 +312,7 @@ public class UploadService {
 			inputStream_thumb = file.getInputStream();
 			//生成文件名：
 			//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
-			suffix = file.getName().substring(file.getName().lastIndexOf("."));
+			//suffix = file.getName().substring(file.getName().lastIndexOf("."));
 			fileName = UuidUtils.getUuid4MD5_16() + suffix;
 			System.out.println("fileName===="+fileName);
 			//fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
