@@ -3,6 +3,7 @@ package service.basic;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -278,6 +279,10 @@ public class UploadService {
 	
 	@RequestMapping(value ="image",method=RequestMethod.POST)
 	public JSONObject uploadFiles(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
 		
 		//转型为MultipartHttpServletRequest
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -348,6 +353,11 @@ public class UploadService {
 		obj_out.put("data", arr_data.toString());
         
 		System.out.println(obj_out.toString());
+		
+		out.print(obj_out.toString());
+		out.flush();
+		out.close();
+		
 		return obj_out;
 	}
 }
