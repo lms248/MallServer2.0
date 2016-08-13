@@ -278,7 +278,7 @@ public class UploadService {
 	}
 	
 	@RequestMapping(value ="image",method=RequestMethod.POST)
-	public JSONObject uploadFiles(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void uploadImage(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -286,19 +286,20 @@ public class UploadService {
 		
 		//转型为MultipartHttpServletRequest
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		//获得上传的文件（根据前台的name名称得到上传的文件）
+		//获得上传的文件（根据前端的name名称得到上传的文件）
 		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
-		System.out.println("----------------------------------------------------");
+		System.out.println("--------------------------uploadImage--------------------------");
 		System.out.println(multiValueMap);
-		System.out.println("----------------------------------------------------");
-		List<MultipartFile> fileList = multiValueMap.get("imageList");
+		System.out.println("---------------------------------------------------------------");
+		List<MultipartFile> fileList = multiValueMap.get("file");
 		//MultipartFile file = multipartRequest.getFile("clientFile");
 		
-		System.out.println("fileList.size()===="+fileList.size());
 		
 		if (fileList.isEmpty()) {
-			return null;
+			return;
 		}
+		
+		System.out.println("fileList.size()===="+fileList.size());
 		
 		Date now = new Date(); //new Date()为获取当前系统时间
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
@@ -309,15 +310,21 @@ public class UploadService {
 		JSONObject obj_out = new JSONObject();
 		JSONObject obj_data = new JSONObject();
 		JSONArray arr_data = new JSONArray();
+		
 		for (MultipartFile file : fileList) {
 			System.out.println(file.getName()+"::::"+file.getSize());
+			name = file.getOriginalFilename();
+			System.out.println("originalFilename===="+name);
 			savePath_image = request.getSession().getServletContext().getRealPath(folder_image+"/"+time);
 			savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb+"/"+time);
 			inputStream = file.getInputStream();
 			inputStream_thumb = file.getInputStream();
 			//生成文件名：
 			//fileName = UUID.randomUUID().toString().replaceAll("-", "") + suffix;
-			//suffix = file.getName().substring(file.getName().lastIndexOf("."));
+			//扩展名格式：  
+			if (name.lastIndexOf(".") >= 0) {
+				suffix = name.substring(name.lastIndexOf("."));
+			}
 			fileName = UuidUtils.getUuid4MD5_16() + suffix;
 			System.out.println("fileName===="+fileName);
 			//fileName = MD5.encode(UUID.randomUUID().toString().replaceAll("-", ""), "utf-8") + suffix;
@@ -338,10 +345,10 @@ public class UploadService {
 	        	file_thumb.mkdirs();//创建文件目录
 	        }
 	        //生成缩略图
-	        /*Thumbnails.of(inputStream_thumb)
+	        Thumbnails.of(inputStream_thumb)
 	        .size(thumb_width, thumb_height)
 	        .keepAspectRatio(thumb_aspectRatio)
-	        .toFile(new File(savePath_thumb+"/"+fileName));*/
+	        .toFile(new File(savePath_thumb+"/"+fileName));
 	        
 	        obj_data.put("thumb", folder_thumb+"/"+time+"/"+fileName);
 			obj_data.put("image", folder_image+"/"+time+"/"+fileName);
@@ -358,6 +365,6 @@ public class UploadService {
 		out.flush();
 		out.close();
 		
-		return obj_out;
+		return;
 	}
 }

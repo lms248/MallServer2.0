@@ -109,7 +109,7 @@ uploader = WebUploader.create({
     // swf文件路径
     swf: '/res/webuploader/Uploader.swf',
     // 文件接收服务端。
-    server: '/service/uploadfile/image',
+    server: '/service/upload/image',
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
     	id: '#logo_upload',
@@ -118,6 +118,7 @@ uploader = WebUploader.create({
     },
  	// 自动上传。
     auto: true,
+    name: 'imageList',
     // 不进行图片压缩
     compress: null,
     formData: {width:100, height:100, aspectRatio:1, thumb_width:50, thumb_height:50, thumb_aspectRatio:0},
