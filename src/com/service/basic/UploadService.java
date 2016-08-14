@@ -374,8 +374,8 @@ public class UploadService {
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
 		String time = df.format(now);
 		
-		imagePath += time;
-		thumbPath += time;
+		imagePath += "/"+time;
+		thumbPath += "/"+time;
 		
 		StringBuffer imageList = new StringBuffer();
 		
