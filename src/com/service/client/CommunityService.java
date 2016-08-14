@@ -83,7 +83,7 @@ public class CommunityService {
 		cbean.setDesc(desc);
 		cbean.setImageList(imageList);
 		cbean.setTime(System.currentTimeMillis());
-		CommunityDao.update(cbean);
+		CommunityDao.save(cbean);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "社区信息");
