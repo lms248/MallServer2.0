@@ -340,7 +340,6 @@ public class UserService {
 		}
 		
 		ubean.setNickname(nickname);
-		UserDao.update(ubean);
 		
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
@@ -358,6 +357,9 @@ public class UserService {
 			//头像缩略图
 			ubean.setThumbnail(image);
 		} 
+		
+		//更新数据库
+		UserDao.update(ubean);
 		
 		ubean.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
