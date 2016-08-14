@@ -22,12 +22,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import service.basic.UploadService;
 import bean.client.CommunityBean;
 import bean.client.UserBean;
-
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
+import common.utils.StringUtils;
 import dao.client.CommunityDao;
 import dao.client.UserDao;
 
@@ -77,11 +76,23 @@ public class CommunityService {
 			out.print(obj);
 			return;
 		}
+		
+		StringBuffer imageBuffer = new StringBuffer();
+		StringBuffer thumbBuffer = new StringBuffer();
+		for (String image : imageList.split(",")) {
+			if (StringUtils.isBlack(image)) {
+				return;
+			}
+			imageBuffer.append("/upload/image/").append(image).append(",");
+			thumbBuffer.append("/upload/thumb/").append(image).append(",");
+		}
+		
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
 		cbean.setContent(content);
-		cbean.setImageList(imageList);
+		cbean.setImageList(imageBuffer.toString());
+		cbean.setThumbList(thumbBuffer.toString());
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		
@@ -113,6 +124,7 @@ public class CommunityService {
 		obj.put("msg", "社区信息");
 		obj.put("data", JsonUtils.jsonFromObject(cbean));
 		out.print(obj);
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();

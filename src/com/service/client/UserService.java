@@ -2,6 +2,7 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -11,11 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import service.basic.UploadService;
 import bean.client.UserBean;
+import common.config.Config;
 import common.utils.Def;
 import common.utils.HttpUtils;
 import common.utils.IdGen;
@@ -320,16 +326,9 @@ public class UserService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		/*读取客户端提交的json数据*/
-		/*JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
-		String token = req_obj.getString("token");
-		String nickname = req_obj.getString("nickname");//昵称
-		String avatar = req_obj.getString("avatar");//头像
-		String thumbnail = req_obj.getString("thumbnail");//头像缩略图
-*/		String token = request.getParameter("token");
+		//读取客户端提交的数据
+		String token = request.getParameter("token");
 		String nickname = request.getParameter("nickname");
-		String avatar = request.getParameter("avatar");
-		String thumbnail = request.getParameter("thumbnail");
 		
 		JSONObject obj = new JSONObject();
 		UserBean ubean = UserDao.loadByToken(token);
@@ -341,9 +340,24 @@ public class UserService {
 		}
 		
 		ubean.setNickname(nickname);
-		ubean.setAvatar(avatar);
-		ubean.setThumbnail(thumbnail);
 		UserDao.update(ubean);
+		
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
+		System.out.println("--------------------------publish uploadImage--------------------------");
+		System.out.println(multiValueMap);
+		System.out.println("-----------------------------------------------------------------------");
+		List<MultipartFile> fileList = multiValueMap.get("avatar");
+		if (!fileList.isEmpty()) {
+			String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
+			String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
+			String image =UploadService.uploadImage(
+					fileList, savePath_image, savePath_thumb, Def.COMMUNITY_THUMB_WIDTH, Def.COMMUNITY_THUMB_HEIGHT, false);
+			//头像
+			ubean.setAvatar(image);
+			//头像缩略图
+			ubean.setThumbnail(image);
+		} 
 		
 		ubean.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);

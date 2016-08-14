@@ -17,6 +17,8 @@ public class CommunityBean extends Pojo {
 	private String content;
 	/** 图片列表 */
 	private String imageList;
+	/** 缩略图片列表 */
+	private String thumbList;
 	/** 发布时间 */
 	private long time;
 	
@@ -49,6 +51,12 @@ public class CommunityBean extends Pojo {
 	}
 	public void setImageList(String imageList) {
 		this.imageList = imageList;
+	}
+	public String getThumbList() {
+		return thumbList;
+	}
+	public void setThumbList(String thumbList) {
+		this.thumbList = thumbList;
 	}
 	public long getTime() {
 		return time;
