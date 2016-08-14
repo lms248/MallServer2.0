@@ -49,4 +49,11 @@ public class Def {
 	public static final int GOODS_TYPE_BANNER=0;
 	/**商品精选促销*/
 	public static final int GOODS_TYPE_PROMOTION=1;
+	
+	/*****************************缩略图宽高**********************************/
+	/** 社区缩略图的宽度 */
+	public static final int COMMUNITY_THUMB_WIDTH = 100;
+	/** 社区缩略图的高度 */
+	public static final int COMMUNITY_THUMB_HEIGHT = 100;
+	
 }

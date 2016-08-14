@@ -294,7 +294,6 @@ public class UploadService {
 		List<MultipartFile> fileList = multiValueMap.get("file");
 		//MultipartFile file = multipartRequest.getFile("clientFile");
 		
-		
 		if (fileList.isEmpty()) {
 			return;
 		}
@@ -366,5 +365,57 @@ public class UploadService {
 		out.close();
 		
 		return;
+	}
+	
+	public static String uploadImage(List<MultipartFile> fileList, String imagePath, String thumbPath, 
+			int thumbWidth, int thumbHeight, boolean thumbKeepAspectRatio) throws IOException {
+		
+		Date now = new Date(); //new Date()为获取当前系统时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");///设置日期格式
+		String time = df.format(now);
+		
+		imagePath += time;
+		thumbPath += time;
+		
+		StringBuffer imageList = new StringBuffer();
+		
+		for (MultipartFile file : fileList) {
+			System.out.println(file.getName()+"::::"+file.getSize());
+			String name = file.getOriginalFilename();
+			System.out.println("originalFilename===="+name);
+			InputStream inputStream_image = file.getInputStream();
+			InputStream inputStream_thumb = file.getInputStream();
+			
+			String suffix = ".jpg";
+			//扩展名格式：  
+			if (name.lastIndexOf(".") >= 0) {
+				suffix = name.substring(name.lastIndexOf("."));
+			}
+			//生成文件名：
+			String fileName = UuidUtils.getUuid4MD5_16() + suffix;
+			System.out.println("fileName===="+fileName);
+			
+			File file_image = new File(imagePath);
+	        if (!file_image.exists()) {
+	        	file_image.mkdirs();//创建文件目录
+	        }
+	        // 保存原图
+	        file.transferTo(new File(imagePath+"/"+fileName));
+	        
+			File file_thumb = new File(thumbPath);
+	        if (!file_thumb.exists()) {
+	        	file_thumb.mkdirs();//创建文件目录
+	        }
+	        //生成缩略图
+	        Thumbnails.of(inputStream_thumb)
+	        .size(thumbWidth, thumbHeight)
+	        .keepAspectRatio(thumbKeepAspectRatio)
+	        .toFile(new File(thumbPath+"/"+fileName));
+	        
+	        imageList.append(time+"/"+fileName).append(",");
+		}
+		
+		
+		return imageList.toString();
 	}
 }
