@@ -415,6 +415,8 @@ public class UploadService {
 	        imageList.append(time+"/"+fileName).append(",");
 		}
 		
+		//删除末尾的逗号
+		imageList.deleteCharAt(imageList.length());
 		
 		return imageList.toString();
 	}
