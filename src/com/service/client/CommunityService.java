@@ -56,7 +56,7 @@ public class CommunityService {
 		System.out.println("-----------------------------------------------------------------------");
 		List<MultipartFile> fileList = multiValueMap.get("imageList");
 		String token = request.getParameter("token");
-		String desc = request.getParameter("desc");
+		String content = request.getParameter("content");
 		String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
 		String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
 		String imageList =UploadService.uploadImage(
@@ -64,7 +64,7 @@ public class CommunityService {
 		
 		System.out.println("----------community::::publish----------");
 		System.out.println("token===="+token);
-		System.out.println("desc===="+desc);
+		System.out.println("content===="+content);
 		System.out.println("imageList===="+imageList);
 		System.out.println("----------------------------------------");
 		
@@ -80,7 +80,7 @@ public class CommunityService {
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
-		cbean.setDesc(desc);
+		cbean.setContent(content);
 		cbean.setImageList(imageList);
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);

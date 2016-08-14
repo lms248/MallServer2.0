@@ -13,8 +13,8 @@ public class CommunityBean extends Pojo {
 	private long communityId;
 	/** 用户ID */
 	private long uid;
-	/** 描述 */
-	private String desc;
+	/** 描述内容 */
+	private String content;
 	/** 图片列表 */
 	private String imageList;
 	/** 发布时间 */
@@ -38,11 +38,11 @@ public class CommunityBean extends Pojo {
 	public void setUid(long uid) {
 		this.uid = uid;
 	}
-	public String getDesc() {
-		return desc;
+	public String getContent() {
+		return content;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getImageList() {
 		return imageList;
