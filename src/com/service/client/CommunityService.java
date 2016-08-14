@@ -146,13 +146,19 @@ public class CommunityService {
 		List<CommunityBean> cb_list = CommunityDao.loadAllCommunity(index, size);
 		
 		JSONObject obj = new JSONObject();
-		JSONArray arr_cb = new JSONArray();
+		JSONObject obj_c = new JSONObject();
+		JSONArray arr_c = new JSONArray();
 		for (int i = 0; i < cb_list.size(); i++) {
-			arr_cb.add(JsonUtils.jsonFromObject(cb_list.get(i)));
+			UserBean ubean = UserDao.loadByUid(cb_list.get(i).getUid());
+			obj_c = JSONObject.fromObject(JsonUtils.jsonFromObject(cb_list.get(i)));
+			obj_c.put("nickname", ubean.getNickname());
+			obj_c.put("avatar", ubean.getAvatar());
+			obj_c.put("thumbnail", ubean.getThumbnail());
+			arr_c.add(obj_c);
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "社区信息");
-		obj.put("data", arr_cb);
+		obj.put("data", arr_c);
 		out.print(obj);
 		
 		out.flush();

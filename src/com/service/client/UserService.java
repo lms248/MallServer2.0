@@ -148,6 +148,7 @@ public class UserService {
 		ubean.setUid(uid);
 		ubean.setUsername(username);
 		ubean.setPassword(password);
+		ubean.setPhone(username);
 		ubean.setToken(token);
 		ubean.setTime(System.currentTimeMillis());
 		
@@ -353,9 +354,9 @@ public class UserService {
 			String image =UploadService.uploadImage(
 					fileList, savePath_image, savePath_thumb, Def.COMMUNITY_THUMB_WIDTH, Def.COMMUNITY_THUMB_HEIGHT, false);
 			//头像
-			ubean.setAvatar(image);
+			ubean.setAvatar(savePath_image+"/"+image);
 			//头像缩略图
-			ubean.setThumbnail(image);
+			ubean.setThumbnail(savePath_thumb+"/"+image);
 		} 
 		
 		//更新数据库
