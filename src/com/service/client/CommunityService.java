@@ -153,7 +153,7 @@ public class CommunityService {
 			obj_c = JSONObject.fromObject(JsonUtils.jsonFromObject(cb_list.get(i)));
 			obj_c.put("nickname", ubean.getNickname());
 			obj_c.put("avatar", ubean.getAvatar());
-			obj_c.put("thumbnail", ubean.getThumbnail());
+			obj_c.put("thumbAvatar", ubean.getThumbnail());
 			arr_c.add(obj_c);
 		}
 		obj.put("code", Def.CODE_SUCCESS);
