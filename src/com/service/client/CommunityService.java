@@ -103,8 +103,8 @@ public class CommunityService {
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
 		cbean.setContent(content);
-		cbean.setImageList(imageBuffer.toString());
-		cbean.setThumbList(thumbBuffer.toString());
+		cbean.setImageList(imageArr.toString());
+		cbean.setThumbList(thumbArr.toString());
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		
