@@ -378,6 +378,7 @@ public class UploadService {
 		thumbPath += "/"+time;
 		
 		StringBuffer imageList = new StringBuffer();
+		StringBuffer thumbList = new StringBuffer();
 		
 		for (MultipartFile file : fileList) {
 			System.out.println(file.getName()+"::::"+file.getSize());
@@ -412,12 +413,14 @@ public class UploadService {
 	        .keepAspectRatio(thumbKeepAspectRatio)
 	        .toFile(new File(thumbPath+"/"+fileName));
 	        
-	        imageList.append(time+"/"+fileName).append(",");
+	        imageList.append("upload/image/"+time+"/"+fileName).append(",");
+	        thumbList.append("upload/thumb/"+time+"/"+fileName).append(",");
 		}
 		
 		//删除末尾的逗号
 		imageList.deleteCharAt(imageList.length()-1);
+		thumbList.deleteCharAt(thumbList.length()-1);
 		
-		return imageList.toString();
+		return imageList.toString()+";"+thumbList.toString();
 	}
 }

@@ -354,9 +354,9 @@ public class UserService {
 			String image =UploadService.uploadImage(
 					fileList, savePath_image, savePath_thumb, Def.COMMUNITY_THUMB_WIDTH, Def.COMMUNITY_THUMB_HEIGHT, false);
 			//头像
-			ubean.setAvatar(savePath_image+"/"+image);
+			ubean.setAvatar(image.split(";")[0]);
 			//头像缩略图
-			ubean.setThumbnail(savePath_thumb+"/"+image);
+			ubean.setThumbnail(image.split(";")[1]);
 		} 
 		
 		//更新数据库

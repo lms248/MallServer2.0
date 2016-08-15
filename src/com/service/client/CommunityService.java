@@ -84,20 +84,23 @@ public class CommunityService {
 		
 		//StringBuffer imageBuffer = new StringBuffer();
 		//StringBuffer thumbBuffer = new StringBuffer();
-		for (String image : imageList.split(",")) {
+		/*for (String image : imageList.split(";")) {
 			if (StringUtils.isBlack(image)) {
 				return;
 			}
-			imageObj.put("image", "/upload/image/"+image);
-			thumbObj.put("thumb", "/upload/thumb/"+image);
+			//imageObj.put("image", "/upload/image/"+image);
+			//thumbObj.put("thumb", "/upload/thumb/"+image);
 			//imageBuffer.append("/upload/image/").append(image).append(",");
 			//thumbBuffer.append("/upload/thumb/").append(image).append(",");
-		}
+			
+		}*/
+		String[] images = imageList.split(";");
+		imageArr.add(images[0].split(","));
+		thumbArr.add(images[1].split(","));
+		
 		//删除末尾的逗号
 		//imageBuffer.deleteCharAt(imageBuffer.length()-1);
 		//thumbBuffer.deleteCharAt(thumbBuffer.length()-1);
-		imageArr.add(imageObj);
-		thumbArr.add(thumbObj);
 		
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
