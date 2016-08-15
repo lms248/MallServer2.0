@@ -82,14 +82,14 @@ public class CommunityService {
 		JSONObject imageObj = new JSONObject();
 		JSONObject thumbObj = new JSONObject();
 		
-		StringBuffer imageBuffer = new StringBuffer();
-		StringBuffer thumbBuffer = new StringBuffer();
+		//StringBuffer imageBuffer = new StringBuffer();
+		//StringBuffer thumbBuffer = new StringBuffer();
 		for (String image : imageList.split(",")) {
 			if (StringUtils.isBlack(image)) {
 				return;
 			}
-			imageObj.put("image", imageBuffer.append("/upload/image/").append(image));
-			thumbObj.put("thumb", imageBuffer.append("/upload/thumb/").append(image));
+			imageObj.put("image", "/upload/image/"+image);
+			thumbObj.put("thumb", "/upload/thumb/"+image);
 			//imageBuffer.append("/upload/image/").append(image).append(",");
 			//thumbBuffer.append("/upload/thumb/").append(image).append(",");
 		}
