@@ -2,6 +2,7 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -104,8 +105,8 @@ public class CommunityService {
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
 		cbean.setContent(content);
-		cbean.setImageList(images[0].split(",").toString());
-		cbean.setThumbList(images[1].split(",").toString());
+		cbean.setImageList(Arrays.toString(images[0].split(",")));
+		cbean.setThumbList(Arrays.toString(images[1].split(",")));
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		
