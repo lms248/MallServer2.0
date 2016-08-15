@@ -86,6 +86,9 @@ public class CommunityService {
 			imageBuffer.append("/upload/image/").append(image).append(",");
 			thumbBuffer.append("/upload/thumb/").append(image).append(",");
 		}
+		//删除末尾的逗号
+		imageBuffer.deleteCharAt(imageList.length()-1);
+		thumbBuffer.deleteCharAt(imageList.length()-1);
 		
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
