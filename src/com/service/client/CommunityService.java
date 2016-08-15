@@ -95,8 +95,6 @@ public class CommunityService {
 			
 		}*/
 		String[] images = imageList.split(";");
-		imageArr.add(images[0].split(","));
-		thumbArr.add(images[1].split(","));
 		
 		//删除末尾的逗号
 		//imageBuffer.deleteCharAt(imageBuffer.length()-1);
@@ -106,8 +104,8 @@ public class CommunityService {
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
 		cbean.setContent(content);
-		cbean.setImageList(imageArr.toString());
-		cbean.setThumbList(thumbArr.toString());
+		cbean.setImageList(images[0].split(",").toString());
+		cbean.setThumbList(images[1].split(",").toString());
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		
