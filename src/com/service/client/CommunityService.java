@@ -156,7 +156,7 @@ public class CommunityService {
 		PrintWriter out = response.getWriter();
 		
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
-		int size = Integer.parseInt(request.getParameter("size"));//索引结束
+		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
 		List<CommunityBean> cb_list = CommunityDao.loadAllCommunity(index, size);
 		
