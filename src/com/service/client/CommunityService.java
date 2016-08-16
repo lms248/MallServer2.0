@@ -2,7 +2,6 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,15 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
-
 import service.basic.UploadService;
 import bean.client.CommunityBean;
 import bean.client.UserBean;
+
+import com.alibaba.fastjson.JSON;
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+
 import dao.client.CommunityDao;
 import dao.client.UserDao;
 
@@ -79,28 +79,7 @@ public class CommunityService {
 			return;
 		}
 		
-//		JSONArray imageArr = new JSONArray();
-//		JSONArray thumbArr = new JSONArray();
-//		JSONObject imageObj = new JSONObject();
-//		JSONObject thumbObj = new JSONObject();
-		
-		//StringBuffer imageBuffer = new StringBuffer();
-		//StringBuffer thumbBuffer = new StringBuffer();
-		/*for (String image : imageList.split(";")) {
-			if (StringUtils.isBlack(image)) {
-				return;
-			}
-			//imageObj.put("image", "/upload/image/"+image);
-			//thumbObj.put("thumb", "/upload/thumb/"+image);
-			//imageBuffer.append("/upload/image/").append(image).append(",");
-			//thumbBuffer.append("/upload/thumb/").append(image).append(",");
-			
-		}*/
 		String[] images = imageList.split(";");
-		
-		//删除末尾的逗号
-		//imageBuffer.deleteCharAt(imageBuffer.length()-1);
-		//thumbBuffer.deleteCharAt(thumbBuffer.length()-1);
 		
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
