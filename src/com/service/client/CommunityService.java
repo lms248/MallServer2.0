@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
+
 import service.basic.UploadService;
 import bean.client.CommunityBean;
 import bean.client.UserBean;
@@ -27,7 +29,6 @@ import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-import common.utils.StringUtils;
 import dao.client.CommunityDao;
 import dao.client.UserDao;
 
@@ -78,10 +79,10 @@ public class CommunityService {
 			return;
 		}
 		
-		JSONArray imageArr = new JSONArray();
-		JSONArray thumbArr = new JSONArray();
-		JSONObject imageObj = new JSONObject();
-		JSONObject thumbObj = new JSONObject();
+//		JSONArray imageArr = new JSONArray();
+//		JSONArray thumbArr = new JSONArray();
+//		JSONObject imageObj = new JSONObject();
+//		JSONObject thumbObj = new JSONObject();
 		
 		//StringBuffer imageBuffer = new StringBuffer();
 		//StringBuffer thumbBuffer = new StringBuffer();
@@ -105,8 +106,8 @@ public class CommunityService {
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
 		cbean.setContent(content);
-		cbean.setImageList(Arrays.toString(images[0].split(",")));
-		cbean.setThumbList(Arrays.toString(images[1].split(",")));
+		cbean.setImageList(JSON.toJSONString(images[0].split(",")));
+		cbean.setThumbList(JSON.toJSONString(images[1].split(",")));
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		
