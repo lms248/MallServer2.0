@@ -54,8 +54,8 @@ public class UploadService {
 	private int width = 200; //原图宽度
 	private int height = 200; //原图高度
 	private boolean aspectRatio = false; //不保持原纵横比（原图）
-	private int thumb_width = 50; //缩略图宽度
-	private int thumb_height = 50; //缩略图高度
+	private int thumb_width = 100; //缩略图宽度
+	private int thumb_height = 100; //缩略图高度
 	private boolean thumb_aspectRatio = false; //不保持原纵横比（缩略图）
 	
 	private Uploader<UploadService> uploader;
@@ -145,22 +145,6 @@ public class UploadService {
 				inputStream = item.getInputStream();
 				inputStream_thumb = item.getInputStream();
 			}
-		}
-	}
-	
-	public void setUploadParams2(HttpServletRequest request, List<MultipartFile> fileList, String time) throws IOException {
-		for (MultipartFile file : fileList) {
-			System.out.println("file.getSize()===="+file.getSize());
-			name = file.getName();
-			//扩展名格式：  
-			if (name.lastIndexOf(".") >= 0) {
-				suffix = name.substring(name.lastIndexOf("."));
-			}
-			
-			savePath_image = request.getSession().getServletContext().getRealPath(folder_image+"/"+time);
-			savePath_thumb = request.getSession().getServletContext().getRealPath(folder_thumb+"/"+time);
-			inputStream = file.getInputStream();
-			inputStream_thumb = file.getInputStream();
 		}
 	}
 	

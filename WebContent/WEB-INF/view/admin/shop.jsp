@@ -23,7 +23,7 @@
 	<div id="">
 		<table>
 		<tr>
-		<td style="padding-right: 20px;">
+		<!-- <td style="padding-right: 20px;">
 		<select id="game" Style="width: 100px;height: 30px;">
 			<option value="hrl" selected>红刃</option>
 		</select>
@@ -34,7 +34,7 @@
 			<option value="2">公告</option>
 			<option value="3">活动</option>
 			</select>
-		</td>
+		</td> -->
 		<td width="70px"><input id="reset" class="btn btn-danger" type="reset" value="  重  置  " onclick="reset()" /></td>
 		<td><input id="submit" name="add" class="btn btn-primary" type="submit" value="  发  布  " onclick="addNewsDB(0)"></td>
 		</tr>
@@ -54,7 +54,7 @@
 		</table>
 		<label for="title" style="margin-top: 6px;margin-bottom: 0px;">标题：</label>
 		<input id="title" type="text" class="form-control" placeholder="请输入文章标题" style="width: 500px; height: 35px;margin-top: 0px;color: #000;" />
-		<label for="brief" style="margin-top: 6px;margin-bottom: 0px;">简述：</label>
+		<label for="brief" style="margin-top: 6px;margin-bottom: 0px;">介绍：</label>
 		<textarea id="brief" class="form-control p-text-area" style="width: 600px;height: 80px;color: #000;" placeholder="请输入文章简述"></textarea>
 		<br>
 	</div>
@@ -109,7 +109,7 @@ uploader = WebUploader.create({
     // swf文件路径
     swf: '/res/webuploader/Uploader.swf',
     // 文件接收服务端。
-    server: '/service/upload/image',
+    server: '/service/upload/imageOutStr',
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
     	id: '#logo_upload',
@@ -118,7 +118,6 @@ uploader = WebUploader.create({
     },
  	// 自动上传。
     auto: true,
-    name: 'imageList',
     // 不进行图片压缩
     compress: null,
     formData: {width:100, height:100, aspectRatio:1, thumb_width:50, thumb_height:50, thumb_aspectRatio:0},
