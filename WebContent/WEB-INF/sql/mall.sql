@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 172.16.8.9
-Source Server Version : 50132
-Source Host           : 172.16.8.9:3306
-Source Database       : mserver
+Source Server         : MySQL
+Source Server Version : 50615
+Source Host           : localhost:3306
+Source Database       : mall
 
 Target Server Type    : MYSQL
-Target Server Version : 50132
+Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-08-18 09:21:43
+Date: 2016-08-20 14:36:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,6 +85,19 @@ CREATE TABLE `shop` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for sort
+-- ----------------------------
+DROP TABLE IF EXISTS `sort`;
+CREATE TABLE `sort` (
+  `id` int(11) NOT NULL COMMENT '定义ID',
+  `name` varchar(255) DEFAULT NULL COMMENT '名字',
+  `type` int(11) DEFAULT NULL COMMENT '类型',
+  `level` int(11) DEFAULT NULL COMMENT '分类级别',
+  `mark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
@@ -100,4 +113,4 @@ CREATE TABLE `user` (
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
   `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
