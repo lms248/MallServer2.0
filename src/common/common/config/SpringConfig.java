@@ -37,6 +37,7 @@ public class SpringConfig {
 	public CommonsMultipartResolver multipartResolver() {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
+		resolver.getFileItemFactory();
 		return resolver;
 	}
 }

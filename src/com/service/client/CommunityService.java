@@ -60,13 +60,13 @@ public class CommunityService {
 		String content = request.getParameter("content");
 		String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
 		String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
-		String imageList =UploadService.uploadImage(
-				fileList, savePath_image, savePath_thumb, Def.COMMUNITY_THUMB_WIDTH, Def.COMMUNITY_THUMB_HEIGHT, false);
+		JSONObject imageObj = UploadService.uploadImage(
+				fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_COMMUNITY, Def.THUMB_HEIGHT_COMMUNITY, false);
 		
 		System.out.println("----------community::::publish----------");
 		System.out.println("token===="+token);
 		System.out.println("content===="+content);
-		System.out.println("imageList===="+imageList);
+		System.out.println("imageObj===="+imageObj);
 		System.out.println("----------------------------------------");
 		
 		long communityId = IdGen.get().nextId();
@@ -79,14 +79,14 @@ public class CommunityService {
 			return;
 		}
 		
-		String[] images = imageList.split(";");
+		//String[] images = imageList.split(";");
 		
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
 		cbean.setContent(content);
-		cbean.setImageList(JSON.toJSONString(images[0].split(",")));
-		cbean.setThumbList(JSON.toJSONString(images[1].split(",")));
+		cbean.setImageList(JSON.toJSONString(imageObj.get("imageList")));
+		cbean.setThumbList(JSON.toJSONString(imageObj.get("thumbList")));
 		cbean.setTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		

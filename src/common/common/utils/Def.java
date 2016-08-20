@@ -1,5 +1,7 @@
 package common.utils;
 
+import common.config.Config;
+
 /**
  * 常量定义
  */
@@ -50,10 +52,30 @@ public class Def {
 	/**商品精选促销*/
 	public static final int GOODS_TYPE_PROMOTION=1;
 	
+	/*****************************图片存储路径**********************************/
+	/** 原图存储路径：默认 */
+	public static final String SAVE_PATH_IMAGE = Config.WEB_BASE+"/upload/image";
+	/** 缩略图存储路径：默认 */
+	public static final String SAVE_PATH_THUMB = Config.WEB_BASE+"/upload/thumb";
+	
+	/*****************************原图宽高**********************************/
+	/** 原图宽度：默认 */
+	public static final int IMAGE_WIDTH_DEFAULT = 200;
+	/** 原图高度：默认 */
+	public static final int IMAGE_HEIGHT_DEFAULT = 200;
+	
 	/*****************************缩略图宽高**********************************/
-	/** 社区缩略图的宽度 */
-	public static final int COMMUNITY_THUMB_WIDTH = 100;
-	/** 社区缩略图的高度 */
-	public static final int COMMUNITY_THUMB_HEIGHT = 100;
+	/** 缩略图宽度：默认 */
+	public static final int THUMB_WIDTH_DEFAULT = 100;
+	/** 缩略图高度：默认 */
+	public static final int THUMB_HEIGHT_DEFAULT = 100;
+	/** 缩略图宽度：用户头像 */
+	public static final int THUMB_WIDTH_AVATAR = 100;
+	/** 缩略图高度：用户头像 */
+	public static final int THUMB_HEIGHT_AVATAR = 100;
+	/** 缩略图宽度：社区 */
+	public static final int THUMB_WIDTH_COMMUNITY = 100;
+	/** 缩略图高度：社区 */
+	public static final int THUMB_HEIGHT_COMMUNITY = 100;
 	
 }

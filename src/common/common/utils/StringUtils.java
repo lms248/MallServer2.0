@@ -9,7 +9,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils{
 	 * @param strs
 	 * @return
 	 */
-	public static boolean isBlack(String... strs){
+	public static boolean isBlank(String... strs){
 		for(String s : strs){
 			if(StringUtils.isBlank(s)){
 				return true;

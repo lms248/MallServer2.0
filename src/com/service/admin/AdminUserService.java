@@ -167,7 +167,7 @@ public class AdminUserService {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		if (StringUtils.isBlack(username) || StringUtils.isBlack(password)) {
+		if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
 			out.print(Def.CODE_FAIL);
 		}
 		
@@ -290,7 +290,7 @@ public class AdminUserService {
 			@RequestParam(value = "repassword") String repassword,
 			@RequestParam(value = "groupid") String groupid,
 			@RequestParam(value = "power") String power) {
-		if(StringUtils.isBlack(username,password,repassword,groupid)){
+		if(StringUtils.isBlank(username,password,repassword,groupid)){
 			return JsonRespUtils.fail("必要数据不能为空");
 		}
 		if(!password.equals(repassword)){
@@ -316,7 +316,7 @@ public class AdminUserService {
 	@ResponseBody
 	public String lookUser(
 			@RequestParam(value = "userid") String userid) {
-		if(StringUtils.isBlack(userid)){
+		if(StringUtils.isBlank(userid)){
 			return JsonRespUtils.fail("无效访问");
 		}
 		User user=userContentById.get(Integer.valueOf(userid.trim()));
@@ -342,7 +342,7 @@ public class AdminUserService {
 	@ResponseBody
 	public String preUpdate(
 			@RequestParam(value = "userid") String userid) {
-		if(StringUtils.isBlack(userid)){
+		if(StringUtils.isBlank(userid)){
 			return JsonRespUtils.fail("无效访问");
 		}
 		User user=userContentById.get(Integer.valueOf(userid.trim()));
@@ -372,7 +372,7 @@ public class AdminUserService {
 			@RequestParam(value = "repwd") String repwd,
 			@RequestParam(value = "gid") String gid,
 			@RequestParam(value = "power") String power) {
-		if(StringUtils.isBlack(pwd,repwd,gid)){
+		if(StringUtils.isBlank(pwd,repwd,gid)){
 			return JsonRespUtils.fail("必要数据不能为空");
 		}
 		if(!pwd.equals(repwd)){

@@ -3,7 +3,6 @@ package service.client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +20,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import service.basic.UploadService;
 import bean.client.UserBean;
+
+import com.alibaba.fastjson.JSON;
 import common.config.Config;
 import common.utils.Def;
-import common.utils.HttpUtils;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.UuidUtils;
+
 import dao.client.UserDao;
 
 /**
@@ -351,12 +352,12 @@ public class UserService {
 		if (!fileList.isEmpty()) {
 			String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
 			String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
-			String image =UploadService.uploadImage(
-					fileList, savePath_image, savePath_thumb, Def.COMMUNITY_THUMB_WIDTH, Def.COMMUNITY_THUMB_HEIGHT, false);
+			JSONObject imageObj =UploadService.uploadImage(
+					fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_AVATAR, Def.THUMB_HEIGHT_AVATAR, false);
 			//头像
-			ubean.setAvatar(image.split(";")[0]);
+			ubean.setAvatar(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
 			//头像缩略图
-			ubean.setThumbnail(image.split(";")[1]);
+			ubean.setThumbnail(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
 		} 
 		
 		//更新数据库
