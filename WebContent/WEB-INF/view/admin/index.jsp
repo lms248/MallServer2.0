@@ -16,7 +16,10 @@
   <link href="/res/css/style-responsive.css" rel="stylesheet">
   <link href="/res/css/page.css" rel="stylesheet">
 
-
+  <!--dynamic table-->
+  <link href="/res/AdminEx/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+  <link href="/res/AdminEx/js/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+  <link href="/res/AdminEx/js/data-tables/DT_bootstrap.css" rel="stylesheet" />
 
 
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -91,9 +94,9 @@
             <!--toggle button end-->
 
             <!--search start-->
-            <!-- <form class="searchform" action="index.html" method="post">
+            <form class="searchform" action="index.html" method="post">
                 <input type="text" class="form-control" name="keyword" placeholder="Search here..." />
-            </form> -->
+            </form>
             <!--search end-->
 
             <!--notification menu start -->
@@ -175,9 +178,16 @@
 <script src="/res/js/bootstrap.min.js"></script>
 <script src="/res/js/modernizr.min.js"></script>
 <script src="/res/js/jquery.nicescroll.js"></script>
+<script src="/res/js/jquery.isotope.js"></script>
 
 <!--common scripts for all pages-->
 <script src="/res/js/common-scripts.js"></script>
+
+<!--dynamic table-->
+<script src="/res/AdminEx/js/advanced-datatable/js/jquery.dataTables.js"></script>
+<script src="/res/AdminEx/js/data-tables/DT_bootstrap.js"></script>
+<!--dynamic table initialization -->
+<script src="/res/AdminEx/js/dynamic_table_init.js"></script>
 
 </body>
 </html>

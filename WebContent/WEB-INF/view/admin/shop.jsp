@@ -12,95 +12,139 @@
 }
 </style>
 
-<div style="margin-left: 30px;">
-  <div class="hero-unit" style="width: 1130px;">
-	<table>
-	<tr>
-	<td><font size="5" face="华文隶书">☞ 商店编辑 ☜</font></td>
-	</tr>
-	</table>
-	<br>
-	<div id="">
-		<!-- <table>
-		<tr>
-		<td style="padding-right: 20px;">
-		<select id="game" Style="width: 100px;height: 30px;">
-			<option value="hrl" selected>红刃</option>
-		</select>
-		</td>
-		<td width="150px">
-			<select id="type" Style="width: 100px;height: 30px;">
-			<option value="1" selected>新闻</option>
-			<option value="2">公告</option>
-			<option value="3">活动</option>
-			</select>
-		</td>
-		<td width="70px"><input id="reset" class="btn btn-danger" type="reset" value="  重  置  " onclick="reset()" /></td>
-		<td><input id="submit" name="add" class="btn btn-primary" type="submit" value="  发  布  " onclick="addNewsDB(0)"></td>
-		</tr>
-		</table>
-		<br> -->
-		<table>
-		<tr>
-			<td width="120px"><div id="logo_upload">选择图片</div></td>
-			<td id="logo_show"></td>
-			<td id="logo_url"></td>
-		</tr>
-		<!-- <tr>
-			<td colspan="4">
-				<small>(温馨提示：为了得到更好的图片压缩效果，请上传 <b style="color: blue;">.jpg</b> 或 <b style="color: blue;">.jpeg</b> 格式的图片。)</small>
-			</td>
-		</tr> -->
-		</table>
-		<label for="name" style="margin-top: 6px;margin-bottom: 0px;">商店名：</label>
-		<input id="name" type="text" class="form-control" placeholder="请输入商店名" style="width: 300px; height: 35px;margin-top: 0px;color: #000;" />
-		<label for="title" style="margin-top: 6px;margin-bottom: 0px;">标题：</label>
-		<input id="title" type="text" class="form-control" placeholder="请输入文章标题" style="width: 500px; height: 35px;margin-top: 0px;color: #000;" />
-		<label for="brief" style="margin-top: 6px;margin-bottom: 0px;">介绍：</label>
-		<textarea id="brief" class="form-control p-text-area" style="width: 600px;height: 80px;color: #000;" placeholder="请输入文章简述"></textarea>
-		<br>
-		<input id="reset" class="btn btn-danger" type="reset" value="  重  置  " onclick="reset()" style="margin-right: 30px;" />
-		<input id="submit" name="add" class="btn btn-primary" type="submit" value="  发  布  " onclick="addNewsDB(0)">
+
+<div class="row">
+	<div class="col-sm-12">
+        <section class="panel">
+        <header class="panel-heading">
+            	商店管理
+            <span class="pull-right">
+                <a class="btn btn-success fa fa-plus-circle" href="#myModal" data-toggle="modal">添加商店</a>
+            </span>
+        </header>
+        <div class="panel-body" style="display: block;">
+        <div class="adv-table">
+        <div id="hidden-table-info_wrapper" class="dataTables_wrapper form-inline" role="grid"><div class="row-fluid"><div class="span6"><div id="hidden-table-info_length" class="dataTables_length"><label><select class="form-control" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> records per page</label></div></div><div class="span6"><div class="dataTables_filter" id="hidden-table-info_filter"><label>Search: <input type="text" class="form-control" aria-controls="hidden-table-info"></label></div></div></div><table class="display table table-bordered dataTable" id="hidden-table-info" aria-describedby="hidden-table-info_info">
+        <thead>
+        <tr role="row"><th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="" style="width: 7px;"></th><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 179px;">Rendering engine</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Browser</th><th class="hidden-phone sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 235px;">Platform(s)</th><th class="hidden-phone sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 151px;">Engine version</th><th class="hidden-phone sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 103px;">CSS grade</th></tr>
+        </thead>
+        
+        <tbody role="alert" aria-live="polite" aria-relevant="all">
+        <tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Camino 1.0</td>
+            <td class="hidden-phone ">OSX.2+</td>
+            <td class="center hidden-phone ">1.8</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Camino 1.5</td>
+            <td class="hidden-phone ">OSX.3+</td>
+            <td class="center hidden-phone ">1.8</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Epiphany 2.20</td>
+            <td class="hidden-phone ">Gnome</td>
+            <td class="center hidden-phone ">1.8</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Firefox 1.0</td>
+            <td class="hidden-phone ">Win 98+ / OSX.2+</td>
+            <td class="center hidden-phone ">1.7</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Firefox 1.5</td>
+            <td class="hidden-phone ">Win 98+ / OSX.2+</td>
+            <td class="center hidden-phone ">1.8</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Firefox 2.0</td>
+            <td class="hidden-phone ">Win 98+ / OSX.2+</td>
+            <td class="center hidden-phone ">1.8</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Firefox 3.0</td>
+            <td class="hidden-phone ">Win 2k+ / OSX.3+</td>
+            <td class="center hidden-phone ">1.9</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Mozilla 1.0</td>
+            <td class="hidden-phone ">Win 95+ / OSX.1+</td>
+            <td class="center hidden-phone ">1</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Mozilla 1.1</td>
+            <td class="hidden-phone ">Win 95+ / OSX.1+</td>
+            <td class="center hidden-phone ">1.1</td>
+            <td class="center hidden-phone ">A</td>
+        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
+            <td class=" sorting_1">Gecko</td>
+            <td class="">Mozilla 1.2</td>
+            <td class="hidden-phone ">Win 95+ / OSX.1+</td>
+            <td class="center hidden-phone ">1.2</td>
+            <td class="center hidden-phone ">A</td>
+        </tr></tbody></table><div class="row-fluid"><div class="span6"><div class="dataTables_info" id="hidden-table-info_info">Showing 1 to 10 of 57 entries</div></div><div class="span6"><div class="dataTables_paginate paging_bootstrap pagination"><ul><li class="prev disabled"><a href="#">← Previous</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li class="next"><a href="#">Next → </a></li></ul></div></div></div></div>
+
+        </div>
+        </div>
+        </section>
 	</div>
-      
-	<div>
-	<script id="editor" name="content" type="text/plain" style="width:1010px;height:300px;"></script>
-    </div>	    
-    
-    <hr>
-    <font size="5" face="华文隶书">☞ 商店管理 ☜</font>
-    <table  border="0" >
-  	<tr>
-  	<!-- <td>
-    	<input id="title_search" type="text" size="25" value="" style="height: 30px;margin-top: 10px;"  placeholder="……"  />
-  	 	<input type="submit" onclick="" style="cursor: pointer;" value="查询数据" name="search" />
-  	</td> -->
-  		<td>
-  			<div class="black"> 
-     			<!-- <span class="disabled">上一页 </span> -->
-     			<a onclick="firstPage()" style="cursor: pointer;">首页</a>
-  	 			<a onclick="pageUp()" style="cursor: pointer;">上一页</a>
-    			<span id="pageNum" class="current">1</span>
-    			<a onclick="pageDown()" style="cursor: pointer;">下一页</a>
-    			<a onclick="lastPage()" style="cursor: pointer;">尾页</a>
-    			第<input id="target_page" type="text" style="margin-top: 5px;width: 30px;height: 25px;">页
-    			<input type="button" style="width: 40px;height: 25px;" value="GO" onclick="targetPage()"> 
-    			&nbsp;&nbsp;〖共&nbsp;<span id="pageCount">0</span>&nbsp;页〗&nbsp;&nbsp;
-			</div>
-  		</td>
-  	</tr>
-	</table>
-  	 
-  	<!--  <form method="post" action="/service/upload/image" enctype="multipart/form-data">  
-            <input type="text" name="name"/>  
-            <input type="file" name="imageList"/>  
-            <input type="submit"/>  
-        </form>   -->
-  	 
-	<div id="newsdb"></div>
-    
-  </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Media Gallery</h4>
+            </div>
+
+            <div class="modal-body row">
+				<div class="col-md-5 img-modal">
+                	<img src="/res/img/user1.png" alt="">
+                    	<a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit Image</a>
+                        <a href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i> View Full Size</a>
+
+                        <p class="mtop10"><strong>File Name:</strong> img01.jpg</p>
+                        <p><strong>File Type:</strong> jpg</p>
+                        <p><strong>Resolution:</strong> 300x200</p>
+                        <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p>
+                </div>
+                <div class="col-md-7">
+                	<div class="form-group">
+                    	<label> Name</label>
+                        <input id="name" value="img01.jpg" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label> Tittle Text</label>
+                        <input id="title" value="awesome image" class="form-control">
+                    </div>
+                         <div class="form-group">
+                         <label> Description</label>
+                         <textarea rows="2" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                         <label> Link URL</label>
+                         <input id="link" value="/res/img/user1.png" class="form-control">
+                    </div>
+                    <div class="pull-right">
+                         <button class="btn btn-danger btn-sm" type="button">Delete</button>
+                         <button class="btn btn-success btn-sm" type="button">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal -->
 
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>
@@ -145,6 +189,24 @@ uploader.on( 'uploadError', function( file ) {
 });
 </script>
 
+<!-- <script type="text/javascript">
+    $(function() {
+        var $container = $('#edit');
+        $container.isotope({
+            itemSelector: '.item',
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+        });
 
-
+        // filter items when filter link is clicked
+        $('#submit').click(function() {
+            var selector = $(this).attr('data-filter');
+            $container.isotope({filter: selector});
+            return false;
+        });
+    });
+</script> -->
 
