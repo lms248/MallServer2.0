@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-08-20 14:36:02
+Date: 2016-08-22 21:08:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -78,11 +78,12 @@ CREATE TABLE `shop` (
   `name` varchar(255) DEFAULT NULL COMMENT '商店名',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `content` text,
-  `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
   `image` varchar(255) DEFAULT NULL COMMENT '图片',
+  `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
+  `type` varchar(255) DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`shopId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sort
