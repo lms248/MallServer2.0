@@ -104,40 +104,40 @@
     	<div class="modal-content">
         	<div class="modal-header">
             	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Edit Media Gallery</h4>
+                <h4 class="modal-title">商店编辑</h4>
             </div>
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img src="/res/img/user1.png" alt="">
-                    	<a href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> Edit Image</a>
-                        <a href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i> View Full Size</a>
+                	<img id="show_image" src="" alt="" width="220" height="220">
+                    <a id="edit_image" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
+                    <a id="image_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
 
-                        <p class="mtop10"><strong>File Name:</strong> img01.jpg</p>
-                        <p><strong>File Type:</strong> jpg</p>
-                        <p><strong>Resolution:</strong> 300x200</p>
-                        <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p>
+                    <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
+                    <!-- <p><strong>File Type:</strong> jpg</p>
+                    <p><strong>Resolution:</strong> 300x200</p>
+                    <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p> -->
                 </div>
                 <div class="col-md-7">
                 	<div class="form-group">
-                    	<label> Name</label>
-                        <input id="name" value="img01.jpg" class="form-control">
+                    	<label> 商店名 </label>
+                        <input id="name" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label> Tittle Text</label>
-                        <input id="title" value="awesome image" class="form-control">
+                        <label> 标题 </label>
+                        <input id="title" class="form-control">
                     </div>
                          <div class="form-group">
-                         <label> Description</label>
-                         <textarea rows="2" class="form-control"></textarea>
+                         <label> 描述 </label>
+                         <textarea id="content" rows="2" class="form-control"></textarea>
                     </div>
-                    <div class="form-group">
-                         <label> Link URL</label>
-                         <input id="link" value="/res/img/user1.png" class="form-control">
-                    </div>
+                    <!-- <div class="form-group">
+                         <label> 链接地址URL </label>
+                         <input id="link" class="form-control">
+                    </div> -->
                     <div class="pull-right">
-                         <button class="btn btn-danger btn-sm" type="button">Delete</button>
-                         <button class="btn btn-success btn-sm" type="button">Save changes</button>
+                         <button class="btn btn-danger btn-sm" type="button" style="margin-right: 10px;" onclick="resetEdit()">重置</button>
+                         <button class="btn btn-success btn-sm" type="button" onclick="submitEdit()">添加</button>
                     </div>
                 </div>
             </div>
@@ -145,6 +145,8 @@
     </div>
 </div>
 <!-- modal -->
+
+<script src="/res/js/admin/shop.js"></script>
 
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>
@@ -160,7 +162,7 @@ uploader = WebUploader.create({
     server: '/servlet/upload',
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
-    	id: '#logo_upload',
+    	id: '#edit_image',
     	innerHTML: '上传商店Logo',
     	multiple: true
     },
@@ -178,9 +180,13 @@ uploader = WebUploader.create({
 });
 
 uploader.on( 'uploadSuccess', function( file, response ) {
-    var logo = response._raw.split(";")[1];
-    var img = "<img src='"+logo+"' title='"+response._raw+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
-	$("#logo_show").html(img);
+    var image = response._raw.split(";")[0];
+    var thumb = response._raw.split(";")[1];
+    $("#show_image").attr("src", image);
+    $("#show_image").attr("alt", response._raw);
+    $("#image_url").attr("href", image);
+    /* var img = "<img src='"+logo+"' title='"+response._raw+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
+	$("#logo_show").html(img); */
 	//$("#logo_url").html(response._raw);
 });
 
