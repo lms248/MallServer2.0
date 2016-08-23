@@ -162,7 +162,7 @@
 
         <!--footer section start-->
         <footer style="display: none;">
-            2016 &copy; AdminEx by <a href="http://www.dbfor.com/" target="_blank">dbfor</a>
+            2016 &copy; Admin by <a href="http://www.dbfor.com/" target="_blank">dbfor</a>
         </footer>
         <!--footer section end-->
 
@@ -179,6 +179,7 @@
 <script src="/res/js/modernizr.min.js"></script>
 <script src="/res/js/jquery.nicescroll.js"></script>
 <script src="/res/js/jquery.isotope.js"></script>
+<script src="/res/js/jsrender.min.js"></script>
 
 <!--common scripts for all pages-->
 <script src="/res/js/common-scripts.js"></script>

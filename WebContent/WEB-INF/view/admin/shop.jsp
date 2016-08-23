@@ -24,77 +24,65 @@
         </header>
         <div class="panel-body" style="display: block;">
         <div class="adv-table">
-        <div id="hidden-table-info_wrapper" class="dataTables_wrapper form-inline" role="grid"><div class="row-fluid"><div class="span6"><div id="hidden-table-info_length" class="dataTables_length"><label><select class="form-control" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info"><option value="10" selected="selected">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> records per page</label></div></div><div class="span6"><div class="dataTables_filter" id="hidden-table-info_filter"><label>Search: <input type="text" class="form-control" aria-controls="hidden-table-info"></label></div></div></div><table class="display table table-bordered dataTable" id="hidden-table-info" aria-describedby="hidden-table-info_info">
+        <div id="hidden-table-info_wrapper" class="dataTables_wrapper form-inline" role="grid">
+        	<div class="row-fluid">
+        		<div class="span6">
+        			<div id="hidden-table-info_length" class="dataTables_length">
+        				<label>
+        				<select id="pageSize" class="form-control" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
+        				<option value="5">5</option>
+        				<option value="10" selected="selected">10</option>
+        				<option value="25">25</option>
+        				<option value="50">50</option>
+        				<option value="100">100</option>
+        				</select> 
+        				条<b>/</b>每页</label>
+        			</div>
+        		</div>
+        		<div class="span6">
+        			<div class="dataTables_filter" id="hidden-table-info_filter">
+        				<label>搜索: <input type="text" class="form-control" aria-controls="hidden-table-info" placeholder="请输入商店名进行查询"></label>
+        			</div>
+        		</div>
+        	</div>
+        <table class="display table table-bordered dataTable" id="hidden-table-info" aria-describedby="hidden-table-info_info">
         <thead>
-        <tr role="row"><th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1" aria-label="" style="width: 7px;"></th><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending" style="width: 179px;">Rendering engine</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 258px;">Browser</th><th class="hidden-phone sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" style="width: 235px;">Platform(s)</th><th class="hidden-phone sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" style="width: 151px;">Engine version</th><th class="hidden-phone sorting" role="columnheader" tabindex="0" aria-controls="hidden-table-info" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" style="width: 103px;">CSS grade</th></tr>
+        <tr role="row">
+        	<th class="" role="columnheader" style=" text-align: center;">序号</th>
+        	<th class="" role="columnheader" style=" text-align: center;">商店ID</th>
+        	<th class="" role="columnheader" style=" text-align: center;">商店名称</th>
+        	<th class="" role="columnheader" style=" text-align: center;">商店Logo</th>
+        	<th class="" role="columnheader" style=" text-align: center;">标题</th>
+        	<th class="" role="columnheader" style=" text-align: center;">描述</th>
+        	<th class="" role="columnheader" style=" text-align: center;">创建时间</th>
+        	<th class="" role="columnheader" style=" text-align: center;">操作</th>
+        </tr>
         </thead>
         
-        <tbody role="alert" aria-live="polite" aria-relevant="all">
-        <tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Camino 1.0</td>
-            <td class="hidden-phone ">OSX.2+</td>
-            <td class="center hidden-phone ">1.8</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Camino 1.5</td>
-            <td class="hidden-phone ">OSX.3+</td>
-            <td class="center hidden-phone ">1.8</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Epiphany 2.20</td>
-            <td class="hidden-phone ">Gnome</td>
-            <td class="center hidden-phone ">1.8</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Firefox 1.0</td>
-            <td class="hidden-phone ">Win 98+ / OSX.2+</td>
-            <td class="center hidden-phone ">1.7</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Firefox 1.5</td>
-            <td class="hidden-phone ">Win 98+ / OSX.2+</td>
-            <td class="center hidden-phone ">1.8</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Firefox 2.0</td>
-            <td class="hidden-phone ">Win 98+ / OSX.2+</td>
-            <td class="center hidden-phone ">1.8</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Firefox 3.0</td>
-            <td class="hidden-phone ">Win 2k+ / OSX.3+</td>
-            <td class="center hidden-phone ">1.9</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Mozilla 1.0</td>
-            <td class="hidden-phone ">Win 95+ / OSX.1+</td>
-            <td class="center hidden-phone ">1</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA odd"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Mozilla 1.1</td>
-            <td class="hidden-phone ">Win 95+ / OSX.1+</td>
-            <td class="center hidden-phone ">1.1</td>
-            <td class="center hidden-phone ">A</td>
-        </tr><tr class="gradeA even"><td class="center "><img src="/res/AdminEx/images/details_open.png"></td>
-            <td class=" sorting_1">Gecko</td>
-            <td class="">Mozilla 1.2</td>
-            <td class="hidden-phone ">Win 95+ / OSX.1+</td>
-            <td class="center hidden-phone ">1.2</td>
-            <td class="center hidden-phone ">A</td>
-        </tr></tbody></table><div class="row-fluid"><div class="span6"><div class="dataTables_info" id="hidden-table-info_info">Showing 1 to 10 of 57 entries</div></div><div class="span6"><div class="dataTables_paginate paging_bootstrap pagination"><ul><li class="prev disabled"><a href="#">← Previous</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li class="next"><a href="#">Next → </a></li></ul></div></div></div></div>
+        <tbody id="shopTableData" role="alert" aria-live="polite" aria-relevant="all"></tbody>
+       </table>
+       <div class="row-fluid">
+       	<div class="span6">
+       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="allCount">0</b>&nbsp;条</div>
+       	</div>
+       	<div class="span6">
+       		<div class="dataTables_paginate paging_bootstrap pagination">
+       			<ul><li class="prev disabled"><a href="#">← 上一页</a></li>
+       			<li class="active"><a href="#">1</a></li>
+       			<li><a href="#">2</a></li>
+       			<li><a href="#">3</a></li>
+       			<li><a href="#">4</a></li>
+       			<li><a href="#">5</a></li>
+       			<li class="next"><a href="#">下一页 → </a></li>
+       			</ul>
+       		</div>
+       	</div>
+       </div>
+       </div>
 
-        </div>
-        </div>
-        </section>
+       </div>
+       </div>
+       </section>
 	</div>
 </div>
 
@@ -103,13 +91,13 @@
     <div class="modal-dialog">
     	<div class="modal-content">
         	<div class="modal-header">
-            	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<button id="modalCloseBtn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">商店编辑</h4>
             </div>
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img id="show_image" src="" alt="" width="220" height="220">
+                	<img id="show_image" src="" alt="" width="220" height="220" style="background-color: #cccccc;">
                     <a id="edit_image" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
                     <a id="image_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
 
@@ -121,15 +109,15 @@
                 <div class="col-md-7">
                 	<div class="form-group">
                     	<label> 商店名 </label>
-                        <input id="name" class="form-control">
+                        <input id="name" class="form-control" placeholder="请输入商店名">
                     </div>
                     <div class="form-group">
                         <label> 标题 </label>
-                        <input id="title" class="form-control">
+                        <input id="title" class="form-control" placeholder="请输入标题">
                     </div>
                          <div class="form-group">
                          <label> 描述 </label>
-                         <textarea id="content" rows="2" class="form-control"></textarea>
+                         <textarea id="content" rows="2" class="form-control" placeholder="请输入商店描述"></textarea>
                     </div>
                     <!-- <div class="form-group">
                          <label> 链接地址URL </label>
@@ -145,6 +133,24 @@
     </div>
 </div>
 <!-- modal -->
+
+<!-- 数据表模板 -->
+<script id="tableTmpl" type="text/x-jsrender">
+<tr class="gradeA odd">
+	<td class="center ">{{:#index+1}}</td>
+    <td class="center ">{{:shopId}}</td>
+    <td class="center ">{{:name}}</td>
+    <td class="center "><img src="{{:thumbnail}}" width="50" heigth="50"></td>
+    <td class="center ">{{:title}}</td>
+    <td class="center ">****</td>
+    <td class="center ">{{:time}}</td>
+    <td class="center ">
+		 <button class="btn btn-info" type="button" onclick="showData({{:shopId}})">查看</button>
+         <button class="btn btn-warning" type="button" onclick="updateData({{:shopId}})">修改</button>
+         <button class="btn btn-danger" type="button" onclick="deleteData({{:shopId}})">删除</button>
+	</td>
+</tr>
+</script>
 
 <script src="/res/js/admin/shop.js"></script>
 
@@ -170,7 +176,7 @@ uploader = WebUploader.create({
     auto: true,
     // 不进行图片压缩
     compress: null,
-    formData: {width:100, height:100, aspectRatio:"true", width_thumb:50, height_thumb:50, aspectRatio_thumb:"false"},
+    formData: {width:200, height:200, aspectRatio:"true", width_thumb:50, height_thumb:50, aspectRatio_thumb:"false"},
  	// 只允许选择文件，可选。
     accept: {
         title: 'Images',
@@ -215,4 +221,8 @@ uploader.on( 'uploadError', function( file ) {
         });
     });
 </script> -->
+
+<script>
+getDateList(0);//数据列表显示
+</script>
 

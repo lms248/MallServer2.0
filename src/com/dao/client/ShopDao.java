@@ -37,10 +37,10 @@ public class ShopDao {
 	 * @param uid
 	 * @return
 	 */
-	public static ShopBean loadByShopname(String username){
+	public static ShopBean loadByShopname(String name){
 		ShopBean bean=null;
 		try {
-			bean=dbUtils.read(ShopBean.class, "where username=?", username);
+			bean=dbUtils.read(ShopBean.class, "where name=?", name);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -81,11 +81,29 @@ public class ShopDao {
 	}
 	
 	/**
+	 * 加载对应区间列表
+	 * 
+	 * @param index
+	 * @param size
+	 * @return
+	 */
+	public static List<ShopBean> loadAllShop(int index, int size){
+		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
+		try {
+			Shoplist=dbUtils.query(ShopBean.class, 
+					" order by id desc limit ?,?", index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return Shoplist;
+	}
+	/**
 	 * 加载所有列表
 	 * @param ShopType ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<ShopBean> loadAllShop(int pageNum, int pageSize){
+	public static List<ShopBean> loadAllShop4page(int pageNum, int pageSize){
 		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
 		try {
 			Shoplist=dbUtils.query(ShopBean.class, 
@@ -117,7 +135,7 @@ public class ShopDao {
 	public static int Count(){
 		int ShopCount=0;
 		try {
-			ShopCount=dbUtils.stat(ShopBean.class, "select COUNT(*) from Shop_gw");
+			ShopCount=dbUtils.stat(ShopBean.class, "select COUNT(*) from shop");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

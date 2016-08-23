@@ -151,7 +151,7 @@ public class CommunityService {
 			arr_c.add(obj_c);
 		}
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "社区信息");
+		obj.put("msg", "社区列表");
 		obj.put("data", arr_c);
 		out.print(obj);
 		
