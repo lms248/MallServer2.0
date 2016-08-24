@@ -23,6 +23,17 @@ public class MD5 {
 		return hexDigits[d1] + hexDigits[d2];
 	}
 
+	public static String encode(String origin) {
+		String resultString = null;
+		try {
+			resultString = new String(origin);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			resultString = byteArrayToHexString(md.digest(resultString.getBytes("utf-8")));
+		} catch (Exception ex) {
+		}
+		return resultString;
+	}
+	
 	public static String encode(String origin, String charset) {
 		String resultString = null;
 		try {
@@ -32,6 +43,17 @@ public class MD5 {
 		} catch (Exception ex) {
 		}
 		return resultString;
+	}
+	
+	public static String encode16(String origin) {
+		String resultString = null;
+		try {
+			resultString = new String(origin);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			resultString = byteArrayToHexString(md.digest(resultString.getBytes("utf-8")));
+		} catch (Exception ex) {
+		}
+		return resultString.substring(8, 24);
 	}
 	
 	public static String encode16(String origin, String charset) {
