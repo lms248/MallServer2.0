@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MySQL
+Source Server         : mall
 Source Server Version : 50615
 Source Host           : localhost:3306
 Source Database       : mall
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-08-22 21:08:51
+Date: 2016-08-25 21:57:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,6 +25,7 @@ CREATE TABLE `community` (
   `uid` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `content` varchar(1000) DEFAULT NULL COMMENT '描述',
   `imageList` varchar(1000) DEFAULT NULL COMMENT '图片列表',
+  `thumbList` varchar(1000) DEFAULT NULL COMMENT '缩略图列表',
   `time` bigint(20) DEFAULT NULL COMMENT '发布时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -83,7 +84,7 @@ CREATE TABLE `shop` (
   `type` varchar(255) DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`shopId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sort
@@ -114,4 +115,4 @@ CREATE TABLE `user` (
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
   `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
