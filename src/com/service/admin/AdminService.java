@@ -91,10 +91,10 @@ public class AdminService {
 		return view;
 	}
 	
-	/** 游戏中心 **/
-	@RequestMapping(value="game", method=RequestMethod.POST)
+	/** 商品管理 **/
+	@RequestMapping(value="goods", method=RequestMethod.POST)
 	public ModelAndView game(){
-		ModelAndView view = new ModelAndView("admin/game");
+		ModelAndView view = new ModelAndView("admin/goods");
 		return view;
 	}
 	

@@ -54,7 +54,7 @@
                 <li class="menu-1"><a href="#" uri="shop"><i class="fa fa-th-large"></i> <span>商店</span></a></li>
                 <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>商品</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#"> 推荐商品</a></li>
+                        <li><a href="#" uri="goods"> 推荐商品</a></li>
                         <li><a href="#"> 热销商品</a></li>
                         <li><a href="#"> 全部</a></li>
                     </ul>
