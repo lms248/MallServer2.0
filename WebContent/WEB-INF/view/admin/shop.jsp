@@ -117,7 +117,11 @@
                     </div>
                          <div class="form-group">
                          <label> 描述 </label>
-                         <textarea id="content" rows="2" class="form-control" placeholder="请输入商店描述"></textarea>
+                         <textarea id="details" rows="2" class="form-control" placeholder="请输入商店描述"></textarea>
+                    </div>
+                    <div class="form-group">
+                    	<label> 联系客服电话 </label>
+                        <input id="contactPhone" class="form-control" placeholder="请输入客服电话">
                     </div>
                     <!-- <div class="form-group">
                          <label> 链接地址URL </label>
@@ -143,7 +147,7 @@
     <td class="center "><img src="{{:thumbnail}}" width="50" heigth="50"></td>
     <td class="center ">{{:title}}</td>
     <td class="center ">****</td>
-    <td class="center ">{{:time}}</td>
+    <td class="center ">{{:createTime}}</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showData({{:shopId}})">查看</button>
          <button class="btn btn-warning" type="button" onclick="updateData({{:shopId}})">修改</button>

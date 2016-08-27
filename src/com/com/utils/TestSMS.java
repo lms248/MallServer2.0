@@ -3,7 +3,12 @@ package com.utils;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import common.utils.MD5;
+
 import java.util.Date;
+import java.util.LinkedHashMap;
 
 
 
@@ -54,10 +59,36 @@ class TestSMS extends Thread {
 			//new Testdd("---" + i).start();
 		//}
         System.out.println("start tiime:"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date(System.currentTimeMillis())));
-		 SMSUtil.sendSMS_ChinaNet1("",  "【河粉工作室】短信测试成功。");
+		//发生短信 
+        //SMSUtil.sendSMS_ChinaNet1("13148891874",  "【河粉工作室】换壳老板短信测试成功。");
+        //余额查询
+        search1("13148891874",  "【河粉工作室】换壳老板短信测试成功。");
+        
     	System.out.println("start tiime:"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date(System.currentTimeMillis())));
 
     }
     
+    public static int search1(String mobile,String content) throws Exception{
+		
+		Map<String, String> paramentMap = new LinkedHashMap<String, String>();
+        paramentMap.put("username", "shangpin666");//用户名
+		String strtime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
+        String pass = MD5.encode(MD5.encode("dbWwq5FX")+strtime);
+		paramentMap.put("tkey",  strtime);
+        paramentMap.put("password", pass);//加密后密码
+        paramentMap.put("productid", "123123");//产品id
+        paramentMap.put("mobile", mobile);//号码
+        paramentMap.put("content",  content);//内容
+        paramentMap.put("xh",  "");
+        paramentMap.put("dstime",  "20160827");
+        
+        String status = "";
+		//http://www.ztsms.cn:8800/sendManyNSms.do  多号码，多内容
+		//http://www.ztsms.cn:8800/sendNSms.do      同内容，不同号码
+        status = SMSUtil.sendHttpRequest16("http://www.ztsms.cn/balanceN.do", paramentMap, "UTF-8", "POST");
+		System.out.println(status);
+		return Integer.parseInt(status.split(",")[0]);
+		
+	}
 
 }

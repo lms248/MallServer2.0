@@ -38,7 +38,7 @@ public class SMSUtil {
 		//http://www.ztsms.cn:8800/sendNSms.do      同内容，不同号码
         status = sendHttpRequest16("http://www.ztsms.cn/sendNSms.do", paramentMap, "UTF-8", "POST");
 		System.out.println(status);
-		return 0;
+		return Integer.parseInt(status.split(",")[0]);
 		
 	}
 	

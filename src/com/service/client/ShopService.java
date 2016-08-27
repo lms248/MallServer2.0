@@ -43,14 +43,15 @@ public class ShopService {
 		
 		String name = request.getParameter("name");
 		String title = request.getParameter("title");
-		String content = request.getParameter("content");
+		String details = request.getParameter("details");
+		String contactPhone = request.getParameter("contactPhone");
 		String images = request.getParameter("images");
 		String[] image = images.split(";");
 		
 		if (ShopDao.loadByShopname(name) != null) {
 			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "改商店名已存在");
+			obj.put("msg", "该商店名已存在");
 			out.print(obj);
 			
 			out.flush();
@@ -64,10 +65,11 @@ public class ShopService {
 		shop.setShopId(shopId);
 		shop.setName(name);
 		shop.setTitle(title);
-		shop.setContent(content);
+		shop.setDetails(details);
 		shop.setImage(image[0]);
 		shop.setThumbnail(image[1]);
-		shop.setTime(System.currentTimeMillis());
+		shop.setContactPhone(contactPhone);
+		shop.setCreateTime(System.currentTimeMillis());
 		
 		ShopDao.save(shop);
 		

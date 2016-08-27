@@ -25,8 +25,10 @@ public class UserBean extends Pojo {
 	private String thumbnail;
 	/** 令牌*/
 	private String token;
+	/** 最近登录时间*/
+	private long loginTime;
 	/** 注册时间 */
-	private long time;
+	private long registerTime;
 	
 	public int getId() {
 		return id;
@@ -82,11 +84,17 @@ public class UserBean extends Pojo {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public long getTime() {
-		return time;
+	public long getLoginTime() {
+		return loginTime;
 	}
-	public void setTime(long time) {
-		this.time = time;
+	public void setLoginTime(long loginTime) {
+		this.loginTime = loginTime;
+	}
+	public long getRegisterTime() {
+		return registerTime;
+	}
+	public void setRegisterTime(long registerTime) {
+		this.registerTime = registerTime;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

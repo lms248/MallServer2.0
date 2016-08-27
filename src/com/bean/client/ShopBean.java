@@ -16,15 +16,17 @@ public class ShopBean extends Pojo {
 	/** 标题 */
 	private String title;
 	/** 内容介绍 */
-	private String content;
+	private String details;
 	/** 缩略图 */
 	private String thumbnail;
 	/** 图片 */
 	private String image;
+	/** 联系客服电话 */
+	private String contactPhone;
 	/** 类型 */
 	private String type;
-	/** 注册时间 */
-	private long time;
+	/** 创建时间 */
+	private long createTime;
 	
 	public int getId() {
 		return id;
@@ -50,11 +52,11 @@ public class ShopBean extends Pojo {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
+	public String getDetails() {
+		return details;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 	public String getThumbnail() {
 		return thumbnail;
@@ -68,17 +70,23 @@ public class ShopBean extends Pojo {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public String getContactPhone() {
+		return contactPhone;
+	}
+	public void setContactPhone(String contactPhone) {
+		this.contactPhone = contactPhone;
+	}
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
-	public long getTime() {
-		return time;
+	public long getCreateTime() {
+		return createTime;
 	}
-	public void setTime(long time) {
-		this.time = time;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

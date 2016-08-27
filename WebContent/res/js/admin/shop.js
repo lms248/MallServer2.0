@@ -8,8 +8,9 @@
 function submitEdit() {
 	var name = $("#name").val();
 	var title = $("#title").val();
-	var content = $("#content").val();
+	var details = $("#details").val();
 	var images = $("#show_image").attr("alt");
+	var contactPhone = $("#contactPhone").val();
 	
 	if (name == "") {
 		alert("请输入商店名称！！！");
@@ -17,7 +18,7 @@ function submitEdit() {
 	else if (title == "") {
 		alert("请输入标题！！！");
 	}
-	else if (content == "") {
+	else if (details == "") {
 		alert("请输入描述内容！！！");
 	}
 	else if (images == "") {
@@ -26,7 +27,7 @@ function submitEdit() {
 	else {
 		var tip = "你确认添加吗？";
 		if(confirm(tip)){
-			var params = {name:name,title:title,content:content,images:images};
+			var params = {name:name,title:title,details:details,images:images,contactPhone:contactPhone};
 			$.post("/shop/add",params,function(data){
 				if(data.code=="0"){
 					alert("添加商店成功！！！");
@@ -47,7 +48,8 @@ function submitEdit() {
 function resetEdit() {
 	$("#name").val("");
 	$("#title").val("");
-	$("#content").val("");
+	$("#details").val("");
+	$("#contact_phone").val("");
 }
 
 /**

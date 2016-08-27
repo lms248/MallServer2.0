@@ -13,14 +13,14 @@ public class CommunityBean extends Pojo {
 	private long communityId;
 	/** 用户ID */
 	private long uid;
-	/** 描述内容 */
-	private String content;
+	/** 内容详情 */
+	private String details;
 	/** 图片列表 */
 	private String imageList;
 	/** 缩略图片列表 */
 	private String thumbList;
-	/** 发布时间 */
-	private long time;
+	/** 创建时间 */
+	private long createTime;
 	
 	public int getId() {
 		return id;
@@ -40,11 +40,11 @@ public class CommunityBean extends Pojo {
 	public void setUid(long uid) {
 		this.uid = uid;
 	}
-	public String getContent() {
-		return content;
+	public String getDetails() {
+		return details;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 	public String getImageList() {
 		return imageList;
@@ -58,11 +58,11 @@ public class CommunityBean extends Pojo {
 	public void setThumbList(String thumbList) {
 		this.thumbList = thumbList;
 	}
-	public long getTime() {
-		return time;
+	public long getCreateTime() {
+		return createTime;
 	}
-	public void setTime(long time) {
-		this.time = time;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

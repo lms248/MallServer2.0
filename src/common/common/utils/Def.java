@@ -1,5 +1,7 @@
 package common.utils;
 
+import java.util.Arrays;
+
 import common.config.Config;
 
 /**
@@ -77,5 +79,12 @@ public class Def {
 	public static final int THUMB_WIDTH_COMMUNITY = 100;
 	/** 缩略图高度：社区 */
 	public static final int THUMB_HEIGHT_COMMUNITY = 100;
+	
+	/*****************************初始昵称**********************************/
+	/** 默认昵称 */
+	public static final String[] NICKNAME_DEFAULT = {"小明","小红","小江","小青","大白","大山","大明","大强","小白","小林"};
+	/** 默认头像 */
+	public static final String AVATAR_DEFAULT = "/res/img/user-avatar.png";
+	
 	
 }

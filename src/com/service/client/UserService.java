@@ -3,6 +3,7 @@ package service.client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -71,6 +72,7 @@ public class UserService {
 			obj.put("data", JsonUtils.jsonFromObject(ubean));
 			out.print(obj);
 			System.out.println(obj.toString());
+			ubean.setLoginTime(System.currentTimeMillis());
 		}
 		
 		out.flush();
@@ -112,10 +114,13 @@ public class UserService {
 		//从服务器端的session中取出手机号和手机验证码
 		String session_phone = (String) request.getSession().getAttribute("phone");
 		String session_phoneCode = (String) request.getSession().getAttribute("phoneCode");
+		System.out.println("session_phone===="+session_phone);
+		System.out.println("session_phoneCode===="+session_phoneCode);
 		
 		/*读取客户端发送的参数*/
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String phoneCode = request.getParameter("phoneCode");
 		
 		/*读取客户端提交的json数据*/
 		/*JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
@@ -123,7 +128,7 @@ public class UserService {
 		String password = req_obj.getString("password");
 		String phoneCode = req_obj.getString("phoneCode");*/
 		
-		System.out.println("register::::usernam===="+username);
+		System.out.println("register::::username===="+username);
 		System.out.println("register::::password===="+password);
 		
 		JSONObject obj = new JSONObject();
@@ -142,6 +147,19 @@ public class UserService {
 			return;
 		}
 		
+		/*if(session_phone==null || session_phoneCode==null){
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "手机验证码未获取");
+			out.print(obj);
+			return;
+		}
+		if (session_phone.equals(username) || session_phoneCode.equals(phoneCode)) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "手机号验证码不正确");
+			out.print(obj);
+			return;
+		}*/
+		
 		long uid = IdGen.get().nextId();
 		String token = UuidUtils.getUuid();
 		
@@ -151,7 +169,11 @@ public class UserService {
 		ubean.setPassword(password);
 		ubean.setPhone(username);
 		ubean.setToken(token);
-		ubean.setTime(System.currentTimeMillis());
+		ubean.setNickname(Def.NICKNAME_DEFAULT[(int) (Math.random()*10)]);
+		ubean.setAvatar(Def.AVATAR_DEFAULT);
+		ubean.setThumbnail(Def.AVATAR_DEFAULT);
+		ubean.setRegisterTime(System.currentTimeMillis());
+		ubean.setLoginTime(ubean.getRegisterTime());
 		
 		UserDao.save(ubean);
 		
@@ -161,15 +183,6 @@ public class UserService {
 		obj.put("data", JsonUtils.jsonFromObject(ubean));
 		out.print(obj);
 		System.out.println(obj.toString());
-		
-		/*if(session_phone==null || session_phoneCode==null){
-			out.print("手机号验证码未获取！");
-			return;
-		}
-		else if(!session_phone.equals(phone) || !session_phoneCode.equals(phoneCode)){
-			out.print("手机号和验证码不对应！");
-			return;
-		}*/
 		
 		request.getSession().setAttribute("username", username);
 		request.getSession().setAttribute("phone", username);

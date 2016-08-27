@@ -49,27 +49,7 @@ public class CommunityService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		//读取客户端提交的数据
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
-		System.out.println("--------------------------publish uploadImage--------------------------");
-		System.out.println(multiValueMap);
-		System.out.println("-----------------------------------------------------------------------");
-		List<MultipartFile> fileList = multiValueMap.get("imageList");
 		String token = request.getParameter("token");
-		String content = request.getParameter("content");
-		String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
-		String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
-		JSONObject imageObj = UploadService.uploadImage(
-				fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_COMMUNITY, Def.THUMB_HEIGHT_COMMUNITY, false);
-		
-		System.out.println("----------community::::publish----------");
-		System.out.println("token===="+token);
-		System.out.println("content===="+content);
-		System.out.println("imageObj===="+imageObj);
-		System.out.println("----------------------------------------");
-		
-		long communityId = IdGen.get().nextId();
 		UserBean ubean = UserDao.loadByToken(token);
 		JSONObject obj = new JSONObject();
 		if (ubean == null) {
@@ -79,15 +59,37 @@ public class CommunityService {
 			return;
 		}
 		
+		//读取客户端提交的数据
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
+		System.out.println("--------------------------publish uploadImage--------------------------");
+		System.out.println(multiValueMap);
+		System.out.println("-----------------------------------------------------------------------");
+		List<MultipartFile> fileList = multiValueMap.get("imageList");
+		
+		String details = request.getParameter("details");
+		String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
+		String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
+		JSONObject imageObj = UploadService.uploadImage(
+				fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_COMMUNITY, Def.THUMB_HEIGHT_COMMUNITY, false);
+		
+		System.out.println("----------community::::publish----------");
+		System.out.println("token===="+token);
+		System.out.println("details===="+details);
+		System.out.println("imageObj===="+imageObj);
+		System.out.println("----------------------------------------");
+		
+		long communityId = IdGen.get().nextId();
+		
 		//String[] images = imageList.split(";");
 		
 		CommunityBean cbean = new CommunityBean();
 		cbean.setCommunityId(communityId);
 		cbean.setUid(ubean.getUid());
-		cbean.setContent(content);
+		cbean.setDetails(details);
 		cbean.setImageList(JSON.toJSONString(imageObj.get("imageList")));
 		cbean.setThumbList(JSON.toJSONString(imageObj.get("thumbList")));
-		cbean.setTime(System.currentTimeMillis());
+		cbean.setCreateTime(System.currentTimeMillis());
 		CommunityDao.save(cbean);
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -144,16 +146,22 @@ public class CommunityService {
 		JSONArray arr_c = new JSONArray();
 		for (int i = 0; i < cb_list.size(); i++) {
 			UserBean ubean = UserDao.loadByUid(cb_list.get(i).getUid());
+			if (ubean == null) {
+				continue;
+			}
 			obj_c = JSONObject.fromObject(JsonUtils.jsonFromObject(cb_list.get(i)));
-			obj_c.put("nickname", ubean.getNickname());
-			obj_c.put("avatar", ubean.getAvatar());
-			obj_c.put("thumbAvatar", ubean.getThumbnail());
+			obj_c.put("nickname", ubean.getNickname()+"");
+			obj_c.put("avatar", ubean.getAvatar()+"");
+			obj_c.put("thumbAvatar", ubean.getThumbnail()+"");
 			arr_c.add(obj_c);
 		}
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "社区列表");
 		obj.put("data", arr_c);
 		out.print(obj);
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();
