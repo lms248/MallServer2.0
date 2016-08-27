@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mall
+Source Server         : mysql
 Source Server Version : 50615
 Source Host           : localhost:3306
 Source Database       : mall
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-08-25 21:57:58
+Date: 2016-08-27 23:57:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,12 +23,12 @@ CREATE TABLE `community` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
   `communityId` bigint(20) DEFAULT NULL COMMENT '社区ID',
   `uid` bigint(20) DEFAULT NULL COMMENT '用户ID',
-  `content` varchar(1000) DEFAULT NULL COMMENT '描述',
+  `details` text COMMENT '描述',
   `imageList` varchar(1000) DEFAULT NULL COMMENT '图片列表',
   `thumbList` varchar(1000) DEFAULT NULL COMMENT '缩略图列表',
-  `time` bigint(20) DEFAULT NULL COMMENT '发布时间',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for goods
@@ -40,18 +40,20 @@ CREATE TABLE `goods` (
   `shopId` bigint(20) DEFAULT NULL COMMENT '商店ID',
   `name` varchar(255) DEFAULT NULL COMMENT '商品名',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
-  `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
-  `imageList` varchar(1000) DEFAULT NULL COMMENT '图片列表',
+  `logo` varchar(255) DEFAULT NULL COMMENT '商品Logo',
+  `logoThumb` varchar(255) DEFAULT NULL COMMENT '商品Logo缩略图',
+  `imageList` text COMMENT '图片列表',
+  `thumbList` text COMMENT '图片缩略图',
   `curPrice` double DEFAULT NULL COMMENT '当前价格',
   `prePrice` double DEFAULT NULL COMMENT '原来价格',
   `color` varchar(255) DEFAULT NULL COMMENT '颜色',
   `size` double DEFAULT NULL COMMENT '尺寸',
-  `desc` text COMMENT '介绍',
+  `details` text COMMENT '描述，介绍',
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `status` int(11) DEFAULT NULL COMMENT '状态',
-  `time` bigint(20) DEFAULT NULL COMMENT '添加时间',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`goodsId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order
@@ -78,13 +80,14 @@ CREATE TABLE `shop` (
   `shopId` bigint(20) NOT NULL COMMENT '商店ID',
   `name` varchar(255) DEFAULT NULL COMMENT '商店名',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
-  `content` text,
+  `details` text COMMENT '描述，介绍',
   `image` varchar(255) DEFAULT NULL COMMENT '图片',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
+  `contactPhone` varchar(255) DEFAULT NULL COMMENT '联系客服电话',
   `type` varchar(255) DEFAULT NULL,
-  `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`shopId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sort
@@ -113,6 +116,7 @@ CREATE TABLE `user` (
   `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
-  `time` bigint(20) DEFAULT NULL COMMENT '注册时间',
+  `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
+  `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
