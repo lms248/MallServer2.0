@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.GoodsBean;
+import bean.client.ShopBean;
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
@@ -54,14 +55,14 @@ public class GoodsDao {
 	 * @return
 	 */
 	public static List<GoodsBean> loadByType(int type){
-		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
-			Goodslist=dbUtils.query(GoodsBean.class, "where type=?", type);
+			goodsList=dbUtils.query(GoodsBean.class, "where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Goodslist;
+		return goodsList;
 	}
 	
 	/**
@@ -69,42 +70,60 @@ public class GoodsDao {
 	 * @return List
 	 */
 	public static List<GoodsBean> loadAllGoods(){
-		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
-			Goodslist=dbUtils.query(GoodsBean.class, " order by id desc");
+			goodsList=dbUtils.query(GoodsBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Goodslist;
+		return goodsList;
 	}
 	
+	/**
+	 * 加载对应区间列表
+	 * 
+	 * @param index
+	 * @param size
+	 * @return
+	 */
+	public static List<GoodsBean> loadAllGoods(int index, int size){
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+		try {
+			goodsList=dbUtils.query(GoodsBean.class, 
+					" order by id desc limit ?,?", index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return goodsList;
+	}
 	/**
 	 * 加载所有列表
 	 * @param GoodsType ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<GoodsBean> loadAllGoods(int pageNum, int pageSize){
-		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
+	public static List<GoodsBean> loadAllGoods4page(int pageNum, int pageSize){
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
-			Goodslist=dbUtils.query(GoodsBean.class, 
+			goodsList=dbUtils.query(GoodsBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Goodslist;
+		return goodsList;
 	}
 	public static List<GoodsBean> loadGoods4type(int type, int pageNum, int pageSize){
-		List<GoodsBean> Goodslist=new ArrayList<GoodsBean>();
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
-			Goodslist=dbUtils.query(GoodsBean.class, 
+			goodsList=dbUtils.query(GoodsBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Goodslist;
+		return goodsList;
 	}
 	
 	

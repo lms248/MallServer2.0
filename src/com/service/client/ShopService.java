@@ -133,6 +133,8 @@ public class ShopService {
 		obj.put("data", arr);
 		out.print(obj);
 		
+		System.out.println(obj);
+		
 		out.flush();
 		out.close();
 	}

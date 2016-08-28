@@ -3,9 +3,9 @@
  */
 
 /**
- * 提交编辑
+ * 添加或编辑商店
  */
-function submitEdit() {
+function shop_edit() {
 	var name = $("#name").val();
 	var title = $("#title").val();
 	var details = $("#details").val();
@@ -41,6 +41,71 @@ function submitEdit() {
 	}
 }
 
+/**
+ * 添加商品
+ */
+function goods_add() {
+	var goods_name = $("#goods_name").val();
+	var shopId = $("#shop_name").attr("title");
+	var goods_curPrice = $("#goods_curPrice").val();
+	var goods_prePrice = $("#goods_prePrice").val();
+	var goods_markKey = $("#goods_markKey").val();
+	var goods_markValue = $("#goods_markValue").val();
+	var goods_title = $("#goods_title").val();
+	var goods_details = $("#goods_details").val();
+	var goods_logo = $("#goods_logo").attr("alt");
+	
+	if (goods_name == "") {
+		alert("请输入商品名称！！！");
+	}
+	else if (shopId == "") {
+		alert("请输入商店ID！！！");
+	}
+	else if(goods_curPrice==""){
+		alert("请输入商品原价！！！");
+	}
+	else if(isNaN(parseFloat($("#goods_curPrice").val()))){
+		alert("商品原价类型不正确！！！");
+	}
+	else if(goods_prePrice==""){
+		alert("请输入商品当前售价！！！");
+	}
+	else if(isNaN(parseFloat($("#goods_prePrice").val()))){
+		alert("商品当前售价类型不正确！！！");
+	}
+	else if (goods_markKey == "") {
+		alert("请输入标签名字！！！");
+	}
+	else if (goods_markValue == "") {
+		alert("请输入标签值！！！");
+	}
+	else if (goods_title == "") {
+		alert("请输入标题！！！");
+	}
+	else if (goods_details == "") {
+		alert("请输入描述内容！！！");
+	}
+	else if (goods_logo == "") {
+		alert("请上传商品Logo！！！");
+	}
+	else {
+		var tip = "你确认添加吗？";
+		if(confirm(tip)){
+			goods_marks = goods_markKey+":"+goods_markValue+";";
+			alert(goods_marks);
+			var params = {name:goods_name,shopId:shopId,curPrice:goods_curPrice,prePrice:goods_prePrice,
+					marks:goods_marks,title:goods_title,details:goods_details,logo:goods_logo};
+			$.post("/goods/add",params,function(data){
+				if(data.code=="0"){
+					alert("添加商品成功！！！");
+					$("#goods_modalCloseBtn").click();
+				} else {
+					alert(data.msg);
+				}
+			},"json");
+		}
+	}
+}
 
 /**
  * 重置编辑

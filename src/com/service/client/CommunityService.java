@@ -147,6 +147,13 @@ public class CommunityService {
 		for (int i = 0; i < cb_list.size(); i++) {
 			UserBean ubean = UserDao.loadByUid(cb_list.get(i).getUid());
 			if (ubean == null) {
+				try {
+					CommunityDao.delete(cb_list.get(i).getId());
+				} finally {
+					cb_list = CommunityDao.loadAllCommunity(index, size);
+					arr_c = new JSONArray();
+					i = 0;
+				}
 				continue;
 			}
 			obj_c = JSONObject.fromObject(JsonUtils.jsonFromObject(cb_list.get(i)));
@@ -156,10 +163,12 @@ public class CommunityService {
 			arr_c.add(obj_c);
 		}
 		
-		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "社区列表");
-		obj.put("data", arr_c);
-		out.print(obj);
+		if (arr_c.size() > 0) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "社区列表");
+			obj.put("data", arr_c);
+			out.print(obj);
+		}
 		
 		System.out.println(obj);
 		

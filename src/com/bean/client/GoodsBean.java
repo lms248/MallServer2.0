@@ -29,10 +29,8 @@ public class GoodsBean extends Pojo {
 	private double curPrice;
 	/** 原来价格 */
 	private double prePrice;
-	/** 颜色 */
-	private String color;
-	/** 尺寸 */
-	private double size;
+	/** 属性标记 */
+	private String marks;
 	/** 介绍 */
 	private String details;
 	/** 类型 */
@@ -108,17 +106,11 @@ public class GoodsBean extends Pojo {
 	public void setPrePrice(double prePrice) {
 		this.prePrice = prePrice;
 	}
-	public String getColor() {
-		return color;
+	public String getMarks() {
+		return marks;
 	}
-	public void setColor(String color) {
-		this.color = color;
-	}
-	public double getSize() {
-		return size;
-	}
-	public void setSize(double size) {
-		this.size = size;
+	public void setMarks(String marks) {
+		this.marks = marks;
 	}
 	public String getDetails() {
 		return details;

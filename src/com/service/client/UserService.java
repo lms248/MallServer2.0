@@ -354,24 +354,33 @@ public class UserService {
 			return;
 		}
 		
-		ubean.setNickname(nickname);
+		if (nickname != null) {
+			ubean.setNickname(nickname);
+		}
 		
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
-		System.out.println("--------------------------publish uploadImage--------------------------");
-		System.out.println(multiValueMap);
-		System.out.println("-----------------------------------------------------------------------");
-		List<MultipartFile> fileList = multiValueMap.get("avatar");
-		if (!fileList.isEmpty()) {
-			String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
-			String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
-			JSONObject imageObj =UploadService.uploadImage(
-					fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_AVATAR, Def.THUMB_HEIGHT_AVATAR, false);
-			//头像
-			ubean.setAvatar(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
-			//头像缩略图
-			ubean.setThumbnail(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
-		} 
+		MultipartHttpServletRequest multipartRequest = null;
+		try {
+			multipartRequest = (MultipartHttpServletRequest) request;
+		} catch (Exception e) {
+			System.out.println("updateInfo::::图片上传格式不对或没上传图片");
+		}
+		if (multipartRequest != null) {
+			MultiValueMap<String, MultipartFile> multiValueMap = multipartRequest.getMultiFileMap();
+			System.out.println("--------------------------publish uploadImage--------------------------");
+			System.out.println(multiValueMap);
+			System.out.println("-----------------------------------------------------------------------");
+			List<MultipartFile> fileList = multiValueMap.get("avatar");
+			if (!fileList.isEmpty()) {
+				String savePath_image = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/image");
+				String savePath_thumb = request.getSession().getServletContext().getRealPath(Config.WEB_BASE+"/upload/thumb");
+				JSONObject imageObj =UploadService.uploadImage(
+						fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_AVATAR, Def.THUMB_HEIGHT_AVATAR, false);
+				//头像
+				ubean.setAvatar(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
+				//头像缩略图
+				ubean.setThumbnail(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
+			} 
+		}
 		
 		//更新数据库
 		UserDao.update(ubean);

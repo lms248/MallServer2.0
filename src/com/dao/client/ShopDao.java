@@ -70,14 +70,14 @@ public class ShopDao {
 	 * @return List
 	 */
 	public static List<ShopBean> loadAllShop(){
-		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
+		List<ShopBean> shopList=new ArrayList<ShopBean>();
 		try {
-			Shoplist=dbUtils.query(ShopBean.class, " order by id desc");
+			shopList=dbUtils.query(ShopBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Shoplist;
+		return shopList;
 	}
 	
 	/**
@@ -88,15 +88,15 @@ public class ShopDao {
 	 * @return
 	 */
 	public static List<ShopBean> loadAllShop(int index, int size){
-		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
+		List<ShopBean> shopList=new ArrayList<ShopBean>();
 		try {
-			Shoplist=dbUtils.query(ShopBean.class, 
+			shopList=dbUtils.query(ShopBean.class, 
 					" order by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Shoplist;
+		return shopList;
 	}
 	/**
 	 * 加载所有列表
@@ -104,26 +104,26 @@ public class ShopDao {
 	 * @return List
 	 */
 	public static List<ShopBean> loadAllShop4page(int pageNum, int pageSize){
-		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
+		List<ShopBean> shopList=new ArrayList<ShopBean>();
 		try {
-			Shoplist=dbUtils.query(ShopBean.class, 
+			shopList=dbUtils.query(ShopBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Shoplist;
+		return shopList;
 	}
 	public static List<ShopBean> loadShop4type(int pageNum, int pageSize, int type){
-		List<ShopBean> Shoplist=new ArrayList<ShopBean>();
+		List<ShopBean> shopList=new ArrayList<ShopBean>();
 		try {
-			Shoplist=dbUtils.query(ShopBean.class, 
+			shopList=dbUtils.query(ShopBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Shoplist;
+		return shopList;
 	}
 	
 	

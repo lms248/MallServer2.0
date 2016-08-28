@@ -2,6 +2,7 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.GoodsBean;
+import bean.client.ShopBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -37,17 +40,19 @@ public class GoodsService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		System.out.println("-----------");
+		
 		String name = request.getParameter("name");
 		String shopId = request.getParameter("shopId");
 		String curPrice = request.getParameter("curPrice");
 		String prePrice = request.getParameter("prePrice");
-		String color = request.getParameter("color");
-		String size = request.getParameter("size");
+		String marks = request.getParameter("marks");
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
-		String logos = request.getParameter("images");
-		String[] logo = logos.split(";");
+		String logo = request.getParameter("logo");
+		String[] logos = logo.split(";");
 		
+		System.out.println("shopId===="+shopId);
 		if (ShopDao.loadByShopId(Long.parseLong(shopId)) == null) {
 			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
@@ -66,13 +71,12 @@ public class GoodsService {
 		goods.setShopId(goodsId);
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
-		goods.setColor(color);
-		goods.setSize(Double.parseDouble(size));
+		goods.setMarks(marks);
 		goods.setName(name);
 		goods.setTitle(title);
 		goods.setDetails(details);
-		goods.setLogo(logo[0]);
-		goods.setLogoThumb(logo[1]);
+		goods.setLogo(logos[0]);
+		goods.setLogoThumb(logos[1]);
 		goods.setCreateTime(System.currentTimeMillis());
 		
 		GoodsDao.save(goods);
@@ -91,19 +95,71 @@ public class GoodsService {
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody
 	public void info(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
+			throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int goodsId = Integer.parseInt(request.getParameter("goodsId")); 
+		long goodsId = Long.parseLong(request.getParameter("goodsId")); 
+		
+		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		
 		JSONObject obj = new JSONObject();
+		JSONObject obj_data = JSONObject.fromObject(goods);
+		ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+		if (shop != null) {
+			obj_data.put("shopName", shop.getName());
+			obj_data.put("shopLogo", shop.getImage());
+			obj_data.put("shopThumb", shop.getThumbnail());
+		}
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商品详情");
-		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodsId)));
+		obj.put("data", JsonUtils.jsonFromObject(obj_data));
 		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 商品列表 */
+	@RequestMapping(value ="infoList",method=RequestMethod.GET)
+	@ResponseBody
+	public void infoList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		int index = Integer.parseInt(request.getParameter("index"));//索引开始
+		int size = Integer.parseInt(request.getParameter("size"));//条数
+		
+		List<GoodsBean> gb_list = GoodsDao.loadAllGoods(index, size);
+		
+		JSONObject obj = new JSONObject();
+		JSONObject obj2 = new JSONObject();
+		JSONArray arr = new JSONArray();
+		for (int i = 0; i < gb_list.size(); i++) {
+			ShopBean shop = ShopDao.loadByShopId(gb_list.get(i).getShopId());
+			if (shop == null) {
+				continue;
+			}
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(gb_list.get(i)));
+			obj2.put("shopName", shop.getName());
+			obj2.put("shopLogo", shop.getImage());
+			obj2.put("shopThumb", shop.getThumbnail());
+			arr.add(obj2);
+		}
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "商品列表");
+		obj.put("data", arr);
+		out.print(obj);
+		
+		System.out.println(obj);
+
 		
 		out.flush();
 		out.close();

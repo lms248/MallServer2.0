@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-08-27 23:57:33
+Date: 2016-08-28 16:54:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `community` (
   `thumbList` varchar(1000) DEFAULT NULL COMMENT '缩略图列表',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for goods
@@ -46,14 +46,13 @@ CREATE TABLE `goods` (
   `thumbList` text COMMENT '图片缩略图',
   `curPrice` double DEFAULT NULL COMMENT '当前价格',
   `prePrice` double DEFAULT NULL COMMENT '原来价格',
-  `color` varchar(255) DEFAULT NULL COMMENT '颜色',
-  `size` double DEFAULT NULL COMMENT '尺寸',
+  `marks` text COMMENT '属性标记',
   `details` text COMMENT '描述，介绍',
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`goodsId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order
@@ -87,7 +86,7 @@ CREATE TABLE `shop` (
   `type` varchar(255) DEFAULT NULL,
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`shopId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sort
