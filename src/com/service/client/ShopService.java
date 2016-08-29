@@ -118,13 +118,15 @@ public class ShopService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<ShopBean> cb_list = ShopDao.loadAllShop(index, size);
+		List<ShopBean> shopList = ShopDao.loadAllShop(index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
-		for (int i = 0; i < cb_list.size(); i++) {
-			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(cb_list.get(i)));
+		for (int i = 0; i < shopList.size(); i++) {
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(shopList.get(i)));
+			//转化成字符串类型
+			obj2.put("shopId", ""+shopList.get(i).getShopId());
 			arr.add(obj2);
 		}
 		obj.put("code", Def.CODE_SUCCESS);

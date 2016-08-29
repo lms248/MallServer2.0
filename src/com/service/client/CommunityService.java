@@ -139,34 +139,38 @@ public class CommunityService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<CommunityBean> cb_list = CommunityDao.loadAllCommunity(index, size);
+		List<CommunityBean> communityList = CommunityDao.loadAllCommunity(index, size);
 		
 		JSONObject obj = new JSONObject();
-		JSONObject obj_c = new JSONObject();
-		JSONArray arr_c = new JSONArray();
-		for (int i = 0; i < cb_list.size(); i++) {
-			UserBean ubean = UserDao.loadByUid(cb_list.get(i).getUid());
+		JSONObject obj2 = new JSONObject();
+		JSONArray arr = new JSONArray();
+		for (int i = 0; i < communityList.size(); i++) {
+			UserBean ubean = UserDao.loadByUid(communityList.get(i).getUid());
 			if (ubean == null) {
 				try {
-					CommunityDao.delete(cb_list.get(i).getId());
+					CommunityDao.delete(communityList.get(i).getId());
 				} finally {
-					cb_list = CommunityDao.loadAllCommunity(index, size);
-					arr_c = new JSONArray();
+					communityList = CommunityDao.loadAllCommunity(index, size);
+					arr = new JSONArray();
 					i = 0;
 				}
 				continue;
 			}
-			obj_c = JSONObject.fromObject(JsonUtils.jsonFromObject(cb_list.get(i)));
-			obj_c.put("nickname", ubean.getNickname()+"");
-			obj_c.put("avatar", ubean.getAvatar()+"");
-			obj_c.put("thumbAvatar", ubean.getThumbnail()+"");
-			arr_c.add(obj_c);
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(communityList.get(i)));
+			//转化成字符串类型
+			obj2.put("uid", ""+communityList.get(i).getUid());
+			obj2.put("communityId", ""+communityList.get(i).getCommunityId());
+			//补充用户信息
+			obj2.put("nickname", ubean.getNickname()+"");
+			obj2.put("avatar", ubean.getAvatar()+"");
+			obj2.put("thumbAvatar", ubean.getThumbnail()+"");
+			arr.add(obj2);
 		}
 		
-		if (arr_c.size() > 0) {
+		if (arr.size() > 0) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "社区列表");
-			obj.put("data", arr_c);
+			obj.put("data", arr);
 			out.print(obj);
 		}
 		

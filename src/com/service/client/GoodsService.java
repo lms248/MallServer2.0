@@ -136,17 +136,20 @@ public class GoodsService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<GoodsBean> gb_list = GoodsDao.loadAllGoods(index, size);
+		List<GoodsBean> goodsList = GoodsDao.loadAllGoods(index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
-		for (int i = 0; i < gb_list.size(); i++) {
-			ShopBean shop = ShopDao.loadByShopId(gb_list.get(i).getShopId());
+		for (int i = 0; i < goodsList.size(); i++) {
+			ShopBean shop = ShopDao.loadByShopId(goodsList.get(i).getShopId());
 			if (shop == null) {
 				continue;
 			}
-			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(gb_list.get(i)));
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goodsList.get(i)));
+			//转化成字符串类型
+			obj2.put("shopId", ""+goodsList.get(i).getShopId());
+			obj2.put("goodsId", ""+goodsList.get(i).getGoodsId());
 			obj2.put("shopName", shop.getName());
 			obj2.put("shopLogo", shop.getImage());
 			obj2.put("shopThumb", shop.getThumbnail());
