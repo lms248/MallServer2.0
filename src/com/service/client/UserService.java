@@ -147,7 +147,7 @@ public class UserService {
 			return;
 		}
 		
-		/*if(session_phone==null || session_phoneCode==null){
+		if(session_phone==null || session_phoneCode==null){
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "手机验证码未获取");
 			out.print(obj);
@@ -158,7 +158,7 @@ public class UserService {
 			obj.put("msg", "手机号验证码不正确");
 			out.print(obj);
 			return;
-		}*/
+		}
 		
 		long uid = IdGen.get().nextId();
 		String token = UuidUtils.getUuid();
