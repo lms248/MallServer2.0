@@ -60,9 +60,9 @@ class TestSMS extends Thread {
 		//}
         System.out.println("start tiime:"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date(System.currentTimeMillis())));
 		//发生短信 
-        //SMSUtil.sendSMS_ChinaNet1("13148891874",  "【河粉工作室】换壳老板短信测试成功。");
+        SMSUtil.sendSMS_ChinaNet1("18825155582",  "【义乌商城】您的本次验证码是（368859）。");
         //余额查询
-        search1("13148891874",  "【河粉工作室】换壳老板短信测试成功。");
+        //search1("13148891874",  "【河粉工作室】换壳老板短信测试成功。");
         
     	System.out.println("start tiime:"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS").format(new Date(System.currentTimeMillis())));
 

@@ -25,7 +25,8 @@ public class SMSUtil {
 		Map<String, String> paramentMap = new LinkedHashMap<String, String>();
         paramentMap.put("username", "shangpin666");//用户名
 		String strtime = new SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis());
-        String pass = MD5.encode(MD5.encode("dbWwq5FX")+strtime);
+        //String pass = MD5.encode(MD5.encode("dbWwq5FX")+strtime);
+        String pass = MD5.encode(MD5.encode("Sp201688")+strtime);
 		paramentMap.put("tkey",  strtime);
         paramentMap.put("password", pass);//加密后密码
         paramentMap.put("productid", "123123");//产品id
