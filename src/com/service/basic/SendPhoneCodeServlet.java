@@ -79,7 +79,7 @@ public class SendPhoneCodeServlet extends HttpServlet {
         SessionContext.addSession(session);
         System.out.println("sessionId===="+session.getId());
         JSONObject obj = new JSONObject();
-        obj.put("session", session.getId());
+        obj.put("sessionId", session.getId());
         try {
 			int status = SMSUtil.sendSMS_ChinaNet1(phone,  "【义乌商城】您本次的手机验证码是（"+phoneCode+"）。");
 			System.out.println("status===="+status);
