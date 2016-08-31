@@ -82,6 +82,7 @@ public class SendPhoneCodeServlet extends HttpServlet {
 				obj_out.put("msg", "手机验证码发生成功");
 				obj_out.put("data", new JSONObject().put("sessionId", request.getSession().getId()));
 				out.println(obj_out);
+				System.out.println(obj_out);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
