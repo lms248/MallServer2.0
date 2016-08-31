@@ -8,6 +8,7 @@ import java.util.Random;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONObject;
 
@@ -23,12 +24,13 @@ import service.basic.UploadService;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
+
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+import common.utils.SessionContext;
 import common.utils.UuidUtils;
-
 import dao.client.UserDao;
 
 /**
@@ -90,7 +92,7 @@ public class UserService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		request.getSession().setAttribute("username", "");
+		String token = request.getParameter("token");
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
@@ -111,16 +113,15 @@ public class UserService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		//从服务器端的session中取出手机号和手机验证码
-		String session_phone = (String) request.getSession().getAttribute("phone");
-		String session_phoneCode = (String) request.getSession().getAttribute("phoneCode");
-		System.out.println("session_phone===="+session_phone);
-		System.out.println("session_phoneCode===="+session_phoneCode);
-		
 		/*读取客户端发送的参数*/
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String phoneCode = request.getParameter("phoneCode");
+		String sessionId = request.getParameter("sessionId");
+		HttpSession session = SessionContext.getSession(sessionId);
+		//从服务器端的session中取出手机号和手机验证码
+		String session_phone = session.getAttribute("phone").toString();
+		String session_phoneCode = session.getAttribute("phoneCode").toString();
 		
 		/*读取客户端提交的json数据*/
 		/*JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
@@ -130,6 +131,11 @@ public class UserService {
 		
 		System.out.println("register::::username===="+username);
 		System.out.println("register::::password===="+password);
+		System.out.println("register::::phoneCode===="+phoneCode);
+		System.out.println("register::::session===="+session);
+		System.out.println("register::::sessionId===="+sessionId);
+		System.out.println("register::::session_phone===="+session_phone);
+		System.out.println("register::::session_phoneCode===="+session_phoneCode);
 		
 		JSONObject obj = new JSONObject();
 		

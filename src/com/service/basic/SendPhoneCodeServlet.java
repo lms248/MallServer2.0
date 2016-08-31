@@ -11,10 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.Session;
 
 import com.utils.SMSUtil;
 
 import common.utils.Def;
+import common.utils.SessionContext;
 import net.sf.json.JSONObject;
 
 /**
@@ -69,8 +71,9 @@ public class SendPhoneCodeServlet extends HttpServlet {
 		//将随机数存在session中
         request.getSession().setAttribute("phone", phone);
         request.getSession().setAttribute("phoneCode", String.valueOf(phoneCode));
-        request.getSession().setAttribute("phoneCode_time", now.getTime());
-        String sessionId = request.getSession().getId();
+        request.getSession().setAttribute("createTime", now.getTime());
+        //记录session
+        SessionContext.addSession(request.getSession());
         try {
 			int status = SMSUtil.sendSMS_ChinaNet1(phone,  "【义乌商城】您本次的手机验证码是（"+phoneCode+"）。");
 			System.out.println("status===="+status);
@@ -78,7 +81,7 @@ public class SendPhoneCodeServlet extends HttpServlet {
 				System.out.println("手机验证码发生成功");
 				obj_out.put("code", Def.CODE_SUCCESS);
 				obj_out.put("msg", "手机验证码发生成功");
-				obj_out.put("data", new JSONObject().put("sessionId", sessionId));
+				obj_out.put("data", new JSONObject().put("sessionId", request.getSession().getId()));
 				out.println(obj_out);
 			}
 		} catch (Exception e) {
