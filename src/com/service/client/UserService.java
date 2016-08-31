@@ -120,8 +120,13 @@ public class UserService {
 		String sessionId = request.getParameter("sessionId");
 		HttpSession session = SessionContext.getSession(sessionId);
 		//从服务器端的session中取出手机号和手机验证码
-		String session_phone = session.getAttribute("phone").toString();
-		String session_phoneCode = session.getAttribute("phoneCode").toString();
+		String session_phone = null;
+		String session_phoneCode = null;
+		
+		if (session != null) {
+			session_phone = session.getAttribute("phone").toString();
+			session_phoneCode = session.getAttribute("phoneCode").toString();
+		}
 		
 		/*读取客户端提交的json数据*/
 		/*JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
