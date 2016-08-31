@@ -11,10 +11,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
 
 import net.sf.json.JSONObject;
 
 import com.utils.SMSUtil;
+
 import common.utils.Def;
 import common.utils.SessionContext;
 
@@ -68,11 +71,13 @@ public class SendPhoneCodeServlet extends HttpServlet {
 		
 		int phoneCode = (int) (Math.random()*1000000);
 		//将随机数存在session中
-        request.getSession().setAttribute("phone", phone);
-        request.getSession().setAttribute("phoneCode", String.valueOf(phoneCode));
-        request.getSession().setAttribute("createTime", now.getTime());
+		HttpSession session = request.getSession();
+		session.setAttribute("phone", phone);
+		session.setAttribute("phoneCode", String.valueOf(phoneCode));
+		session.setAttribute("createTime", now.getTime());
         //记录session
-        SessionContext.addSession(request.getSession());
+        SessionContext.addSession(session);
+        System.out.println("sessionId===="+session.getId());
         try {
 			int status = SMSUtil.sendSMS_ChinaNet1(phone,  "【义乌商城】您本次的手机验证码是（"+phoneCode+"）。");
 			System.out.println("status===="+status);
@@ -80,7 +85,7 @@ public class SendPhoneCodeServlet extends HttpServlet {
 				System.out.println("手机验证码发生成功");
 				obj_out.put("code", Def.CODE_SUCCESS);
 				obj_out.put("msg", "手机验证码发生成功");
-				obj_out.put("data", new JSONObject().put("sessionId", request.getSession().getId()));
+				obj_out.put("data", new JSONObject().put("sessionId", session.getId()));
 				out.println(obj_out);
 				System.out.println(obj_out);
 			}
