@@ -128,6 +128,12 @@ public class UserService {
 			session_phoneCode = session.getAttribute("phoneCode").toString();
 		}
 		
+		System.out.println("request.getSession().getId()===="+request.getSession().getId());
+		if (request.getSession()!=null) {
+			session_phone = request.getSession().getAttribute("phone").toString();
+			session_phoneCode = request.getSession().getAttribute("phoneCode").toString();
+		}
+		
 		/*读取客户端提交的json数据*/
 		/*JSONObject req_obj = HttpUtils.getJson4Stream(request.getInputStream());
 		String username = req_obj.getString("username");
