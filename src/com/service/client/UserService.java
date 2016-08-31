@@ -123,12 +123,13 @@ public class UserService {
 		String session_phone = null;
 		String session_phoneCode = null;
 		
-		if (session != null) {
+		/*if (session != null) {
 			session_phone = session.getAttribute("phone").toString();
 			session_phoneCode = session.getAttribute("phoneCode").toString();
-		}
+		}*/
 		
 		System.out.println("request.getSession().getId()===="+request.getSession().getId());
+		//从服务器端的session中取出手机号和手机验证码
 		if (request.getSession()!=null) {
 			session_phone = request.getSession().getAttribute("phone").toString();
 			session_phoneCode = request.getSession().getAttribute("phoneCode").toString();
@@ -143,8 +144,8 @@ public class UserService {
 		System.out.println("register::::username===="+username);
 		System.out.println("register::::password===="+password);
 		System.out.println("register::::phoneCode===="+phoneCode);
-		System.out.println("register::::session===="+session);
-		System.out.println("register::::sessionId===="+sessionId);
+		//System.out.println("register::::session===="+session);
+		//System.out.println("register::::sessionId===="+sessionId);
 		System.out.println("register::::session_phone===="+session_phone);
 		System.out.println("register::::session_phoneCode===="+session_phoneCode);
 		
@@ -170,9 +171,9 @@ public class UserService {
 			out.print(obj);
 			return;
 		}
-		if (session_phone.equals(username) || session_phoneCode.equals(phoneCode)) {
+		if (!session_phone.equals(username) || !session_phoneCode.equals(phoneCode)) {
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "手机号验证码不正确");
+			obj.put("msg", "手机验证码不正确");
 			out.print(obj);
 			return;
 		}

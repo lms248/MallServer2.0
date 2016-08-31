@@ -76,10 +76,10 @@ public class SendPhoneCodeServlet extends HttpServlet {
 		session.setAttribute("phoneCode", String.valueOf(phoneCode));
 		session.setAttribute("createTime", now.getTime());
         //记录session
-        SessionContext.addSession(session);
-        System.out.println("sessionId===="+session.getId());
-        JSONObject obj = new JSONObject();
-        obj.put("sessionId", session.getId());
+        //SessionContext.addSession(session);
+        //System.out.println("sessionId===="+session.getId());
+        //JSONObject obj = new JSONObject();
+        //obj.put("sessionId", session.getId());
         try {
 			int status = SMSUtil.sendSMS_ChinaNet1(phone,  "【义乌商城】您本次的手机验证码是（"+phoneCode+"）。");
 			System.out.println("status===="+status);
@@ -87,7 +87,7 @@ public class SendPhoneCodeServlet extends HttpServlet {
 				System.out.println("手机验证码发生成功");
 				obj_out.put("code", Def.CODE_SUCCESS);
 				obj_out.put("msg", "手机验证码发生成功");
-				obj_out.put("data", obj);
+				//obj_out.put("data", obj);
 				out.println(obj_out);
 				System.out.println(obj_out);
 			}
