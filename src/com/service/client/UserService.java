@@ -189,24 +189,24 @@ public class UserService {
 		long uid = IdGen.get().nextId();
 		String token = UuidUtils.getUuid();
 		
-		UserBean ubean = new UserBean();
-		ubean.setUid(uid);
-		ubean.setUsername(username);
-		ubean.setPassword(password);
-		ubean.setPhone(username);
-		ubean.setToken(token);
-		ubean.setNickname(Def.NICKNAME_DEFAULT[(int) (Math.random()*10)]);
-		ubean.setAvatar(Def.AVATAR_DEFAULT);
-		ubean.setThumbnail(Def.AVATAR_DEFAULT);
-		ubean.setRegisterTime(System.currentTimeMillis());
-		ubean.setLoginTime(ubean.getRegisterTime());
+		UserBean user = new UserBean();
+		user.setUid(uid);
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setPhone(username);
+		user.setToken(token);
+		user.setNickname(Def.NICKNAME_DEFAULT[(int) (Math.random()*10)]);
+		user.setAvatar(Def.AVATAR_DEFAULT);
+		user.setThumbnail(Def.AVATAR_DEFAULT);
+		user.setRegisterTime(System.currentTimeMillis());
+		user.setLoginTime(user.getRegisterTime());
 		
-		UserDao.save(ubean);
+		UserDao.save(user);
 		
-		ubean.setPassword("****");
+		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "注册成功");
-		obj.put("data", JsonUtils.jsonFromObject(ubean));
+		obj.put("data", JsonUtils.jsonFromObject(user));
 		out.print(obj);
 		System.out.println(obj.toString());
 		
@@ -237,28 +237,30 @@ public class UserService {
 		String password_new = request.getParameter("password_new");
 		
 		JSONObject obj = new JSONObject();
-		UserBean ubean = UserDao.loadByUsername(username);
-		if (ubean == null) {
+		UserBean user = UserDao.loadByUsername(username);
+		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
 			out.print(obj);
 			return;
 		}
 		
-		if (password_old == null || !ubean.getPassword().equals(password_old)) {
+		if (password_old == null || !user.getPassword().equals(password_old)) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户名或密码不正确");
 			out.print(obj);
 			return;
 		}
 		
-		ubean.setPassword(password_new);
-		UserDao.update(ubean);
+		String token = UuidUtils.getUuid();
+		user.setToken(token);
+		user.setPassword(password_new);
+		UserDao.update(user);
 		
-		ubean.setPassword("****");
+		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改密码成功");
-		obj.put("data", JsonUtils.jsonFromObject(ubean));
+		obj.put("data", JsonUtils.jsonFromObject(user));
 		out.print(obj);
 		System.out.println(obj.toString());
 		
@@ -308,8 +310,8 @@ public class UserService {
 			return;
 		}
 		
-		UserBean ubean = UserDao.loadByUsername(username);
-		if (ubean == null) {
+		UserBean user = UserDao.loadByUsername(username);
+		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
 			out.print(obj);
@@ -329,13 +331,15 @@ public class UserService {
 			return;
 		}
 		
-		ubean.setPassword(password_new);
-		UserDao.update(ubean);
+		String token = UuidUtils.getUuid();
+		user.setToken(token);
+		user.setPassword(password_new);
+		UserDao.update(user);
 		
-		ubean.setPassword("****");
+		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改密码成功");
-		obj.put("data", JsonUtils.jsonFromObject(ubean));
+		obj.put("data", JsonUtils.jsonFromObject(user));
 		out.print(obj);
 		System.out.println(obj.toString());
 		
@@ -357,16 +361,16 @@ public class UserService {
 		String token = request.getParameter("token"); 
 		
 		JSONObject obj = new JSONObject();
-		UserBean ubean = UserDao.loadByToken(token);
-		if (ubean == null) {
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
 			out.print(obj);
 		} else {
-			ubean.setPassword("****");
+			user.setPassword("****");
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "用户信息");
-			obj.put("data", JsonUtils.jsonFromObject(ubean));
+			obj.put("data", JsonUtils.jsonFromObject(user));
 			out.print(obj);
 		}
 		
@@ -396,8 +400,8 @@ public class UserService {
 		String nickname = request.getParameter("nickname");
 		
 		JSONObject obj = new JSONObject();
-		UserBean ubean = UserDao.loadByToken(token);
-		if (ubean == null) {
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
 			out.print(obj);
@@ -405,7 +409,7 @@ public class UserService {
 		}
 		
 		if (nickname != null) {
-			ubean.setNickname(nickname);
+			user.setNickname(nickname);
 		}
 		
 		MultipartHttpServletRequest multipartRequest = null;
@@ -426,19 +430,19 @@ public class UserService {
 				JSONObject imageObj =UploadService.uploadImage(
 						fileList, savePath_image, savePath_thumb, Def.THUMB_WIDTH_AVATAR, Def.THUMB_HEIGHT_AVATAR, false);
 				//头像
-				ubean.setAvatar(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
+				user.setAvatar(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
 				//头像缩略图
-				ubean.setThumbnail(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
+				user.setThumbnail(JSON.parseArray(imageObj.get("imageList").toString()).get(0).toString());
 			} 
 		}
 		
 		//更新数据库
-		UserDao.update(ubean);
+		UserDao.update(user);
 		
-		ubean.setPassword("****");
+		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "更新个人信息成功");
-		obj.put("data", JsonUtils.jsonFromObject(ubean));
+		obj.put("data", JsonUtils.jsonFromObject(user));
 		out.print(obj);
 		System.out.println(obj.toString());
 		
