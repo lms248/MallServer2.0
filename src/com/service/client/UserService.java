@@ -287,6 +287,17 @@ public class UserService {
 		String password_new = request.getParameter("password_new");
 		String phoneCode = request.getParameter("phoneCode");
 		
+		HttpSession session = request.getSession();
+		//从服务器端的session中取出手机号和手机验证码
+		String session_phone = null;
+		String session_phoneCode = null;
+		
+		System.out.println("session.getId()===="+session.getId());
+		//从服务器端的session中取出手机号和手机验证码
+		if (session != null) {
+			session_phone = session.getAttribute("phone").toString();
+			session_phoneCode = session.getAttribute("phoneCode").toString();
+		}
 		
 		JSONObject obj = new JSONObject();
 		
@@ -301,6 +312,19 @@ public class UserService {
 		if (ubean == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
+			out.print(obj);
+			return;
+		}
+		
+		if(session_phone==null || session_phoneCode==null){
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "手机验证码未获取");
+			out.print(obj);
+			return;
+		}
+		if (!session_phone.equals(username) || !session_phoneCode.equals(phoneCode)) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "手机验证码不正确");
 			out.print(obj);
 			return;
 		}
