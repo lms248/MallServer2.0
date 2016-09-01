@@ -5,6 +5,9 @@
 <link href="/res/webuploader/webuploader.css" rel="stylesheet">
 <link href="/res/webuploader/style.css" rel="stylesheet">
 
+<!--tags input-->
+<link rel="stylesheet" type="text/css" href="/res/AdminEx/js/jquery-tags-input/jquery.tagsinput.css" />
+
 <style>
 .webuploader-pick{
 	height: 34px;
@@ -177,6 +180,20 @@
                         <label> 属性标签 </label>
                         <input id="goods_markKey" class="form-control" placeholder="标签名字">
                         <textarea id="goods_markValue" rows="2" class="form-control" placeholder="标签值"></textarea>
+                        
+                        <div class="form-group">
+                        	<label class="col-md-2 control-label">Fixed Width</label>
+                            <div class="col-md-10">
+                            	<input id="goods_tags" type="text" class="tags" value="tag1,tag2" style="display: none;">
+                            	<div id="goods_tagsinput" class="tagsinput" style="width: 250px; min-height: 100px; height: 100%;">
+                            		<span class="tag"><span>tag1&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
+                            		<span class="tag"><span>tag2&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
+                            		<div id="goods_addTag"><input id="tags_2_tag" value="" data-default="add a tag" style="color: rgb(102, 102, 102); width: 68px;"></div>
+                            		<div class="tags_clear"></div>
+                            	</div>
+                            </div>
+                        </div>
+                        
                         <label> 标题 </label>
                         <input id="goods_title" class="form-control" placeholder="请输入标题">
                         <label> 描述 </label>
@@ -219,6 +236,10 @@
 </script>
 
 <script src="/res/js/admin/shop.js"></script>
+
+<!--tags input-->
+<script src="/res/AdminEx/js/jquery-tags-input/jquery.tagsinput.js"></script>
+<script src="/res/AdminEx/js/tagsinput-init.js"></script>
 
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>
