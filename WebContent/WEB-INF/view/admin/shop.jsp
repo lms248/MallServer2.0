@@ -8,7 +8,8 @@
 <style>
 .webuploader-pick{
 	height: 34px;
-	width: 120px;
+	width: 100px;
+	margin-right: 0px;
 	padding: 8px 8px;
 }
 </style>
@@ -151,18 +152,19 @@
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img id="goods_logo" src="" alt="" width="100" height="100" style="background-color: #cccccc;">
+                	<img id="goods_logo" src="" alt="" width="100" height="100" style="background-color: #cccccc; width: 100px;">
                     <a id="goods_logo_edit" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
-                    <a id="goods_logo__url" href="#" class="btn btn-white btn-sm" style="display: none;"><i class="fa fa-eye"></i>查看原图</a>
+                    <a id="goods_logo_url" href="#" class="btn btn-white btn-sm" style="display: none;"><i class="fa fa-eye"></i>查看原图</a>
 					
-    				<!--用来存放item-->
-    				<div id="fileList" class="uploader-list"></div>
-    				<div id="filePicker">添加图片列表</div>
-    				
                     <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
                     <!-- <p><strong>File Type:</strong> jpg</p>
                     <p><strong>Resolution:</strong> 300x200</p>
                     <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p> -->
+                    <div style="width=100%; height: auto;margin-top: 10px; background-color: #cccccc;">
+                		<!--用来存放item-->
+    					<div id="fileList" class="uploader-list"></div>
+    					<div id="filePicker" style="margin: 20px;">添加图片列表</div>
+                	</div>
                 </div>
                 <div class="col-md-7">
                 	<div class="form-group">
@@ -339,6 +341,10 @@ uploader.on( 'uploadError', function( file ) {
 
 <!-- 商品图片列表上传 -->
 <script>
+//图片列表数据
+var goods_imageList;
+var goods_thumbList;
+
 //初始化Web Uploader
 var uploader = WebUploader.create({
 
@@ -386,7 +392,7 @@ uploader.on( 'fileQueued', function( file ) {
         }
 
         $img.attr( 'src', src );
-    }, 100, 100 );
+    }, 80, 80 );
 });
 
 
@@ -409,8 +415,12 @@ uploader.on( 'uploadProgress', function( file, percentage ) {
 
 
 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-uploader.on( 'uploadSuccess', function( file ) {
+uploader.on( 'uploadSuccess', function( file, response) {
     $( '#'+file.id ).addClass('upload-state-done');
+    var image = response._raw.split(";")[0];
+    var thumb = response._raw.split(";")[1];
+    goods_imageList += image+","; 
+    goods_thumbList += thumb+","; 
 });
 
 // 文件上传失败，显示上传出错。

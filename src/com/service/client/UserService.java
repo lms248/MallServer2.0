@@ -117,22 +117,16 @@ public class UserService {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String phoneCode = request.getParameter("phoneCode");
-		String sessionId = request.getParameter("sessionId");
-		HttpSession session = SessionContext.getSession(sessionId);
+		HttpSession session = request.getSession();
 		//从服务器端的session中取出手机号和手机验证码
 		String session_phone = null;
 		String session_phoneCode = null;
 		
-		/*if (session != null) {
+		System.out.println("session.getId()===="+session.getId());
+		//从服务器端的session中取出手机号和手机验证码
+		if (session != null) {
 			session_phone = session.getAttribute("phone").toString();
 			session_phoneCode = session.getAttribute("phoneCode").toString();
-		}*/
-		
-		System.out.println("request.getSession().getId()===="+request.getSession().getId());
-		//从服务器端的session中取出手机号和手机验证码
-		if (request.getSession()!=null) {
-			session_phone = request.getSession().getAttribute("phone").toString();
-			session_phoneCode = request.getSession().getAttribute("phoneCode").toString();
 		}
 		
 		/*读取客户端提交的json数据*/

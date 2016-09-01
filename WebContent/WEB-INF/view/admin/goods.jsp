@@ -19,9 +19,9 @@
         <section class="panel">
         <header class="panel-heading">
             	商品管理
-            <span class="pull-right">
+            <!-- <span class="pull-right">
                 <a class="btn btn-success fa fa-plus-circle" href="#myModal" data-toggle="modal">添加商品</a>
-            </span>
+            </span> -->
         </header>
         <div class="panel-body" style="display: block;">
         <div class="adv-table">

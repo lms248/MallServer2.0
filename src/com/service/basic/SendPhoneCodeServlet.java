@@ -77,7 +77,7 @@ public class SendPhoneCodeServlet extends HttpServlet {
 		session.setAttribute("createTime", now.getTime());
         //记录session
         //SessionContext.addSession(session);
-        //System.out.println("sessionId===="+session.getId());
+        System.out.println("sessionId===="+session.getId());
         //JSONObject obj = new JSONObject();
         //obj.put("sessionId", session.getId());
         try {
