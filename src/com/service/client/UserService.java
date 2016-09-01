@@ -286,7 +286,7 @@ public class UserService {
 		String password_new = req_obj.getString("password_new");*/
 		//String phoneCode = req_obj.getString("phoneCode");
 		String username = request.getParameter("username");
-		String password_new = request.getParameter("password_new");
+		String password = request.getParameter("password");
 		String phoneCode = request.getParameter("phoneCode");
 		
 		HttpSession session = request.getSession();
@@ -303,7 +303,7 @@ public class UserService {
 		
 		JSONObject obj = new JSONObject();
 		
-		if (username == null || password_new == null) {
+		if (username == null || password == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户名或密码不正确");
 			out.print(obj);
@@ -333,7 +333,7 @@ public class UserService {
 		
 		String token = UuidUtils.getUuid();
 		user.setToken(token);
-		user.setPassword(password_new);
+		user.setPassword(password);
 		UserDao.update(user);
 		
 		user.setPassword("****");
