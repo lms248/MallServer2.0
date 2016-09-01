@@ -118,6 +118,7 @@ public class GoodsService {
 			obj_data.put("shopName", shop.getName());
 			obj_data.put("shopLogo", shop.getImage());
 			obj_data.put("shopThumb", shop.getThumbnail());
+			obj_data.put("contactPhone", shop.getContactPhone());
 		}
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -159,6 +160,7 @@ public class GoodsService {
 			obj2.put("shopName", shop.getName());
 			obj2.put("shopLogo", shop.getImage());
 			obj2.put("shopThumb", shop.getThumbnail());
+			obj2.put("contactPhone", shop.getContactPhone());
 			arr.add(obj2);
 		}
 		
