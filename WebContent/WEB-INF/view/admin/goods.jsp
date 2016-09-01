@@ -53,14 +53,15 @@
         	<th class="" role="columnheader" style=" text-align: center;">商品ID</th>
         	<th class="" role="columnheader" style=" text-align: center;">商品名称</th>
         	<th class="" role="columnheader" style=" text-align: center;">商品Logo</th>
-        	<th class="" role="columnheader" style=" text-align: center;">标题</th>
-        	<th class="" role="columnheader" style=" text-align: center;">描述</th>
+        	<th class="" role="columnheader" style=" text-align: center;">原价</th>
+        	<th class="" role="columnheader" style=" text-align: center;">现价</th>
+        	<th class="" role="columnheader" style=" text-align: center;">标签</th>
         	<th class="" role="columnheader" style=" text-align: center;">创建时间</th>
         	<th class="" role="columnheader" style=" text-align: center;">操作</th>
         </tr>
         </thead>
         
-        <tbody id="shopTableData" role="alert" aria-live="polite" aria-relevant="all"></tbody>
+        <tbody id="goodsTableData" role="alert" aria-live="polite" aria-relevant="all"></tbody>
        </table>
        <div class="row-fluid">
        	<div class="span6">
@@ -145,12 +146,13 @@
 <script id="tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
 	<td class="center ">{{:#index+1}}</td>
-    <td class="center ">{{:shopId}}</td>
+    <td class="center ">{{:goodsId}}</td>
     <td class="center ">{{:name}}</td>
-    <td class="center "><img src="{{:thumbnail}}" width="50" heigth="50"></td>
-    <td class="center ">{{:title}}</td>
-    <td class="center ">****</td>
-    <td class="center ">{{:time}}</td>
+    <td class="center "><img src="{{:logoThumb}}" width="50" heigth="50"></td>
+    <td class="center ">{{:prePrice}}</td>
+    <td class="center ">{{:curPrice}}</td>
+    <td class="center ">{{:marks}}</td>
+    <td class="center ">{{:createTime}}</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showData({{:shopId}})">查看</button>
          <button class="btn btn-warning" type="button" onclick="updateData({{:shopId}})">修改</button>

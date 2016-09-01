@@ -88,13 +88,16 @@ function goods_add() {
 	else if (goods_logo == "") {
 		alert("请上传商品Logo！！！");
 	}
+	else if (goods_imageList == "") {
+		alert("请上传商品图片列表！！！");
+	}
 	else {
 		var tip = "你确认添加吗？";
 		if(confirm(tip)){
 			goods_marks = goods_markKey+":"+goods_markValue+";";
 			alert(goods_marks);
 			var params = {name:goods_name,shopId:shopId,curPrice:goods_curPrice,prePrice:goods_prePrice,
-					marks:goods_marks,title:goods_title,details:goods_details,logo:goods_logo};
+					marks:goods_marks,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
 			$.post("/goods/add",params,function(data){
 				if(data.code=="0"){
 					alert("添加商品成功！！！");

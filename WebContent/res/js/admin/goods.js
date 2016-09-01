@@ -83,11 +83,11 @@ function resetEdit() {
 function getDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var params = {index:index,size:pageSize};
-	$.get("/shop/infoList",params,function(data){
+	$.get("/goods/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#tableTmpl");
 			var htmlOutput = template.render(data.data);
-			$("#shopTableData").html(htmlOutput);
+			$("#goodsTableData").html(htmlOutput);
 			$("#allCount").html(data.count);
 		} else {
 			alert(data);

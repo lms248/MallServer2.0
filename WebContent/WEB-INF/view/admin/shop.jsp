@@ -342,8 +342,8 @@ uploader.on( 'uploadError', function( file ) {
 <!-- 商品图片列表上传 -->
 <script>
 //图片列表数据
-var goods_imageList;
-var goods_thumbList;
+var goods_imageList = "";
+var goods_thumbList = "";
 
 //初始化Web Uploader
 var uploader = WebUploader.create({

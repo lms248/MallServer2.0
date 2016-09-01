@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import common.utils.Def;
@@ -50,6 +52,8 @@ public class GoodsService {
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
 		String logo = request.getParameter("logo");
+		String imageList = request.getParameter("imageList");
+		String thumbList = request.getParameter("thumbList");
 		String[] logos = logo.split(";");
 		
 		System.out.println("shopId===="+shopId);
@@ -68,7 +72,7 @@ public class GoodsService {
 		
 		GoodsBean goods = new GoodsBean();
 		goods.setGoodsId(goodsId);
-		goods.setShopId(goodsId);
+		goods.setShopId(Long.parseLong(shopId));
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
 		goods.setMarks(marks);
@@ -77,6 +81,8 @@ public class GoodsService {
 		goods.setDetails(details);
 		goods.setLogo(logos[0]);
 		goods.setLogoThumb(logos[1]);
+		goods.setImageList(JSON.toJSONString(imageList.split(",")));
+		goods.setThumbList(JSON.toJSONString(thumbList.split(",")));
 		goods.setCreateTime(System.currentTimeMillis());
 		
 		GoodsDao.save(goods);
