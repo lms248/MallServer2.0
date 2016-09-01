@@ -3,7 +3,6 @@ package service.client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +23,12 @@ import service.basic.UploadService;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
-
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-import common.utils.SessionContext;
 import common.utils.UuidUtils;
+
 import dao.client.UserDao;
 
 /**
@@ -60,21 +58,24 @@ public class UserService {
 		String password = req_obj.getString("password");*/
 		
 		/*读取数据库数据*/
-		UserBean ubean = UserDao.loadByUsername(username);
+		UserBean user = UserDao.loadByUsername(username);
 		JSONObject obj = new JSONObject();
-		if(ubean == null || !password.equals(ubean.getPassword())){
+		if(user == null || !password.equals(user.getPassword())){
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "账号或密码错误");
 			out.print(obj);
 		}
 		else {
-			ubean.setPassword("****");
+			String token = UuidUtils.getUuid();
+			user.setToken(token);
+			UserDao.update(user);
+			user.setPassword("****");
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "登录成功");
-			obj.put("data", JsonUtils.jsonFromObject(ubean));
+			obj.put("data", JsonUtils.jsonFromObject(user));
 			out.print(obj);
 			System.out.println(obj.toString());
-			ubean.setLoginTime(System.currentTimeMillis());
+			user.setLoginTime(System.currentTimeMillis());
 		}
 		
 		out.flush();
@@ -93,8 +94,23 @@ public class UserService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token");
-		
 		JSONObject obj = new JSONObject();
+		if (token == null) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			return;
+		}
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "找不到对应用户");
+			out.print(obj);
+			return;
+		}
+		user.setToken("");
+		UserDao.update(user);
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "成功注销登录");
 		out.print(obj);
@@ -138,8 +154,6 @@ public class UserService {
 		System.out.println("register::::username===="+username);
 		System.out.println("register::::password===="+password);
 		System.out.println("register::::phoneCode===="+phoneCode);
-		//System.out.println("register::::session===="+session);
-		//System.out.println("register::::sessionId===="+sessionId);
 		System.out.println("register::::session_phone===="+session_phone);
 		System.out.println("register::::session_phoneCode===="+session_phoneCode);
 		
