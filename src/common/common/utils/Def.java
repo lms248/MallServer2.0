@@ -72,13 +72,21 @@ public class Def {
 	/** 缩略图高度：默认 */
 	public static final int THUMB_HEIGHT_DEFAULT = 100;
 	/** 缩略图宽度：用户头像 */
-	public static final int THUMB_WIDTH_AVATAR = 100;
+	public static final int THUMB_WIDTH_AVATAR = 160;
 	/** 缩略图高度：用户头像 */
-	public static final int THUMB_HEIGHT_AVATAR = 100;
+	public static final int THUMB_HEIGHT_AVATAR = 160;
 	/** 缩略图宽度：社区 */
-	public static final int THUMB_WIDTH_COMMUNITY = 100;
+	public static final int THUMB_WIDTH_COMMUNITY = 200;
 	/** 缩略图高度：社区 */
-	public static final int THUMB_HEIGHT_COMMUNITY = 100;
+	public static final int THUMB_HEIGHT_COMMUNITY = 200;
+	/** 缩略图宽度：店铺 */
+	public static final int THUMB_WIDTH_SHOP = 320;
+	/** 缩略图高度：店铺 */
+	public static final int THUMB_HEIGHT_SHOP = 480;
+	/** 缩略图宽度：商品 */
+	public static final int THUMB_WIDTH_GOODS = 320;
+	/** 缩略图高度：商品 */
+	public static final int THUMB_HEIGHT_GOODS = 480;
 	
 	/*****************************初始昵称**********************************/
 	/** 默认昵称 */

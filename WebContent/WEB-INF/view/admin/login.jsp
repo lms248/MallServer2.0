@@ -26,7 +26,7 @@
 
     <div class="form-signin">
         <div class="form-signin-heading text-center">
-            <h1 class="sign-title">三行工作室</h1>
+            <h1 class="sign-title">沐火工作室</h1>
             <img src="/res/img/login-logo.png" alt=""/>
         </div>
         <div class="login-wrap">
