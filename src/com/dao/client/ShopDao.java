@@ -18,13 +18,13 @@ public class ShopDao {
 	
 	/**
 	 * 加载数据
-	 * @param shopid
+	 * @param shopId
 	 * @return
 	 */
-	public static ShopBean loadByShopId(long shopid){
+	public static ShopBean loadByShopId(long shopId){
 		ShopBean bean=null;
 		try {
-			bean=dbUtils.read(ShopBean.class, "where shopid=?", shopid);
+			bean=dbUtils.read(ShopBean.class, "where shopId=?", shopId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

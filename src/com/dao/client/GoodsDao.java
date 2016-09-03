@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.GoodsBean;
-import bean.client.ShopBean;
+
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
@@ -19,13 +19,13 @@ public class GoodsDao {
 	
 	/**
 	 * 加载数据
-	 * @param goodsid
+	 * @param goodsId
 	 * @return
 	 */
-	public static GoodsBean loadByGoodsId(long goodsid){
+	public static GoodsBean loadByGoodsId(long goodsId){
 		GoodsBean bean=null;
 		try {
-			bean=dbUtils.read(GoodsBean.class, "where goodsid=?", goodsid);
+			bean=dbUtils.read(GoodsBean.class, "where goodsId=?", goodsId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

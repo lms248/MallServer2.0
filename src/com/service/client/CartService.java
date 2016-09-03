@@ -64,6 +64,7 @@ public class CartService {
 		CartBean cart = CartDao.loadByUid(user.getUid());
 		long cartId = 0;
 		if (cart == null) {
+			cart = new CartBean();
 			cartId = IdGen.get().nextId();
 			cart.setCartId(cartId);
 			cart.setUid(user.getUid());
@@ -97,7 +98,7 @@ public class CartService {
 		out.close();
 	}
 	
-	/** 购物车信息 */
+	/** 购物车商品信息 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody
 	public void info(HttpServletRequest request, HttpServletResponse response)

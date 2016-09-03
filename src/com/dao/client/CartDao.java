@@ -19,13 +19,13 @@ public class CartDao {
 	
 	/**
 	 * 加载数据
-	 * @param cartid
+	 * @param cartId
 	 * @return
 	 */
-	public static CartBean loadByCartId(long cartid){
+	public static CartBean loadByCartId(long cartId){
 		CartBean bean=null;
 		try {
-			bean=dbUtils.read(CartBean.class, "where cartid=?", cartid);
+			bean=dbUtils.read(CartBean.class, "where cartId=?", cartId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
