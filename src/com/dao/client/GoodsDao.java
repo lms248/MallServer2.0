@@ -25,7 +25,7 @@ public class GoodsDao {
 	public static GoodsBean loadByGoodsId(long goodsId){
 		GoodsBean bean=null;
 		try {
-			bean=dbUtils.read(GoodsBean.class, "where goodsId=?", goodsId);
+			bean=dbUtils.read(GoodsBean.class, "where goodsid=?", goodsId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

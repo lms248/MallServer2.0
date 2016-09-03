@@ -24,7 +24,7 @@ public class ShopDao {
 	public static ShopBean loadByShopId(long shopId){
 		ShopBean bean=null;
 		try {
-			bean=dbUtils.read(ShopBean.class, "where shopId=?", shopId);
+			bean=dbUtils.read(ShopBean.class, "where shopid=?", shopId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

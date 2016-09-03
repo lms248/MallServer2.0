@@ -24,7 +24,7 @@ public class CommunityDao {
 	public static CommunityBean loadByCommunityId(long communityId){
 		CommunityBean bean=null;
 		try {
-			bean=dbUtils.read(CommunityBean.class, "where communityId=?", communityId);
+			bean=dbUtils.read(CommunityBean.class, "where communityid=?", communityId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
