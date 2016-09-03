@@ -6,26 +6,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.client.CartBean;
+import bean.client.FeedbackBean;
 
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
- * 购物车dao
+ * 反馈dao
  */
-public class CartDao {
+public class FeedbackDao {
 	private static Logger log=LoggerManager.getLogger();
 	
 	/**
 	 * 加载数据
-	 * @param cartId
+	 * @param feedbackId
 	 * @return
 	 */
-	public static CartBean loadByCartId(long cartId){
-		CartBean bean=null;
+	public static FeedbackBean loadByFeedbackId(long feedbackId){
+		FeedbackBean bean=null;
 		try {
-			bean=dbUtils.read(CartBean.class, "where cartid=?", cartId);
+			bean=dbUtils.read(FeedbackBean.class, "where feedbackid=?", feedbackId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -38,10 +38,10 @@ public class CartDao {
 	 * @param uid
 	 * @return
 	 */
-	public static CartBean loadByUid(long uid){
-		CartBean bean=null;
+	public static FeedbackBean loadByUid(long uid){
+		FeedbackBean bean=null;
 		try {
-			bean=dbUtils.read(CartBean.class, "where uid=?", uid);
+			bean=dbUtils.read(FeedbackBean.class, "where uid=?", uid);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -54,10 +54,10 @@ public class CartDao {
 	 * @param count
 	 * @return
 	 */
-	public static CartBean loadByCount(int count){
-		CartBean bean=null;
+	public static FeedbackBean loadByCount(int count){
+		FeedbackBean bean=null;
 		try {
-			bean=dbUtils.read(CartBean.class, "order by id desc limit ?", count);
+			bean=dbUtils.read(FeedbackBean.class, "order by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -70,15 +70,15 @@ public class CartDao {
 	 * 加载所有列表
 	 * @return List
 	 */
-	public static List<CartBean> loadAllCart(){
-		List<CartBean> cartList=new ArrayList<CartBean>();
+	public static List<FeedbackBean> loadAllFeedback(){
+		List<FeedbackBean> feedbackList=new ArrayList<FeedbackBean>();
 		try {
-			cartList=dbUtils.query(CartBean.class, " order by id desc");
+			feedbackList=dbUtils.query(FeedbackBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return cartList;
+		return feedbackList;
 	}
 	
 	/**
@@ -88,43 +88,43 @@ public class CartDao {
 	 * @param size
 	 * @return
 	 */
-	public static List<CartBean> loadAllCart(int index, int size){
-		List<CartBean> cartList=new ArrayList<CartBean>();
+	public static List<FeedbackBean> loadAllFeedback(int index, int size){
+		List<FeedbackBean> feedbackList=new ArrayList<FeedbackBean>();
 		try {
-			cartList=dbUtils.query(CartBean.class, 
+			feedbackList=dbUtils.query(FeedbackBean.class, 
 					" order by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return cartList;
+		return feedbackList;
 	}
 	/**
 	 * 加载所有列表
 	 * @param type ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<CartBean> loadAllShop4page(int pageNum, int pageSize){
-		List<CartBean> cartList=new ArrayList<CartBean>();
+	public static List<FeedbackBean> loadAllShop4page(int pageNum, int pageSize){
+		List<FeedbackBean> feedbackList=new ArrayList<FeedbackBean>();
 		try {
-			cartList=dbUtils.query(CartBean.class, 
+			feedbackList=dbUtils.query(FeedbackBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return cartList;
+		return feedbackList;
 	}
-	public static List<CartBean> loadShop4type(int pageNum, int pageSize, int type){
-		List<CartBean> cartList=new ArrayList<CartBean>();
+	public static List<FeedbackBean> loadShop4type(int pageNum, int pageSize, int type){
+		List<FeedbackBean> feedbackList=new ArrayList<FeedbackBean>();
 		try {
-			cartList=dbUtils.query(CartBean.class, 
+			feedbackList=dbUtils.query(FeedbackBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return cartList;
+		return feedbackList;
 	}
 	
 	
@@ -136,7 +136,7 @@ public class CartDao {
 	public static int Count(){
 		int amount=0;
 		try {
-			amount=dbUtils.stat(CartBean.class, "select COUNT(*) from cart");
+			amount=dbUtils.stat(FeedbackBean.class, "select COUNT(*) from feedback");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -146,7 +146,7 @@ public class CartDao {
 	public static int Count(int type){
 		int amount=0;
 		try {
-			amount=dbUtils.stat(CartBean.class, 
+			amount=dbUtils.stat(FeedbackBean.class, 
 					"select COUNT(*) from Shop_gw where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -160,7 +160,7 @@ public class CartDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int save(CartBean bean){
+	public static int save(FeedbackBean bean){
 		try {
 			return dbUtils.insert(bean);
 		} catch (SQLException e) {
@@ -175,7 +175,7 @@ public class CartDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int update(CartBean bean){
+	public static int update(FeedbackBean bean){
 		try {
 			return dbUtils.update(bean);
 		} catch (Exception e) {
@@ -191,7 +191,7 @@ public class CartDao {
 	 */
 	public static int delete(int id){
 		try {
-			return dbUtils.delete(CartBean.class, id);
+			return dbUtils.delete(FeedbackBean.class, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
