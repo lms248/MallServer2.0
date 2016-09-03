@@ -25,7 +25,7 @@ public class CartDao {
 	public static CartBean loadByCartId(long cartId){
 		CartBean bean=null;
 		try {
-			bean=dbUtils.read(CartBean.class, "where cartid=?", cartId);
+			bean=dbUtils.read(CartBean.class, "where cartId=?", cartId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
