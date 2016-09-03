@@ -151,7 +151,7 @@
     <td class="center "><img src="{{:logoThumb}}" width="50" heigth="50"></td>
     <td class="center ">{{:prePrice}}</td>
     <td class="center ">{{:curPrice}}</td>
-    <td class="center ">{{:marks}}</td>
+    <td class="center ">{{:tags}}</td>
     <td class="center ">{{:createTime}}</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showData({{:shopId}})">查看</button>

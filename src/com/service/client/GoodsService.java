@@ -20,6 +20,7 @@ import bean.client.ShopBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+import common.utils.StringUtils;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
 import net.sf.json.JSONArray;
@@ -48,7 +49,7 @@ public class GoodsService {
 		String shopId = request.getParameter("shopId");
 		String curPrice = request.getParameter("curPrice");
 		String prePrice = request.getParameter("prePrice");
-		String marks = request.getParameter("marks");
+		String tags = request.getParameter("tags");
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
 		String logo = request.getParameter("logo");
@@ -68,6 +69,22 @@ public class GoodsService {
 			return;
 		}
 		
+		
+		String[] tag = tags.split(";");
+		JSONObject tagObj = new JSONObject();
+		JSONArray tagArr = new JSONArray();
+		for (String t : tag) {
+			if (StringUtils.isBlank(t)) {
+				break;
+			}
+			String[] tt = t.split(":");
+			if (tt.length < 2) {
+				break;
+			}
+			tagObj.put(tt[0], JSON.toJSONString(tt[1].split("\\|")));
+			tagArr.add(tagObj);
+		}
+		
 		long goodsId = IdGen.get().nextId();
 		
 		GoodsBean goods = new GoodsBean();
@@ -75,7 +92,7 @@ public class GoodsService {
 		goods.setShopId(Long.parseLong(shopId));
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
-		goods.setMarks(marks);
+		goods.setTags(tagArr.toString());
 		goods.setName(name);
 		goods.setTitle(title);
 		goods.setDetails(details);

@@ -72,7 +72,4 @@ public class OrderBean extends Pojo {
 	public void setTime(long time) {
 		this.time = time;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

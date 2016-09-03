@@ -49,8 +49,8 @@ function goods_add() {
 	var shopId = $("#shop_name").attr("title");
 	var goods_curPrice = $("#goods_curPrice").val();
 	var goods_prePrice = $("#goods_prePrice").val();
-	var goods_markKey = $("#goods_markKey").val();
-	var goods_markValue = $("#goods_markValue").val();
+	var goods_tagKey = $("#goods_tagKey").val();
+	var goods_tagValue = $("#goods_tagValue").val();
 	var goods_title = $("#goods_title").val();
 	var goods_details = $("#goods_details").val();
 	var goods_logo = $("#goods_logo").attr("alt");
@@ -73,10 +73,10 @@ function goods_add() {
 	else if(isNaN(parseFloat($("#goods_prePrice").val()))){
 		alert("商品当前售价类型不正确！！！");
 	}
-	else if (goods_markKey == "") {
+	else if (goods_tagKey == "") {
 		alert("请输入标签名字！！！");
 	}
-	else if (goods_markValue == "") {
+	else if (goods_tagValue == "") {
 		alert("请输入标签值！！！");
 	}
 	else if (goods_title == "") {
@@ -94,10 +94,10 @@ function goods_add() {
 	else {
 		var tip = "你确认添加吗？";
 		if(confirm(tip)){
-			goods_marks = goods_markKey+":"+goods_markValue+";";
-			alert(goods_marks);
+			goods_tags = goods_tagKey+":"+goods_tagValue+";";
+			alert(goods_tags);
 			var params = {name:goods_name,shopId:shopId,curPrice:goods_curPrice,prePrice:goods_prePrice,
-					marks:goods_marks,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
+					tags:goods_tags,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
 			$.post("/goods/add",params,function(data){
 				if(data.code=="0"){
 					alert("添加商品成功！！！");

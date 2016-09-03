@@ -105,7 +105,7 @@ public class ShopService {
 		out.close();
 	}
 	
-	/** 社区信息列表 */
+	/** 商店列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
 	@ResponseBody
 	public void infoList(HttpServletRequest request, HttpServletResponse response)

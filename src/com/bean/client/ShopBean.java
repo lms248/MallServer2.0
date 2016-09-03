@@ -88,7 +88,4 @@ public class ShopBean extends Pojo {
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

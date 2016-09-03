@@ -30,7 +30,7 @@ public class GoodsBean extends Pojo {
 	/** 原来价格 */
 	private double prePrice;
 	/** 属性标记 */
-	private String marks;
+	private String tags;
 	/** 介绍 */
 	private String details;
 	/** 类型 */
@@ -106,11 +106,11 @@ public class GoodsBean extends Pojo {
 	public void setPrePrice(double prePrice) {
 		this.prePrice = prePrice;
 	}
-	public String getMarks() {
-		return marks;
+	public String getTags() {
+		return tags;
 	}
-	public void setMarks(String marks) {
-		this.marks = marks;
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 	public String getDetails() {
 		return details;
@@ -135,8 +135,5 @@ public class GoodsBean extends Pojo {
 	}
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 }

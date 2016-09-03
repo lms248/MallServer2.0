@@ -6,7 +6,7 @@
 <link href="/res/webuploader/style.css" rel="stylesheet">
 
 <!--tags input-->
-<link rel="stylesheet" type="text/css" href="/res/AdminEx/js/jquery-tags-input/jquery.tagsinput.css" />
+<!-- <link rel="stylesheet" type="text/css" href="/res/AdminEx/js/jquery-tags-input/jquery.tagsinput.css" /> -->
 
 <style>
 .webuploader-pick{
@@ -171,16 +171,33 @@
                 </div>
                 <div class="col-md-7">
                 	<div class="form-group">
-                    	<label> 商品名 </label>
-                        <input id="goods_name" class="form-control" placeholder="请输入商品名">
-                    	<label> 原价（单位：元） </label>
-                        <input id="goods_curPrice" class="form-control" placeholder="原价 ">
-                    	<label> 当前售价（单位：元） </label>
-                        <input id="goods_prePrice" class="form-control" placeholder="当前售价">
-                        <label> 属性标签 </label>
-                        <input id="goods_markKey" class="form-control" placeholder="标签名字">
-                        <textarea id="goods_markValue" rows="2" class="form-control" placeholder="标签值"></textarea>
+                		<div class="form-group">
+                			<label> 商品名 </label>
+                        	<input id="goods_name" class="form-control" placeholder="请输入商品名">
+                		</div>
+                    	<div class="form-group">
+                    		<label> 原价（单位：元） </label>
+                        	<input id="goods_curPrice" class="form-control" placeholder="原价 ">
+                        	<label> 当前售价（单位：元） </label>
+                        	<input id="goods_prePrice" class="form-control" placeholder="当前售价">
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标签名字（例如：颜色）</label>
+                        	<input id="goods_tagKey" class="form-control" placeholder="标签名字">
+                        	<label> 标签值（每个值用“|”分隔开，例如：黑色|白色）</label>
+                        	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标题 </label>
+                        	<input id="goods_title" class="form-control" placeholder="请输入标题">
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 描述 </label>
+                        	<textarea id="goods_details" rows="2" class="form-control" placeholder="请输入商品描述"></textarea>
+                    	</div>
+                    	
                         
+                        <!-- 
                         <div class="form-group">
                         	<label class="col-md-2 control-label">Fixed Width</label>
                             <div class="col-md-10">
@@ -193,11 +210,9 @@
                             	</div>
                             </div>
                         </div>
+                         -->
                         
-                        <label> 标题 </label>
-                        <input id="goods_title" class="form-control" placeholder="请输入标题">
-                        <label> 描述 </label>
-                        <textarea id="goods_details" rows="2" class="form-control" placeholder="请输入商品描述"></textarea>
+                        
                     </div>
                     <!-- <div class="form-group">
                          <label> 链接地址URL </label>
@@ -238,8 +253,8 @@
 <script src="/res/js/admin/shop.js"></script>
 
 <!--tags input-->
-<script src="/res/AdminEx/js/jquery-tags-input/jquery.tagsinput.js"></script>
-<script src="/res/AdminEx/js/tagsinput-init.js"></script>
+<!-- <script src="/res/AdminEx/js/jquery-tags-input/jquery.tagsinput.js"></script>
+<script src="/res/AdminEx/js/tagsinput-init.js"></script> -->
 
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>

@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
+Source Server         : MySQL
 Source Server Version : 50615
 Source Host           : localhost:3306
 Source Database       : mall
@@ -10,10 +10,23 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-08-28 16:54:51
+Date: 2016-09-03 16:27:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for cart
+-- ----------------------------
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `cardId` bigint(20) NOT NULL COMMENT '购物车ID',
+  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `goodsList` mediumtext COMMENT '商品列表信息',
+  `updateTime` bigint(20) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`,`cardId`,`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for community
@@ -46,13 +59,13 @@ CREATE TABLE `goods` (
   `thumbList` text COMMENT '图片缩略图',
   `curPrice` double DEFAULT NULL COMMENT '当前价格',
   `prePrice` double DEFAULT NULL COMMENT '原来价格',
-  `marks` text COMMENT '属性标记',
+  `tags` text COMMENT '属性标记',
   `details` text COMMENT '描述，介绍',
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`goodsId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order
@@ -86,7 +99,7 @@ CREATE TABLE `shop` (
   `type` varchar(255) DEFAULT NULL,
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`shopId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sort
@@ -118,4 +131,4 @@ CREATE TABLE `user` (
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

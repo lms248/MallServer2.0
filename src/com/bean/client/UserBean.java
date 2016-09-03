@@ -96,7 +96,4 @@ public class UserBean extends Pojo {
 	public void setRegisterTime(long registerTime) {
 		this.registerTime = registerTime;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 }

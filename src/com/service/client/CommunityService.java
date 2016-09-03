@@ -83,18 +83,18 @@ public class CommunityService {
 		
 		//String[] images = imageList.split(";");
 		
-		CommunityBean cbean = new CommunityBean();
-		cbean.setCommunityId(communityId);
-		cbean.setUid(ubean.getUid());
-		cbean.setDetails(details);
-		cbean.setImageList(JSON.toJSONString(imageObj.get("imageList")));
-		cbean.setThumbList(JSON.toJSONString(imageObj.get("thumbList")));
-		cbean.setCreateTime(System.currentTimeMillis());
-		CommunityDao.save(cbean);
+		CommunityBean community = new CommunityBean();
+		community.setCommunityId(communityId);
+		community.setUid(ubean.getUid());
+		community.setDetails(details);
+		community.setImageList(JSON.toJSONString(imageObj.get("imageList")));
+		community.setThumbList(JSON.toJSONString(imageObj.get("thumbList")));
+		community.setCreateTime(System.currentTimeMillis());
+		CommunityDao.save(community);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "社区信息");
-		obj.put("data", JsonUtils.jsonFromObject(cbean));
+		obj.put("data", JsonUtils.jsonFromObject(community));
 		out.print(obj);
 		
 		out.flush();
@@ -113,12 +113,12 @@ public class CommunityService {
 		
 		int communityId = Integer.parseInt(request.getParameter("communityId")); 
 		
-		CommunityBean cbean = CommunityDao.loadByCommunityId(communityId);
+		CommunityBean community = CommunityDao.loadByCommunityId(communityId);
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "社区信息");
-		obj.put("data", JsonUtils.jsonFromObject(cbean));
+		obj.put("data", JsonUtils.jsonFromObject(community));
 		out.print(obj);
 		System.out.println(obj);
 		
