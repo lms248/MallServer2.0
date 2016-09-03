@@ -74,6 +74,7 @@ public class CartService {
 			goodsList.add(cartObj);
 			
 			cart.setGoodsList(goodsList.toString());
+			cart.setUpdateTime(System.currentTimeMillis());
 			CartDao.save(cart);
 		} else {
 			cartObj.put("goodsId", Long.parseLong(goodsId));
@@ -83,6 +84,7 @@ public class CartService {
 			goodsList.add(cartObj);
 			
 			cart.setGoodsList(goodsList.toString());
+			cart.setUpdateTime(System.currentTimeMillis());
 			CartDao.update(cart);
 		}
 		
