@@ -252,6 +252,8 @@ public class UserService {
 			return;
 		}
 		
+		user.setPassword(password_new);
+		UserDao.update(user);
 		String token = UuidUtils.getUuid();
 		user.setToken(token);
 		user.setPassword(password_new);
@@ -317,6 +319,9 @@ public class UserService {
 			out.print(obj);
 			return;
 		}
+		
+		user.setPassword(password);
+		UserDao.update(user);
 		
 		if(session_phone==null || session_phoneCode==null){
 			obj.put("code", Def.CODE_FAIL);
