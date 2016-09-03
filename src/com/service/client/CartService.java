@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
 import bean.client.CartBean;
 import bean.client.UserBean;
-
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
 import dao.client.CartDao;
 import dao.client.UserDao;
 
@@ -70,7 +70,7 @@ public class CartService {
 			cart.setUid(user.getUid());
 			cartObj.put("goodsId", Long.parseLong(goodsId));
 			cartObj.put("amount", Integer.parseInt(amount));
-			cartObj.put("tags", JSONArray.fromObject(tags));
+			cartObj.put("tags", JSON.parseArray(tags));
 			JSONArray goodsList = new JSONArray();
 			goodsList.add(cartObj);
 			
@@ -80,7 +80,7 @@ public class CartService {
 		} else {
 			cartObj.put("goodsId", Long.parseLong(goodsId));
 			cartObj.put("amount", Integer.parseInt(amount));
-			cartObj.put("tags", JSONArray.fromObject(tags));
+			cartObj.put("tags", JSON.parseArray(tags));
 			JSONArray goodsList = JSONArray.fromObject(cart.getGoodsList());
 			goodsList.add(cartObj);
 			
@@ -162,7 +162,7 @@ public class CartService {
 		
 		CartBean cart = CartDao.loadByUid(user.getUid());
 		
-		JSONArray goodsList = JSONArray.fromObject(cart.getGoodsList());
+		com.alibaba.fastjson.JSONArray goodsList = JSON.parseArray(cart.getGoodsList());
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (int i = index; i < goodsList.size() && i < size; i++) {
