@@ -50,7 +50,6 @@ public class CartService {
 		System.out.println("tags===="+tags);
 		System.out.println("JSON.parseArray(tags)===="+JSON.parseArray(tags));
 		System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
-		System.out.println("JSON.parseArray(tags)===="+JSON.parseArray(tags));
 		
 		JSONObject obj = new JSONObject();
 		
