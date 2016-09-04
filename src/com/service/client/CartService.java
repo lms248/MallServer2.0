@@ -201,8 +201,8 @@ public class CartService {
 		com.alibaba.fastjson.JSONArray goodsList = JSON.parseArray(cart.getGoodsList());
 		
 		Map<Long, JSONArray> goodsMap = new HashMap<Long, JSONArray>();
-		JSONArray goodsArr = new JSONArray();
 		for (int i = 0; i < goodsList.size(); i++) {
+			JSONArray goodsArr = new JSONArray();
 			JSONObject goodsObj = JSONObject.fromObject(goodsList.get(i));
 			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
 			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
