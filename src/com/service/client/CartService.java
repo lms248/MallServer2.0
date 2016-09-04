@@ -12,21 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-
 import bean.client.CartBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
+
+import com.alibaba.fastjson.JSON;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+
 import dao.client.CartDao;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
@@ -93,9 +93,21 @@ public class CartService {
 			cartObj.put("amount", Integer.parseInt(amount));
 			cartObj.put("tags", JSON.parseObject(tags));
 			JSONArray goodsList = JSONArray.fromObject(cart.getGoodsList());
-			goodsList.add(cartObj);
+			JSONArray goodsList2 = new JSONArray();
+			boolean isHave = false;
+			for (int i = 0; i < goodsList.size(); i++) {
+				JSONObject obj2 = JSONObject.fromObject(goodsList.get(i));
+				if (obj2.get("goodsId") != null) {
+					obj2.put("amount", (int)obj2.get("amount")+Integer.parseInt(amount));
+					isHave = true;
+				}
+				goodsList2.add(obj2);
+			}
+			if (!isHave) {
+				goodsList2.add(cartObj);
+			}
 			
-			cart.setGoodsList(goodsList.toString());
+			cart.setGoodsList(goodsList2.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
 			CartDao.update(cart);
 		}
