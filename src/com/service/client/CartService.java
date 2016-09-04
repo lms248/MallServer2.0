@@ -187,7 +187,7 @@ public class CartService {
 		
 		CartBean cart = CartDao.loadByUid(user.getUid());
 		
-		if (cart.getGoodsList() == null) {
+		if (cart == null || cart.getGoodsList() == null) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "购物车列表");
 			obj.put("data", null);
