@@ -100,7 +100,7 @@ public class CartService {
 				System.out.println("tags===="+tags);
 				System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
 				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
-				if (obj2.get("goodsId") != null && JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
+				if (obj2.get("goodsId") != null && goodsId.equals(obj2.get("goodsId").toString())  && JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
 					obj2.put("amount", (int)obj2.get("amount")+Integer.parseInt(amount));
 					isHave = true;
 				}
