@@ -81,7 +81,7 @@ public class GoodsService {
 			if (tt.length < 2) {
 				break;
 			}
-			tagObj.put(tt[0], JSON.toJSONString(tt[1].split("\\|")));
+			tagObj.put(tt[0], JSON.toJSONString(tt[1].split("#")));
 			tagArr.add(tagObj);
 		}
 		

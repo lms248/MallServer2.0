@@ -81,6 +81,7 @@ public class CartService {
 			cart.setUpdateTime(System.currentTimeMillis());
 			CartDao.save(cart);
 		} else {
+			cartId = cart.getCartId();
 			cartObj.put("goodsId", Long.parseLong(goodsId));
 			cartObj.put("amount", Integer.parseInt(amount));
 			cartObj.put("tags", JSON.parseArray(tags));
