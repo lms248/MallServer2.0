@@ -2,6 +2,8 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -170,9 +173,52 @@ public class CartService {
 		CartBean cart = CartDao.loadByUid(user.getUid());
 		
 		com.alibaba.fastjson.JSONArray goodsList = JSON.parseArray(cart.getGoodsList());
-		JSONObject obj2 = new JSONObject();
-		JSONArray arr = new JSONArray();
+		
+		Map<Long, JSONArray> goodsMap = new HashMap<Long, JSONArray>();
+		JSONArray goodsArr = new JSONArray();
 		for (int i = 0; i < goodsList.size(); i++) {
+			JSONObject goodsObj = JSONObject.fromObject(goodsList.get(i));
+			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
+			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			if (goodsMap.get(shop.getShopId()) == null) {
+				goodsArr.add(goodsObj);
+				goodsMap.put(shop.getShopId(), goodsArr);
+			} else {
+				goodsArr = goodsMap.get(shop.getShopId());
+				goodsArr.add(goodsObj);
+				goodsMap.put(shop.getShopId(), goodsArr);
+			}
+		}
+		
+		JSONArray arr = new JSONArray();
+		JSONObject obj2 = new JSONObject();
+		for (Map.Entry<Long, JSONArray> map : goodsMap.entrySet()) {
+			ShopBean shop = ShopDao.loadByShopId(map.getKey());
+			obj2 = new JSONObject();
+			obj2.put("shopId", shop.getShopId());
+			obj2.put("shopName", shop.getName());
+			obj2.put("shopImage", shop.getImage());
+			obj2.put("shopThumb", shop.getThumbnail());
+			JSONArray arr2 = new JSONArray();
+			for (int i = 0; i < map.getValue().size(); i++) {
+				JSONObject obj3 = JSONObject.fromObject(map.getValue().get(i));
+				JSONObject obj4 = JSONObject.fromObject(map.getValue().get(i));
+				GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getLong("goodsId"));
+				obj4.put("goodsId", obj3.get("goodsId"));
+				obj4.put("goodsName", goods.getName());
+				obj4.put("goodsLogo", goods.getLogo());
+				obj4.put("goodsLogoThumb", goods.getLogoThumb());
+				obj4.put("prePrice", goods.getPrePrice());
+				obj4.put("curPrice", goods.getCurPrice());
+				obj4.put("amount", obj3.get("amount"));
+				obj4.put("tags", obj3.get("tags"));
+				arr2.add(obj4);
+			}
+			obj2.put("goodsList", arr2);
+			arr.add(obj2);
+		}
+		
+		/*for (int i = 0; i < goodsList.size(); i++) {
 			JSONObject obj3 = JSONObject.fromObject(goodsList.get(i));
 			GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getLong("goodsId"));
 			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
@@ -189,7 +235,7 @@ public class CartService {
 			obj2.put("amount", obj3.get("amount"));
 			obj2.put("tags", obj3.get("tags"));
 			arr.add(obj2);
-		}
+		}*/
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "购物车列表");
 		obj.put("data", arr);
