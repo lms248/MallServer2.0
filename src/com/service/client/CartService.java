@@ -174,8 +174,8 @@ public class CartService {
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < goodsList.size(); i++) {
 			JSONObject obj3 = JSONObject.fromObject(goodsList.get(i));
-			ShopBean shop = ShopDao.loadByShopId(obj3.getLong("shopId"));
 			GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getLong("goodsId"));
+			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
 			obj2.put("shopId", shop.getShopId());
 			obj2.put("shopName", shop.getName());
 			obj2.put("shopImage", shop.getImage());
