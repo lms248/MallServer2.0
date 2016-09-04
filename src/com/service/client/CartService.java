@@ -49,6 +49,8 @@ public class CartService {
 		
 		System.out.println("tags===="+tags);
 		System.out.println("JSON.parseArray(tags)===="+JSON.parseArray(tags));
+		System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
+		System.out.println("JSON.parseArray(tags)===="+JSON.parseArray(tags));
 		
 		JSONObject obj = new JSONObject();
 		
@@ -73,7 +75,7 @@ public class CartService {
 			cart.setUid(user.getUid());
 			cartObj.put("goodsId", Long.parseLong(goodsId));
 			cartObj.put("amount", Integer.parseInt(amount));
-			cartObj.put("tags", JSON.parseArray(tags));
+			cartObj.put("tags", JSON.parseObject(tags));
 			JSONArray goodsList = new JSONArray();
 			goodsList.add(cartObj);
 			
@@ -84,7 +86,7 @@ public class CartService {
 			cartId = cart.getCartId();
 			cartObj.put("goodsId", Long.parseLong(goodsId));
 			cartObj.put("amount", Integer.parseInt(amount));
-			cartObj.put("tags", JSON.parseArray(tags));
+			cartObj.put("tags", JSON.parseObject(tags));
 			JSONArray goodsList = JSONArray.fromObject(cart.getGoodsList());
 			goodsList.add(cartObj);
 			

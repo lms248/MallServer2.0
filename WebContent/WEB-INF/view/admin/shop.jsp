@@ -184,7 +184,7 @@
                     	<div class="form-group">
                     		<label> 标签名字（例如：颜色）</label>
                         	<input id="goods_tagKey" class="form-control" placeholder="标签名字">
-                        	<label> 标签值（每个值用“#”分隔开，例如：黑色#白色）</label>
+                        	<label> 标签值（每个值用英文字符“#”分隔开，例如：黑色#白色）</label>
                         	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
                     	</div>
                     	<div class="form-group">
