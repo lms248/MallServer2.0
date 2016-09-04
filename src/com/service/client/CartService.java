@@ -97,8 +97,10 @@ public class CartService {
 			boolean isHave = false;
 			for (int i = 0; i < goodsList.size(); i++) {
 				JSONObject obj2 = JSONObject.fromObject(goodsList.get(i));
-				if (obj2.get("goodsId") != null && tags.equals(obj2.get("tags").toString())) {
-					
+				System.out.println("tags===="+tags);
+				System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
+				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
+				if (obj2.get("goodsId") != null && JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
 					obj2.put("amount", (int)obj2.get("amount")+Integer.parseInt(amount));
 					isHave = true;
 				}
@@ -184,6 +186,17 @@ public class CartService {
 		}
 		
 		CartBean cart = CartDao.loadByUid(user.getUid());
+		
+		if (cart.getGoodsList() == null) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "购物车列表");
+			obj.put("data", null);
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
 		
 		com.alibaba.fastjson.JSONArray goodsList = JSON.parseArray(cart.getGoodsList());
 		
