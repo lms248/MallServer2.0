@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 
 import bean.client.CartBean;
+import bean.client.GoodsBean;
+import bean.client.ShopBean;
 import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import dao.client.CartDao;
+import dao.client.GoodsDao;
+import dao.client.ShopDao;
 import dao.client.UserDao;
 
 /**
@@ -149,8 +153,6 @@ public class CartService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token");
-		int index = Integer.parseInt(request.getParameter("index"));//索引开始
-		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
 		JSONObject obj = new JSONObject();
 		
@@ -170,9 +172,20 @@ public class CartService {
 		com.alibaba.fastjson.JSONArray goodsList = JSON.parseArray(cart.getGoodsList());
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
-		for (int i = index; i < goodsList.size() && i < size; i++) {
+		for (int i = 0; i < goodsList.size(); i++) {
 			JSONObject obj3 = JSONObject.fromObject(goodsList.get(i));
+			ShopBean shop = ShopDao.loadByShopId(obj3.getLong("shopId"));
+			GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getLong("goodsId"));
+			obj2.put("shopId", shop.getShopId());
+			obj2.put("shopName", shop.getName());
+			obj2.put("shopImage", shop.getImage());
+			obj2.put("shopThumb", shop.getThumbnail());
 			obj2.put("goodsId", obj3.get("goodsId"));
+			obj2.put("goodsName", goods.getName());
+			obj2.put("goodsLogo", goods.getLogo());
+			obj2.put("goodsLogoThumb", goods.getLogoThumb());
+			obj2.put("prePrice", goods.getPrePrice());
+			obj2.put("curPrice", goods.getCurPrice());
 			obj2.put("amount", obj3.get("amount"));
 			obj2.put("tags", obj3.get("tags"));
 			arr.add(obj2);
