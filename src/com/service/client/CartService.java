@@ -97,7 +97,8 @@ public class CartService {
 			boolean isHave = false;
 			for (int i = 0; i < goodsList.size(); i++) {
 				JSONObject obj2 = JSONObject.fromObject(goodsList.get(i));
-				if (obj2.get("goodsId") != null && obj2.get("tags").equals(JSON.parseObject(tags))) {
+				if (obj2.get("goodsId") != null && tags.equals(obj2.get("tags").toString())) {
+					
 					obj2.put("amount", (int)obj2.get("amount")+Integer.parseInt(amount));
 					isHave = true;
 				}
