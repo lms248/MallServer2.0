@@ -48,7 +48,6 @@ public class CartService {
 		String tags = request.getParameter("tags");
 		
 		System.out.println("tags===="+tags);
-		System.out.println("JSON.parseArray(tags)===="+JSON.parseArray(tags));
 		System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
 		
 		JSONObject obj = new JSONObject();
