@@ -72,7 +72,6 @@ public class GoodsService {
 		
 		String[] tag = tags.split(";");
 		JSONObject tagObj = new JSONObject();
-		JSONArray tagArr = new JSONArray();
 		for (String t : tag) {
 			if (StringUtils.isBlank(t)) {
 				break;
@@ -82,7 +81,6 @@ public class GoodsService {
 				break;
 			}
 			tagObj.put(tt[0], JSON.toJSONString(tt[1].split("#")));
-			tagArr.add(tagObj);
 		}
 		
 		long goodsId = IdGen.get().nextId();
@@ -92,7 +90,7 @@ public class GoodsService {
 		goods.setShopId(Long.parseLong(shopId));
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
-		goods.setTags(tagArr.toString());
+		goods.setTags(tagObj.toString());
 		goods.setName(name);
 		goods.setTitle(title);
 		goods.setDetails(details);
