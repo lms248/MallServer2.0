@@ -276,7 +276,7 @@ public class CartService {
 				System.out.println("tags===="+tags);
 				System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
 				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
-				if (obj2.get("goodsId") != null 
+				if (obj2.get("goodsId") != null && goodsId != null && tags != null
 						&& goodsId.equals(obj2.get("goodsId").toString())  
 						&& JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
 					continue;
@@ -408,7 +408,7 @@ public class CartService {
 		
 		CartBean cart = CartDao.loadByUid(user.getUid());
 		
-		CartDao.deleteByCartId(cart.getCartId());
+		CartDao.delete(cart.getId());
 		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
 		
