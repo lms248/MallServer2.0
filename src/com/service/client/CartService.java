@@ -392,20 +392,8 @@ public class CartService {
 		System.out.println("------------/cart/deleteAll-------------");
 		
 		String token = request.getParameter("token");
-		String cartId = request.getParameter("cartId");
 		
 		JSONObject obj = new JSONObject();
-		
-		if (token==null || cartId == null) {
-			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "请求参数不正确");
-			out.print(obj);
-			
-			out.flush();
-			out.close();
-			return;
-		}
-		
 		
 		UserBean user = UserDao.loadByToken(token);
 		if (user == null) {
@@ -418,9 +406,10 @@ public class CartService {
 			return;
 		}
 		
-		CartDao.deleteByCartId(Long.parseLong(cartId));
-		
 		CartBean cart = CartDao.loadByUid(user.getUid());
+		
+		CartDao.deleteByCartId(cart.getCartId());
+		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
 		
 		obj.put("code", Def.CODE_SUCCESS);
