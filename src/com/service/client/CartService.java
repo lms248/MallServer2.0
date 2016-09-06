@@ -346,6 +346,7 @@ public class CartService {
 			JSONArray goodsList_del = JSONArray.fromObject(goodsList);
 			JSONArray goodsList_temp = new JSONArray();
 			for (int i = 0; i < goodsList_del.size(); i++) {
+				goodsList_temp = new JSONArray();
 				JSONObject goodsObj_del = goodsList_del.getJSONObject(i);
 				for (int j = 0; j < goodsList_all.size(); j++) {
 					JSONObject goodsObj = JSONObject.fromObject(goodsList_all.get(j));
@@ -357,6 +358,7 @@ public class CartService {
 					}
 					goodsList_temp.add(goodsObj);
 				}
+				goodsList_all = goodsList_temp;
 			}
 			
 			cart.setGoodsList(goodsList_temp.toString());
