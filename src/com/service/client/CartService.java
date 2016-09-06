@@ -282,7 +282,6 @@ public class CartService {
 					continue;
 				}
 				goodsList_temp.add(obj2);
-				goodsList_all = goodsList_temp;
 			}
 			
 			cart.setGoodsList(goodsList_temp.toString());
@@ -350,6 +349,7 @@ public class CartService {
 				JSONObject goodsObj_del = goodsList_del.getJSONObject(i);
 				for (int j = 0; j < goodsList_all.size(); j++) {
 					JSONObject goodsObj = JSONObject.fromObject(goodsList_all.get(j));
+					System.out.println("goodsObj_del.getString('tags')=="+goodsObj_del.getString("tags"));
 					if (goodsObj.get("goodsId") != null 
 							&& goodsObj_del.getString("goodsId").equals(goodsObj.get("goodsId").toString())  
 							&& goodsObj_del.getString("tags").equals(goodsObj.get("tags").toString())) {
@@ -357,7 +357,6 @@ public class CartService {
 					}
 					goodsList_temp.add(goodsObj);
 				}
-				goodsList_all = goodsList_temp;
 			}
 			
 			cart.setGoodsList(goodsList_temp.toString());
