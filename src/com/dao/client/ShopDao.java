@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.ShopBean;
+
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
@@ -192,6 +193,22 @@ public class ShopDao {
 		try {
 			return dbUtils.delete(ShopBean.class, id);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
+	/**
+	 * 删除某条列表数据
+	 * @param 
+	 * @return 
+	 */
+	public static int deleteByShopId(long shopId){
+		try {
+			return dbUtils.stat(ShopBean.class, 
+					"delete from shop where shopid=?", shopId);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return -1;

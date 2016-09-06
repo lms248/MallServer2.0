@@ -25,17 +25,16 @@ function shop_edit() {
 		alert("请上传商店Logo！！！");
 	}
 	else {
-		var tip = "你确认添加吗？";
+		var tip = "你确认"+$("#shop-edit-submit").text()+"吗？";
 		if(confirm(tip)){
 			var params = {name:name,title:title,details:details,images:images,contactPhone:contactPhone};
 			$.post("/shop/add",params,function(data){
+				alert(data.msg);
 				if(data.code=="0"){
-					alert("添加商店成功！！！");
-					$("#modalCloseBtn").click();
-					getDateList(0);
-				} else {
-					alert(data.msg);
+					getShopDateList(0);
 				}
+				$("#modalCloseBtn").click();
+				$("#shop-edit-submit").html("修改");
 			},"json");
 		}
 	}
@@ -110,6 +109,48 @@ function goods_add() {
 	}
 }
 
+
+/**
+ * 查看商店
+ * @param shopId
+ */
+function showShop(shopId) {
+	updateShop(shopId);
+}
+
+/**
+ * 修改商店
+ * @param shopId
+ */
+function updateShop(shopId) {
+	$.get("/shop/info",{shopId:shopId},function(data){
+		if(data.code=="0"){
+			$("#name").val(data.data.name);
+			$("#title").val(data.data.title);
+			$("#details").val(data.data.details);
+			$("#show_image").attr("src",data.data.image);
+			$("#contactPhone").val(data.data.contactPhone);
+			$("#shop-edit-submit").html("修改");
+		} else {
+			alert(data.msg);
+		}
+	},"json");
+}
+
+/**
+ * 删除商店
+ * @param shopId
+ */
+function deleteShop(shopId) {
+	$.get("/shop/delete",{shopId:shopId},function(data){
+		alert(data.msg);
+		if(data.code=="0"){
+			getShopDateList(0);
+		}
+	},"json");
+}
+
+
 /**
  * 重置编辑
  */
@@ -121,9 +162,9 @@ function resetEdit() {
 }
 
 /**
- * 获取数据列表
+ * 获取商店数据列表
  */
-function getDateList(index) {
+function getShopDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var params = {index:index,size:pageSize};
 	$.get("/shop/infoList",params,function(data){
@@ -139,6 +180,6 @@ function getDateList(index) {
 }
 
 $("#pageSize").change(function(){
-	getDateList(0)
+	getShopDateList(0)
 });
 

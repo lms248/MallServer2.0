@@ -17,11 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.FeedbackBean;
-import bean.client.ShopBean;
 import bean.client.UserBean;
+
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+
 import dao.client.FeedbackDao;
 import dao.client.ShopDao;
 import dao.client.UserDao;

@@ -190,4 +190,39 @@ public class GoodsService {
 		out.flush();
 		out.close();
 	}
+	
+	/** 删除 */
+	@RequestMapping(value ="delete",method=RequestMethod.POST)
+	@ResponseBody
+	public void delete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("------------/goods/delete-------------");
+		
+		String goodsId = request.getParameter("goodsId");
+		
+		JSONObject obj = new JSONObject();
+		
+		int result = GoodsDao.deleteByGoodsId(Long.parseLong(goodsId));
+		if (result == -1) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "删除商品失败");
+			obj.put("data", "");
+			out.print(obj);
+		} else {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "删除商品成功");
+			obj.put("data", "");
+			out.print(obj);
+		}
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
 }

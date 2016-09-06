@@ -269,10 +269,10 @@ public class CartService {
 			out.close();
 			return;
 		} else {
-			JSONArray goodsList1 = JSONArray.fromObject(cart.getGoodsList());
-			JSONArray goodsList2 = new JSONArray();
-			for (int i = 0; i < goodsList1.size(); i++) {
-				JSONObject obj2 = JSONObject.fromObject(goodsList1.get(i));
+			JSONArray goodsList_all = JSONArray.fromObject(cart.getGoodsList());
+			JSONArray goodsList_temp = new JSONArray();
+			for (int i = 0; i < goodsList_all.size(); i++) {
+				JSONObject obj2 = JSONObject.fromObject(goodsList_all.get(i));
 				System.out.println("tags===="+tags);
 				System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
 				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
@@ -281,10 +281,11 @@ public class CartService {
 						&& JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
 					continue;
 				}
-				goodsList2.add(obj2);
+				goodsList_temp.add(obj2);
+				goodsList_all = goodsList_temp;
 			}
 			
-			cart.setGoodsList(goodsList2.toString());
+			cart.setGoodsList(goodsList_temp.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
 			CartDao.update(cart);
 		}
@@ -356,6 +357,7 @@ public class CartService {
 					}
 					goodsList_temp.add(goodsObj);
 				}
+				goodsList_all = goodsList_temp;
 			}
 			
 			cart.setGoodsList(goodsList_temp.toString());

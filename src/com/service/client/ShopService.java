@@ -25,13 +25,13 @@ import common.utils.JsonUtils;
 import dao.client.ShopDao;
 
 /**
- * 商店
+ * 店铺
  */
 @Controller
 @RequestMapping("/shop")
 public class ShopService {
 	
-	/** 添加商店 */
+	/** 添加店铺 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
 	@ResponseBody
 	public void add(HttpServletRequest request, HttpServletResponse response)
@@ -51,7 +51,7 @@ public class ShopService {
 		if (ShopDao.loadByShopname(name) != null) {
 			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "该商店名已存在");
+			obj.put("msg", "该店铺名已存在");
 			out.print(obj);
 			
 			out.flush();
@@ -75,7 +75,7 @@ public class ShopService {
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "添加商店成功");
+		obj.put("msg", "添加店铺成功");
 		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopId)));
 		out.print(obj);
 		
@@ -83,7 +83,7 @@ public class ShopService {
 		out.close();
 	}
 	
-	/** 商店信息 */
+	/** 店铺信息 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody
 	public void info(HttpServletRequest request, HttpServletResponse response)
@@ -97,7 +97,7 @@ public class ShopService {
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "商店信息");
+		obj.put("msg", "店铺信息");
 		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopId)));
 		out.print(obj);
 		
@@ -105,7 +105,7 @@ public class ShopService {
 		out.close();
 	}
 	
-	/** 商店列表 */
+	/** 店铺列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
 	@ResponseBody
 	public void infoList(HttpServletRequest request, HttpServletResponse response)
@@ -130,10 +130,45 @@ public class ShopService {
 			arr.add(obj2);
 		}
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "商店列表");
+		obj.put("msg", "店铺列表");
 		obj.put("count", ShopDao.Count());
 		obj.put("data", arr);
 		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 删除 */
+	@RequestMapping(value ="delete",method=RequestMethod.POST)
+	@ResponseBody
+	public void delete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("------------/shop/delete-------------");
+		
+		String shopId = request.getParameter("shopId");
+		
+		JSONObject obj = new JSONObject();
+		
+		int result = ShopDao.deleteByShopId(Long.parseLong(shopId));
+		if (result == -1) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "删除店铺失败");
+			obj.put("data", "");
+			out.print(obj);
+		} else {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "删除店铺成功");
+			obj.put("data", "");
+			out.print(obj);
+		}
 		
 		System.out.println(obj);
 		

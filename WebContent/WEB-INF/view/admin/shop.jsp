@@ -135,7 +135,7 @@
                     </div> -->
                     <div class="pull-right">
                          <button class="btn btn-danger btn-sm" type="button" style="margin-right: 10px;" onclick="resetEdit()">重置</button>
-                         <button class="btn btn-success btn-sm" type="button" onclick="shop_edit()">添加</button>
+                         <button id="shop-edit-submit" class="btn btn-success btn-sm" type="button" onclick="shop_edit()">添加</button>
                     </div>
                 </div>
             </div>
@@ -243,9 +243,9 @@
 		<a class="btn btn-success" href="#modal_add_goods" data-toggle="modal" onclick="$('#shop_name').html('{{:name}}');$('#shop_name').attr('title','{{:shopId}}');">添加商品</a>
 	</td>
     <td class="center ">
-		 <button class="btn btn-info" type="button" onclick="showData({{:shopId}})">查看</button>
-         <button class="btn btn-warning" type="button" onclick="updateData({{:shopId}})">修改</button>
-         <button class="btn btn-danger" type="button" onclick="deleteData({{:shopId}})">删除</button>
+		 <button class="btn btn-info" type="button" onclick="showShop({{:shopId}})">查看</button>
+         <button class="btn btn-warning" type="button" onclick="updateShop({{:shopId}})">修改</button>
+         <button class="btn btn-danger" type="button" onclick="deleteShop({{:shopId}})">删除</button>
 	</td>
 </tr>
 </script>
