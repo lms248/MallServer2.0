@@ -240,6 +240,8 @@ public class CartService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		System.out.println("------------/cart/delete-------------");
+		
 		String token = request.getParameter("token");
 		String goodsId = request.getParameter("goodsId");
 		String tags = request.getParameter("tags");
@@ -309,6 +311,8 @@ public class CartService {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		
+		System.out.println("------------/cart/deleteList-------------");
 		
 		String token = request.getParameter("token");
 		String goodsList = request.getParameter("goodsList");
@@ -381,6 +385,8 @@ public class CartService {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		
+		System.out.println("------------/cart/deleteAll-------------");
 		
 		String token = request.getParameter("token");
 		String cartId = request.getParameter("cartId");
