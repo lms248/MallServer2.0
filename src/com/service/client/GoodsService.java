@@ -207,7 +207,9 @@ public class GoodsService {
 		
 		JSONObject obj = new JSONObject();
 		
-		int result = GoodsDao.deleteByGoodsId(Long.parseLong(goodsId));
+		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		
+		int result = GoodsDao.delete(goods.getId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "删除商品失败");

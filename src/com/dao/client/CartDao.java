@@ -197,20 +197,4 @@ public class CartDao {
 		}
 		return -1;
 	}
-	
-	/**
-	 * 删除某条列表数据
-	 * @param 
-	 * @return 
-	 */
-	public static int deleteByCartId(long cartId){
-		try {
-			return dbUtils.stat(CartBean.class, 
-					"delete from cart where cartid=?", cartId);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return -1;
-	}
 }

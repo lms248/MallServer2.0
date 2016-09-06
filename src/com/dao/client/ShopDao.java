@@ -198,19 +198,4 @@ public class ShopDao {
 		return -1;
 	}
 	
-	/**
-	 * 删除某条列表数据
-	 * @param 
-	 * @return 
-	 */
-	public static int deleteByShopId(long shopId){
-		try {
-			return dbUtils.stat(ShopBean.class, 
-					"delete from shop where shopid=?", shopId);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return -1;
-	}
 }

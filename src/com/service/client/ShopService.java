@@ -157,7 +157,9 @@ public class ShopService {
 		
 		JSONObject obj = new JSONObject();
 		
-		int result = ShopDao.deleteByShopId(Long.parseLong(shopId));
+		ShopBean shop = ShopDao.loadByShopId(Long.parseLong(shopId));
+		
+		int result = ShopDao.delete(shop.getId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "删除店铺失败");
