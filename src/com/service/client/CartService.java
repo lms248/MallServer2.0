@@ -408,7 +408,8 @@ public class CartService {
 		
 		CartBean cart = CartDao.loadByUid(user.getUid());
 		
-		CartDao.delete(cart.getId());
+		//CartDao.delete(cart.getId());
+		CartDao.deleteByCartId(cart.getCartId());
 		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
 		

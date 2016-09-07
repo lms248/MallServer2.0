@@ -197,4 +197,18 @@ public class CartDao {
 		}
 		return -1;
 	}
+	
+	/**
+	 * 删除某条列表数据
+	 * @param 
+	 * @return 
+	 */
+	public static int deleteByCartId(long cartId){
+		try {
+			return dbUtils.delete(CartBean.class, "cardid", cartId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 }

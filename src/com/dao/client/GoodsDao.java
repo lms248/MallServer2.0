@@ -197,4 +197,18 @@ public class GoodsDao {
 		return -1;
 	}
 	
+	/**
+	 * 删除某条列表数据
+	 * @param 
+	 * @return 
+	 */
+	public static int deleteByGoods(long goodsId){
+		try {
+			return dbUtils.delete(GoodsBean.class, "goodsid" ,goodsId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+	
 }

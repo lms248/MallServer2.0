@@ -358,6 +358,28 @@ public abstract class DbBase {
 			this.closeConnection(conn);
 		}
 	}
+	
+	/**
+	 * 执行删除语句
+	 * 
+	 * @param pojo
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 */
+	public <T extends Pojo> int delete(Class<T> pojo, String id_name, Object id_value)
+			throws SQLException {
+		StringBuffer sb = new StringBuffer("delete from ");
+		sb.append(getTableName(pojo)).append(" where "+id_name+"=?");
+		Connection conn=getConnection();
+		try {
+			int rs = runner.update(conn, sb.toString(), id_value);
+			return rs;
+		} finally {
+			sb = null;
+			this.closeConnection(conn);
+		}
+	}
 
 	/**
 	 * 插入对象

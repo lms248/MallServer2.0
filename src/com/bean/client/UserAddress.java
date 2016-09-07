@@ -1,19 +1,51 @@
 package bean.client;
 
-import common.db.Pojo;
 
 /**
  * 用户收货地址
  */
-public class UserAddress extends Pojo {
-
-	private static final long serialVersionUID = 1L;
+public class UserAddress{
 	
 	/** 联系人 */
-	private String username;
+	private String contact;
 	/** 手机号 */
-	/** 所在地址 */
+	private String phone;
+	/** 所在地区 */
+	private String area;
 	/** 详细地址 */
+	private String address;
 	/** 是否默认地址 */
+	private boolean isDefault;
+	
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public boolean isDefault() {
+		return isDefault;
+	}
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
 	
 }

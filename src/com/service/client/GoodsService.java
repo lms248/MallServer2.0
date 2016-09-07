@@ -209,7 +209,7 @@ public class GoodsService {
 		
 		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
 		
-		int result = GoodsDao.delete(goods.getId());
+		int result = GoodsDao.deleteByGoods(goods.getGoodsId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "删除商品失败");

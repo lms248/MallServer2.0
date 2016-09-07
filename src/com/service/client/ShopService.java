@@ -159,7 +159,7 @@ public class ShopService {
 		
 		ShopBean shop = ShopDao.loadByShopId(Long.parseLong(shopId));
 		
-		int result = ShopDao.delete(shop.getId());
+		int result = ShopDao.deleteByShopId(shop.getShopId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "删除店铺失败");

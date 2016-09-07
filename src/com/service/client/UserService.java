@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,12 @@ import service.basic.UploadService;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
+
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.UuidUtils;
-
 import dao.client.UserDao;
 
 /**
@@ -454,4 +455,115 @@ public class UserService {
 		out.flush();
 		out.close();
 	}
+	
+	/** 添加收货地址 */
+	@RequestMapping(value ="address/add",method=RequestMethod.POST)
+	@ResponseBody
+	public void addAddress(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String token = request.getParameter("token"); 
+		String contact = request.getParameter("contact"); 
+		String phone = request.getParameter("phone"); 
+		String area = request.getParameter("area"); 
+		String address = request.getParameter("address"); 
+		String isDefault = request.getParameter("isDefault"); 
+		
+		JSONObject obj = new JSONObject();
+		if (token==null || contact==null || phone==null || area==null || address==null || isDefault==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		JSONArray addressArr = new JSONArray();
+		try {
+			addressArr = JSONArray.fromObject(user.getAddress());
+		} catch (Exception e) {
+			addressArr = new JSONArray();
+		}
+		
+		JSONObject addressObj = new JSONObject();
+		addressObj.put("contact", contact);
+		addressObj.put("phone", phone);
+		addressObj.put("area", area);
+		addressObj.put("address", address);
+		addressObj.put("isDefault", isDefault.equals("true")?true:false);
+		addressArr.add(addressObj);
+		
+		user.setAddress(addressArr.toString());
+		UserDao.update(user);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "成功添加收货地址");
+		obj.put("data", addressArr);
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 获取收货地址 */
+	@RequestMapping(value ="address/infoList",method=RequestMethod.POST)
+	@ResponseBody
+	public void getAddressList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+	
+		String token = request.getParameter("token"); 
+		
+		JSONObject obj = new JSONObject();
+		if (token==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		JSONArray addressArr = JSONArray.fromObject(user.getAddress());
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "收货地址列表");
+		obj.put("data", addressArr);
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}	
 }
