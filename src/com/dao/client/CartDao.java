@@ -205,7 +205,7 @@ public class CartDao {
 	 */
 	public static int deleteByCartId(long cartId){
 		try {
-			return dbUtils.delete(CartBean.class, "cardid", cartId);
+			return dbUtils.delete(CartBean.class, "cartid", cartId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
