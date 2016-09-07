@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import service.basic.UploadService;
+import bean.client.UserAddress;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
@@ -502,13 +503,13 @@ public class UserService {
 			addressArr = new JSONArray();
 		}
 		
-		JSONObject addressObj = new JSONObject();
-		addressObj.put("contact", contact);
-		addressObj.put("phone", phone);
-		addressObj.put("area", area);
-		addressObj.put("address", address);
-		addressObj.put("isDefault", isDefault.equals("true")?true:false);
-		addressArr.add(addressObj);
+		UserAddress userAddress = new UserAddress();
+		userAddress.setContact(contact);
+		userAddress.setPhone(phone);
+		userAddress.setArea(area);
+		userAddress.setAddress(address);
+		userAddress.setDefault(isDefault.equals("true")?true:false);
+		addressArr.add(JSONObject.fromObject(userAddress));
 		
 		user.setAddress(addressArr.toString());
 		UserDao.update(user);

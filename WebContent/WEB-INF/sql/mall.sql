@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-03 18:18:22
+Date: 2016-09-07 11:26:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -115,6 +115,20 @@ CREATE TABLE `shop` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for shop_sort
+-- ----------------------------
+DROP TABLE IF EXISTS `shop_sort`;
+CREATE TABLE `shop_sort` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `level_1` int(11) DEFAULT NULL COMMENT '类别一id',
+  `level_2` int(11) DEFAULT NULL COMMENT '类别二id',
+  `level_3` int(11) DEFAULT NULL COMMENT '类别三id',
+  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for sort
 -- ----------------------------
 DROP TABLE IF EXISTS `sort`;
@@ -141,6 +155,7 @@ CREATE TABLE `user` (
   `avatar` varchar(255) DEFAULT NULL COMMENT '头像',
   `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
+  `address` mediumtext COMMENT '用户收货地址',
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
