@@ -6,6 +6,8 @@ package bean.client;
  */
 public class UserAddress{
 	
+	/** 地址ID */
+	private long addressId;
 	/** 联系人 */
 	private String contact;
 	/** 手机号 */
@@ -17,6 +19,13 @@ public class UserAddress{
 	/** 是否默认地址 */
 	private boolean isDefault;
 	
+	
+	public long getAddressId() {
+		return addressId;
+	}
+	public void setAddressId(long addressId) {
+		this.addressId = addressId;
+	}
 	public String getContact() {
 		return contact;
 	}

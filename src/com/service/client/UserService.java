@@ -468,18 +468,17 @@ public class UserService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token"); 
-		String userAddress = request.getParameter("userAddress"); 
 		
-		/*String contact = request.getParameter("contact"); 
+		String contact = request.getParameter("contact"); 
 		String phone = request.getParameter("phone"); 
 		String area = request.getParameter("area"); 
 		String address = request.getParameter("address"); 
-		String isDefault = request.getParameter("isDefault");*/ 
+		String isDefault = request.getParameter("isDefault"); 
 		
 		JSONObject obj = new JSONObject();
-		if (token==null || userAddress==null) {
+		if (token==null || contact==null || phone==null|| area==null || address==null || isDefault==null) {
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "参数不正确");
+			obj.put("msg", "参数不可为空");
 			out.print(obj);
 			
 			out.flush();
@@ -505,13 +504,14 @@ public class UserService {
 			addressArr = new JSONArray();
 		}
 		
-		/*UserAddress userAddress = new UserAddress();
+		UserAddress userAddress = new UserAddress();
+		userAddress.setAddressId(IdGen.get().nextId());
 		userAddress.setContact(contact);
 		userAddress.setPhone(phone);
 		userAddress.setArea(area);
 		userAddress.setAddress(address);
-		userAddress.setDefault(isDefault.equals("true")?true:false);*/
-		addressArr.add(JSON.parseObject(userAddress, UserAddress.class));
+		userAddress.setDefault(isDefault.equals("true")?true:false);
+		/*addressArr.add(JSON.parseObject(userAddress, UserAddress.class));*/
 		
 		user.setAddress(addressArr.toString());
 		UserDao.update(user);
@@ -569,4 +569,60 @@ public class UserService {
 		out.flush();
 		out.close();
 	}	
+	
+	/** 删除收货地址 */
+	@RequestMapping(value ="address/delete",method=RequestMethod.POST)
+	@ResponseBody
+	public void deleteAddress(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+	
+		String token = request.getParameter("token"); 
+		String addressId = request.getParameter("addressId"); 
+		
+		JSONObject obj = new JSONObject();
+		if (token==null || addressId==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		JSONArray addressArr = JSONArray.fromObject(user.getAddress());
+		JSONArray addressArr_new = new JSONArray();
+		for (int i = 0; i < addressArr.size(); i++) {
+			JSONObject addressObj = addressArr.getJSONObject(i);
+			if (addressObj.get("addressId").equals(addressId)) {
+				continue;
+			}
+			addressArr_new.add(addressObj);
+		}
+		
+		user.setAddress(addressArr_new.toString());
+		UserDao.update(user);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "收货地址列表");
+		obj.put("data", user.getAddress());
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
 }
