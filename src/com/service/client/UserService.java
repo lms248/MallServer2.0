@@ -468,14 +468,16 @@ public class UserService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token"); 
-		String contact = request.getParameter("contact"); 
+		String userAddress = request.getParameter("userAddress"); 
+		
+		/*String contact = request.getParameter("contact"); 
 		String phone = request.getParameter("phone"); 
 		String area = request.getParameter("area"); 
 		String address = request.getParameter("address"); 
-		String isDefault = request.getParameter("isDefault"); 
+		String isDefault = request.getParameter("isDefault");*/ 
 		
 		JSONObject obj = new JSONObject();
-		if (token==null || contact==null || phone==null || area==null || address==null || isDefault==null) {
+		if (token==null || userAddress==null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "参数不正确");
 			out.print(obj);
@@ -503,13 +505,13 @@ public class UserService {
 			addressArr = new JSONArray();
 		}
 		
-		UserAddress userAddress = new UserAddress();
+		/*UserAddress userAddress = new UserAddress();
 		userAddress.setContact(contact);
 		userAddress.setPhone(phone);
 		userAddress.setArea(area);
 		userAddress.setAddress(address);
-		userAddress.setDefault(isDefault.equals("true")?true:false);
-		addressArr.add(JSONObject.fromObject(userAddress));
+		userAddress.setDefault(isDefault.equals("true")?true:false);*/
+		addressArr.add(JSON.parseObject(userAddress, UserAddress.class));
 		
 		user.setAddress(addressArr.toString());
 		UserDao.update(user);
