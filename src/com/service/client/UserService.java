@@ -729,6 +729,7 @@ public class UserService {
 			JSONObject addressObj = addressArr.getJSONObject(i);
 			System.out.println("addressObj.get('addressId')===="+addressObj.get("addressId"));
 			System.out.println("addressId===="+addressId);
+			System.out.println(addressObj.get("addressId").equals(addressId));
 			if (addressObj.get("addressId").equals(addressId)) {
 				if (addressId.equals(user.getDefaultAddressId()+"")) {
 					user.setDefaultAddressId(0);
