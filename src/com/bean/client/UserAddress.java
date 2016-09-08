@@ -17,7 +17,7 @@ public class UserAddress{
 	/** 详细地址 */
 	private String address;
 	/** 是否默认地址 */
-	private boolean isDefault;
+	//private boolean isDefault;
 	
 	
 	public long getAddressId() {
@@ -50,11 +50,11 @@ public class UserAddress{
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public boolean isDefault() {
+	/*public boolean isDefault() {
 		return isDefault;
 	}
 	public void setDefault(boolean isDefault) {
 		this.isDefault = isDefault;
-	}
+	}*/
 	
 }

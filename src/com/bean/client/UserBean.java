@@ -27,6 +27,8 @@ public class UserBean extends Pojo {
 	private String token;
 	/** 用户收货地址 */
 	private String address;
+	/** 用户默认收货地址ID */
+	private long defaultAddressId;
 	/** 最近登录时间*/
 	private long loginTime;
 	/** 注册时间 */
@@ -85,6 +87,12 @@ public class UserBean extends Pojo {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public long getDefaultAddressId() {
+		return defaultAddressId;
+	}
+	public void setDefaultAddressId(long defaultAddressId) {
+		this.defaultAddressId = defaultAddressId;
 	}
 	public String getAddress() {
 		return address;

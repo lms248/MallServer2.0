@@ -497,23 +497,28 @@ public class UserService {
 			return;
 		}
 		
+		long addressId = IdGen.get().nextId();
 		JSONArray addressArr = new JSONArray();
 		try {
 			addressArr = JSONArray.fromObject(user.getAddress());
 			if (addressArr == null) {
 				addressArr = new JSONArray();
+				user.setDefaultAddressId(addressId);
 			}
 		} catch (Exception e) {
 			addressArr = new JSONArray();
 		}
 		
 		UserAddress userAddress = new UserAddress();
-		userAddress.setAddressId(IdGen.get().nextId());
+		userAddress.setAddressId(addressId);
 		userAddress.setContact(contact);
 		userAddress.setPhone(phone);
 		userAddress.setArea(area);
 		userAddress.setAddress(address);
-		userAddress.setDefault(isDefault.equals("true")?true:false);
+		if (isDefault.equals("true")) {
+			user.setDefaultAddressId(addressId);
+		}
+		
 		/*addressArr.add(JSON.parseObject(userAddress, UserAddress.class));*/
 		
 		addressArr.add(userAddress);
@@ -565,6 +570,15 @@ public class UserService {
 		}
 		
 		JSONArray addressArr = JSONArray.fromObject(user.getAddress());
+		JSONObject outObj = new JSONObject();
+		if (user.getDefaultAddressId() == 0) {
+			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
+			if (obj2 != null) {
+				user.setDefaultAddressId(obj2.getLong("addressId"));
+			}
+		}
+		outObj.put("defaultAddressId", user.getDefaultAddressId());
+		outObj.put("addressList", addressArr);
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "收货地址列表");
 		obj.put("data", addressArr);
@@ -613,6 +627,9 @@ public class UserService {
 		for (int i = 0; i < addressArr.size(); i++) {
 			JSONObject addressObj = addressArr.getJSONObject(i);
 			if (addressObj.get("addressId").equals(addressId)) {
+				if (addressId.equals(user.getDefaultAddressId()+"")) {
+					user.setDefaultAddressId(0);
+				}
 				continue;
 			}
 			addressArr_new.add(addressObj);
