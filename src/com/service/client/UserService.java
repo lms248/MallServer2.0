@@ -525,9 +525,109 @@ public class UserService {
 		user.setAddress(addressArr.toString());
 		UserDao.update(user);
 		
+		JSONObject outObj = new JSONObject();
+		if (user.getDefaultAddressId() == 0) {
+			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
+			if (obj2 != null) {
+				user.setDefaultAddressId(obj2.getLong("addressId"));
+			}
+		}
+		outObj.put("defaultAddressId", user.getDefaultAddressId());
+		outObj.put("addressList", addressArr);
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "成功添加收货地址");
-		obj.put("data", addressArr);
+		obj.put("data", outObj);
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 修改收货地址 */
+	@RequestMapping(value ="address/update",method=RequestMethod.POST)
+	@ResponseBody
+	public void updateAddress(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String token = request.getParameter("token"); 
+		
+		String addressId = request.getParameter("addressId"); 
+		String contact = request.getParameter("contact"); 
+		String phone = request.getParameter("phone"); 
+		String area = request.getParameter("area"); 
+		String address = request.getParameter("address"); 
+		String isDefault = request.getParameter("isDefault"); 
+		
+		JSONObject obj = new JSONObject();
+		if (token==null || addressId==null || contact==null || phone==null|| area==null || address==null || isDefault==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不可为空");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		JSONArray addressArr = JSONArray.fromObject(user.getAddress());
+		if (addressArr == null) {
+			return;
+		}
+		
+		JSONArray addressArr_new = new JSONArray();
+		for (int i = 0; i < addressArr.size(); i++) {
+			JSONObject addressObj = JSONObject.fromObject(addressArr.get(i));
+			if (addressId.equals(addressObj.get("addressId")+"")) {
+				UserAddress userAddress = new UserAddress();
+				userAddress.setAddressId(Long.parseLong(addressId));
+				userAddress.setContact(contact);
+				userAddress.setPhone(phone);
+				userAddress.setArea(area);
+				userAddress.setAddress(address);
+				if (isDefault.equals("true")) {
+					user.setDefaultAddressId(Long.parseLong(addressId));
+				}
+				addressArr_new.add(userAddress);
+			}
+			addressArr_new.add(addressObj);
+		}
+		
+		/*addressArr.add(JSON.parseObject(userAddress, UserAddress.class));*/
+		
+		user.setAddress(addressArr_new.toString());
+		UserDao.update(user);
+		
+		JSONObject outObj = new JSONObject();
+		if (user.getDefaultAddressId() == 0) {
+			JSONObject obj2 = JSONObject.fromObject(addressArr_new.get(0));
+			if (obj2 != null) {
+				user.setDefaultAddressId(obj2.getLong("addressId"));
+			}
+		}
+		outObj.put("defaultAddressId", user.getDefaultAddressId());
+		outObj.put("addressList", addressArr_new);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "成功添加收货地址");
+		obj.put("data", outObj);
 		out.print(obj);
 		
 		System.out.println(obj);
@@ -579,9 +679,10 @@ public class UserService {
 		}
 		outObj.put("defaultAddressId", user.getDefaultAddressId());
 		outObj.put("addressList", addressArr);
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "收货地址列表");
-		obj.put("data", addressArr);
+		obj.put("data", outObj);
 		out.print(obj);
 		
 		out.flush();
@@ -638,9 +739,20 @@ public class UserService {
 		user.setAddress(addressArr_new.toString());
 		UserDao.update(user);
 		
+		addressArr = JSONArray.fromObject(user.getAddress());
+		JSONObject outObj = new JSONObject();
+		if (user.getDefaultAddressId() == 0) {
+			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
+			if (obj2 != null) {
+				user.setDefaultAddressId(obj2.getLong("addressId"));
+			}
+		}
+		outObj.put("defaultAddressId", user.getDefaultAddressId());
+		outObj.put("addressList", user.getAddress());
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "收货地址列表");
-		obj.put("data", user.getAddress());
+		obj.put("data", outObj);
 		out.print(obj);
 		
 		out.flush();
