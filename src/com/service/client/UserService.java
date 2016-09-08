@@ -611,24 +611,8 @@ public class UserService {
 			addressArr_new.add(addressObj);
 		}
 		
-		/*addressArr.add(JSON.parseObject(userAddress, UserAddress.class));*/
-		
-		user.setAddress(addressArr_new.toString());
-		UserDao.update(user);
-		
-		JSONObject outObj = new JSONObject();
-		if (user.getDefaultAddressId() == 0) {
-			JSONObject obj2 = JSONObject.fromObject(addressArr_new.get(0));
-			if (obj2 != null) {
-				user.setDefaultAddressId(obj2.getLong("addressId"));
-			}
-		}
-		outObj.put("defaultAddressId", user.getDefaultAddressId());
-		outObj.put("addressList", addressArr_new);
-		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "成功修改收货地址");
-		obj.put("data", outObj);
 		out.print(obj);
 		
 		System.out.println(obj);
@@ -740,20 +724,8 @@ public class UserService {
 		user.setAddress(addressArr_new.toString());
 		UserDao.update(user);
 		
-		/*addressArr = JSONArray.fromObject(user.getAddress());
-		JSONObject outObj = new JSONObject();
-		if (user.getDefaultAddressId() == 0) {
-			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
-			if (obj2 != null) {
-				user.setDefaultAddressId(obj2.getLong("addressId"));
-			}
-		}
-		outObj.put("defaultAddressId", user.getDefaultAddressId());
-		outObj.put("addressList", user.getAddress());*/
-		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "删除地址成功");
-		//obj.put("data", outObj);
 		out.print(obj);
 		
 		System.out.println(obj);
