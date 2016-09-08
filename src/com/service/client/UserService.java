@@ -727,6 +727,8 @@ public class UserService {
 		JSONArray addressArr_new = new JSONArray();
 		for (int i = 0; i < addressArr.size(); i++) {
 			JSONObject addressObj = addressArr.getJSONObject(i);
+			System.out.println("addressObj.get('addressId')===="+addressObj.get("addressId"));
+			System.out.println("addressId===="+addressId);
 			if (addressObj.get("addressId").equals(addressId)) {
 				if (addressId.equals(user.getDefaultAddressId()+"")) {
 					user.setDefaultAddressId(0);
@@ -754,6 +756,8 @@ public class UserService {
 		obj.put("msg", "收货地址列表");
 		obj.put("data", outObj);
 		out.print(obj);
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();
