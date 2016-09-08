@@ -6,23 +6,25 @@ import common.db.Pojo;
  * 订单bean
  * */
 public class OrderBean extends Pojo {
+	
 	private static final long serialVersionUID = 1L;
+	
 	/** 序号ID */
 	private int id;
 	/** 订单ID */
-	private long ordeId;
+	private long orderId;
 	/** 用户ID */
-	private String uid;
+	private long uid;
 	/** 商品ID */
 	private String goodsId;
 	/** 数量 */
-	private String count;
-	/** 颜色 */
-	private String color;
-	/** 尺寸 */
-	private String size;
+	private int amount;
+	/** 属性标签 */
+	private String tags;
+	/** 总价格 */
+	private double price;
 	/** 下单时间 */
-	private long time;
+	private long creatTime;
 	
 	public int getId() {
 		return id;
@@ -30,16 +32,16 @@ public class OrderBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getOrdeId() {
-		return ordeId;
+	public long getOrderId() {
+		return orderId;
 	}
-	public void setOrdeId(long ordeId) {
-		this.ordeId = ordeId;
+	public void setOrderId(long orderId) {
+		this.orderId = orderId;
 	}
-	public String getUid() {
+	public long getUid() {
 		return uid;
 	}
-	public void setUid(String uid) {
+	public void setUid(long uid) {
 		this.uid = uid;
 	}
 	public String getGoodsId() {
@@ -48,28 +50,29 @@ public class OrderBean extends Pojo {
 	public void setGoodsId(String goodsId) {
 		this.goodsId = goodsId;
 	}
-	public String getCount() {
-		return count;
+	public int getAmount() {
+		return amount;
 	}
-	public void setCount(String count) {
-		this.count = count;
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
-	public String getColor() {
-		return color;
+	public String getTags() {
+		return tags;
 	}
-	public void setColor(String color) {
-		this.color = color;
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
-	public String getSize() {
-		return size;
+	public double getPrice() {
+		return price;
 	}
-	public void setSize(String size) {
-		this.size = size;
+	public void setPrice(double price) {
+		this.price = price;
 	}
-	public long getTime() {
-		return time;
+	public long getCreatTime() {
+		return creatTime;
 	}
-	public void setTime(long time) {
-		this.time = time;
+	public void setCreatTime(long creatTime) {
+		this.creatTime = creatTime;
 	}
+	
 }

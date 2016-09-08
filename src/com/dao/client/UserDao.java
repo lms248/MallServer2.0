@@ -144,7 +144,7 @@ public class UserDao {
 		int UserCount=0;
 		try {
 			UserCount=dbUtils.stat(UserBean.class, 
-					"select COUNT(*) from User_gw where type=?", type);
+					"select COUNT(*) from user where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

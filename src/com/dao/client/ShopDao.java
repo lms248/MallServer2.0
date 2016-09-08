@@ -147,7 +147,7 @@ public class ShopDao {
 		int ShopCount=0;
 		try {
 			ShopCount=dbUtils.stat(ShopBean.class, 
-					"select COUNT(*) from Shop_gw where type=?", type);
+					"select COUNT(*) from shop where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

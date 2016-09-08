@@ -135,7 +135,7 @@ public class CommunityDao {
 		int CommunityCount=0;
 		try {
 			CommunityCount=dbUtils.stat(CommunityBean.class, 
-					"select COUNT(*) from Community_gw where type=?", type);
+					"select COUNT(*) from community where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

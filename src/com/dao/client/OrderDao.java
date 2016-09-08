@@ -6,26 +6,42 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.client.GoodsBean;
+import bean.client.OrderBean;
 
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
- * 商品dao
+ * 订单dao
  */
-public class GoodsDao {
+public class OrderDao {
 	private static Logger log=LoggerManager.getLogger();
 	
 	/**
 	 * 加载数据
-	 * @param goodsId
+	 * @param orderId
 	 * @return
 	 */
-	public static GoodsBean loadByGoodsId(long goodsId){
-		GoodsBean bean=null;
+	public static OrderBean loadByOrderId(long orderId){
+		OrderBean bean=null;
 		try {
-			bean=dbUtils.read(GoodsBean.class, "where goodsid=?", goodsId);
+			bean=dbUtils.read(OrderBean.class, "where orderid=?", orderId);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return bean;
+	}
+	
+	/**
+	 * 加载数据
+	 * @param uid
+	 * @return
+	 */
+	public static OrderBean loadByUid(long uid){
+		OrderBean bean=null;
+		try {
+			bean=dbUtils.read(OrderBean.class, "where uid=?", uid);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -38,10 +54,10 @@ public class GoodsDao {
 	 * @param count
 	 * @return
 	 */
-	public static GoodsBean loadByCount(int count){
-		GoodsBean bean=null;
+	public static OrderBean loadByCount(int count){
+		OrderBean bean=null;
 		try {
-			bean=dbUtils.read(GoodsBean.class, "order by id desc limit ?", count);
+			bean=dbUtils.read(OrderBean.class, "order by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -49,35 +65,20 @@ public class GoodsDao {
 		return bean;
 	}
 	
-	/**
-	 * 加载数据
-	 * @param type
-	 * @return
-	 */
-	public static List<GoodsBean> loadByType(int type){
-		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
-		try {
-			goodsList=dbUtils.query(GoodsBean.class, "where type=?", type);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return goodsList;
-	}
-	
+			
 	/**
 	 * 加载所有列表
 	 * @return List
 	 */
-	public static List<GoodsBean> loadAllGoods(){
-		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+	public static List<OrderBean> loadAllOrder(){
+		List<OrderBean> orderList=new ArrayList<OrderBean>();
 		try {
-			goodsList=dbUtils.query(GoodsBean.class, " order by id desc");
+			orderList=dbUtils.query(OrderBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return goodsList;
+		return orderList;
 	}
 	
 	/**
@@ -87,43 +88,43 @@ public class GoodsDao {
 	 * @param size
 	 * @return
 	 */
-	public static List<GoodsBean> loadAllGoods(int index, int size){
-		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+	public static List<OrderBean> loadAllOrder(int index, int size){
+		List<OrderBean> orderList=new ArrayList<OrderBean>();
 		try {
-			goodsList=dbUtils.query(GoodsBean.class, 
+			orderList=dbUtils.query(OrderBean.class, 
 					" order by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return goodsList;
+		return orderList;
 	}
 	/**
 	 * 加载所有列表
-	 * @param GoodsType ,pageNum(页码),pageSize(页数)
+	 * @param type ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<GoodsBean> loadAllGoods4page(int pageNum, int pageSize){
-		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+	public static List<OrderBean> loadAllShop4page(int pageNum, int pageSize){
+		List<OrderBean> orderList=new ArrayList<OrderBean>();
 		try {
-			goodsList=dbUtils.query(GoodsBean.class, 
+			orderList=dbUtils.query(OrderBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return goodsList;
+		return orderList;
 	}
-	public static List<GoodsBean> loadGoods4type(int type, int pageNum, int pageSize){
-		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+	public static List<OrderBean> loadShop4type(int pageNum, int pageSize, int type){
+		List<OrderBean> orderList=new ArrayList<OrderBean>();
 		try {
-			goodsList=dbUtils.query(GoodsBean.class, 
+			orderList=dbUtils.query(OrderBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return goodsList;
+		return orderList;
 	}
 	
 	
@@ -133,25 +134,25 @@ public class GoodsDao {
 	 * @return int
 	 */
 	public static int Count(){
-		int GoodsCount=0;
+		int amount=0;
 		try {
-			GoodsCount=dbUtils.stat(GoodsBean.class, "select COUNT(*) from Goods_gw");
+			amount=dbUtils.stat(OrderBean.class, "select COUNT(*) from order");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return GoodsCount;
+		return amount;
 	}
 	public static int Count(int type){
-		int GoodsCount=0;
+		int amount=0;
 		try {
-			GoodsCount=dbUtils.stat(GoodsBean.class, 
-					"select COUNT(*) from goods where type=?", type);
+			amount=dbUtils.stat(OrderBean.class, 
+					"select COUNT(*) from order where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return GoodsCount;
+		return amount;
 	}
 	
 	/**
@@ -159,7 +160,7 @@ public class GoodsDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int save(GoodsBean bean){
+	public static int save(OrderBean bean){
 		try {
 			return dbUtils.insert(bean);
 		} catch (SQLException e) {
@@ -174,7 +175,7 @@ public class GoodsDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int update(GoodsBean bean){
+	public static int update(OrderBean bean){
 		try {
 			return dbUtils.update(bean);
 		} catch (Exception e) {
@@ -190,7 +191,7 @@ public class GoodsDao {
 	 */
 	public static int delete(int id){
 		try {
-			return dbUtils.delete(GoodsBean.class, id);
+			return dbUtils.delete(OrderBean.class, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,13 +203,12 @@ public class GoodsDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByGoods(long goodsId){
+	public static int deleteByOrderId(long orderId){
 		try {
-			return dbUtils.delete(GoodsBean.class, "goodsid" ,goodsId);
+			return dbUtils.delete(OrderBean.class, "orderid", orderId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return -1;
 	}
-	
 }

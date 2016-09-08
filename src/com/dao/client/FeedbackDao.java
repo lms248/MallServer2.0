@@ -147,7 +147,7 @@ public class FeedbackDao {
 		int amount=0;
 		try {
 			amount=dbUtils.stat(FeedbackBean.class, 
-					"select COUNT(*) from Shop_gw where type=?", type);
+					"select COUNT(*) from feedback where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

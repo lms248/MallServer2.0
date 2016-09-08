@@ -147,7 +147,7 @@ public class CartDao {
 		int amount=0;
 		try {
 			amount=dbUtils.stat(CartBean.class, 
-					"select COUNT(*) from Shop_gw where type=?", type);
+					"select COUNT(*) from cart where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

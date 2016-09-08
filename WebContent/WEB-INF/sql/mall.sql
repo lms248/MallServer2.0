@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-07 11:26:07
+Date: 2016-09-08 18:28:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -87,13 +87,13 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
   `ordeId` bigint(20) NOT NULL COMMENT '订单ID',
-  `uid` bigint(20) DEFAULT NULL COMMENT '用户ID',
-  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
-  `count` int(11) DEFAULT NULL COMMENT '数量',
-  `color` varchar(255) DEFAULT NULL COMMENT '颜色',
-  `size` double DEFAULT NULL COMMENT '尺寸',
-  `time` bigint(20) DEFAULT NULL COMMENT '下单时间',
-  PRIMARY KEY (`id`,`ordeId`)
+  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `goodsId` bigint(20) NOT NULL COMMENT '商品ID',
+  `amount` int(11) DEFAULT NULL COMMENT '数量',
+  `tags` varchar(255) DEFAULT NULL COMMENT '属性标签',
+  `price` double DEFAULT NULL COMMENT '总价格',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '下单时间',
+  PRIMARY KEY (`id`,`ordeId`,`uid`,`goodsId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -156,6 +156,7 @@ CREATE TABLE `user` (
   `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
   `address` mediumtext COMMENT '用户收货地址',
+  `defaultAddressId` bigint(20) DEFAULT NULL COMMENT '默认地址ID',
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)

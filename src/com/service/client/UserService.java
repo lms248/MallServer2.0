@@ -478,7 +478,7 @@ public class UserService {
 		JSONObject obj = new JSONObject();
 		if (token==null || contact==null || phone==null|| area==null || address==null || isDefault==null) {
 			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "参数不可为空");
+			obj.put("msg", "参数不正确");
 			out.print(obj);
 			
 			out.flush();
