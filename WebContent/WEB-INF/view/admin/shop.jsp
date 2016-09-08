@@ -325,7 +325,7 @@ uploader.on( 'uploadError', function( file ) {
 </script> -->
 
 <script>
-getDateList(0);//数据列表显示
+getShopDateList(0);//数据列表显示
 
 </script>
 
