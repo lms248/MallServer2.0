@@ -500,6 +500,9 @@ public class UserService {
 		JSONArray addressArr = new JSONArray();
 		try {
 			addressArr = JSONArray.fromObject(user.getAddress());
+			if (addressArr == null) {
+				addressArr = new JSONArray();
+			}
 		} catch (Exception e) {
 			addressArr = new JSONArray();
 		}
