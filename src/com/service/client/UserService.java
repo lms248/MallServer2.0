@@ -516,6 +516,7 @@ public class UserService {
 		userAddress.setDefault(isDefault.equals("true")?true:false);
 		/*addressArr.add(JSON.parseObject(userAddress, UserAddress.class));*/
 		
+		addressArr.add(userAddress);
 		user.setAddress(addressArr.toString());
 		UserDao.update(user);
 		
