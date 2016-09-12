@@ -2,6 +2,7 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -157,12 +158,19 @@ public class GoodsService {
 		
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
-		
-		List<GoodsBean> goodsList = GoodsDao.loadAllGoods(index, size);
+		String shopId = request.getParameter("shopId");//商店ID
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
+		
+		List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
+		if (shopId == null) {
+			goodsList = GoodsDao.loadAllGoods(index, size);
+		} else {
+			goodsList = GoodsDao.loadAllGoodsForShop(Long.parseLong(shopId), index, size);
+		}
+		
 		for (int i = 0; i < goodsList.size(); i++) {
 			ShopBean shop = ShopDao.loadByShopId(goodsList.get(i).getShopId());
 			if (shop == null) {

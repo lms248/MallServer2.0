@@ -98,6 +98,19 @@ public class GoodsDao {
 		}
 		return goodsList;
 	}
+	public static List<GoodsBean> loadAllGoodsForShop(long shopId, int index, int size){
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+		try {
+			goodsList=dbUtils.query(GoodsBean.class, 
+					" where shopId=? order by id desc limit ?,?", shopId, index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return goodsList;
+	}
+	
+	
 	/**
 	 * 加载所有列表
 	 * @param GoodsType ,pageNum(页码),pageSize(页数)

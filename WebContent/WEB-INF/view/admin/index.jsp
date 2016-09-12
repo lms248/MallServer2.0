@@ -53,6 +53,7 @@
                 <li class="menu-1"><a href="#" uri="user"><i class="fa fa-user"></i> <span>用户</span></a></li>
                 <li class="menu-1"><a href="#" uri="shop"><i class="fa fa-th-large"></i> <span>店铺</span></a></li>
                 <li class="menu-1"><a href="#" uri="goods"><i class="fa fa-tasks"></i> <span>商品</span></a></li>
+                <li class="menu-1"><a href="#" uri="goods-sort"><i class="fa fa-paperclip"></i> <span>商品分类</span></a></li>
                 <!-- <li class="menu-list"><a href=""><i class="fa fa-tasks"></i> <span>商品</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#" uri="goods"> 推荐商品</a></li>

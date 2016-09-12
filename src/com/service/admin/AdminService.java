@@ -93,8 +93,15 @@ public class AdminService {
 	
 	/** 商品管理 **/
 	@RequestMapping(value="goods", method=RequestMethod.POST)
-	public ModelAndView game(){
+	public ModelAndView goods(){
 		ModelAndView view = new ModelAndView("admin/goods");
+		return view;
+	}
+	
+	/** 商品分类 **/
+	@RequestMapping(value="goods-sort", method=RequestMethod.POST)
+	public ModelAndView goods_sort(){
+		ModelAndView view = new ModelAndView("admin/goods-sort");
 		return view;
 	}
 	
