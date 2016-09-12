@@ -68,7 +68,7 @@ public class PageService {
 			obj_promotion.put("curPrice", goods.getCurPrice());
 			obj_promotion.put("logoThumb", goods.getLogoThumb());*/
 			//obj_promotion.put("data", JsonUtils.jsonFromObject(promotionList.get(i)));
-			arr_promotion.add(JsonUtils.jsonFromObject(promotionList.get(i)));
+			arr_promotion.add(JsonUtils.jsonFromObject(goods));
 		}
 		
 		//首页商城商户
