@@ -93,7 +93,7 @@ public class ShopService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int shopId = Integer.parseInt(request.getParameter("shopId")); 
+		long shopId = Integer.parseInt(request.getParameter("shopId")); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
