@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.GoodsBean;
+import bean.client.GoodssortBean;
 import bean.client.ShopBean;
-
 import common.utils.Def;
 import common.utils.JsonUtils;
-
 import dao.client.GoodsDao;
+import dao.client.GoodssortDao;
 import dao.client.ShopDao;
 
 /**
@@ -44,30 +44,31 @@ public class PageService {
 		//首页banner
 		JSONObject obj_banner = new JSONObject();
 		JSONArray arr_banner = new JSONArray();
-		List<GoodsBean> bannerList = GoodsDao.loadGoods4type(Def.GOODS_TYPE_BANNER, 1, 5);
-		for (int i = 0; i < bannerList.size(); i++) {
-			obj_banner.put("goodId", bannerList.get(i).getGoodsId());
-			obj_banner.put("image", bannerList.get(i).getImageList().split(",")[0]);
+		List<GoodssortBean> goodssortList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 5);
+		for (int i = 0; i < goodssortList.size(); i++) {
+			GoodsBean goods = GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId());
+//			obj_banner.put("goodsId", goods.getGoodsId());
+//			obj_banner.put("logo", goods.getLogo());
+//			obj_banner.put("logoThumb", goods.getLogoThumb());
+			obj_banner.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId())));
 			arr_banner.add(obj_banner);
 		}
 		
 		//首页精选促销
 		JSONObject obj_promotion = new JSONObject();
 		JSONArray arr_promotion = new JSONArray();
-		List<GoodsBean> promotionList = GoodsDao.loadGoods4type(Def.GOODS_TYPE_PROMOTION, 1, 9);
+		List<GoodssortBean> promotionList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 10);
 		for (int i = 0; i < promotionList.size(); i++) {
-			obj_promotion.put("goodId", promotionList.get(i).getGoodsId());
-			obj_promotion.put("image", promotionList.get(i).getImageList().split(",")[0]);
+			obj_promotion.put("data", JsonUtils.jsonFromObject(promotionList.get(i)));
 			arr_promotion.add(obj_promotion);
 		}
 		
 		//首页商城商户
 		JSONObject obj_shop = new JSONObject();
 		JSONArray arr_shop = new JSONArray();
-		List<ShopBean> shopList = ShopDao.loadAllShop(1, 4);
+		List<ShopBean> shopList = ShopDao.loadAllShop(0, 4);
 		for (int i = 0; i < shopList.size(); i++) {
-			obj_shop.put("shopId", shopList.get(i).getShopId());
-			obj_shop.put("image", shopList.get(i).getImage());
+			obj_shop.put("data", JsonUtils.jsonFromObject(shopList.get(i)));
 			arr_shop.add(obj_shop);
 		}
 		
@@ -81,6 +82,8 @@ public class PageService {
 		obj.put("msg", "首页数据");
 		obj.put("data", obj_data);
 		out.print(obj);
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();

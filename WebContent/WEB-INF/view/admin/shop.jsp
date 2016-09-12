@@ -103,10 +103,13 @@
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img id="show_image" src="" alt="" width="220" height="220" style="background-color: #cccccc;">
+                	<img id="show_logo" src="" alt="" width="100" height="100" style="padding-left: 50px;padding-right: 50px;">
+                    <a id="edit_logo" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑Logo</a>
+                    <a id="logo_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
+                    
+					<img id="show_image" src="" alt="" width="220" height="165" style="background-color: #cccccc;">
                     <a id="edit_image" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
                     <a id="image_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
-
                     <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
                     <!-- <p><strong>File Type:</strong> jpg</p>
                     <p><strong>Resolution:</strong> 300x200</p>
@@ -235,7 +238,7 @@
 	<td class="center ">{{:#index+1}}</td>
     <td class="center ">{{:shopId}}</td>
     <td class="center ">{{:name}}</td>
-    <td class="center "><img src="{{:thumbnail}}" width="50" heigth="50"></td>
+    <td class="center "><img src="{{:logoThumb}}" width="50" heigth="50"></td>
     <td class="center ">{{:title}}</td>
     <td class="center ">****</td>
     <td class="center ">{{:createTime}}</td>
@@ -243,9 +246,9 @@
 		<a class="btn btn-success" href="#modal_add_goods" data-toggle="modal" onclick="$('#shop_name').html('{{:name}}');$('#shop_name').attr('title','{{:shopId}}');">添加商品</a>
 	</td>
     <td class="center ">
-		 <button class="btn btn-info" type="button" onclick="showShop({{:shopId}})">查看</button>
-         <button class="btn btn-warning" type="button" onclick="updateShop({{:shopId}})">修改</button>
-         <button class="btn btn-danger" type="button" onclick="deleteShop({{:shopId}})">删除</button>
+		 <button class="btn btn-info" type="button" onclick="showShop('{{:shopId}}')">查看</button>
+         <button class="btn btn-warning" type="button" onclick="updateShop('{{:shopId}}')">修改</button>
+         <button class="btn btn-danger" type="button" onclick="deleteShop('{{:shopId}}')">删除</button>
 	</td>
 </tr>
 </script>
@@ -258,6 +261,51 @@
 
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>
+
+<!-- 上传Logo -->
+<script type="text/javascript">
+var uploader;
+/** 初始化Web Uploader */
+uploader = WebUploader.create({
+	method: 'post',
+    // swf文件路径
+    swf: '/res/webuploader/Uploader.swf',
+    // 文件接收服务端。
+    server: '/servlet/upload',
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: {
+    	id: '#edit_logo',
+    	innerHTML: '上传店铺Logo',
+    	multiple: true
+    },
+ 	// 自动上传。
+    auto: true,
+    // 不进行图片压缩
+    compress: null,
+    formData: {width:200, height:200, aspectRatio:"true", width_thumb:50, height_thumb:50, aspectRatio_thumb:"false"},
+ 	// 只允许选择文件，可选。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+uploader.on( 'uploadSuccess', function( file, response ) {
+    var image = response._raw.split(";")[0];
+    var thumb = response._raw.split(";")[1];
+    $("#show_logo").attr("src", image);
+    $("#show_logo").attr("alt", response._raw);
+    $("#logo_url").attr("href", image);
+    /* var img = "<img src='"+logo+"' title='"+response._raw+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
+	$("#logo_show").html(img); */
+	//$("#logo_url").html(response._raw);
+});
+
+uploader.on( 'uploadError', function( file ) {
+	alert('上传出错了...');
+});
+</script>
 
 <script type="text/javascript">
 var uploader;

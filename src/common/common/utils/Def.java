@@ -50,9 +50,9 @@ public class Def {
 	
 	/*****************************商品类型**********************************/
 	/**商品促销活动banner*/
-	public static final int GOODS_TYPE_BANNER=0;
+	public static final int GOODS_TYPE_BANNER=1;
 	/**商品精选促销*/
-	public static final int GOODS_TYPE_PROMOTION=1;
+	public static final int GOODS_TYPE_PROMOTION=2;
 	
 	/*****************************图片存储路径**********************************/
 	/** 原图存储路径：默认 */

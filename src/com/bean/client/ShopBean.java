@@ -17,10 +17,14 @@ public class ShopBean extends Pojo {
 	private String title;
 	/** 内容介绍 */
 	private String details;
-	/** 缩略图 */
-	private String thumbnail;
+	/** 店铺Logo */
+	private String logo;
+	/** 店铺Logo缩略图 */
+	private String logoThumb;
 	/** 图片 */
 	private String image;
+	/** 缩略图 */
+	private String thumbnail;
 	/** 联系客服电话 */
 	private String contactPhone;
 	/** 类型 */
@@ -61,14 +65,26 @@ public class ShopBean extends Pojo {
 	public String getThumbnail() {
 		return thumbnail;
 	}
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+	public String getLogoThumb() {
+		return logoThumb;
+	}
+	public void setLogoThumb(String logoThumb) {
+		this.logoThumb = logoThumb;
 	}
 	public String getImage() {
 		return image;
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 	public String getContactPhone() {
 		return contactPhone;

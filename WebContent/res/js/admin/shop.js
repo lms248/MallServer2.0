@@ -1,19 +1,20 @@
 /**
- * 商店js
+ * 店铺js
  */
 
 /**
- * 添加或编辑商店
+ * 添加或编辑店铺
  */
 function shop_edit() {
 	var name = $("#name").val();
 	var title = $("#title").val();
 	var details = $("#details").val();
-	var images = $("#show_image").attr("alt");
+	var logoAndThumb = $("#show_logo").attr("alt");
+	var imageAndThumb = $("#show_image").attr("alt");
 	var contactPhone = $("#contactPhone").val();
 	
 	if (name == "") {
-		alert("请输入商店名称！！！");
+		alert("请输入店铺名称！！！");
 	}
 	else if (title == "") {
 		alert("请输入标题！！！");
@@ -21,13 +22,17 @@ function shop_edit() {
 	else if (details == "") {
 		alert("请输入描述内容！！！");
 	}
-	else if (images == "") {
-		alert("请上传商店Logo！！！");
+	else if (logoAndThumb == "") {
+		alert("请上传店铺Logo！！！");
+	}
+	else if (imageAndThumb == "") {
+		alert("请上传店铺背景图！！！");
 	}
 	else {
 		var tip = "你确认"+$("#shop-edit-submit").text()+"吗？";
 		if(confirm(tip)){
-			var params = {name:name,title:title,details:details,images:images,contactPhone:contactPhone};
+			var params = {name:name,title:title,details:details,
+					logoAndThumb:logoAndThumb,imageAndThumb:imageAndThumb,contactPhone:contactPhone};
 			$.post("/shop/add",params,function(data){
 				alert(data.msg);
 				if(data.code=="0"){
@@ -58,7 +63,7 @@ function goods_add() {
 		alert("请输入商品名称！！！");
 	}
 	else if (shopId == "") {
-		alert("请输入商店ID！！！");
+		alert("请输入店铺ID！！！");
 	}
 	else if(goods_curPrice==""){
 		alert("请输入商品原价！！！");
@@ -111,7 +116,7 @@ function goods_add() {
 
 
 /**
- * 查看商店
+ * 查看店铺
  * @param shopId
  */
 function showShop(shopId) {
@@ -119,7 +124,7 @@ function showShop(shopId) {
 }
 
 /**
- * 修改商店
+ * 修改店铺
  * @param shopId
  */
 function updateShop(shopId) {
@@ -138,16 +143,18 @@ function updateShop(shopId) {
 }
 
 /**
- * 删除商店
+ * 删除店铺
  * @param shopId
  */
 function deleteShop(shopId) {
-	$.get("/shop/delete",{shopId:shopId},function(data){
-		alert(data.msg);
-		if(data.code=="0"){
-			getShopDateList(0);
-		}
-	},"json");
+	if (confirm("确定要删除店铺ID为（"+shopId+"）的店铺吗？")) {
+		$.post("/shop/delete",{shopId:shopId},function(data){
+			alert(data.msg);
+			if(data.code=="0"){
+				getShopDateList(0);
+			}
+		},"json");
+	}
 }
 
 
@@ -162,7 +169,7 @@ function resetEdit() {
 }
 
 /**
- * 获取商店数据列表
+ * 获取店铺数据列表
  */
 function getShopDateList(index) {
 	var pageSize = $('#pageSize').val();
@@ -180,6 +187,6 @@ function getShopDateList(index) {
 }
 
 $("#pageSize").change(function(){
-	getShopDateList(0)
+	getShopDateList(0);
 });
 

@@ -45,8 +45,10 @@ public class ShopService {
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
 		String contactPhone = request.getParameter("contactPhone");
-		String images = request.getParameter("images");
-		String[] image = images.split(";");
+		String logoAndThumb = request.getParameter("logoAndThumb");
+		String imageAndThumb = request.getParameter("imageAndThumb");
+		String[] logo = logoAndThumb.split(";");
+		String[] image = imageAndThumb.split(";");
 		
 		if (ShopDao.loadByShopname(name) != null) {
 			JSONObject obj = new JSONObject();
@@ -66,6 +68,8 @@ public class ShopService {
 		shop.setName(name);
 		shop.setTitle(title);
 		shop.setDetails(details);
+		shop.setLogo(logo[0]);
+		shop.setLogoThumb(logo[1]);
 		shop.setImage(image[0]);
 		shop.setThumbnail(image[1]);
 		shop.setContactPhone(contactPhone);
@@ -168,7 +172,6 @@ public class ShopService {
 		} else {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "删除店铺成功");
-			obj.put("data", "");
 			out.print(obj);
 		}
 		
