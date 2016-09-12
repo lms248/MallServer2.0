@@ -47,10 +47,10 @@ public class PageService {
 		List<GoodssortBean> goodssortList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 5);
 		for (int i = 0; i < goodssortList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId());
-//			obj_banner.put("goodsId", goods.getGoodsId());
-//			obj_banner.put("logo", goods.getLogo());
-//			obj_banner.put("logoThumb", goods.getLogoThumb());
-			obj_banner.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId())));
+			obj_banner.put("goodsId", goods.getGoodsId());
+			obj_banner.put("logo", goods.getLogo());
+			obj_banner.put("logoThumb", goods.getLogoThumb());
+			//obj_banner.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId())));
 			arr_banner.add(obj_banner);
 		}
 		
@@ -59,7 +59,15 @@ public class PageService {
 		JSONArray arr_promotion = new JSONArray();
 		List<GoodssortBean> promotionList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 10);
 		for (int i = 0; i < promotionList.size(); i++) {
-			obj_promotion.put("data", JsonUtils.jsonFromObject(promotionList.get(i)));
+			GoodsBean goods = GoodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
+			obj_promotion.put("goodsId", goods.getGoodsId());
+			obj_promotion.put("name", goods.getName());
+			obj_promotion.put("logo", goods.getLogo());
+			obj_promotion.put("logoThumb", goods.getLogoThumb());
+			obj_promotion.put("prePrice", goods.getPrePrice());
+			obj_promotion.put("curPrice", goods.getCurPrice());
+			obj_promotion.put("logoThumb", goods.getLogoThumb());
+			//obj_promotion.put("data", JsonUtils.jsonFromObject(promotionList.get(i)));
 			arr_promotion.add(obj_promotion);
 		}
 		
@@ -68,7 +76,11 @@ public class PageService {
 		JSONArray arr_shop = new JSONArray();
 		List<ShopBean> shopList = ShopDao.loadAllShop(0, 4);
 		for (int i = 0; i < shopList.size(); i++) {
-			obj_shop.put("data", JsonUtils.jsonFromObject(shopList.get(i)));
+			obj_shop.put("shopId", shopList.get(i).getShopId());
+			obj_shop.put("name", shopList.get(i).getName());
+			obj_shop.put("logo", shopList.get(i).getLogo());
+			obj_shop.put("logoThumb", shopList.get(i).getLogoThumb());
+			//obj_shop.put("data", JsonUtils.jsonFromObject(shopList.get(i)));
 			arr_shop.add(obj_shop);
 		}
 		
