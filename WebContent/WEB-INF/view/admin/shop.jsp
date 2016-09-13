@@ -158,8 +158,8 @@
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img id="goods_logo" src="" alt="" width="100" height="100" style="background-color: #cccccc; width: 100px;">
-                    <a id="goods_logo_edit" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
+                	<img id="goods_logo" src="" alt="" width="100" height="100" style="padding-left: 50px;padding-right: 50px;">
+                    <a id="goods_logo_edit" href="#" class="btn btn-white btn-sm" style="margin-left: 50px;"><i class="fa fa-pencil"></i>编辑图片</a>
                     <a id="goods_logo_url" href="#" class="btn btn-white btn-sm" style="display: none;"><i class="fa fa-eye"></i>查看原图</a>
 					
                     <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
@@ -169,7 +169,7 @@
                     <div style="width=100%; height: auto;margin-top: 10px; background-color: #cccccc;">
                 		<!--用来存放item-->
     					<div id="fileList" class="uploader-list"></div>
-    					<div id="filePicker" style="margin: 20px;">添加图片列表</div>
+    					<div id="filePicker" style="margin: 20px;margin-left: 60px;">添加图片列表</div>
                 	</div>
                 </div>
                 <div class="col-md-7">
@@ -187,8 +187,34 @@
                     	<div class="form-group">
                     		<label> 标签名字（例如：颜色）</label>
                         	<input id="goods_tagKey" class="form-control" placeholder="标签名字">
-                        	<label> 标签值（每个值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<label style="font-size: 12px;"> 标签值（每个值用英文字符“#”分隔开，例如：黑色#白色）</label>
                         	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                        	<!-- <div class="btn-group">
+                            	<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">请选择一级分类<span class="caret"></span></button>
+                                <ul role="menu" class="dropdown-menu">
+                                	<li><a style="cursor: pointer;">Action</a></li>
+                                    <li><a>Another action</a></li>
+                                    <li><a>Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a>Separated link</a></li>
+                                </ul>
+                            </div> -->
+                            <select name="goods_level_1" style="height: 30px;">
+  								<option value ="0">请选择一级分类</option>
+  								<option value ="volvo">Volvo</option>
+  								<option value ="saab">Saab</option>
+  								<option value="opel">Opel</option>
+  								<option value="audi">Audi</option>
+							</select>
+                            <select name="goods_level_2" style="height: 30px;">
+  								<option value ="0">请选择二级分类</option>
+  								<option value ="volvo">Volvo</option>
+  								<option value ="saab">Saab</option>
+  								<option value="opel">Opel</option>
+  								<option value="audi">Audi</option>
+							</select>
                     	</div>
                     	<div class="form-group">
                     		<label> 标题 </label>
