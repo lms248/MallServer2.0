@@ -201,19 +201,11 @@
                                     <li><a>Separated link</a></li>
                                 </ul>
                             </div> -->
-                            <select name="goods_level_1" style="height: 30px;">
+                            <select id="id_goods_level_1" name="goods_level_1" style="height: 30px;">
   								<option value ="0">请选择一级分类</option>
-  								<option value ="1">Volvo</option>
-  								<option value ="2">Saab</option>
-  								<option value="3">Opel</option>
-  								<option value="4">Audi</option>
 							</select>
-                            <select name="goods_level_2" style="height: 30px;">
+                            <select id="id_goods_level_2" name="goods_level_2" style="height: 30px; display: none;">
   								<option value ="0">请选择二级分类</option>
-  								<option value ="1">Volvo</option>
-  								<option value ="2">Saab</option>
-  								<option value="3">Opel</option>
-  								<option value="4">Audi</option>
 							</select>
                     	</div>
                     	<div class="form-group">
@@ -258,7 +250,7 @@
 </div>
 <!-- modal -->
 
-<!-- 数据表模板 -->
+<!-- 店铺数据表模板 -->
 <script id="tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
 	<td class="center ">{{:#index+1}}</td>
@@ -277,6 +269,11 @@
          <button class="btn btn-danger" type="button" onclick="deleteShop('{{:shopId}}')">删除</button>
 	</td>
 </tr>
+</script>
+
+<!-- 商品类别模板 -->
+<script id="goodsSortTmpl" type="text/x-jsrender">
+<option value ="{{:id}}">{{:name}}</option>
 </script>
 
 <script src="/res/js/admin/shop.js"></script>
@@ -400,7 +397,7 @@ uploader.on( 'uploadError', function( file ) {
 
 <script>
 getShopDateList(0);//数据列表显示
-
+getGoodsSortList(0);//商品分类
 </script>
 
 <!-- 商品Logo -->

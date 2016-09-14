@@ -33,6 +33,8 @@ public class GoodsBean extends Pojo {
 	private String tags;
 	/** 介绍 */
 	private String details;
+	/** 分类ID */
+	private int sortId;
 	/** 类型 */
 	private String type;
 	/** 状态 */
@@ -117,6 +119,12 @@ public class GoodsBean extends Pojo {
 	}
 	public void setDetails(String details) {
 		this.details = details;
+	}
+	public int getSortId() {
+		return sortId;
+	}
+	public void setSortId(int sortId) {
+		this.sortId = sortId;
 	}
 	public String getType() {
 		return type;

@@ -10,10 +10,22 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-08 18:28:41
+Date: 2016-09-14 17:08:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for activitytype
+-- ----------------------------
+DROP TABLE IF EXISTS `activitytype`;
+CREATE TABLE `activitytype` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '名字',
+  `type` varchar(255) DEFAULT NULL COMMENT '类别',
+  `mark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cart
@@ -74,11 +86,26 @@ CREATE TABLE `goods` (
   `prePrice` double DEFAULT NULL COMMENT '原来价格',
   `tags` text COMMENT '属性标记',
   `details` text COMMENT '描述，介绍',
+  `sortId` int(11) DEFAULT NULL COMMENT '分类ID',
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`goodsId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for goodssort
+-- ----------------------------
+DROP TABLE IF EXISTS `goodssort`;
+CREATE TABLE `goodssort` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goodssortId` bigint(20) DEFAULT NULL COMMENT '商品分类ID',
+  `level_1` int(11) DEFAULT NULL COMMENT '类别一id',
+  `level_2` int(11) DEFAULT NULL COMMENT '类别二id',
+  `level_3` int(11) DEFAULT NULL COMMENT '类别三id',
+  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for order
@@ -106,27 +133,15 @@ CREATE TABLE `shop` (
   `name` varchar(255) DEFAULT NULL COMMENT '商店名',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `details` text COMMENT '描述，介绍',
-  `image` varchar(255) DEFAULT NULL COMMENT '图片',
-  `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
+  `logo` varchar(255) DEFAULT NULL COMMENT '店铺logo',
+  `logoThumb` varchar(255) DEFAULT NULL COMMENT '店铺logo缩略图',
+  `image` varchar(255) DEFAULT NULL COMMENT '背景图片',
+  `thumbnail` varchar(255) DEFAULT NULL COMMENT '背景缩略图',
   `contactPhone` varchar(255) DEFAULT NULL COMMENT '联系客服电话',
   `type` varchar(255) DEFAULT NULL,
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`shopId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for shop_sort
--- ----------------------------
-DROP TABLE IF EXISTS `shop_sort`;
-CREATE TABLE `shop_sort` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `level_1` int(11) DEFAULT NULL COMMENT '类别一id',
-  `level_2` int(11) DEFAULT NULL COMMENT '类别二id',
-  `level_3` int(11) DEFAULT NULL COMMENT '类别三id',
-  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
-  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sort
@@ -134,11 +149,13 @@ CREATE TABLE `shop_sort` (
 DROP TABLE IF EXISTS `sort`;
 CREATE TABLE `sort` (
   `id` int(11) NOT NULL COMMENT '定义ID',
+  `pid` int(11) DEFAULT NULL COMMENT '父类型ID',
   `name` varchar(255) DEFAULT NULL COMMENT '名字',
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `level` int(11) DEFAULT NULL COMMENT '分类级别',
   `mark` varchar(255) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `sort_id` (`pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

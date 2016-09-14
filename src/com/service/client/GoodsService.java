@@ -34,7 +34,7 @@ import net.sf.json.JSONObject;
 @RequestMapping("/goods")
 public class GoodsService {
 	
-	/** 添加商店 */
+	/** 添加商品 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
 	@ResponseBody
 	public void add(HttpServletRequest request, HttpServletResponse response)
@@ -44,7 +44,7 @@ public class GoodsService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		System.out.println("-----------");
+		System.out.println("-----goods:::add------");
 		
 		String name = request.getParameter("name");
 		String shopId = request.getParameter("shopId");
@@ -57,6 +57,8 @@ public class GoodsService {
 		String imageList = request.getParameter("imageList");
 		String thumbList = request.getParameter("thumbList");
 		String[] logos = logo.split(";");
+		
+		String sortId = request.getParameter("sortId");
 		
 		System.out.println("shopId===="+shopId);
 		if (ShopDao.loadByShopId(Long.parseLong(shopId)) == null) {
@@ -95,6 +97,7 @@ public class GoodsService {
 		goods.setName(name);
 		goods.setTitle(title);
 		goods.setDetails(details);
+		goods.setSortId(Integer.parseInt(sortId));
 		goods.setLogo(logos[0]);
 		goods.setLogoThumb(logos[1]);
 		goods.setImageList(JSON.toJSONString(imageList.split(",")));

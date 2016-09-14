@@ -12,14 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
 
 import net.sf.json.JSONObject;
 
 import com.utils.SMSUtil;
-
 import common.utils.Def;
-import common.utils.SessionContext;
 
 /**
  * 发生手机验证码
