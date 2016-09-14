@@ -217,6 +217,9 @@ function getGoodsSortList(pid) {
 	}
 	$.get("/sort/infoList",{pid:pid},function(data){
 		if(data.code=="0"){
+			if (data.data=="") {
+				$("#id_goods_level_2").hide();
+			}
 			var template = $.templates("#goodsSortTmpl");
 			var htmlOutput = template.render(data.data);
 			id_goods_level.append(htmlOutput);
