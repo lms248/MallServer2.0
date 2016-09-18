@@ -2,6 +2,8 @@
  * 店铺js
  */
 
+var param_shopId = 0;
+
 /**
  * 添加或编辑店铺
  */
@@ -29,19 +31,34 @@ function shop_edit() {
 		alert("请上传店铺背景图！！！");
 	}
 	else {
-		var tip = "你确认"+$("#shop-edit-submit").text()+"吗？";
-		if(confirm(tip)){
-			var params = {name:name,title:title,details:details,
-					logoAndThumb:logoAndThumb,imageAndThumb:imageAndThumb,contactPhone:contactPhone};
-			$.post("/shop/add",params,function(data){
-				alert(data.msg);
-				if(data.code=="0"){
-					getShopDateList(0);
-				}
-				$("#shop_modalCloseBtn").click();
-				$("#shop-edit-submit").html("修改");
-			},"json");
+		if ($("#shop-edit-submit").text()=="添加") {
+			if(confirm("你确认添加该店铺吗？")){
+				var params = {name:name,title:title,details:details,
+						logoAndThumb:logoAndThumb,imageAndThumb:imageAndThumb,contactPhone:contactPhone};
+				$.post("/shop/add",params,function(data){
+					alert(data.msg);
+					if(data.code=="0"){
+						getShopDateList(0);
+					}
+					$("#shop_modalCloseBtn").click();
+					$("#shop-edit-submit").html("修改");
+				},"json");
+			}
+		} else {
+			if(confirm("你确认修改该店铺吗？")){
+				var params = {shopId:param_shopId,name:name,title:title,details:details,
+						logoAndThumb:logoAndThumb,imageAndThumb:imageAndThumb,contactPhone:contactPhone};
+				$.post("/shop/update",params,function(data){
+					alert(data.msg);
+					if(data.code=="0"){
+						getShopDateList(0);
+					}
+					$("#shop_modalCloseBtn").click();
+					$("#shop-edit-submit").html("修改");
+				},"json");
+			}
 		}
+		
 	}
 }
 
@@ -151,23 +168,21 @@ function showShop(shopId) {
  * @param shopId
  */
 function updateShop(shopId) {
+	param_shopId = shopId;
 	$.get("/shop/info",{shopId:shopId},function(data){
 		if(data.code=="0"){
 			$("#shop_name").val(data.data.name);
 			$("#shop_title").val(data.data.title);
 			$("#shop_details").val(data.data.details);
 			$("#shop_logo").attr("src",data.data.logo);
+			$("#shop_logo").attr("alt",data.data.logo+";"+data.data.logoThumb);
 			$("#shop_image").attr("src",data.data.image);
+			$("#shop_image").attr("alt",data.data.image+";"+data.data.thumbnail);
 			$("#shop_contactPhone").val(data.data.contactPhone);
 			$("#shop-edit-submit").html("修改");
 			$("#add_shop_btn").click();
 			$("#shop_modalCloseBtn").click(function(){
-				$("#shop_name").val("");
-				$("#shop_title").val("");
-				$("#shop_details").val("");
-				$("#shop_logo").attr("src","");
-				$("#shop_image").attr("src","");
-				$("#shop_contactPhone").val("");
+				shop_resetEdit();
 				$("#shop-edit-submit").html("添加");
 			});
 		} else {
@@ -201,7 +216,9 @@ function shop_resetEdit() {
 	$("#shop_details").val("");
 	$("#shop_contactPhone").val("");
 	$("#shop_logo").attr("src","");
+	$("#shop_logo").attr("alt","");
 	$("#shop_image").attr("src","");
+	$("#shop_image").attr("alt","");
 }
 
 /**

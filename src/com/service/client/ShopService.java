@@ -87,6 +87,60 @@ public class ShopService {
 		out.close();
 	}
 	
+	/** 修改店铺 */
+	@RequestMapping(value ="update",method=RequestMethod.POST)
+	@ResponseBody
+	public void update(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String shopId = request.getParameter("shopId");
+		String name = request.getParameter("name");
+		String title = request.getParameter("title");
+		String details = request.getParameter("details");
+		String contactPhone = request.getParameter("contactPhone");
+		String logoAndThumb = request.getParameter("logoAndThumb");
+		String imageAndThumb = request.getParameter("imageAndThumb");
+		String[] logo = logoAndThumb.split(";");
+		String[] image = imageAndThumb.split(";");
+		
+		ShopBean shop = ShopDao.loadByShopId(Long.parseLong(shopId));
+		
+		if (shop == null) {
+			JSONObject obj = new JSONObject();
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该店铺(shopId:"+shopId+")不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		shop.setName(name);
+		shop.setTitle(title);
+		shop.setDetails(details);
+		shop.setLogo(logo[0]);
+		shop.setLogoThumb(logo[1]);
+		shop.setImage(image[0]);
+		shop.setThumbnail(image[1]);
+		shop.setContactPhone(contactPhone);
+		
+		ShopDao.update(shop);
+		
+		JSONObject obj = new JSONObject();
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "修改店铺成功");
+		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shop.getId())));
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 店铺信息 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody

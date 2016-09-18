@@ -52,7 +52,6 @@ public class SortService {
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "分类列表");
-		obj.put("count", ShopDao.Count());
 		obj.put("data", arr);
 		out.print(obj);
 		

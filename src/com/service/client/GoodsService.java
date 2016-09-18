@@ -116,6 +116,82 @@ public class GoodsService {
 		out.close();
 	}
 	
+	/** 修改商品 */
+	@RequestMapping(value ="update",method=RequestMethod.POST)
+	@ResponseBody
+	public void update(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("-----goods:::update------");
+		
+		String goodsId = request.getParameter("goodsId");
+		String name = request.getParameter("name");
+		String curPrice = request.getParameter("curPrice");
+		String prePrice = request.getParameter("prePrice");
+		String tags = request.getParameter("tags");
+		String title = request.getParameter("title");
+		String details = request.getParameter("details");
+		String logo = request.getParameter("logo");
+		String imageList = request.getParameter("imageList");
+		String thumbList = request.getParameter("thumbList");
+		String[] logos = logo.split(";");
+		
+		String sortId = request.getParameter("sortId");
+		
+		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		
+		if (goods == null) {
+			JSONObject obj = new JSONObject();
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该商品(goodsId:"+goodsId+")不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		String[] tag = tags.split(";");
+		JSONObject tagObj = new JSONObject();
+		for (String t : tag) {
+			if (StringUtils.isBlank(t)) {
+				break;
+			}
+			String[] tt = t.split(":");
+			if (tt.length < 2) {
+				break;
+			}
+			tagObj.put(tt[0], JSON.toJSONString(tt[1].split("#")));
+		}
+		
+		goods.setCurPrice(Double.parseDouble(curPrice));
+		goods.setPrePrice(Double.parseDouble(prePrice));
+		goods.setTags(tagObj.toString());
+		goods.setName(name);
+		goods.setTitle(title);
+		goods.setDetails(details);
+		goods.setSortId(Integer.parseInt(sortId));
+		goods.setLogo(logos[0]);
+		goods.setLogoThumb(logos[1]);
+		goods.setImageList(JSON.toJSONString(imageList.split(",")));
+		goods.setThumbList(JSON.toJSONString(thumbList.split(",")));
+		
+		GoodsDao.update(goods);
+		
+		JSONObject obj = new JSONObject();
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "添加商品成功");
+		obj.put("data", JsonUtils.jsonFromObject(goods.getGoodsId()));
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 商品详情 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody

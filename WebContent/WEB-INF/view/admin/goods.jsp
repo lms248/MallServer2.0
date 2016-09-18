@@ -19,9 +19,9 @@
         <section class="panel">
         <header class="panel-heading">
             	商品管理
-            <!-- <span class="pull-right">
-                <a class="btn btn-success fa fa-plus-circle" href="#myModal" data-toggle="modal">添加商品</a>
-            </span> -->
+            <span class="pull-right">
+                <a id="add_goods_btn" class="btn btn-success fa fa-plus-circle" href="#modal_add_goods" data-toggle="modal" style="display: none;">添加商品</a>
+            </span>
         </header>
         <div class="panel-body" style="display: block;">
         <div class="adv-table">
@@ -55,7 +55,7 @@
         	<th class="" role="columnheader" style=" text-align: center;">商品Logo</th>
         	<th class="" role="columnheader" style=" text-align: center;">原价</th>
         	<th class="" role="columnheader" style=" text-align: center;">现价</th>
-        	<th class="" role="columnheader" style=" text-align: center;">标签</th>
+        	<th class="" role="columnheader" style=" text-align: center;">类别</th>
         	<th class="" role="columnheader" style=" text-align: center;">创建时间</th>
         	<th class="" role="columnheader" style=" text-align: center;">操作</th>
         </tr>
@@ -155,7 +155,7 @@
                     </div> -->
                     <div class="pull-right">
                          <button class="btn btn-danger btn-sm" type="button" style="margin-right: 10px;" onclick="resetEdit()">重置</button>
-                         <button class="btn btn-success btn-sm" type="button" onclick="goods_add()">添加</button>
+                         <button class="btn btn-success btn-sm" type="button" onclick="goods_edit()">修改</button>
                     </div>
                 </div>
             </div>
@@ -173,7 +173,7 @@
     <td class="center "><img src="{{:logoThumb}}" width="50" heigth="50"></td>
     <td class="center ">{{:prePrice}}</td>
     <td class="center ">{{:curPrice}}</td>
-    <td class="center ">{{:tags}}</td>
+    <td class="center ">{{:sortId}}</td>
     <td class="center ">{{:createTime}}</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showGoods('{{:goodsId}}')">查看</button>

@@ -5,60 +5,72 @@
 /**
  * 提交编辑
  */
-function submitEdit() {
-	var name = $("#name").val();
-	var shopId = $("#shopId").val();
-	var curPrice = $("#curPrice").val();
-	var prePrice = $("#prePrice").val();
-	var color = $("#color").val();
-	var size = $("#size").val();
-	var title = $("#title").val();
-	var details = $("#details").val();
-	var images = $("#show_image").attr("alt");
+function goods_edit() {
+	var goods_name = $("#goods_name").val();
+	var goodsId = $("#goods_name").attr("title");
+	var goods_curPrice = $("#goods_curPrice").val();
+	var goods_prePrice = $("#goods_prePrice").val();
+	var goods_tagKey = $("#goods_tagKey").val();
+	var goods_tagValue = $("#goods_tagValue").val();
+	var goods_title = $("#goods_title").val();
+	var goods_details = $("#goods_details").val();
+	var goods_logo = $("#goods_logo").attr("alt");
 	
-	if (name == "") {
+	var sortId = $("#id_goods_level_1").val();
+	if (sortId == 0) {
+		alert("请选择商品的一级类别！！！");
+		return;
+	} else if ($("#id_goods_level_1").val()!=0) {
+		sortId = $("#id_goods_level_2").val();
+	}
+		
+	if (goods_name == "") {
 		alert("请输入商品名称！！！");
 	}
 	else if (shopId == "") {
-		alert("请输入商店ID！！！");
+		alert("请输入店铺ID！！！");
 	}
-	else if(curPrice==""){
+	else if(goods_curPrice==""){
 		alert("请输入商品原价！！！");
 	}
-	else if(isNaN(parseFloat($("#curPrice").val()))){
+	else if(isNaN(parseFloat($("#goods_curPrice").val()))){
 		alert("商品原价类型不正确！！！");
 	}
-	else if(prePrice==""){
+	else if(goods_prePrice==""){
 		alert("请输入商品当前售价！！！");
 	}
-	else if(isNaN(parseFloat($("#prePrice").val()))){
+	else if(isNaN(parseFloat($("#goods_prePrice").val()))){
 		alert("商品当前售价类型不正确！！！");
 	}
-	else if (color == "") {
-		alert("请输入颜色！！！");
+	else if (goods_tagKey == "") {
+		alert("请输入标签名字！！！");
 	}
-	else if (size == "") {
-		alert("请输入尺寸！！！");
+	else if (goods_tagValue == "") {
+		alert("请输入标签值！！！");
 	}
-	else if (title == "") {
+	else if (goods_title == "") {
 		alert("请输入标题！！！");
 	}
-	else if (details == "") {
+	else if (goods_details == "") {
 		alert("请输入描述内容！！！");
 	}
-	else if (images == "") {
+	else if (goods_logo == "") {
 		alert("请上传商品Logo！！！");
+	}
+	else if (goods_imageList == "") {
+		alert("请上传商品图片列表！！！");
 	}
 	else {
 		var tip = "你确认添加吗？";
 		if(confirm(tip)){
-			var params = {name:name,shopId:shopId,curPrice:curPrice,prePrice:prePrice,
-					color:color,size:size,title:title,details:details,images:images};
-			$.post("/goods/add",params,function(data){
+			goods_tags = goods_tagKey+":"+goods_tagValue+";";
+			alert(goods_tags);
+			var params = {name:goods_name,goodsId:goodsId,curPrice:goods_curPrice,prePrice:goods_prePrice,sortId:sortId,
+					tags:goods_tags,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
+			$.post("/goods/update",params,function(data){
 				if(data.code=="0"){
 					alert("添加商品成功！！！");
-					$("#modalCloseBtn").click();
-					getGoodsDateList(0);
+					$("#goods_modalCloseBtn").click();
 				} else {
 					alert(data.msg);
 				}
@@ -134,8 +146,8 @@ function updateGoods(goodsId) {
 			$("#goods_curPrice").val(data.data.curPrice);
 			$("#goods_logo").attr("src",data.data.logo);
 			$("#shop-edit-submit").html("修改");
-			$("#add_shop_btn").click();
-			$("#shop_modalCloseBtn").click(function(){
+			$("#add_goods_btn").click();
+			$("#goods_modalCloseBtn").click(function(){
 				
 			});
 		} else {
