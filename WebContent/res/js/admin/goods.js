@@ -58,7 +58,7 @@ function submitEdit() {
 				if(data.code=="0"){
 					alert("添加商品成功！！！");
 					$("#modalCloseBtn").click();
-					getDateList(0);
+					getGoodsDateList(0);
 				} else {
 					alert(data.msg);
 				}
@@ -80,7 +80,7 @@ function resetEdit() {
 /**
  * 获取数据列表
  */
-function getDateList(index) {
+function getGoodsDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var params = {index:index,size:pageSize};
 	$.get("/goods/infoList",params,function(data){
@@ -88,7 +88,7 @@ function getDateList(index) {
 			var template = $.templates("#tableTmpl");
 			var htmlOutput = template.render(data.data);
 			$("#goodsTableData").html(htmlOutput);
-			$("#allCount").html(data.count);
+			$("#goods_size").html(data.count);
 		} else {
 			alert(data);
 		}
@@ -96,6 +96,67 @@ function getDateList(index) {
 }
 
 $("#pageSize").change(function(){
-	getDateList(0)
+	getGoodsDateList(0)
 });
+
+/**
+ * 查看商品
+ * @param goodsId
+ */
+function showGoods(goodsId) {
+	updateGoods(goodsId);
+	
+	/*$("#shop_edit_logo").hide();
+	$("#shop_logo_url").hide();
+	$("#shop_edit_image").hide();
+	$("#shop_image_url").hide();
+	$("#shop-edit-reset").hide();
+	$("#shop-edit-submit").hide();
+	$("#shop_modalCloseBtn").click(function(){
+		$("#shop_edit_logo").show();
+		$("#shop_logo_url").show();
+		$("#shop_edit_image").show();
+		$("#shop_image_url").show();
+		$("#shop-edit-reset").show();
+		$("#shop-edit-submit").show();
+	});*/
+}
+
+/**
+ * 修改商品
+ * @param goodsId
+ */
+function updateGoods(goodsId) {
+	$.get("/goods/info",{goodsId:goodsId},function(data){
+		if(data.code=="0"){
+			$("#goods_name").val(data.data.name);
+			$("#goods_prePrice").val(data.data.prePrice);
+			$("#goods_curPrice").val(data.data.curPrice);
+			$("#goods_logo").attr("src",data.data.logo);
+			$("#shop-edit-submit").html("修改");
+			$("#add_shop_btn").click();
+			$("#shop_modalCloseBtn").click(function(){
+				
+			});
+		} else {
+			alert(data.msg);
+		}
+	},"json");
+}
+
+/**
+ * 删除店铺
+ * @param goodsId
+ */
+function deleteGoods(goodsId) {
+	if (confirm("确定要删除商品ID为（"+goodsId+"）的商品吗？")) {
+		$.post("/goods/delete",{goodsId:goodsId},function(data){
+			alert(data.msg);
+			if(data.code=="0"){
+				getGoodsDateList(0);
+			}
+		},"json");
+	}
+}
+
 

@@ -6,12 +6,12 @@
  * 添加或编辑店铺
  */
 function shop_edit() {
-	var name = $("#name").val();
-	var title = $("#title").val();
-	var details = $("#details").val();
-	var logoAndThumb = $("#show_logo").attr("alt");
-	var imageAndThumb = $("#show_image").attr("alt");
-	var contactPhone = $("#contactPhone").val();
+	var name = $("#shop_name").val();
+	var title = $("#shop_title").val();
+	var details = $("#shop_details").val();
+	var logoAndThumb = $("#shop_logo").attr("alt");
+	var imageAndThumb = $("#shop_image").attr("alt");
+	var contactPhone = $("#shop_contactPhone").val();
 	
 	if (name == "") {
 		alert("请输入店铺名称！！！");
@@ -38,7 +38,7 @@ function shop_edit() {
 				if(data.code=="0"){
 					getShopDateList(0);
 				}
-				$("#modalCloseBtn").click();
+				$("#shop_modalCloseBtn").click();
 				$("#shop-edit-submit").html("修改");
 			},"json");
 		}
@@ -62,6 +62,7 @@ function goods_add() {
 	var sortId = $("#id_goods_level_1").val();
 	if (sortId == 0) {
 		alert("请选择商品的一级类别！！！");
+		return;
 	} else if ($("#id_goods_level_1").val()!=0) {
 		sortId = $("#id_goods_level_2").val();
 	}
@@ -128,6 +129,21 @@ function goods_add() {
  */
 function showShop(shopId) {
 	updateShop(shopId);
+	
+	$("#shop_logo_edit").hide();
+	$("#shop_logo_url").hide();
+	$("#shop_image_edit").hide();
+	$("#shop_image_url").hide();
+	$("#shop-edit-reset").hide();
+	$("#shop-edit-submit").hide();
+	$("#shop_modalCloseBtn").click(function(){
+		$("#shop_logo_edit").show();
+		$("#shop_logo_url").show();
+		$("#shop_image_edit").show();
+		$("#shop_image_url").show();
+		$("#shop-edit-reset").show();
+		$("#shop-edit-submit").show();
+	});
 }
 
 /**
@@ -137,12 +153,23 @@ function showShop(shopId) {
 function updateShop(shopId) {
 	$.get("/shop/info",{shopId:shopId},function(data){
 		if(data.code=="0"){
-			$("#name").val(data.data.name);
-			$("#title").val(data.data.title);
-			$("#details").val(data.data.details);
-			$("#show_image").attr("src",data.data.image);
-			$("#contactPhone").val(data.data.contactPhone);
+			$("#shop_name").val(data.data.name);
+			$("#shop_title").val(data.data.title);
+			$("#shop_details").val(data.data.details);
+			$("#shop_logo").attr("src",data.data.logo);
+			$("#shop_image").attr("src",data.data.image);
+			$("#shop_contactPhone").val(data.data.contactPhone);
 			$("#shop-edit-submit").html("修改");
+			$("#add_shop_btn").click();
+			$("#shop_modalCloseBtn").click(function(){
+				$("#shop_name").val("");
+				$("#shop_title").val("");
+				$("#shop_details").val("");
+				$("#shop_logo").attr("src","");
+				$("#shop_image").attr("src","");
+				$("#shop_contactPhone").val("");
+				$("#shop-edit-submit").html("添加");
+			});
 		} else {
 			alert(data.msg);
 		}
@@ -168,11 +195,13 @@ function deleteShop(shopId) {
 /**
  * 重置编辑
  */
-function resetEdit() {
-	$("#name").val("");
-	$("#title").val("");
-	$("#details").val("");
-	$("#contact_phone").val("");
+function shop_resetEdit() {
+	$("#shop_name").val("");
+	$("#shop_title").val("");
+	$("#shop_details").val("");
+	$("#shop_contactPhone").val("");
+	$("#shop_logo").attr("src","");
+	$("#shop_image").attr("src","");
 }
 
 /**
@@ -186,7 +215,7 @@ function getShopDateList(index) {
 			var template = $.templates("#tableTmpl");
 			var htmlOutput = template.render(data.data);
 			$("#shopTableData").html(htmlOutput);
-			$("#allCount").html(data.count);
+			$("#shop_size").html(data.count);
 		} else {
 			alert(data);
 		}

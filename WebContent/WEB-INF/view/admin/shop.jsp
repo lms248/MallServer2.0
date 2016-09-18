@@ -24,7 +24,7 @@
         <header class="panel-heading">
             	店铺管理
             <span class="pull-right">
-                <a class="btn btn-success fa fa-plus-circle" href="#modal_add_shop" data-toggle="modal">添加店铺</a>
+                <a id="add_shop_btn" class="btn btn-success fa fa-plus-circle" href="#modal_add_shop" data-toggle="modal">添加店铺</a>
             </span>
         </header>
         <div class="panel-body" style="display: block;">
@@ -69,7 +69,7 @@
        </table>
        <div class="row-fluid">
        	<div class="span6">
-       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="allCount">0</b>&nbsp;条</div>
+       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="shop_size">0</b>&nbsp;条</div>
        	</div>
        	<div class="span6">
        		<div class="dataTables_paginate paging_bootstrap pagination">
@@ -97,19 +97,19 @@
     <div class="modal-dialog">
     	<div class="modal-content">
         	<div class="modal-header">
-            	<button id="modalCloseBtn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            	<button id="shop_modalCloseBtn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">店铺编辑</h4>
             </div>
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img id="show_logo" src="" alt="" width="100" height="100" style="padding-left: 50px;padding-right: 50px;">
-                    <a id="edit_logo" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑Logo</a>
-                    <a id="logo_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
+                	<img id="shop_logo" src="" alt="" width="100" height="100" style="padding-left: 50px;padding-right: 50px;">
+                    <a id="shop_logo_edit" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑Logo</a>
+                    <a id="shop_logo_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
                     
-					<img id="show_image" src="" alt="" width="220" height="165" style="background-color: #cccccc;">
-                    <a id="edit_image" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
-                    <a id="image_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
+					<img id="shop_image" src="" alt="" width="220" height="165" style="background-color: #cccccc;">
+                    <a id="shop_image_edit" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
+                    <a id="shop_image_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
                     <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
                     <!-- <p><strong>File Type:</strong> jpg</p>
                     <p><strong>Resolution:</strong> 300x200</p>
@@ -118,26 +118,26 @@
                 <div class="col-md-7">
                 	<div class="form-group">
                     	<label> 店铺名 </label>
-                        <input id="name" class="form-control" placeholder="请输入店铺名">
+                        <input id="shop_name" class="form-control" placeholder="请输入店铺名">
                     </div>
                     <div class="form-group">
                         <label> 标题 </label>
-                        <input id="title" class="form-control" placeholder="请输入标题">
+                        <input id="shop_title" class="form-control" placeholder="请输入标题">
                     </div>
                          <div class="form-group">
                          <label> 描述 </label>
-                         <textarea id="details" rows="2" class="form-control" placeholder="请输入店铺描述"></textarea>
+                         <textarea id="shop_details" rows="2" class="form-control" placeholder="请输入店铺描述"></textarea>
                     </div>
                     <div class="form-group">
                     	<label> 联系客服电话 </label>
-                        <input id="contactPhone" class="form-control" placeholder="请输入客服电话">
+                        <input id="shop_contactPhone" class="form-control" placeholder="请输入客服电话">
                     </div>
                     <!-- <div class="form-group">
                          <label> 链接地址URL </label>
                          <input id="link" class="form-control">
                     </div> -->
                     <div class="pull-right">
-                         <button class="btn btn-danger btn-sm" type="button" style="margin-right: 10px;" onclick="resetEdit()">重置</button>
+                         <button id="shop-edit-reset" class="btn btn-danger btn-sm" type="button" style="margin-right: 10px;" onclick="shop_resetEdit()">重置</button>
                          <button id="shop-edit-submit" class="btn btn-success btn-sm" type="button" onclick="shop_edit()">添加</button>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
     	<div class="modal-content">
         	<div class="modal-header">
             	<button id="goods_modalCloseBtn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">商品编辑<span style="margin-left: 10px; color: #FFEB3B;">(店铺：<b id="shop_name" title=""></b>)</span></h4>
+                <h4 class="modal-title">商品编辑<span style="margin-left: 10px; color: #FFEB3B;">(店铺：<b id="goods_shop_name" title=""></b>)</span></h4>
             </div>
 
             <div class="modal-body row">
@@ -180,9 +180,9 @@
                 		</div>
                     	<div class="form-group">
                     		<label> 原价（单位：元） </label>
-                        	<input id="goods_curPrice" class="form-control" placeholder="原价 ">
+                        	<input id="goods_prePrice" class="form-control" placeholder="原价 ">
                         	<label> 当前售价（单位：元） </label>
-                        	<input id="goods_prePrice" class="form-control" placeholder="当前售价">
+                        	<input id="goods_curPrice" class="form-control" placeholder="当前售价">
                     	</div>
                     	<div class="form-group">
                     		<label> 标签名字（例如：颜色）</label>
@@ -261,7 +261,7 @@
     <td class="center ">****</td>
     <td class="center ">{{:createTime}}</td>
 	<td class="center ">
-		<a class="btn btn-success" href="#modal_add_goods" data-toggle="modal" onclick="$('#shop_name').html('{{:name}}');$('#shop_name').attr('title','{{:shopId}}');">添加商品</a>
+		<a class="btn btn-success" href="#modal_add_goods" data-toggle="modal" onclick="$('#goods_shop_name').html('{{:name}}');$('#shop_name').attr('title','{{:shopId}}');">添加商品</a>
 	</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showShop('{{:shopId}}')">查看</button>
@@ -297,7 +297,7 @@ uploader = WebUploader.create({
     server: '/servlet/upload',
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
-    	id: '#edit_logo',
+    	id: '#shop_logo_edit',
     	innerHTML: '上传店铺Logo',
     	multiple: true
     },
@@ -317,9 +317,9 @@ uploader = WebUploader.create({
 uploader.on( 'uploadSuccess', function( file, response ) {
     var image = response._raw.split(";")[0];
     var thumb = response._raw.split(";")[1];
-    $("#show_logo").attr("src", image);
-    $("#show_logo").attr("alt", response._raw);
-    $("#logo_url").attr("href", image);
+    $("#shop_logo").attr("src", image);
+    $("#shop_logo").attr("alt", response._raw);
+    $("#shop_logo_url").attr("href", image);
     /* var img = "<img src='"+logo+"' title='"+response._raw+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
 	$("#logo_show").html(img); */
 	//$("#logo_url").html(response._raw);
@@ -341,7 +341,7 @@ uploader = WebUploader.create({
     server: '/servlet/upload',
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
-    	id: '#edit_image',
+    	id: '#shop_image_edit',
     	innerHTML: '上传店铺Logo',
     	multiple: true
     },
@@ -361,9 +361,9 @@ uploader = WebUploader.create({
 uploader.on( 'uploadSuccess', function( file, response ) {
     var image = response._raw.split(";")[0];
     var thumb = response._raw.split(";")[1];
-    $("#show_image").attr("src", image);
-    $("#show_image").attr("alt", response._raw);
-    $("#image_url").attr("href", image);
+    $("#shop_image").attr("src", image);
+    $("#shop_image").attr("alt", response._raw);
+    $("#shop_image_url").attr("href", image);
     /* var img = "<img src='"+logo+"' title='"+response._raw+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
 	$("#logo_show").html(img); */
 	//$("#logo_url").html(response._raw);

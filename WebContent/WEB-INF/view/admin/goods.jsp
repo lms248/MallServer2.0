@@ -65,7 +65,7 @@
        </table>
        <div class="row-fluid">
        	<div class="span6">
-       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="allCount">0</b>&nbsp;条</div>
+       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="goods_size">0</b>&nbsp;条</div>
        	</div>
        	<div class="span6">
        		<div class="dataTables_paginate paging_bootstrap pagination">
@@ -89,43 +89,65 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_add_goods" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
     	<div class="modal-content">
         	<div class="modal-header">
-            	<button id="modalCloseBtn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">商品编辑</h4>
+            	<button id="goods_modalCloseBtn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">商品编辑<span style="margin-left: 10px; color: #FFEB3B;">(店铺：<b id="goods_shop_name" title=""></b>)</span></h4>
             </div>
 
             <div class="modal-body row">
 				<div class="col-md-5 img-modal">
-                	<img id="show_image" src="" alt="" width="220" height="220" style="background-color: #cccccc;">
-                    <a id="edit_image" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
-                    <a id="image_url" href="#" class="btn btn-white btn-sm"><i class="fa fa-eye"></i>查看原图</a>
-
+                	<img id="goods_logo" src="" alt="" width="100" height="100" style="padding-left: 50px;padding-right: 50px;">
+                    <a id="goods_logo_edit" href="#" class="btn btn-white btn-sm" style="margin-left: 50px;"><i class="fa fa-pencil"></i>编辑图片</a>
+                    <a id="goods_logo_url" href="#" class="btn btn-white btn-sm" style="display: none;"><i class="fa fa-eye"></i>查看原图</a>
+					
                     <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
                     <!-- <p><strong>File Type:</strong> jpg</p>
                     <p><strong>Resolution:</strong> 300x200</p>
                     <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p> -->
+                    <div style="width=100%; height: auto;margin-top: 10px; background-color: #cccccc;">
+                		<!--用来存放item-->
+    					<div id="fileList" class="uploader-list"></div>
+    					<div id="filePicker" style="margin: 20px;margin-left: 60px;">添加图片列表</div>
+                	</div>
                 </div>
                 <div class="col-md-7">
                 	<div class="form-group">
-                    	<label> 商品名 </label>
-                        <input id="name" class="form-control" placeholder="请输入商品名">
-                    	<label> 商店ID </label>
-                        <input id="shopId" class="form-control" placeholder="请输入商店ID">
-                    	<label> 原价（单位：元） </label>
-                        <input id="curPrice" class="form-control" placeholder="原价 ">
-                    	<label> 当前售价（单位：元） </label>
-                        <input id="prePrice" class="form-control" placeholder="当前售价">
-                        <label> 颜色 </label>
-                        <input id="color" class="form-control" placeholder="颜色">
-                        <label> 尺寸 </label>
-                        <input id="size" class="form-control" placeholder="尺寸">
-                        <label> 标题 </label>
-                        <input id="title" class="form-control" placeholder="请输入标题">
-                        <label> 描述 </label>
-                        <textarea id="details" rows="2" class="form-control" placeholder="请输入商品描述"></textarea>
+                		<div class="form-group">
+                			<label> 商品名 </label>
+                        	<input id="goods_name" class="form-control" placeholder="请输入商品名">
+                		</div>
+                    	<div class="form-group">
+                    		<label> 原价（单位：元） </label>
+                        	<input id="goods_prePrice" class="form-control" placeholder="原价 ">
+                        	<label> 当前售价（单位：元） </label>
+                        	<input id="goods_curPrice" class="form-control" placeholder="当前售价">
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标签名字（例如：颜色）</label>
+                        	<input id="goods_tagKey" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签值（每个值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                            <select id="id_goods_level_1" name="goods_level_1" style="height: 30px;">
+  								<option value ="0">请选择一级分类</option>
+							</select>
+                            <select id="id_goods_level_2" name="goods_level_2" style="height: 30px; display: none;">
+  								<option value ="0">请选择二级分类</option>
+							</select>
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标题 </label>
+                        	<input id="goods_title" class="form-control" placeholder="请输入标题">
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 描述 </label>
+                        	<textarea id="goods_details" rows="2" class="form-control" placeholder="请输入商品描述"></textarea>
+                    	</div>
+                        
                     </div>
                     <!-- <div class="form-group">
                          <label> 链接地址URL </label>
@@ -133,7 +155,7 @@
                     </div> -->
                     <div class="pull-right">
                          <button class="btn btn-danger btn-sm" type="button" style="margin-right: 10px;" onclick="resetEdit()">重置</button>
-                         <button class="btn btn-success btn-sm" type="button" onclick="submitEdit()">添加</button>
+                         <button class="btn btn-success btn-sm" type="button" onclick="goods_add()">添加</button>
                     </div>
                 </div>
             </div>
@@ -154,9 +176,9 @@
     <td class="center ">{{:tags}}</td>
     <td class="center ">{{:createTime}}</td>
     <td class="center ">
-		 <button class="btn btn-info" type="button" onclick="showData({{:shopId}})">查看</button>
-         <button class="btn btn-warning" type="button" onclick="updateData({{:shopId}})">修改</button>
-         <button class="btn btn-danger" type="button" onclick="deleteData({{:shopId}})">删除</button>
+		 <button class="btn btn-info" type="button" onclick="showGoods('{{:goodsId}}')">查看</button>
+         <button class="btn btn-warning" type="button" onclick="updateGoods('{{:goodsId}}')">修改</button>
+         <button class="btn btn-danger" type="button" onclick="deleteGoods('{{:goodsId}}')">删除</button>
 	</td>
 </tr>
 </script>
@@ -232,6 +254,6 @@ uploader.on( 'uploadError', function( file ) {
 </script> -->
 
 <script>
-getDateList(0);//数据列表显示
+getGoodsDateList(0);//数据列表显示
 </script>
 

@@ -148,7 +148,7 @@ public class GoodsDao {
 	public static int Count(){
 		int GoodsCount=0;
 		try {
-			GoodsCount=dbUtils.stat(GoodsBean.class, "select COUNT(*) from Goods_gw");
+			GoodsCount=dbUtils.stat(GoodsBean.class, "select COUNT(*) from goods");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

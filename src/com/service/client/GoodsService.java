@@ -193,6 +193,7 @@ public class GoodsService {
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商品列表");
 		obj.put("data", arr);
+		obj.put("count", GoodsDao.Count());
 		out.print(obj);
 		
 		System.out.println(obj);
