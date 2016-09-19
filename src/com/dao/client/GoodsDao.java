@@ -98,6 +98,19 @@ public class GoodsDao {
 		}
 		return goodsList;
 	}
+	
+	public static List<GoodsBean> loadAllGoodsForSort(int sortId, int sortPId, int index, int size){
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+		try {
+			goodsList=dbUtils.query(GoodsBean.class, 
+					" where sortId=? or sortId in (select id from sort where pid=?) order by id desc limit ?,?", sortId, sortPId, index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return goodsList;
+	}
+	
 	public static List<GoodsBean> loadAllGoodsForShop(long shopId, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
@@ -110,6 +123,17 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
+	public static List<GoodsBean> loadAllGoodsForShopAndSort(long shopId, int sortId, int sortPId, int index, int size){
+		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
+		try {
+			goodsList=dbUtils.query(GoodsBean.class, 
+					" where shopId=? and (sortId=? or sortId in (select id from sort where pid=?)) order by id desc limit ?,?", shopId, sortId, sortPId, index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return goodsList;
+	}
 	
 	/**
 	 * 加载所有列表

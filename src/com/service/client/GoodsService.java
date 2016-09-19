@@ -18,6 +18,7 @@ import com.alibaba.fastjson.JSON;
 
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
+import bean.client.SortBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
@@ -254,16 +255,35 @@ public class GoodsService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		String shopId = request.getParameter("shopId");//商店ID
+		String sortId = request.getParameter("sortId");//分类ID
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
 		List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
-		if (shopId == null) {
-			goodsList = GoodsDao.loadAllGoods(index, size);
-		} else {
-			goodsList = GoodsDao.loadAllGoodsForShop(Long.parseLong(shopId), index, size);
+		if (shopId == null) { //不分店铺
+			if (sortId == null || sortId.equals("0")) { //不分类
+				goodsList = GoodsDao.loadAllGoods(index, size);
+			} else { //分类
+				List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+				if (sortList.size() == 0) {//一类
+					goodsList = GoodsDao.loadAllGoodsForSort(Integer.parseInt(sortId), -1, index, size);
+				} else {
+					goodsList = GoodsDao.loadAllGoodsForSort(-1, Integer.parseInt(sortId), index, size);
+				}
+			}
+		} else { //分店铺
+			if (sortId == null || sortId.equals("0")) { //不分类
+				goodsList = GoodsDao.loadAllGoodsForShop(Long.parseLong(shopId), index, size);
+			} else { //分类
+				List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+				if (sortList.size() == 0) {//一类
+					goodsList = GoodsDao.loadAllGoodsForShopAndSort(Long.parseLong(shopId), Integer.parseInt(sortId), -1, index, size);
+				} else {
+					goodsList = GoodsDao.loadAllGoodsForShopAndSort(Long.parseLong(shopId), -1, Integer.parseInt(sortId), index, size);
+				}
+			}
 		}
 		
 		for (int i = 0; i < goodsList.size(); i++) {
