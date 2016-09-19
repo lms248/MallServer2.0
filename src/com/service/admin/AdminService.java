@@ -98,6 +98,13 @@ public class AdminService {
 		return view;
 	}
 	
+	/** 活动 **/
+	@RequestMapping(value="activity", method=RequestMethod.POST)
+	public ModelAndView activity(){
+		ModelAndView view = new ModelAndView("admin/activity");
+		return view;
+	}
+	
 	/** 商品分类 **/
 	@RequestMapping(value="goods-sort", method=RequestMethod.POST)
 	public ModelAndView goods_sort(){
