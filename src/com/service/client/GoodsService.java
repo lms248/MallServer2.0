@@ -141,6 +141,7 @@ public class GoodsService {
 		String details = request.getParameter("details");
 		String logo = request.getParameter("logo");
 		String imageList = request.getParameter("imageList");
+		System.out.println("++++++"+imageList);
 		String thumbList = request.getParameter("thumbList");
 		String[] logos = logo.split(";");
 		

@@ -64,7 +64,6 @@ function goods_edit() {
 		var tip = "你确认修改吗？";
 		if(confirm(tip)){
 			goods_tags = goods_tagKey+":"+goods_tagValue+";";
-			alert(goods_tags);
 			var params = {name:goods_name,goodsId:goodsId,curPrice:goods_curPrice,prePrice:goods_prePrice,sortId:sortId,
 					tags:goods_tags,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
 			$.post("/goods/update",params,function(data){
@@ -141,8 +140,8 @@ function showGoods(goodsId) {
 			});  
 			$("#fileList").html(thumbListHtml);
 			
-			goods_imageList = data.data.imageList;
-			goods_thumbList = data.data.thumbList;
+			goods_imageList = eval (data.data.imageList)+"";
+			goods_thumbList = eval (data.data.thumbList)+"";
 			
 			var sortIds = String(data.data.sortIds).split(":");
 			if (sortIds[0] != 0) {
