@@ -24,6 +24,7 @@ import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
+import dao.client.SortDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -112,6 +113,8 @@ public class GoodsService {
 		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodsId)));
 		out.print(obj);
 		
+		System.out.println(obj);
+		
 		out.flush();
 		out.close();
 	}
@@ -184,9 +187,11 @@ public class GoodsService {
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "添加商品成功");
+		obj.put("msg", "修改商品成功");
 		obj.put("data", JsonUtils.jsonFromObject(goods.getGoodsId()));
 		out.print(obj);
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();
@@ -216,10 +221,21 @@ public class GoodsService {
 			obj_data.put("contactPhone", shop.getContactPhone());
 		}
 		
+		if (goods.getSortId() <= 0) {
+			obj_data.put("sortIds", 0);
+		} else {
+			int pid = SortDao.loadById(goods.getSortId()).getPid();
+			obj_data.put("sortIds", pid+":"+goods.getSortId());
+		}
+		
+		obj_data.put("goodsId", goods.getGoodsId()+"");
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商品详情");
 		obj.put("data", JsonUtils.jsonFromObject(obj_data));
 		out.print(obj);
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();

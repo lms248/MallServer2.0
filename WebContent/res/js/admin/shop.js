@@ -88,7 +88,7 @@ function goods_add() {
 		alert("请输入商品名称！！！");
 	}
 	else if (shopId == "") {
-		alert("请输入店铺ID！！！");
+		alert("无法获取店铺ID！！！");
 	}
 	else if(goods_curPrice==""){
 		alert("请输入商品原价！！！");
@@ -243,16 +243,6 @@ $("#pageSize").change(function(){
 	getShopDateList(0);
 });
 
-$("#id_goods_level_1").change(function(){
-	$("#id_goods_level_2").html("<option value =\"0\">请选择二级分类</option>");
-	if (this.value==0) {
-		$("#id_goods_level_2").hide();
-	} else {
-		$("#id_goods_level_2").show();
-	}
-	getGoodsSortList(this.value);
-});
-
 /**
  * 获取商品类别列表
  */
@@ -274,4 +264,14 @@ function getGoodsSortList(pid) {
 		}
 	},"json");
 }
+
+$("#id_goods_level_1").change(function(){
+	$("#id_goods_level_2").html("<option value =\"0\">请选择二级分类</option>");
+	if (this.value==0) {
+		$("#id_goods_level_2").hide();
+	} else {
+		$("#id_goods_level_2").show();
+	}
+	getGoodsSortList(this.value);
+});
 

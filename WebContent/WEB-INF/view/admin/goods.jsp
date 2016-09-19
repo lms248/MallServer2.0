@@ -8,7 +8,7 @@
 <style>
 .webuploader-pick{
 	height: 34px;
-	width: 120px;
+	width: 100px;
 	padding: 8px 8px;
 }
 </style>
@@ -98,9 +98,9 @@
             </div>
 
             <div class="modal-body row">
-				<div class="col-md-5 img-modal">
+				<div class="col-md-5 img-modal" align="center">
                 	<img id="goods_logo" src="" alt="" width="100" height="100" style="padding-left: 50px;padding-right: 50px;">
-                    <a id="goods_logo_edit" href="#" class="btn btn-white btn-sm" style="margin-left: 50px;"><i class="fa fa-pencil"></i>编辑图片</a>
+                    <a id="goods_logo_edit" href="#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i>编辑图片</a>
                     <a id="goods_logo_url" href="#" class="btn btn-white btn-sm" style="display: none;"><i class="fa fa-eye"></i>查看原图</a>
 					
                     <!-- <p class="mtop10"><strong>文件名:</strong></p> -->
@@ -109,8 +109,16 @@
                     <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p> -->
                     <div style="width=100%; height: auto;margin-top: 10px; background-color: #cccccc;">
                 		<!--用来存放item-->
-    					<div id="fileList" class="uploader-list"></div>
-    					<div id="filePicker" style="margin: 20px;margin-left: 60px;">添加图片列表</div>
+    					<div id="fileList" class="uploader-list">
+    						<img src="/upload/thumb/20160912/8fbff95103cd2d2a.png" style="width: 80px; height: 80px; margin: 5px;">
+    						<img src="/upload/thumb/20160912/8fbff95103cd2d2a.png" style="width: 80px; height: 80px; margin: 5px;">
+    						<img src="/upload/thumb/20160912/8fbff95103cd2d2a.png" style="width: 80px; height: 80px; margin: 5px;">
+    						<img src="/upload/thumb/20160912/8fbff95103cd2d2a.png" style="width: 80px; height: 80px; margin: 5px;">
+    					</div>
+    					<!-- <a id="filePicker" style="margin: 20px;margin-left: 60px;">添加图片列表</a> -->
+    					<a id="filePicker" href="#" class="btn btn-white btn-sm">添加图片列表</a>
+    					<a class="btn btn-danger btn-sm" type="button" style="margin-right: 10px; margin-bottom:5px; width: 50px; height: 34px;" onclick="clearImageList()">清空</a>
+    					
                 	</div>
                 </div>
                 <div class="col-md-7">
@@ -185,6 +193,15 @@
 
 <script src="/res/js/admin/goods.js"></script>
 
+<!-- 商品类别模板 -->
+<script id="goodsSortTmpl" type="text/x-jsrender">
+<option value ="{{:id}}">{{:name}}</option>
+</script>
+
+<script>
+getGoodsDateList(0);//数据列表显示
+</script>
+
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>
 
@@ -253,7 +270,152 @@ uploader.on( 'uploadError', function( file ) {
     });
 </script> -->
 
+<!-- 商品Logo -->
+<script type="text/javascript">
+var uploader;
+/** 初始化Web Uploader */
+uploader = WebUploader.create({
+	method: 'post',
+    // swf文件路径
+    swf: '/res/webuploader/Uploader.swf',
+    // 文件接收服务端。
+    server: '/servlet/upload',
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: {
+    	id: '#goods_logo_edit',
+    	innerHTML: '上传商品Logo',
+    	multiple: true
+    },
+ 	// 自动上传。
+    auto: true,
+    // 不进行图片压缩
+    compress: null,
+    formData: {width:200, height:200, aspectRatio:"true", width_thumb:50, height_thumb:50, aspectRatio_thumb:"false"},
+ 	// 只允许选择文件，可选。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+uploader.on( 'uploadSuccess', function( file, response ) {
+    var image = response._raw.split(";")[0];
+    var thumb = response._raw.split(";")[1];
+    $("#goods_logo").attr("src", image);
+    $("#goods_logo").attr("alt", response._raw);
+    $("#goods_logo_url").attr("href", image);
+    /* var img = "<img src='"+logo+"' title='"+response._raw+"' style='width: 34px;height: 34px;margin-left: 30px;margin-right: 10px;'>";
+	$("#logo_show").html(img); */
+	//$("#logo_url").html(response._raw);
+});
+
+uploader.on( 'uploadError', function( file ) {
+	alert('上传出错了...');
+});
+</script>
+
+
+<!-- 商品图片列表上传 -->
 <script>
-getGoodsDateList(0);//数据列表显示
+//图片列表数据
+var goods_imageList = "";
+var goods_thumbList = "";
+
+//初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: '/res/webuploader/Uploader.swf',
+
+    // 文件接收服务端。
+    server: '/servlet/upload',
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#filePicker',
+
+    // 只允许选择图片文件。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+//当有文件添加进来的时候
+uploader.on( 'fileQueued', function( file ) {
+    var $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<div class="info">' + file.name + '</div>' +
+            '</div>'
+            ),
+        $img = $li.find('img');
+
+
+    $("#fileList").append( $li );
+
+    // 创建缩略图
+    // 如果为非图片文件，可以不用调用此方法。
+    // thumbnailWidth x thumbnailHeight 为 100 x 100
+    uploader.makeThumb( file, function( error, src ) {
+        if ( error ) {
+            $img.replaceWith('<span>不能预览</span>');
+            return;
+        }
+
+        $img.attr( 'src', src );
+    }, 80, 80 );
+});
+
+
+
+//文件上传过程中创建进度条实时显示。
+uploader.on( 'uploadProgress', function( file, percentage ) {
+    var $li = $( '#'+file.id ),
+        $percent = $li.find('.progress span');
+
+    // 避免重复创建
+    if ( !$percent.length ) {
+        $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $li )
+                .find('span');
+    }
+
+    $percent.css( 'width', percentage * 100 + '%' );
+});
+
+
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+uploader.on( 'uploadSuccess', function( file, response) {
+    $( '#'+file.id ).addClass('upload-state-done');
+    var image = response._raw.split(";")[0];
+    var thumb = response._raw.split(";")[1];
+    goods_imageList += image+","; 
+    goods_thumbList += thumb+","; 
+});
+
+// 文件上传失败，显示上传出错。
+uploader.on( 'uploadError', function( file ) {
+    var $li = $( '#'+file.id ),
+        $error = $li.find('div.error');
+
+    // 避免重复创建
+    if ( !$error.length ) {
+        $error = $('<div class="error"></div>').appendTo( $li );
+    }
+
+    $error.text('上传失败');
+});
+
+// 完成上传完了，成功或者失败，先删除进度条。
+uploader.on( 'uploadComplete', function( file ) {
+    $( '#'+file.id ).find('.progress').remove();
+});
 </script>
 
