@@ -60,15 +60,17 @@ public class PageService {
 		List<GoodssortBean> promotionList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 10);
 		for (int i = 0; i < promotionList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
-			/*obj_promotion.put("goodsId", goods.getGoodsId());
-			obj_promotion.put("name", goods.getName());
-			obj_promotion.put("logo", goods.getLogo());
-			obj_promotion.put("logoThumb", goods.getLogoThumb());
-			obj_promotion.put("prePrice", goods.getPrePrice());
-			obj_promotion.put("curPrice", goods.getCurPrice());
-			obj_promotion.put("logoThumb", goods.getLogoThumb());*/
-			//obj_promotion.put("data", JsonUtils.jsonFromObject(promotionList.get(i)));
-			arr_promotion.add(JsonUtils.jsonFromObject(goods));
+			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			if (shop == null) {
+				continue;
+			}
+			obj_promotion = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
+			obj_promotion.put("shopId", goods.getShopId());
+			obj_promotion.put("shopName", shop.getName());
+			obj_promotion.put("shopLogo", shop.getImage());
+			obj_promotion.put("shopThumb", shop.getThumbnail());
+			obj_promotion.put("contactPhone", shop.getContactPhone());
+			arr_promotion.add(obj_promotion);
 		}
 		
 		//首页商城商户
