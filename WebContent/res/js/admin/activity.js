@@ -14,7 +14,7 @@ function activity_add() {
 	
 	var activity_sortId = activity_level_1;
 	if (activity_level_1 != 0 && activity_level_2 != 0) {
-		activity_sortId = activity_level_1;
+		activity_sortId = activity_level_2;
 	}
 	if (activity_goodsId == "") {
 		alert("请输入商品ID！！！");
