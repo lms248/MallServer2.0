@@ -76,12 +76,15 @@ function goods_add() {
 	var goods_details = $("#goods_details").val();
 	var goods_logo = $("#goods_logo").attr("alt");
 	
-	var sortId = $("#id_goods_level_1").val();
-	if (sortId == 0) {
+	var goods_sortId = $("#goods_level_1").val();
+	/*if (goods_sortId == 0) {
 		alert("请选择商品的一级类别！！！");
 		return;
-	} else if ($("#id_goods_level_1").val()!=0) {
-		sortId = $("#id_goods_level_2").val();
+	} else if ($("#goods_level_1").val()!=0) {
+		goods_sortId = $("#goods_level_2").val();
+	}*/
+	if (goods_sortId != 0 && $("#goods_level_2").val() != 0) {
+		goods_sortId = $("#goods_level_2").val();
 	}
 		
 	if (goods_name == "") {
@@ -125,7 +128,7 @@ function goods_add() {
 		if(confirm(tip)){
 			goods_tags = goods_tagKey+":"+goods_tagValue+";";
 			alert(goods_tags);
-			var params = {name:goods_name,shopId:shopId,curPrice:goods_curPrice,prePrice:goods_prePrice,sortId:sortId,
+			var params = {name:goods_name,shopId:shopId,curPrice:goods_curPrice,prePrice:goods_prePrice,sortId:goods_sortId,
 					tags:goods_tags,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
 			$.post("/goods/add",params,function(data){
 				if(data.code=="0"){
@@ -246,32 +249,32 @@ $("#pageSize").change(function(){
 /**
  * 获取商品类别列表
  */
-function getGoodsSortList(pid) {
-	var id_goods_level = $("#id_goods_level_1");
+function getGoodsSortList(pid, type) {
+	var goods_level = $("#goods_level_1");
 	if (pid > 0) {
-		id_goods_level = $("#id_goods_level_2");
+		goods_level = $("#goods_level_2");
 	}
-	$.get("/sort/infoList",{pid:pid},function(data){
+	$.get("/sort/infoList",{pid:pid,type:type},function(data){
 		if(data.code=="0"){
 			if (data.data=="") {
-				$("#id_goods_level_2").hide();
+				$("#goods_level_2").hide();
 			}
 			var template = $.templates("#goodsSortTmpl");
 			var htmlOutput = template.render(data.data);
-			id_goods_level.append(htmlOutput);
+			goods_level.append(htmlOutput);
 		} else {
 			alert(data);
 		}
 	},"json");
 }
 
-$("#id_goods_level_1").change(function(){
-	$("#id_goods_level_2").html("<option value =\"0\">请选择二级分类</option>");
+$("#goods_level_1").change(function(){
+	$("#goods_level_2").html("<option value =\"0\">请选择二级分类</option>");
 	if (this.value==0) {
-		$("#id_goods_level_2").hide();
+		$("#goods_level_2").hide();
 	} else {
-		$("#id_goods_level_2").show();
+		$("#goods_level_2").show();
 	}
-	getGoodsSortList(this.value);
+	getGoodsSortList(this.value, 1);
 });
 

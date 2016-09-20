@@ -44,6 +44,17 @@ public class SortDao {
 		return sortList;
 	}
 	
+	public static List<SortBean> loadByPidAndType(int pid, int type){
+		List<SortBean> sortList=new ArrayList<SortBean>();
+		try {
+			sortList=dbUtils.query(SortBean.class, " where pid=? and type=?", pid, type);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return sortList;
+	}
+	
 	/**
 	 * 加载数据
 	 * @param uid

@@ -24,7 +24,6 @@ import common.utils.IdGen;
 import common.utils.JsonUtils;
 
 import dao.client.FeedbackDao;
-import dao.client.ShopDao;
 import dao.client.UserDao;
 
 /**
@@ -90,7 +89,7 @@ public class FeedbackService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int feedbackId = Integer.parseInt(request.getParameter("feedbackId")); 
+		long feedbackId = Long.parseLong(request.getParameter("feedbackId")); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
@@ -129,7 +128,7 @@ public class FeedbackService {
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "反馈列表");
-		obj.put("count", ShopDao.Count());
+		obj.put("count", FeedbackDao.Count());
 		obj.put("data", arr);
 		out.print(obj);
 		

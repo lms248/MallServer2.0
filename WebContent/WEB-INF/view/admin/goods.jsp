@@ -140,10 +140,10 @@
                         	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
                     	</div>
                     	<div class="form-group">
-                            <select id="id_goods_level_1" name="goods_level_1" style="height: 30px;">
+                            <select id="goods_level_1" name="goods_level_1" style="height: 30px;">
   								<option value ="0">请选择一级分类</option>
 							</select>
-                            <select id="id_goods_level_2" name="goods_level_2" style="height: 30px; display: none;">
+                            <select id="goods_level_2" name="goods_level_2" style="height: 30px; display: none;">
   								<option value ="0">请选择二级分类</option>
 							</select>
                     	</div>

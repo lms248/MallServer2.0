@@ -201,10 +201,10 @@
                                     <li><a>Separated link</a></li>
                                 </ul>
                             </div> -->
-                            <select id="id_goods_level_1" name="goods_level_1" style="height: 30px;">
+                            <select id="goods_level_1" name="goods_level_1" style="height: 30px;">
   								<option value ="0">请选择一级分类</option>
 							</select>
-                            <select id="id_goods_level_2" name="goods_level_2" style="height: 30px; display: none;">
+                            <select id="goods_level_2" name="goods_level_2" style="height: 30px; display: none;">
   								<option value ="0">请选择二级分类</option>
 							</select>
                     	</div>
@@ -286,7 +286,7 @@
 
 <script>
 getShopDateList(0);//数据列表显示
-getGoodsSortList(0);//商品分类
+getGoodsSortList(0,1);//商品分类
 </script>
 
 <!-- 上传Logo -->

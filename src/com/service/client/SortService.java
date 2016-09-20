@@ -21,7 +21,6 @@ import bean.client.SortBean;
 import common.utils.Def;
 import common.utils.JsonUtils;
 
-import dao.client.ShopDao;
 import dao.client.SortDao;
 
 /**
@@ -42,8 +41,9 @@ public class SortService {
 		PrintWriter out = response.getWriter();
 		
 		int pid = Integer.parseInt(request.getParameter("pid"));//索引开始
+		int type = Integer.parseInt(request.getParameter("type"));//类型
 		
-		List<SortBean> sortList = SortDao.loadByPid(pid);
+		List<SortBean> sortList = SortDao.loadByPidAndType(pid, type);
 		
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();
