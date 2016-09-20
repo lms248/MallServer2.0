@@ -125,7 +125,7 @@ function showGoods(goodsId) {
 			var tags = eval ("(" + data.data.tags + ")");
 			for (var key in tags) {
 				$("#goods_tagKey").val(key);
-				$("#goods_tagValue").val(String(tags[key]).replace(",","#"));
+				$("#goods_tagValue").val(String(tags[key]).replace(/,/g,"#"));
 			}
 			
 			$("#goods_title").val(data.data.title);

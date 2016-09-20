@@ -196,10 +196,19 @@
     $('.popovers').popover();
 
 
-
-
-
-
-
-
 })(jQuery);
+
+
+/**
+ * 时间戳转日期格式
+ */
+function getTime(timeStamp) {
+	var newDate = new Date(timeStamp);
+	var year = newDate.getFullYear();     
+    var month = newDate.getMonth()+1;     
+    var date = newDate.getDate();     
+    var hour = newDate.getHours();     
+    var minute = newDate.getMinutes();     
+    var second = newDate.getSeconds();     
+    return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+}

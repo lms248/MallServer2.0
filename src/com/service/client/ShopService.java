@@ -2,6 +2,8 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -17,11 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.ShopBean;
-
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
 import dao.client.ShopDao;
 
 /**
@@ -185,6 +185,7 @@ public class ShopService {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(shopList.get(i)));
 			//转化成字符串类型
 			obj2.put("shopId", ""+shopList.get(i).getShopId());
+			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(shopList.get(i).getCreateTime())));
 			arr.add(obj2);
 		}
 		obj.put("code", Def.CODE_SUCCESS);

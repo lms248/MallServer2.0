@@ -2,7 +2,9 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -231,6 +233,7 @@ public class GoodsService {
 		}
 		
 		obj_data.put("goodsId", goods.getGoodsId()+"");
+		obj_data.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goods.getCreateTime())));
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商品详情");
@@ -300,6 +303,7 @@ public class GoodsService {
 			obj2.put("shopLogo", shop.getImage());
 			obj2.put("shopThumb", shop.getThumbnail());
 			obj2.put("contactPhone", shop.getContactPhone());
+			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goodsList.get(i).getCreateTime())));
 			arr.add(obj2);
 		}
 		

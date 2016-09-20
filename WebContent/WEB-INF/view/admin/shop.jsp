@@ -58,7 +58,7 @@
         	<th class="" role="columnheader" style=" text-align: center;">店铺名称</th>
         	<th class="" role="columnheader" style=" text-align: center;">店铺Logo</th>
         	<th class="" role="columnheader" style=" text-align: center;">标题</th>
-        	<th class="" role="columnheader" style=" text-align: center;">描述</th>
+        	<!-- <th class="" role="columnheader" style=" text-align: center;">描述</th> -->
         	<th class="" role="columnheader" style=" text-align: center;">创建时间</th>
         	<th class="" role="columnheader" style=" text-align: center;">添加商品</th>
         	<th class="" role="columnheader" style=" text-align: center;">操作</th>
@@ -258,8 +258,7 @@
     <td class="center ">{{:name}}</td>
     <td class="center "><img src="{{:logoThumb}}" width="50" heigth="50"></td>
     <td class="center ">{{:title}}</td>
-    <td class="center ">****</td>
-    <td class="center ">{{:createTime}}</td>
+    <td class="time center ">{{:createTime2}}</td>
 	<td class="center ">
 		<a class="btn btn-success" href="#modal_add_goods" data-toggle="modal" onclick="$('#goods_shop_name').html('{{:name}}');$('#shop_name').attr('title','{{:shopId}}');">添加商品</a>
 	</td>
@@ -284,6 +283,11 @@
 
 <!-- web文件上传 js-->
 <script src="/res/webuploader/webuploader.js"></script>
+
+<script>
+getShopDateList(0);//数据列表显示
+getGoodsSortList(0);//商品分类
+</script>
 
 <!-- 上传Logo -->
 <script type="text/javascript">
@@ -374,31 +378,7 @@ uploader.on( 'uploadError', function( file ) {
 });
 </script>
 
-<!-- <script type="text/javascript">
-    $(function() {
-        var $container = $('#edit');
-        $container.isotope({
-            itemSelector: '.item',
-            animationOptions: {
-                duration: 750,
-                easing: 'linear',
-                queue: false
-            }
-        });
 
-        // filter items when filter link is clicked
-        $('#submit').click(function() {
-            var selector = $(this).attr('data-filter');
-            $container.isotope({filter: selector});
-            return false;
-        });
-    });
-</script> -->
-
-<script>
-getShopDateList(0);//数据列表显示
-getGoodsSortList(0);//商品分类
-</script>
 
 <!-- 商品Logo -->
 <script type="text/javascript">

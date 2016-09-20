@@ -182,7 +182,7 @@
     <td class="center ">{{:prePrice}}</td>
     <td class="center ">{{:curPrice}}</td>
     <td class="center ">{{:sortId}}</td>
-    <td class="center ">{{:createTime}}</td>
+    <td class="center ">{{:createTime2}}</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showGoods('{{:goodsId}}')">查看</button>
          <button class="btn btn-warning" type="button" onclick="updateGoods('{{:goodsId}}')">修改</button>
