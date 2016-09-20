@@ -40,7 +40,7 @@ public class SortService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int pid = Integer.parseInt(request.getParameter("pid"));//索引开始
+		int pid = Integer.parseInt(request.getParameter("pid"));//父类ID
 		int type = Integer.parseInt(request.getParameter("type"));//类型
 		
 		List<SortBean> sortList = SortDao.loadByPidAndType(pid, type);

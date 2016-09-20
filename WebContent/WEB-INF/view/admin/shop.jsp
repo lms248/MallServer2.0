@@ -251,7 +251,7 @@
 <!-- modal -->
 
 <!-- 店铺数据表模板 -->
-<script id="tableTmpl" type="text/x-jsrender">
+<script id="shop_tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
 	<td class="center ">{{:#index+1}}</td>
     <td class="center ">{{:shopId}}</td>

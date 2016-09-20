@@ -26,11 +26,34 @@ function activity_add() {
 		$.post("/activity/add",params,function(data){
 			alert(data.msg);
 			if(data.code=="0"){
-				//getActivityDateList(0);
+				getActivityDateList(0);
 			}
 		},"json");
 	}
 }
+
+
+/**
+ * 获取活动数据列表
+ */
+function getActivityDateList(index) {
+	var pageSize = $('#pageSize').val();
+	var params = {index:index,size:pageSize};
+	$.get("/activity/infoList",params,function(data){
+		if(data.code=="0"){
+			var template = $.templates("#activity_tableTmpl");
+			var htmlOutput = template.render(data.data);
+			$("#activityTableData").html(htmlOutput);
+			$("#activity_size").html(data.count);
+		} else {
+			alert(data);
+		}
+	},"json");
+}
+
+$("#pageSize").change(function(){
+	getShopDateList(0);
+});
 
 
 /**

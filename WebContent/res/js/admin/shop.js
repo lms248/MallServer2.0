@@ -232,7 +232,7 @@ function getShopDateList(index) {
 	var params = {index:index,size:pageSize};
 	$.get("/shop/infoList",params,function(data){
 		if(data.code=="0"){
-			var template = $.templates("#tableTmpl");
+			var template = $.templates("#shop_tableTmpl");
 			var htmlOutput = template.render(data.data);
 			$("#shopTableData").html(htmlOutput);
 			$("#shop_size").html(data.count);
