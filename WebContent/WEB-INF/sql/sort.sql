@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-20 15:51:29
+Date: 2016-09-20 17:37:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -61,3 +61,24 @@ INSERT INTO `sort` VALUES ('10006', '0', 'banner', '2', '1', '活动一级分类
 INSERT INTO `sort` VALUES ('100001', '10001', '一元抢购', '2', '2', '活动二级分类');
 INSERT INTO `sort` VALUES ('100002', '10001', '九元九专场', '2', '2', '活动二级分类');
 INSERT INTO `sort` VALUES ('100003', '10001', '开业大聚惠', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100004', '10002', '手机数码', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100005', '10002', '母婴用品', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100006', '10002', '美妆洗护', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100007', '10002', '男装', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100008', '10002', '电脑办公', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100009', '10003', '休闲零食', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100010', '10003', '粗粮干货', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100011', '10003', '进口粮食', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100012', '10003', '牛奶冲饮', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100013', '10003', '生鲜蔬菜', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100014', '10004', '女装', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100015', '10004', '女鞋', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100016', '10004', '母婴用品', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100017', '10004', '美妆', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100018', '10004', '洗护', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100019', '10004', '男装', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100020', '10005', '休闲零食', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100021', '10005', '粗粮干货', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100022', '10005', '进口粮食', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100023', '10005', '牛奶冲饮', '2', '2', '活动二级分类');
+INSERT INTO `sort` VALUES ('100024', '10005', '生鲜蔬菜', '2', '2', '活动二级分类');
