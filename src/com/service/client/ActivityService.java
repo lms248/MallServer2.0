@@ -178,7 +178,10 @@ public class ActivityService {
 		}
 		
 		for (int i = 0; i < activityList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getActivityId());
+			GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
+			if (goods == null) {
+				continue;
+			}
 			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
 			if (shop == null) {
 				continue;
@@ -197,7 +200,6 @@ public class ActivityService {
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商品列表");
 		obj.put("data", arr);
-		obj.put("count", GoodsDao.Count());
 		out.print(obj);
 		
 		System.out.println(obj);

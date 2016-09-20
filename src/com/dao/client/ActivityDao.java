@@ -104,7 +104,7 @@ public class ActivityDao {
 		List<ActivityBean> activityList=new ArrayList<ActivityBean>();
 		try {
 			activityList=dbUtils.query(ActivityBean.class, 
-					" where sortId=? or sortId in (select id from sort where pid=?) order by id desc limit ?,?", index, size);
+					" where sortId=? or sortId in (select id from sort where pid=?) order by id desc limit ?,?",sortId, sortPId, index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
