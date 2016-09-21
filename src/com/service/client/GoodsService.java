@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import bean.client.SortBean;
@@ -25,6 +26,7 @@ import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
+import dao.client.ActivityDao;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
 import dao.client.SortDao;
@@ -260,61 +262,96 @@ public class GoodsService {
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		String shopId = request.getParameter("shopId");//商店ID
 		String sortId = request.getParameter("sortId");//分类ID
+		String type = request.getParameter("type");//类别,1是普通商品,2是活动商品
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
-		List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
-		if (shopId == null) { //不分店铺
-			if (sortId == null || sortId.equals("0")) { //不分类
-				goodsList = GoodsDao.loadAllGoods(index, size);
-			} else { //分类
-				List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
-				if (sortList.size() == 0) {//一类
-					goodsList = GoodsDao.loadAllGoodsForSort(Integer.parseInt(sortId), -1, index, size);
-				} else {
-					goodsList = GoodsDao.loadAllGoodsForSort(-1, Integer.parseInt(sortId), index, size);
+		if (StringUtils.isBlank(type) || type.equals("1")) {
+			List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
+			if (shopId == null) { //不分店铺
+				if (sortId == null || sortId.equals("0")) { //不分类
+					goodsList = GoodsDao.loadAllGoods(index, size);
+				} else { //分类
+					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+					if (sortList.size() == 0) {//一类
+						goodsList = GoodsDao.loadAllGoodsForSort(Integer.parseInt(sortId), -1, index, size);
+					} else {
+						goodsList = GoodsDao.loadAllGoodsForSort(-1, Integer.parseInt(sortId), index, size);
+					}
+				}
+			} else { //分店铺
+				if (sortId == null || sortId.equals("0")) { //不分类
+					goodsList = GoodsDao.loadAllGoodsForShop(Long.parseLong(shopId), index, size);
+				} else { //分类
+					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+					if (sortList.size() == 0) {//一类
+						goodsList = GoodsDao.loadAllGoodsForShopAndSort(Long.parseLong(shopId), Integer.parseInt(sortId), -1, index, size);
+					} else {
+						goodsList = GoodsDao.loadAllGoodsForShopAndSort(Long.parseLong(shopId), -1, Integer.parseInt(sortId), index, size);
+					}
 				}
 			}
-		} else { //分店铺
-			if (sortId == null || sortId.equals("0")) { //不分类
-				goodsList = GoodsDao.loadAllGoodsForShop(Long.parseLong(shopId), index, size);
-			} else { //分类
-				List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
-				if (sortList.size() == 0) {//一类
-					goodsList = GoodsDao.loadAllGoodsForShopAndSort(Long.parseLong(shopId), Integer.parseInt(sortId), -1, index, size);
-				} else {
-					goodsList = GoodsDao.loadAllGoodsForShopAndSort(Long.parseLong(shopId), -1, Integer.parseInt(sortId), index, size);
+			
+			for (int i = 0; i < goodsList.size(); i++) {
+				ShopBean shop = ShopDao.loadByShopId(goodsList.get(i).getShopId());
+				if (shop == null) {
+					continue;
 				}
+				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goodsList.get(i)));
+				//转化成字符串类型
+				obj2.put("shopId", ""+goodsList.get(i).getShopId());
+				obj2.put("goodsId", ""+goodsList.get(i).getGoodsId());
+				obj2.put("shopName", shop.getName());
+				obj2.put("shopLogo", shop.getImage());
+				obj2.put("shopThumb", shop.getThumbnail());
+				obj2.put("contactPhone", shop.getContactPhone());
+				obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goodsList.get(i).getCreateTime())));
+				arr.add(obj2);
 			}
-		}
-		
-		for (int i = 0; i < goodsList.size(); i++) {
-			ShopBean shop = ShopDao.loadByShopId(goodsList.get(i).getShopId());
-			if (shop == null) {
-				continue;
+			obj.put("count", GoodsDao.Count());
+		} else if (type.equals("2")) {
+			List<ActivityBean> activityList = new ArrayList<ActivityBean>();
+			List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+			if (sortList.size() == 0) {//一类
+				activityList = ActivityDao.loadActivityForSort(Integer.parseInt(sortId), -1, index, size);
+			} else {
+				activityList = ActivityDao.loadActivityForSort(-1, Integer.parseInt(sortId), index, size);
 			}
-			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goodsList.get(i)));
-			//转化成字符串类型
-			obj2.put("shopId", ""+goodsList.get(i).getShopId());
-			obj2.put("goodsId", ""+goodsList.get(i).getGoodsId());
-			obj2.put("shopName", shop.getName());
-			obj2.put("shopLogo", shop.getImage());
-			obj2.put("shopThumb", shop.getThumbnail());
-			obj2.put("contactPhone", shop.getContactPhone());
-			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goodsList.get(i).getCreateTime())));
-			arr.add(obj2);
+			
+			for (int i = 0; i < activityList.size(); i++) {
+				GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
+				if (goods == null) {
+					continue;
+				}
+				ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+				if (shop == null) {
+					continue;
+				}
+				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
+				//转化成字符串类型
+				obj2.put("shopId", goods.getShopId());
+				obj2.put("goodsId", goods.getGoodsId());
+				obj2.put("shopName", shop.getName());
+				obj2.put("shopLogo", shop.getImage());
+				obj2.put("shopThumb", shop.getThumbnail());
+				obj2.put("contactPhone", shop.getContactPhone());
+				arr.add(obj2);
+			}
+			
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "商品列表");
+			obj.put("data", arr);
+			out.print(obj);
 		}
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "商品列表");
 		obj.put("data", arr);
-		obj.put("count", GoodsDao.Count());
 		out.print(obj);
 		
 		System.out.println(obj);
-
 		
 		out.flush();
 		out.close();
