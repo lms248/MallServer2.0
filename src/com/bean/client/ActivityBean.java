@@ -14,6 +14,8 @@ public class ActivityBean extends Pojo {
 	private long goodsId;
 	/** 分类ID */
 	private int sortId;
+	/** 活动标题 */
+	private String title;
 	/** 备注 */
 	private String mark;
 	/** 创建时间 */
@@ -42,6 +44,12 @@ public class ActivityBean extends Pojo {
 	}
 	public void setSortId(int sortId) {
 		this.sortId = sortId;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getMark() {
 		return mark;

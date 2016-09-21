@@ -330,7 +330,7 @@ public class GoodsService {
 					continue;
 				}
 				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
-				//转化成字符串类型
+				obj2.put("title", activityList.get(i).getTitle());
 				obj2.put("shopId", goods.getShopId());
 				obj2.put("goodsId", goods.getGoodsId());
 				obj2.put("shopName", shop.getName());

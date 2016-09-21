@@ -61,6 +61,7 @@ public class PageService {
 		List<ActivityBean> bannerList = ActivityDao.loadActivityForSort(Def.ACTIVITY_BANNER, -1, 0, 5);
 		for (int i = 0; i < bannerList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(bannerList.get(i).getGoodsId());
+			obj_banner.put("title", bannerList.get(i).getTitle());
 			obj_banner.put("goodsId", goods.getGoodsId());
 			obj_banner.put("logo", goods.getLogo());
 			obj_banner.put("logoThumb", goods.getLogoThumb());
@@ -115,6 +116,7 @@ public class PageService {
 				continue;
 			}
 			obj_promotion = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
+			obj_banner.put("title", promotionList.get(i).getTitle());
 			obj_promotion.put("shopId", goods.getShopId());
 			obj_promotion.put("shopName", shop.getName());
 			obj_promotion.put("shopLogo", shop.getImage());
