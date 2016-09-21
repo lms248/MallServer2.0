@@ -18,6 +18,9 @@
         				</select> 
                     </div>
                     <div class="form-group">
+                    	<input id="activity_title" type="text" class="form-control" placeholder="请输入活动标题">
+                    </div>
+                    <div class="form-group">
                     	<input id="activity_goodsId" type="text" class="form-control" placeholder="请输入商品ID">
                     </div>
                     <div class="form-group">
@@ -66,6 +69,7 @@
         <thead>
         <tr role="row">
         	<th class="" role="columnheader" style=" text-align: center;">序号</th>
+        	<th class="" role="columnheader" style=" text-align: center;">活动标题</th>
         	<th class="" role="columnheader" style=" text-align: center;">商品ID</th>
         	<th class="" role="columnheader" style=" text-align: center;">商品名</th>
         	<th class="" role="columnheader" style=" text-align: center;">类别</th>
@@ -106,6 +110,7 @@
 <script id="activity_tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
 	<td class="center ">{{:#index+1}}</td>
+    <td class="center ">{{:title}}</td>
     <td class="center ">{{:goodsId}}</td>
     <td class="center ">{{:goodsName}}</td>
     <td class="center ">{{:sortId}}</td>

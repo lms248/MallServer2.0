@@ -50,6 +50,7 @@ public class ActivityService {
 		
 		String goodsId = request.getParameter("goodsId");
 		String sortId = request.getParameter("sortId");
+		String title = request.getParameter("title");
 		String mark = request.getParameter("mark");
 		
 		JSONObject obj = new JSONObject();
@@ -71,6 +72,7 @@ public class ActivityService {
 		activity.setActivityId(activityId);
 		activity.setGoodsId(Long.parseLong(goodsId));
 		activity.setSortId(Integer.parseInt(sortId));
+		activity.setTitle(title);
 		activity.setMark(mark);
 		activity.setCreateTime(System.currentTimeMillis());
 		
