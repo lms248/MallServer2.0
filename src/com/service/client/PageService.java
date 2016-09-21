@@ -16,14 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.GoodssortBean;
 import bean.client.ShopBean;
+import bean.client.SortBean;
 import common.utils.Def;
 import common.utils.JsonUtils;
+import dao.client.ActivityDao;
 import dao.client.GoodsDao;
 import dao.client.GoodssortDao;
 import dao.client.ShopDao;
+import dao.client.SortDao;
 
 /**
  * 界面
@@ -44,20 +48,66 @@ public class PageService {
 		//首页banner
 		JSONObject obj_banner = new JSONObject();
 		JSONArray arr_banner = new JSONArray();
-		List<GoodssortBean> goodssortList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 5);
+		/*List<GoodssortBean> goodssortList = GoodssortDao.loadByLevel_1(Def.ACTIVITY_BANNER, 0, 5);
 		for (int i = 0; i < goodssortList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId());
 			obj_banner.put("goodsId", goods.getGoodsId());
 			obj_banner.put("logo", goods.getLogo());
 			obj_banner.put("logoThumb", goods.getLogoThumb());
+			obj_banner.put("sortId", Def.ACTIVITY_BANNER);
 			//obj_banner.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId())));
 			arr_banner.add(obj_banner);
+		}*/
+		List<ActivityBean> bannerList = ActivityDao.loadActivityForSort(Def.ACTIVITY_BANNER, -1, 0, 5);
+		for (int i = 0; i < bannerList.size(); i++) {
+			GoodsBean goods = GoodsDao.loadByGoodsId(bannerList.get(i).getGoodsId());
+			obj_banner.put("goodsId", goods.getGoodsId());
+			obj_banner.put("logo", goods.getLogo());
+			obj_banner.put("logoThumb", goods.getLogoThumb());
+			obj_banner.put("sortId", Def.ACTIVITY_BANNER);
+			arr_banner.add(obj_banner);
 		}
+		
+		//首页5大活动标签
+		JSONObject obj_tags = new JSONObject();
+		JSONArray arr_tags = new JSONArray();
+		obj_tags.put("sortId", Def.ACTIVITY_DAJUHUI);
+		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_DAJUHUI));//大聚惠
+		arr_tags.add(obj_tags);
+		obj_tags.put("sortId", Def.ACTIVITY_HAIWAIGOU);
+		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_HAIWAIGOU));//海外购
+		arr_tags.add(obj_tags);
+		obj_tags.put("sortId", Def.ACTIVITY_CHAOSHIBAIHUO);
+		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_CHAOSHIBAIHUO));//超市百货
+		arr_tags.add(obj_tags);
+		obj_tags.put("sortId", Def.ACTIVITY_CHANGJIAZHIXIAO);
+		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_CHANGJIAZHIXIAO));//厂家直销
+		arr_tags.add(obj_tags);
+		obj_tags.put("sortId", Def.ACTIVITY_MEISHIYULE);
+		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_MEISHIYULE));//美食娱乐
+		arr_tags.add(obj_tags);
+		
 		
 		//首页精选促销
 		JSONObject obj_promotion = new JSONObject();
 		JSONArray arr_promotion = new JSONArray();
-		List<GoodssortBean> promotionList = GoodssortDao.loadByLevel_1(Def.GOODS_TYPE_BANNER, 0, 10);
+		/*List<GoodssortBean> promotionList = GoodssortDao.loadByLevel_1(Def.ACTIVITY_PROMOTION, 0, 10);
+		for (int i = 0; i < promotionList.size(); i++) {
+			GoodsBean goods = GoodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
+			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			if (shop == null) {
+				continue;
+			}
+			obj_promotion = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
+			obj_promotion.put("shopId", goods.getShopId());
+			obj_promotion.put("shopName", shop.getName());
+			obj_promotion.put("shopLogo", shop.getImage());
+			obj_promotion.put("shopThumb", shop.getThumbnail());
+			obj_promotion.put("contactPhone", shop.getContactPhone());
+			arr_promotion.add(obj_promotion);
+		}*/
+		
+		List<ActivityBean> promotionList = ActivityDao.loadActivityForSort(Def.ACTIVITY_PROMOTION, -1, 0, 10);
 		for (int i = 0; i < promotionList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
 			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
@@ -88,6 +138,7 @@ public class PageService {
 		
 		JSONObject obj_data = new JSONObject();
 		obj_data.put("banner", arr_banner);
+		obj_data.put("tags", arr_tags);
 		obj_data.put("promotion", arr_promotion);
 		obj_data.put("shop", arr_shop);
 		

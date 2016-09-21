@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-20 17:37:54
+Date: 2016-09-21 10:17:37
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -58,6 +58,7 @@ INSERT INTO `sort` VALUES ('10003', '0', '超市百货', '2', '1', '活动一级
 INSERT INTO `sort` VALUES ('10004', '0', '厂家直销', '2', '1', '活动一级分类');
 INSERT INTO `sort` VALUES ('10005', '0', '美食娱乐', '2', '1', '活动一级分类');
 INSERT INTO `sort` VALUES ('10006', '0', 'banner', '2', '1', '活动一级分类');
+INSERT INTO `sort` VALUES ('10007', '0', '精选促销', '2', '1', '活动商品精选促销');
 INSERT INTO `sort` VALUES ('100001', '10001', '一元抢购', '2', '2', '活动二级分类');
 INSERT INTO `sort` VALUES ('100002', '10001', '九元九专场', '2', '2', '活动二级分类');
 INSERT INTO `sort` VALUES ('100003', '10001', '开业大聚惠', '2', '2', '活动二级分类');

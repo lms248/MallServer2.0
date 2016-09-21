@@ -49,10 +49,23 @@ public class Def {
 	
 	
 	/*****************************商品类型**********************************/
-	/**商品促销活动banner*/
-	public static final int GOODS_TYPE_BANNER=1;
-	/**商品精选促销*/
-	public static final int GOODS_TYPE_PROMOTION=2;
+	
+	
+	/*****************************活动类型**********************************/
+	/** 大聚会 */
+	public static final int ACTIVITY_DAJUHUI = 10001;
+	/** 海外购 */
+	public static final int ACTIVITY_HAIWAIGOU = 10002;
+	/** 超时百货 */
+	public static final int ACTIVITY_CHAOSHIBAIHUO = 10003;
+	/** 厂家直销 */
+	public static final int ACTIVITY_CHANGJIAZHIXIAO = 10004;
+	/** 美食娱乐 */
+	public static final int ACTIVITY_MEISHIYULE = 10005;
+	/** 首页banner */
+	public static final int ACTIVITY_BANNER = 10006;
+	/** 商品精选促销 */
+	public static final int ACTIVITY_PROMOTION = 10007;
 	
 	/*****************************图片存储路径**********************************/
 	/** 原图存储路径：默认 */

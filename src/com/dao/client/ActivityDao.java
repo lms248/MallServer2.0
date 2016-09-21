@@ -100,18 +100,6 @@ public class ActivityDao {
 		return activityList;
 	}
 	
-	public static List<ActivityBean> loadAllActivityForSort(int sortId, int sortPId, int index, int size){
-		List<ActivityBean> activityList=new ArrayList<ActivityBean>();
-		try {
-			activityList=dbUtils.query(ActivityBean.class, 
-					" where sortId=? or sortId in (select id from sort where pid=?) order by id desc limit ?,?",sortId, sortPId, index, size);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return activityList;
-	}
-	
 	/**
 	 * 加载所有列表
 	 * @param type ,pageNum(页码),pageSize(页数)
@@ -128,6 +116,19 @@ public class ActivityDao {
 		}
 		return activityList;
 	}
+	
+	public static List<ActivityBean> loadActivityForSort(int sortId, int sortPId, int index, int size){
+		List<ActivityBean> activityList=new ArrayList<ActivityBean>();
+		try {
+			activityList=dbUtils.query(ActivityBean.class, 
+					" where sortId=? or sortId in (select id from sort where pid=?) order by id desc limit ?,?",sortId, sortPId, index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return activityList;
+	}
+	
 	public static List<ActivityBean> loadShop4type(int pageNum, int pageSize, int type){
 		List<ActivityBean> activityList=new ArrayList<ActivityBean>();
 		try {

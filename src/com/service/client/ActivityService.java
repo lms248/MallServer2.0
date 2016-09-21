@@ -172,9 +172,9 @@ public class ActivityService {
 		List<ActivityBean> activityList = new ArrayList<ActivityBean>();
 		List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
 		if (sortList.size() == 0) {//一类
-			activityList = ActivityDao.loadAllActivityForSort(Integer.parseInt(sortId), -1, index, size);
+			activityList = ActivityDao.loadActivityForSort(Integer.parseInt(sortId), -1, index, size);
 		} else {
-			activityList = ActivityDao.loadAllActivityForSort(-1, Integer.parseInt(sortId), index, size);
+			activityList = ActivityDao.loadActivityForSort(-1, Integer.parseInt(sortId), index, size);
 		}
 		
 		for (int i = 0; i < activityList.size(); i++) {
