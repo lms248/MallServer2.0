@@ -20,19 +20,20 @@ function activity_add() {
 	if (activity_title == "") {
 		alert("请输入活动标题！！！");
 	}
-	if (activity_goodsId == "") {
+	else if (activity_goodsId == "") {
 		alert("请输入商品ID！！！");
 	}
-	
-	var tip = "你确认添加该商品活动吗？";
-	if(confirm(tip)){
-		var params = {sortId:activity_sortId,title:activity_title,goodsId:activity_goodsId,mark:activity_mark};
-		$.post("/activity/add",params,function(data){
-			alert(data.msg);
-			if(data.code=="0"){
-				getActivityDateList(0);
-			}
-		},"json");
+	else {
+		var tip = "你确认添加该商品活动吗？";
+		if(confirm(tip)){
+			var params = {sortId:activity_sortId,title:activity_title,goodsId:activity_goodsId,mark:activity_mark};
+			$.post("/activity/add",params,function(data){
+				alert(data.msg);
+				if(data.code=="0"){
+					getActivityDateList(0);
+				}
+			},"json");
+		}
 	}
 }
 
