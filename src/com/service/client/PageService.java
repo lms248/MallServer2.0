@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.ActivityBean;
 import bean.client.GoodsBean;
-import bean.client.GoodssortBean;
 import bean.client.ShopBean;
-import bean.client.SortBean;
+
 import common.utils.Def;
 import common.utils.JsonUtils;
+
 import dao.client.ActivityDao;
 import dao.client.GoodsDao;
-import dao.client.GoodssortDao;
 import dao.client.ShopDao;
 import dao.client.SortDao;
 

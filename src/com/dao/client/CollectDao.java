@@ -59,7 +59,7 @@ public class CollectDao {
 		return collectList;
 	}
 	
-	public static CollectBean loadByUidAndGoodId(long uid, int goodsId){
+	public static CollectBean loadByUidAndGoodId(long uid, long goodsId){
 		CollectBean bean=null;
 		try {
 			bean=dbUtils.read(CollectBean.class, "where uid=? and goodsId=?", uid, goodsId);

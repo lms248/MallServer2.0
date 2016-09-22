@@ -74,7 +74,7 @@ public class CollectService {
 			return;
 		}
 		
-		CollectBean collect = CollectDao.loadByUidAndGoodId(user.getUid(), Integer.parseInt(goodsId));
+		CollectBean collect = CollectDao.loadByUidAndGoodId(user.getUid(), Long.parseLong(goodsId));
 		if (collect == null) { //不存在则添加
 			long collectId = IdGen.get().nextId();
 			collect = new CollectBean();
