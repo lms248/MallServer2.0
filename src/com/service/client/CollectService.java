@@ -37,10 +37,10 @@ import dao.client.UserDao;
 @RequestMapping("/collect")
 public class CollectService {
 	
-	/** 添加收藏 */
-	@RequestMapping(value ="add",method=RequestMethod.POST)
+	/** 添加或取消收藏 */
+	@RequestMapping(value ="edit",method=RequestMethod.POST)
 	@ResponseBody
-	public void add(HttpServletRequest request, HttpServletResponse response)
+	public void edit(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
