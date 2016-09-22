@@ -80,7 +80,7 @@ public class CollectService {
 			collect = new CollectBean();
 			collect.setCollectId(collectId);
 			collect.setUid(user.getUid());
-			collect.setGoodsId(Integer.parseInt(goodsId));
+			collect.setGoodsId(Long.parseLong(goodsId));
 			collect.setCreateTime(System.currentTimeMillis());
 			CollectDao.save(collect);
 			
