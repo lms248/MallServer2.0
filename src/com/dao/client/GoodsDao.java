@@ -239,7 +239,7 @@ public class GoodsDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByGoods(long goodsId){
+	public static int deleteByGoodsId(long goodsId){
 		try {
 			return dbUtils.delete(GoodsBean.class, "goodsid" ,goodsId);
 		} catch (Exception e) {

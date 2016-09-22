@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-21 17:30:43
+Date: 2016-09-22 17:57:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,6 +53,19 @@ CREATE TABLE `cart` (
   `goodsList` mediumtext COMMENT '商品列表信息',
   `updateTime` bigint(20) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`,`cartId`,`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for collect
+-- ----------------------------
+DROP TABLE IF EXISTS `collect`;
+CREATE TABLE `collect` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `collectId` bigint(20) NOT NULL COMMENT '收藏ID',
+  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`,`collectId`,`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
