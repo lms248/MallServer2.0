@@ -141,7 +141,7 @@ public class CollectService {
 			if (shop == null) {
 				continue;
 			}
-			obj = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
 			obj2.put("shopId", goods.getShopId());
 			obj2.put("goodsId", goods.getGoodsId());
 			obj2.put("shopName", shop.getName());
