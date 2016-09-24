@@ -19,14 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
-
+import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.JsonUtils;
 
 import dao.client.ActivityDao;
+import dao.client.CollectDao;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
 import dao.client.SortDao;
+import dao.client.UserDao;
 
 /**
  * 界面
@@ -44,24 +46,26 @@ public class PageService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		String token = request.getParameter("token");
+		UserBean user = UserDao.loadByToken(token);
+		
 		//首页banner
 		JSONObject obj_banner = new JSONObject();
 		JSONArray arr_banner = new JSONArray();
-		/*List<GoodssortBean> goodssortList = GoodssortDao.loadByLevel_1(Def.ACTIVITY_BANNER, 0, 5);
-		for (int i = 0; i < goodssortList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId());
-			obj_banner.put("goodsId", goods.getGoodsId());
-			obj_banner.put("logo", goods.getLogo());
-			obj_banner.put("logoThumb", goods.getLogoThumb());
-			obj_banner.put("sortId", Def.ACTIVITY_BANNER);
-			//obj_banner.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodssortList.get(i).getGoodsId())));
-			arr_banner.add(obj_banner);
-		}*/
 		List<ActivityBean> bannerList = ActivityDao.loadActivityForSort(Def.ACTIVITY_BANNER, -1, 0, 5);
 		for (int i = 0; i < bannerList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(bannerList.get(i).getGoodsId());
+			
+			int isCollect = 0;//是否已收藏，0否，1是
+			if (user != null) {
+				if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+					isCollect = 1;
+				}
+			}
+			
 			obj_banner.put("title", bannerList.get(i).getTitle());
 			obj_banner.put("goodsId", goods.getGoodsId());
+			obj_banner.put("isCollect", isCollect);
 			obj_banner.put("logo", goods.getLogo());
 			obj_banner.put("logoThumb", goods.getLogoThumb());
 			obj_banner.put("sortId", Def.ACTIVITY_BANNER);
@@ -91,21 +95,6 @@ public class PageService {
 		//首页精选促销
 		JSONObject obj_promotion = new JSONObject();
 		JSONArray arr_promotion = new JSONArray();
-		/*List<GoodssortBean> promotionList = GoodssortDao.loadByLevel_1(Def.ACTIVITY_PROMOTION, 0, 10);
-		for (int i = 0; i < promotionList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
-			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
-			if (shop == null) {
-				continue;
-			}
-			obj_promotion = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
-			obj_promotion.put("shopId", goods.getShopId());
-			obj_promotion.put("shopName", shop.getName());
-			obj_promotion.put("shopLogo", shop.getImage());
-			obj_promotion.put("shopThumb", shop.getThumbnail());
-			obj_promotion.put("contactPhone", shop.getContactPhone());
-			arr_promotion.add(obj_promotion);
-		}*/
 		
 		List<ActivityBean> promotionList = ActivityDao.loadActivityForSort(Def.ACTIVITY_PROMOTION, -1, 0, 10);
 		for (int i = 0; i < promotionList.size(); i++) {
@@ -129,11 +118,6 @@ public class PageService {
 		JSONArray arr_shop = new JSONArray();
 		List<ShopBean> shopList = ShopDao.loadAllShop(0, 4);
 		for (int i = 0; i < shopList.size(); i++) {
-			/*obj_shop.put("shopId", shopList.get(i).getShopId());
-			obj_shop.put("name", shopList.get(i).getName());
-			obj_shop.put("logo", shopList.get(i).getLogo());
-			obj_shop.put("logoThumb", shopList.get(i).getLogoThumb());*/
-			//obj_shop.put("data", JsonUtils.jsonFromObject(shopList.get(i)));
 			arr_shop.add(JsonUtils.jsonFromObject(shopList.get(i)));
 		}
 		

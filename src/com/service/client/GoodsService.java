@@ -222,15 +222,6 @@ public class GoodsService {
 		JSONObject obj = new JSONObject();
 		
 		UserBean user = UserDao.loadByToken(token);
-		if (user == null) {
-			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "用户不存在");
-			out.print(obj);
-			
-			out.flush();
-			out.close();
-			return;
-		}
 		
 		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		
@@ -251,9 +242,10 @@ public class GoodsService {
 		}
 		
 		int isCollect = 0;//是否已收藏，0否，1是
-		
-		if (CollectDao.loadByUidAndGoodId(user.getUid(), goodsId) != null) {
-			isCollect = 1;
+		if (user != null) {
+			if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+				isCollect = 1;
+			}
 		}
 		
 		obj_data.put("goodsId", goods.getGoodsId()+"");
@@ -290,15 +282,6 @@ public class GoodsService {
 		
 		JSONObject obj = new JSONObject();
 		UserBean user = UserDao.loadByToken(token);
-		if (user == null) {
-			obj.put("code", Def.CODE_FAIL);
-			obj.put("msg", "用户不存在");
-			out.print(obj);
-			
-			out.flush();
-			out.close();
-			return;
-		}
 		
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
@@ -337,9 +320,13 @@ public class GoodsService {
 				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goodsList.get(i)));
 				
 				int isCollect = 0;//是否已收藏，0否，1是
-				if (CollectDao.loadByUidAndGoodId(user.getUid(), goodsList.get(i).getGoodsId()) != null) {
-					isCollect = 1;
+				
+				if (user != null) {
+					if (CollectDao.loadByUidAndGoodId(user.getUid(), goodsList.get(i).getGoodsId()) != null) {
+						isCollect = 1;
+					}
 				}
+				
 				//转化成字符串类型
 				obj2.put("shopId", ""+goodsList.get(i).getShopId());
 				obj2.put("goodsId", ""+goodsList.get(i).getGoodsId());
@@ -372,8 +359,10 @@ public class GoodsService {
 				}
 				
 				int isCollect = 0;//是否已收藏，0否，1是
-				if (CollectDao.loadByUidAndGoodId(user.getUid(), activityList.get(i).getGoodsId()) != null) {
-					isCollect = 1;
+				if (user != null) {
+					if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+						isCollect = 1;
+					}
 				}
 				
 				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
