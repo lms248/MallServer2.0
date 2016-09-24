@@ -21,6 +21,8 @@ public class SortBean extends Pojo {
 	private int level;
 	/** 备注 */
 	private String mark;
+	/** 分类Logo */
+	private String logo;
 	
 	public int getId() {
 		return id;
@@ -57,6 +59,12 @@ public class SortBean extends Pojo {
 	}
 	public void setMark(String mark) {
 		this.mark = mark;
+	}
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 	
 }
