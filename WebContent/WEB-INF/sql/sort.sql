@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-24 16:37:37
+Date: 2016-09-24 18:46:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -45,14 +45,14 @@ INSERT INTO `sort` VALUES ('8', '0', '母婴用品', '1', '1', '商品一级分�
 INSERT INTO `sort` VALUES ('9', '0', '电子数码', '1', '1', '商品一级分类', null);
 INSERT INTO `sort` VALUES ('10', '0', '办公用品', '1', '1', '商品一级分类', null);
 INSERT INTO `sort` VALUES ('11', '0', '体育用品', '1', '1', '商品一级分类', null);
-INSERT INTO `sort` VALUES ('101', '1', '连衣裙', '1', '2', '商品二级分类', '/img/sort/101.png');
-INSERT INTO `sort` VALUES ('102', '1', '衬衫', '1', '2', '商品二级分类', '/img/sort/105.png');
-INSERT INTO `sort` VALUES ('103', '1', '半身裙', '1', '2', '商品二级分类', '/img/sort/101.png');
-INSERT INTO `sort` VALUES ('104', '1', '裤子', '1', '2', '商品二级分类', '/img/sort/104.png');
-INSERT INTO `sort` VALUES ('105', '1', '卫衣', '1', '2', '商品二级分类', '/img/sort/105.png');
-INSERT INTO `sort` VALUES ('106', '1', '风衣', '1', '2', '商品二级分类', '/img/sort/101.png');
-INSERT INTO `sort` VALUES ('107', '1', '高跟鞋', '1', '2', '商品二级分类', '/img/sort/104.png');
-INSERT INTO `sort` VALUES ('108', '1', '坡跟鞋', '1', '2', '商品二级分类', '/img/sort/108.png');
+INSERT INTO `sort` VALUES ('101', '1', '连衣裙', '1', '2', '商品二级分类', '/res/img/sort/101.png');
+INSERT INTO `sort` VALUES ('102', '1', '衬衫', '1', '2', '商品二级分类', '/res/img/sort/105.png');
+INSERT INTO `sort` VALUES ('103', '1', '半身裙', '1', '2', '商品二级分类', '/res/img/sort/101.png');
+INSERT INTO `sort` VALUES ('104', '1', '裤子', '1', '2', '商品二级分类', '/res/img/sort/104.png');
+INSERT INTO `sort` VALUES ('105', '1', '卫衣', '1', '2', '商品二级分类', '/res/img/sort/105.png');
+INSERT INTO `sort` VALUES ('106', '1', '风衣', '1', '2', '商品二级分类', '/res/img/sort/106.png');
+INSERT INTO `sort` VALUES ('107', '1', '高跟鞋', '1', '2', '商品二级分类', '/res/img/sort/107.png');
+INSERT INTO `sort` VALUES ('108', '1', '坡跟鞋', '1', '2', '商品二级分类', '/res/img/sort/108.png');
 INSERT INTO `sort` VALUES ('10001', '0', '大聚惠', '2', '1', '活动一级分类', null);
 INSERT INTO `sort` VALUES ('10002', '0', '海外购', '2', '1', '活动一级分类', null);
 INSERT INTO `sort` VALUES ('10003', '0', '超市百货', '2', '1', '活动一级分类', null);

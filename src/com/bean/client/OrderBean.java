@@ -13,16 +13,18 @@ public class OrderBean extends Pojo {
 	private int id;
 	/** 订单ID */
 	private long orderId;
+	/** 订单支付ID */
+	private long payId;
 	/** 用户ID */
 	private long uid;
-	/** 商品ID */
-	private String goodsId;
-	/** 数量 */
-	private int amount;
-	/** 属性标签 */
-	private String tags;
-	/** 总价格 */
-	private double price;
+	/** 店铺ID */
+	private long shopId;
+	/** 商品订单列表信息 */
+	private String goodsList;
+	/** 收货地址ID */
+	private long addressId; 
+	/** 订单状态 */
+	private int status;
 	/** 下单时间 */
 	private long creatTime;
 	
@@ -38,35 +40,41 @@ public class OrderBean extends Pojo {
 	public void setOrderId(long orderId) {
 		this.orderId = orderId;
 	}
+	public long getPayId() {
+		return payId;
+	}
+	public void setPayId(long payId) {
+		this.payId = payId;
+	}
 	public long getUid() {
 		return uid;
 	}
 	public void setUid(long uid) {
 		this.uid = uid;
 	}
-	public String getGoodsId() {
-		return goodsId;
+	public long getShopId() {
+		return shopId;
 	}
-	public void setGoodsId(String goodsId) {
-		this.goodsId = goodsId;
+	public void setShopId(long shopId) {
+		this.shopId = shopId;
 	}
-	public int getAmount() {
-		return amount;
+	public String getGoodsList() {
+		return goodsList;
 	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setGoodsList(String goodsList) {
+		this.goodsList = goodsList;
 	}
-	public String getTags() {
-		return tags;
+	public long getAddressId() {
+		return addressId;
 	}
-	public void setTags(String tags) {
-		this.tags = tags;
+	public void setAddressId(long addressId) {
+		this.addressId = addressId;
 	}
-	public double getPrice() {
-		return price;
+	public int getStatus() {
+		return status;
 	}
-	public void setPrice(double price) {
-		this.price = price;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public long getCreatTime() {
 		return creatTime;
