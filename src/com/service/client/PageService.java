@@ -56,16 +56,8 @@ public class PageService {
 		for (int i = 0; i < bannerList.size(); i++) {
 			GoodsBean goods = GoodsDao.loadByGoodsId(bannerList.get(i).getGoodsId());
 			
-			int isCollect = 0;//是否已收藏，0否，1是
-			if (user != null) {
-				if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
-					isCollect = 1;
-				}
-			}
-			
 			obj_banner.put("title", bannerList.get(i).getTitle());
 			obj_banner.put("goodsId", goods.getGoodsId());
-			obj_banner.put("isCollect", isCollect);
 			obj_banner.put("logo", goods.getLogo());
 			obj_banner.put("logoThumb", goods.getLogoThumb());
 			obj_banner.put("sortId", Def.ACTIVITY_BANNER);
@@ -103,6 +95,14 @@ public class PageService {
 			if (shop == null) {
 				continue;
 			}
+			
+			int isCollect = 0;//是否已收藏，0否，1是
+			if (user != null) {
+				if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+					isCollect = 1;
+				}
+			}
+			
 			obj_promotion = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
 			obj_banner.put("title", promotionList.get(i).getTitle());
 			obj_promotion.put("shopId", goods.getShopId());
@@ -110,6 +110,7 @@ public class PageService {
 			obj_promotion.put("shopLogo", shop.getImage());
 			obj_promotion.put("shopThumb", shop.getThumbnail());
 			obj_promotion.put("contactPhone", shop.getContactPhone());
+			obj_promotion.put("isCollect", isCollect);
 			arr_promotion.add(obj_promotion);
 		}
 		
