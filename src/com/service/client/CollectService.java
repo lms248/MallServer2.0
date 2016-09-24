@@ -86,11 +86,12 @@ public class CollectService {
 			
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "添加收藏成功");
-			obj.put("data", JsonUtils.jsonFromObject(collect));
+			obj.put("type", 1);
 		} else { //已存在则删除
 			CollectDao.deleteByCollectId(collect.getCollectId());
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "取消收藏成功");
+			obj.put("type", 0);
 		}
 		
 		out.print(obj);
