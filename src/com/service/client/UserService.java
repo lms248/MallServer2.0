@@ -30,6 +30,7 @@ import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+import common.utils.StringUtils;
 import common.utils.UuidUtils;
 import dao.client.UserDao;
 
@@ -143,8 +144,14 @@ public class UserService {
 		System.out.println("session.getId()===="+session.getId());
 		//从服务器端的session中取出手机号和手机验证码
 		if (session != null) {
-			session_phone = session.getAttribute("phone").toString();
-			session_phoneCode = session.getAttribute("phoneCode").toString();
+			try {
+				session_phone = session.getAttribute("phone").toString();
+				session_phoneCode = session.getAttribute("phoneCode").toString();
+			} catch (Exception e) {
+				session_phone = null;
+				session_phoneCode = null;
+			}
+			
 		}
 		
 		/*读取客户端提交的json数据*/
@@ -500,10 +507,12 @@ public class UserService {
 		long addressId = IdGen.get().nextId();
 		JSONArray addressArr = new JSONArray();
 		try {
-			addressArr = JSONArray.fromObject(user.getAddress());
-			if (addressArr == null) {
-				addressArr = new JSONArray();
-				user.setDefaultAddressId(addressId);
+			if (!StringUtils.isBlank(user.getAddress())) {
+				addressArr = JSONArray.fromObject(user.getAddress());
+				if (addressArr == null) {
+					addressArr = new JSONArray();
+					user.setDefaultAddressId(addressId);
+				}
 			}
 		} catch (Exception e) {
 			addressArr = new JSONArray();
@@ -519,8 +528,6 @@ public class UserService {
 			user.setDefaultAddressId(addressId);
 		}
 		
-		/*addressArr.add(JSON.parseObject(userAddress, UserAddress.class));*/
-		
 		addressArr.add(userAddress);
 		user.setAddress(addressArr.toString());
 		UserDao.update(user);
@@ -528,7 +535,7 @@ public class UserService {
 		JSONObject outObj = new JSONObject();
 		if (user.getDefaultAddressId() == 0) {
 			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
-			if (obj2 != null) {
+			if (obj2 != null && !obj2.isNullObject()) {
 				user.setDefaultAddressId(obj2.getLong("addressId"));
 			}
 		}
@@ -654,16 +661,22 @@ public class UserService {
 			return;
 		}
 		
-		JSONArray addressArr = JSONArray.fromObject(user.getAddress());
-		JSONObject outObj = new JSONObject();
-		if (user.getDefaultAddressId() == 0) {
-			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
-			if (obj2 != null) {
-				user.setDefaultAddressId(obj2.getLong("addressId"));
-			}
+		JSONArray addressArr = new JSONArray();
+		if (!StringUtils.isBlank(user.getAddress())) {
+			addressArr = JSONArray.fromObject(user.getAddress());
 		}
-		outObj.put("defaultAddressId", user.getDefaultAddressId());
-		outObj.put("addressList", addressArr);
+		
+		JSONObject outObj = new JSONObject();
+		if (!StringUtils.isBlank(user.getAddress())) {
+			if (user.getDefaultAddressId() == 0) {
+				JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
+				if (obj2 != null && !obj2.isNullObject()) {
+					user.setDefaultAddressId(obj2.getLong("addressId"));
+				}
+			}
+			outObj.put("defaultAddressId", user.getDefaultAddressId());
+			outObj.put("addressList", addressArr);
+		}
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "收货地址列表");

@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.client.OrderBean;
+import bean.client.OrdersBean;
 import bean.client.PayBean;
 import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import dao.client.GoodsDao;
-import dao.client.OrderDao;
+import dao.client.OrdersDao;
 import dao.client.PayDao;
 import dao.client.UserDao;
 import net.sf.json.JSONArray;
@@ -43,6 +43,8 @@ public class OrderService {
 		
 		String token = request.getParameter("token");
 		String shopList = request.getParameter("shopList");
+		
+		System.out.println("shopList===="+shopList);
 		
 		JSONObject obj = new JSONObject();
 		
@@ -78,7 +80,14 @@ public class OrderService {
 		double totalPrice = 0;
 		for (int i = 0; i < shopArr.size(); i++) {
 			JSONObject shopObj = (JSONObject) shopArr.get(i);
-			OrderBean order = new OrderBean();
+			
+			goodsArr = JSONArray.fromObject(shopObj.getString("goodsList"));
+			for (int j = 0; j < goodsArr.size(); j++) {
+				JSONObject goodsObj = (JSONObject) goodsArr.get(i);
+				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId")).getCurPrice();
+			}
+			
+			OrdersBean order = new OrdersBean();
 			long orderId = IdGen.get().nextId();//订单ID
 			order.setOrderId(orderId);
 			order.setPayId(payId);
@@ -86,20 +95,15 @@ public class OrderService {
 			order.setShopId(shopObj.getLong("shopId"));
 			order.setGoodsList(shopObj.getString("goodsList"));
 			order.setAddressId(shopObj.getLong("addressId"));
-			order.setStatus(0);
-			order.setCreatTime(createTime);
-			OrderDao.save(order);
+			order.setStatus(Def.ORDER_STATUS_NOPAY);
+			order.setCreateTime(createTime);
 			
-			goodsArr = JSONArray.fromObject(shopObj.get(i));
-			for (int j = 0; j < goodsArr.size(); j++) {
-				JSONObject goodsObj = (JSONObject) goodsArr.get(i);
-				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId")).getCurPrice();
-			}
+			OrdersDao.save(order);
 		}
 		
 		PayBean pay = new PayBean();
 		pay.setPayId(payId);
-		pay.setStatus(0);
+		pay.setStatus(Def.ORDER_STATUS_NOPAY);
 		pay.setCreateTime(createTime);
 		PayDao.save(pay);
 		
@@ -117,10 +121,51 @@ public class OrderService {
 		out.close();
 	}
 	
-	/** 删除订单 */
-	@RequestMapping(value ="delete",method=RequestMethod.POST)
+	/** 订单列表 */
+	@RequestMapping(value ="infoList",method=RequestMethod.GET)
 	@ResponseBody
-	public void delete(HttpServletRequest request, HttpServletResponse response)
+	public void infoList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String token = request.getParameter("token");
+		String status = request.getParameter("status");
+		
+		JSONObject obj = new JSONObject();
+		
+		if (token==null || status == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			return;
+		}
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			return;
+		}
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "订单列表");
+		obj.put("data", OrdersDao.loadByUidAndStatus(user.getUid(), Integer.parseInt(status)));
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 取消订单 */
+	@RequestMapping(value ="cancel",method=RequestMethod.POST)
+	@ResponseBody
+	public void cancel(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException{
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
@@ -147,7 +192,7 @@ public class OrderService {
 			return;
 		}
 		
-		OrderBean order = OrderDao.loadByOrderId(Integer.parseInt(orderId));
+		OrdersBean order = OrdersDao.loadByOrderId(Integer.parseInt(orderId));
 		if (order == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该订单不存在");
@@ -155,19 +200,19 @@ public class OrderService {
 			return;
 		}
 		
-		int result = OrderDao.deleteByOrderId(Integer.parseInt(orderId));
+		/*int result = OrdersDao.deleteByOrderId(Integer.parseInt(orderId));
 		
 		if (result == -1) {
 			obj.put("code", Def.CODE_SUCCESS);
-			obj.put("msg", "删除订单异常");
+			obj.put("msg", "取消订单异常");
 			obj.put("data", order);
 			out.print(obj);
 		} else {
 			obj.put("code", Def.CODE_SUCCESS);
-			obj.put("msg", "删除订单成功");
+			obj.put("msg", "取消订单成功");
 			obj.put("data", order);
 			out.print(obj);
-		}
+		}*/
 		
 		System.out.println(obj);
 		

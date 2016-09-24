@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.client.OrderBean;
+import bean.client.OrdersBean;
 
 import common.logger.Logger;
 import common.logger.LoggerManager;
@@ -14,7 +14,7 @@ import common.logger.LoggerManager;
 /**
  * 订单dao
  */
-public class OrderDao {
+public class OrdersDao {
 	private static Logger log=LoggerManager.getLogger();
 	
 	/**
@@ -22,10 +22,10 @@ public class OrderDao {
 	 * @param orderId
 	 * @return
 	 */
-	public static OrderBean loadByOrderId(long orderId){
-		OrderBean bean=null;
+	public static OrdersBean loadByOrderId(long orderId){
+		OrdersBean bean=null;
 		try {
-			bean=dbUtils.read(OrderBean.class, "where orderid=?", orderId);
+			bean=dbUtils.read(OrdersBean.class, "where orderid=?", orderId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -38,15 +38,26 @@ public class OrderDao {
 	 * @param uid
 	 * @return
 	 */
-	public static OrderBean loadByUid(long uid){
-		OrderBean bean=null;
+	public static List<OrdersBean> loadByUid(long uid){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
-			bean=dbUtils.read(OrderBean.class, "where uid=?", uid);
+			orderList=dbUtils.query(OrdersBean.class, "where uid=?", uid);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return bean;
+		return orderList;
+	}
+	
+	public static List<OrdersBean> loadByUidAndStatus(long uid, int status){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
+		try {
+			orderList=dbUtils.query(OrdersBean.class, "where uid=? and status=?", uid, status);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return orderList;
 	}
 	
 	/**
@@ -54,10 +65,10 @@ public class OrderDao {
 	 * @param count
 	 * @return
 	 */
-	public static OrderBean loadByCount(int count){
-		OrderBean bean=null;
+	public static OrdersBean loadByCount(int count){
+		OrdersBean bean=null;
 		try {
-			bean=dbUtils.read(OrderBean.class, "order by id desc limit ?", count);
+			bean=dbUtils.read(OrdersBean.class, "order by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -70,10 +81,10 @@ public class OrderDao {
 	 * 加载所有列表
 	 * @return List
 	 */
-	public static List<OrderBean> loadAllOrder(){
-		List<OrderBean> orderList=new ArrayList<OrderBean>();
+	public static List<OrdersBean> loadAllOrder(){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
-			orderList=dbUtils.query(OrderBean.class, " order by id desc");
+			orderList=dbUtils.query(OrdersBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -88,10 +99,10 @@ public class OrderDao {
 	 * @param size
 	 * @return
 	 */
-	public static List<OrderBean> loadAllOrder(int index, int size){
-		List<OrderBean> orderList=new ArrayList<OrderBean>();
+	public static List<OrdersBean> loadAllOrder(int index, int size){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
-			orderList=dbUtils.query(OrderBean.class, 
+			orderList=dbUtils.query(OrdersBean.class, 
 					" order by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -104,10 +115,10 @@ public class OrderDao {
 	 * @param type ,pageNum(页码),pageSize(页数)
 	 * @return List
 	 */
-	public static List<OrderBean> loadAllShop4page(int pageNum, int pageSize){
-		List<OrderBean> orderList=new ArrayList<OrderBean>();
+	public static List<OrdersBean> loadAllShop4page(int pageNum, int pageSize){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
-			orderList=dbUtils.query(OrderBean.class, 
+			orderList=dbUtils.query(OrdersBean.class, 
 					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -115,10 +126,10 @@ public class OrderDao {
 		}
 		return orderList;
 	}
-	public static List<OrderBean> loadShop4type(int pageNum, int pageSize, int type){
-		List<OrderBean> orderList=new ArrayList<OrderBean>();
+	public static List<OrdersBean> loadShop4type(int pageNum, int pageSize, int type){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
-			orderList=dbUtils.query(OrderBean.class, 
+			orderList=dbUtils.query(OrdersBean.class, 
 					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -136,7 +147,7 @@ public class OrderDao {
 	public static int Count(){
 		int amount=0;
 		try {
-			amount=dbUtils.stat(OrderBean.class, "select COUNT(*) from order");
+			amount=dbUtils.stat(OrdersBean.class, "select COUNT(*) from order");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -146,7 +157,7 @@ public class OrderDao {
 	public static int Count(int type){
 		int amount=0;
 		try {
-			amount=dbUtils.stat(OrderBean.class, 
+			amount=dbUtils.stat(OrdersBean.class, 
 					"select COUNT(*) from order where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -160,7 +171,7 @@ public class OrderDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int save(OrderBean bean){
+	public static int save(OrdersBean bean){
 		try {
 			return dbUtils.insert(bean);
 		} catch (SQLException e) {
@@ -175,7 +186,7 @@ public class OrderDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int update(OrderBean bean){
+	public static int update(OrdersBean bean){
 		try {
 			return dbUtils.update(bean);
 		} catch (Exception e) {
@@ -191,7 +202,7 @@ public class OrderDao {
 	 */
 	public static int delete(int id){
 		try {
-			return dbUtils.delete(OrderBean.class, id);
+			return dbUtils.delete(OrdersBean.class, id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -205,7 +216,7 @@ public class OrderDao {
 	 */
 	public static int deleteByOrderId(long orderId){
 		try {
-			return dbUtils.delete(OrderBean.class, "orderid", orderId);
+			return dbUtils.delete(OrdersBean.class, "orderid", orderId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

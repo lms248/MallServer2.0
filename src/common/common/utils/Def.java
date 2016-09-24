@@ -1,7 +1,5 @@
 package common.utils;
 
-import java.util.Arrays;
-
 import common.config.Config;
 
 /**
@@ -107,5 +105,13 @@ public class Def {
 	/** 默认头像 */
 	public static final String AVATAR_DEFAULT = "/res/img/user-avatar.png";
 	
-	
+	/*****************************订单状态**********************************/
+	/** 订单状态：待付款 */
+	public static final int ORDER_STATUS_NOPAY = 0;
+	/** 订单状态：待收货*/
+	public static final int ORDER_STATUS_NOTRECEIVE = 1;
+	/** 订单状态：已收货*/
+	public static final int ORDER_STATUS_RECEIVE = 2;
+	/** 订单状态：已取消 */
+	public static final int ORDER_STATUS_CANCEL = 3;
 }

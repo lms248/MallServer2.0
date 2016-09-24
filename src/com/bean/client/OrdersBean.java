@@ -5,7 +5,7 @@ import common.db.Pojo;
 /**
  * 订单bean
  * */
-public class OrderBean extends Pojo {
+public class OrdersBean extends Pojo {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +26,7 @@ public class OrderBean extends Pojo {
 	/** 订单状态 */
 	private int status;
 	/** 下单时间 */
-	private long creatTime;
+	private long createTime;
 	
 	public int getId() {
 		return id;
@@ -76,11 +76,11 @@ public class OrderBean extends Pojo {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public long getCreatTime() {
-		return creatTime;
+	public long getCreateTime() {
+		return createTime;
 	}
-	public void setCreatTime(long creatTime) {
-		this.creatTime = creatTime;
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
 	}
 	
 }
