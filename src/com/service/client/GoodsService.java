@@ -22,14 +22,17 @@ import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import bean.client.SortBean;
+import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import dao.client.ActivityDao;
+import dao.client.CollectDao;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
 import dao.client.SortDao;
+import dao.client.UserDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -213,11 +216,24 @@ public class GoodsService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		String token = request.getParameter("token");
 		long goodsId = Long.parseLong(request.getParameter("goodsId")); 
+		
+		JSONObject obj = new JSONObject();
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
 		
 		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		
-		JSONObject obj = new JSONObject();
 		JSONObject obj_data = JSONObject.fromObject(goods);
 		ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
 		if (shop != null) {
@@ -234,7 +250,14 @@ public class GoodsService {
 			obj_data.put("sortIds", pid+":"+goods.getSortId());
 		}
 		
+		int isCollect = 0;//是否已收藏，0否，1是
+		
+		if (CollectDao.loadByUidAndGoodId(user.getUid(), goodsId) != null) {
+			isCollect = 1;
+		}
+		
 		obj_data.put("goodsId", goods.getGoodsId()+"");
+		obj_data.put("isCollect", isCollect);
 		obj_data.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goods.getCreateTime())));
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -258,6 +281,7 @@ public class GoodsService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		String token = request.getParameter("token");
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		String shopId = request.getParameter("shopId");//商店ID
@@ -265,6 +289,17 @@ public class GoodsService {
 		String type = request.getParameter("type");//类别,1是普通商品,2是活动商品
 		
 		JSONObject obj = new JSONObject();
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		
@@ -300,9 +335,15 @@ public class GoodsService {
 					continue;
 				}
 				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goodsList.get(i)));
+				
+				int isCollect = 0;//是否已收藏，0否，1是
+				if (CollectDao.loadByUidAndGoodId(user.getUid(), goodsList.get(i).getGoodsId()) != null) {
+					isCollect = 1;
+				}
 				//转化成字符串类型
 				obj2.put("shopId", ""+goodsList.get(i).getShopId());
 				obj2.put("goodsId", ""+goodsList.get(i).getGoodsId());
+				obj2.put("isCollect", isCollect);
 				obj2.put("shopName", shop.getName());
 				obj2.put("shopLogo", shop.getImage());
 				obj2.put("shopThumb", shop.getThumbnail());
@@ -329,10 +370,17 @@ public class GoodsService {
 				if (shop == null) {
 					continue;
 				}
+				
+				int isCollect = 0;//是否已收藏，0否，1是
+				if (CollectDao.loadByUidAndGoodId(user.getUid(), activityList.get(i).getGoodsId()) != null) {
+					isCollect = 1;
+				}
+				
 				obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(goods));
 				obj2.put("title", activityList.get(i).getTitle());
 				obj2.put("shopId", goods.getShopId());
 				obj2.put("goodsId", goods.getGoodsId());
+				obj2.put("isCollect", isCollect);
 				obj2.put("shopName", shop.getName());
 				obj2.put("shopLogo", shop.getImage());
 				obj2.put("shopThumb", shop.getThumbnail());
