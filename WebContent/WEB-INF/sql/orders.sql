@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
+Source Server         : MySQL
 Source Server Version : 50615
 Source Host           : localhost:3306
 Source Database       : mall
@@ -10,16 +10,16 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-24 18:46:05
+Date: 2016-09-26 16:59:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for order
+-- Table structure for orders
 -- ----------------------------
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order` (
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
   `ordeId` bigint(20) NOT NULL COMMENT '订单ID',
   `payId` bigint(20) DEFAULT NULL COMMENT '订单支付ID',

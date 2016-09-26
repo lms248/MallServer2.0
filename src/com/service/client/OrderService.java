@@ -2,27 +2,33 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.client.GoodsBean;
 import bean.client.OrdersBean;
 import bean.client.PayBean;
+import bean.client.ShopBean;
 import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
+import common.utils.JsonUtils;
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
 import dao.client.PayDao;
+import dao.client.ShopDao;
 import dao.client.UserDao;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * 订单
@@ -151,9 +157,34 @@ public class OrderService {
 			return;
 		}
 		
+		List<OrdersBean> orderList = OrdersDao.loadByUidAndStatus(user.getUid(), Integer.parseInt(status));
+		JSONObject orderObj = new JSONObject();
+		JSONArray orderArr = new JSONArray();
+		for (int i = 0; i < orderList.size(); i++) {
+			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(orderList.get(i)));
+			ShopBean shop = ShopDao.loadByShopId(orderList.get(i).getShopId());
+			JSONArray goodsArr = JSONArray.fromObject(orderList.get(i).getGoodsList());
+			JSONObject goodsObj = new JSONObject();
+			for (int j = 0; j < goodsArr.size(); j++) {
+				goodsObj = JSONObject.fromObject(goodsArr.get(i));
+				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
+				goodsObj.put("goodsName", goods.getName());
+				goodsObj.put("goodsLogo", goods.getLogo());
+				goodsObj.put("goodsLogoThumb", goods.getLogoThumb());
+				goodsObj.put("prePrice", goods.getPrePrice());
+				goodsObj.put("curPrice", goods.getCurPrice());
+				goodsArr.add(goodsObj);
+			}
+			orderObj.put("shopName", shop.getName());
+			orderObj.put("shopLogo", shop.getLogo());
+			orderObj.put("shopLogoThumb", shop.getLogoThumb());
+			orderObj.put("goodsList", goodsArr);
+			orderArr.add(orderObj);
+		}
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "订单列表");
-		obj.put("data", OrdersDao.loadByUidAndStatus(user.getUid(), Integer.parseInt(status)));
+		obj.put("data", orderArr);
 		out.print(obj);
 		
 		System.out.println(obj);
@@ -200,19 +231,8 @@ public class OrderService {
 			return;
 		}
 		
-		/*int result = OrdersDao.deleteByOrderId(Integer.parseInt(orderId));
-		
-		if (result == -1) {
-			obj.put("code", Def.CODE_SUCCESS);
-			obj.put("msg", "取消订单异常");
-			obj.put("data", order);
-			out.print(obj);
-		} else {
-			obj.put("code", Def.CODE_SUCCESS);
-			obj.put("msg", "取消订单成功");
-			obj.put("data", order);
-			out.print(obj);
-		}*/
+		order.setStatus(Def.ORDER_STATUS_CANCEL);
+		OrdersDao.update(order);
 		
 		System.out.println(obj);
 		
