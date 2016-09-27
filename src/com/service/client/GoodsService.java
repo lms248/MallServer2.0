@@ -59,6 +59,7 @@ public class GoodsService {
 		String shopId = request.getParameter("shopId");
 		String curPrice = request.getParameter("curPrice");
 		String prePrice = request.getParameter("prePrice");
+		String stock = request.getParameter("stock");
 		String tags = request.getParameter("tags");
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
@@ -102,6 +103,7 @@ public class GoodsService {
 		goods.setShopId(Long.parseLong(shopId));
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
+		goods.setStock(Integer.parseInt(stock));
 		goods.setTags(tagObj.toString());
 		goods.setName(name);
 		goods.setTitle(title);
@@ -143,6 +145,7 @@ public class GoodsService {
 		String name = request.getParameter("name");
 		String curPrice = request.getParameter("curPrice");
 		String prePrice = request.getParameter("prePrice");
+		String stock = request.getParameter("stock");
 		String tags = request.getParameter("tags");
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
@@ -182,6 +185,7 @@ public class GoodsService {
 		
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
+		goods.setStock(Integer.parseInt(stock));
 		goods.setTags(tagObj.toString());
 		goods.setName(name);
 		goods.setTitle(title);

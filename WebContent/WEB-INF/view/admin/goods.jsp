@@ -134,10 +134,26 @@
                         	<input id="goods_curPrice" class="form-control" placeholder="当前售价">
                     	</div>
                     	<div class="form-group">
-                    		<label> 标签名字（例如：颜色）</label>
-                        	<input id="goods_tagKey" class="form-control" placeholder="标签名字">
-                        	<label style="font-size: 12px;"> 标签值（每个值用英文字符“#”分隔开，例如：黑色#白色）</label>
-                        	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
+                			<label> <span style="color: red;margin-right: 2px;">*</span>库存 </label>
+                        	<input id="goods_stock" class="form-control" placeholder="请输入库存数量">
+                		</div>
+                    	<div class="form-group">
+                    		<label>标签一名字（例如：颜色）</label>
+                        	<input id="goods_tagKey_1" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签一值（各值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue_1" rows="1" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标签二名字（例如：颜色）</label>
+                        	<input id="goods_tagKey_2" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签二值（各值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue_2" rows="1" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标签三名字（例如：颜色）</label>
+                        	<input id="goods_tagKey_3" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签三值（各值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue_3" rows="2" class="form-control" placeholder="标签值"></textarea>
                     	</div>
                     	<div class="form-group">
                             <select id="goods_level_1" name="goods_level_1" style="height: 30px;">

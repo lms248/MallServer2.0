@@ -166,7 +166,7 @@
                     <!-- <p><strong>File Type:</strong> jpg</p>
                     <p><strong>Resolution:</strong> 300x200</p>
                     <p><strong>Uploaded By:</strong> <a href="#">ThemeBucket</a></p> -->
-                    <div style="width=100%; height: auto;margin-top: 10px; background-color: #cccccc;">
+                    <div style="width=100%; height: auto;margin-top: 10px;padding-bottom: 10px; background-color: #cccccc;">
                 		<!--用来存放item-->
     					<div id="fileList" class="uploader-list"></div>
     					<div id="filePicker" style="margin: 20px;margin-left: 60px;">添加图片列表</div>
@@ -175,32 +175,21 @@
                 <div class="col-md-7">
                 	<div class="form-group">
                 		<div class="form-group">
-                			<label> 商品名 </label>
+                			<label> <span style="color: red;margin-right: 2px;">*</span>商品名 </label>
                         	<input id="goods_name" class="form-control" placeholder="请输入商品名">
                 		</div>
                     	<div class="form-group">
-                    		<label> 原价（单位：元） </label>
+                    		<label> <span style="color: red;margin-right: 2px;">*</span>原价（单位：元） </label>
                         	<input id="goods_prePrice" class="form-control" placeholder="原价 ">
-                        	<label> 当前售价（单位：元） </label>
+                        	<label> <span style="color: red;margin-right: 2px;">*</span>当前售价（单位：元） </label>
                         	<input id="goods_curPrice" class="form-control" placeholder="当前售价">
                     	</div>
                     	<div class="form-group">
-                    		<label> 标签名字（例如：颜色）</label>
-                        	<input id="goods_tagKey" class="form-control" placeholder="标签名字">
-                        	<label style="font-size: 12px;"> 标签值（每个值用英文字符“#”分隔开，例如：黑色#白色）</label>
-                        	<textarea id="goods_tagValue" rows="2" class="form-control" placeholder="标签值"></textarea>
-                    	</div>
+                			<label> <span style="color: red;margin-right: 2px;">*</span>库存 </label>
+                        	<input id="goods_stock" class="form-control" placeholder="请输入库存数量">
+                		</div>
                     	<div class="form-group">
-                        	<!-- <div class="btn-group">
-                            	<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">请选择一级分类<span class="caret"></span></button>
-                                <ul role="menu" class="dropdown-menu">
-                                	<li><a style="cursor: pointer;">Action</a></li>
-                                    <li><a>Another action</a></li>
-                                    <li><a>Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a>Separated link</a></li>
-                                </ul>
-                            </div> -->
+                            <span style="color: red;margin-right: 2px;">*</span>
                             <select id="goods_level_1" name="goods_level_1" style="height: 30px;">
   								<option value ="0">请选择一级分类</option>
 							</select>
@@ -209,30 +198,31 @@
 							</select>
                     	</div>
                     	<div class="form-group">
-                    		<label> 标题 </label>
+                    		<label> <span style="color: red;margin-right: 2px;">*</span>标题 </label>
                         	<input id="goods_title" class="form-control" placeholder="请输入标题">
                     	</div>
                     	<div class="form-group">
-                    		<label> 描述 </label>
-                        	<textarea id="goods_details" rows="2" class="form-control" placeholder="请输入商品描述"></textarea>
+                    		<label> <span style="color: red;margin-right: 2px;">*</span>描述 </label>
+                        	<textarea id="goods_details" rows="1" class="form-control" placeholder="请输入商品描述"></textarea>
                     	</div>
-                    	
-                        
-                        <!-- 
-                        <div class="form-group">
-                        	<label class="col-md-2 control-label">Fixed Width</label>
-                            <div class="col-md-10">
-                            	<input id="goods_tags" type="text" class="tags" value="tag1,tag2" style="display: none;">
-                            	<div id="goods_tagsinput" class="tagsinput" style="width: 250px; min-height: 100px; height: 100%;">
-                            		<span class="tag"><span>tag1&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
-                            		<span class="tag"><span>tag2&nbsp;&nbsp;</span><a href="#" title="Removing tag">x</a></span>
-                            		<div id="goods_addTag"><input id="tags_2_tag" value="" data-default="add a tag" style="color: rgb(102, 102, 102); width: 68px;"></div>
-                            		<div class="tags_clear"></div>
-                            	</div>
-                            </div>
-                        </div>
-                         -->
-                        
+                    	<div class="form-group">
+                    		<label>标签一名字（例如：颜色）</label>
+                        	<input id="goods_tagKey_1" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签一值（各值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue_1" rows="1" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标签二名字（例如：颜色）</label>
+                        	<input id="goods_tagKey_2" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签二值（各值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue_2" rows="1" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
+                    	<div class="form-group">
+                    		<label> 标签三名字（例如：颜色）</label>
+                        	<input id="goods_tagKey_3" class="form-control" placeholder="标签名字">
+                        	<label style="font-size: 12px;"> 标签三值（各值用英文字符“#”分隔开，例如：黑色#白色）</label>
+                        	<textarea id="goods_tagValue_3" rows="2" class="form-control" placeholder="标签值"></textarea>
+                    	</div>
                         
                     </div>
                     <!-- <div class="form-group">

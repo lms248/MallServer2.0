@@ -35,6 +35,8 @@ public class GoodsBean extends Pojo {
 	private String details;
 	/** 分类ID */
 	private int sortId;
+	/** 库存 */
+	private int stock;
 	/** 类型 */
 	private String type;
 	/** 状态 */
@@ -125,6 +127,12 @@ public class GoodsBean extends Pojo {
 	}
 	public void setSortId(int sortId) {
 		this.sortId = sortId;
+	}
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 	public String getType() {
 		return type;

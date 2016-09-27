@@ -8,13 +8,18 @@
 function goods_edit() {
 	var goods_name = $("#goods_name").val();
 	var goodsId = $("#goods_name").attr("title");
-	var goods_curPrice = $("#goods_curPrice").val();
 	var goods_prePrice = $("#goods_prePrice").val();
-	var goods_tagKey = $("#goods_tagKey").val();
-	var goods_tagValue = $("#goods_tagValue").val();
+	var goods_curPrice = $("#goods_curPrice").val();
+	var goods_tagKey_1 = $("#goods_tagKey_1").val();
+	var goods_tagValue_1 = $("#goods_tagValue_1").val();
+	var goods_tagKey_2 = $("#goods_tagKey_2").val();
+	var goods_tagValue_2 = $("#goods_tagValue_2").val();
+	var goods_tagKey_3 = $("#goods_tagKey_3").val();
+	var goods_tagValue_3 = $("#goods_tagValue_3").val();
 	var goods_title = $("#goods_title").val();
 	var goods_details = $("#goods_details").val();
 	var goods_logo = $("#goods_logo").attr("alt");
+	var goods_stock = $("#goods_stock").val();
 	
 	var goods_sortId = $("#goods_level_1").val();
 	/*if (goods_sortId == 0) {
@@ -33,24 +38,24 @@ function goods_edit() {
 	else if (goodsId == "") {
 		alert("无法获取商品ID！！！");
 	}
-	else if(goods_curPrice==""){
+	else if(goods_prePrice==""){
 		alert("请输入商品原价！！！");
 	}
-	else if(isNaN(parseFloat($("#goods_curPrice").val()))){
+	else if(isNaN(parseFloat(goods_prePrice))){
 		alert("商品原价类型不正确！！！");
 	}
-	else if(goods_prePrice==""){
+	else if(goods_curPrice==""){
 		alert("请输入商品当前售价！！！");
 	}
-	else if(isNaN(parseFloat($("#goods_prePrice").val()))){
+	else if(isNaN(parseFloat(goods_curPrice))){
 		alert("商品当前售价类型不正确！！！");
 	}
-	else if (goods_tagKey == "") {
-		alert("请输入标签名字！！！");
+	/*else if (goods_tagKey_1 == "") {
+		alert("请输入标签一名字！！！");
 	}
-	else if (goods_tagValue == "") {
-		alert("请输入标签值！！！");
-	}
+	else if (goods_tagValue_1 == "") {
+		alert("请输入标签一值！！！");
+	}*/
 	else if (goods_title == "") {
 		alert("请输入标题！！！");
 	}
@@ -63,11 +68,17 @@ function goods_edit() {
 	else if (goods_imageList == "") {
 		alert("请上传商品图片列表！！！");
 	}
+	else if (goods_stock == "") {
+		alert("请输入商品库存！！！");
+	}
+	else if(isNaN(goods_stock)){
+		alert("商品库存类型不正确！！！");
+	}
 	else {
 		var tip = "你确认修改吗？";
 		if(confirm(tip)){
-			goods_tags = goods_tagKey+":"+goods_tagValue+";";
-			var params = {name:goods_name,goodsId:goodsId,curPrice:goods_curPrice,prePrice:goods_prePrice,sortId:goods_sortId,
+			goods_tags = goods_tagKey_1+":"+goods_tagValue_1+";"+goods_tagKey_2+":"+goods_tagValue_2+";"+goods_tagKey_3+":"+goods_tagValue_3+";";
+			var params = {name:goods_name,goodsId:goodsId,curPrice:goods_curPrice,prePrice:goods_prePrice,sortId:goods_sortId,stock:goods_stock,
 					tags:goods_tags,title:goods_title,details:goods_details,logo:goods_logo,imageList:goods_imageList,thumbList:goods_thumbList};
 			$.post("/goods/update",params,function(data){
 				alert(data.msg);
@@ -124,11 +135,14 @@ function showGoods(goodsId) {
 			$("#goods_name").val(data.data.name);
 			$("#goods_prePrice").val(data.data.prePrice);
 			$("#goods_curPrice").val(data.data.curPrice);
+			$("#goods_stock").val(data.data.stock);
 			
 			var tags = eval ("(" + data.data.tags + ")");
+			var i = 1;
 			for (var key in tags) {
-				$("#goods_tagKey").val(key);
-				$("#goods_tagValue").val(String(tags[key]).replace(/,/g,"#"));
+				$("#goods_tagKey_"+i).val(key);
+				$("#goods_tagValue_"+i).val(String(tags[key]).replace(/,/g,"#"));
+				i++;
 			}
 			
 			$("#goods_title").val(data.data.title);
