@@ -86,11 +86,11 @@ public class OrderService {
 		
 		double totalPrice = 0;
 		for (int i = 0; i < shopArr.size(); i++) {
-			JSONObject shopObj = (JSONObject) shopArr.get(i);
+			JSONObject shopObj = JSONObject.fromObject(shopArr.get(i));
 			
 			goodsArr = JSONArray.fromObject(shopObj.getString("goodsList"));
 			for (int j = 0; j < goodsArr.size(); j++) {
-				JSONObject goodsObj = (JSONObject) goodsArr.get(i);
+				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(i));
 				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId")).getCurPrice();
 			}
 			
