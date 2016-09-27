@@ -163,11 +163,18 @@ public class OrderService {
 		for (OrdersBean order : orderList) {
 			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
 			ShopBean shop = ShopDao.loadByShopId(order.getShopId());
-			JSONArray goodsArr = JSONArray.fromObject(order.getGoodsList());
+			if (shop == null) {
+				continue;
+			}
+			JSONArray goodsList = JSONArray.fromObject(order.getGoodsList());
+			JSONArray goodsArr = new JSONArray();
 			JSONObject goodsObj = new JSONObject();
-			for (int i = 0; i < goodsArr.size(); i++) {
-				goodsObj = JSONObject.fromObject(goodsArr.get(i));
+			for (int i = 0; i < goodsList.size(); i++) {
+				goodsObj = JSONObject.fromObject(goodsList.get(i));
 				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
+				if (goods == null) {
+					continue;
+				}
 				goodsObj.put("goodsName", goods.getName());
 				goodsObj.put("goodsLogo", goods.getLogo());
 				goodsObj.put("goodsLogoThumb", goods.getLogoThumb());
