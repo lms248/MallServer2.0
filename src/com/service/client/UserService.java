@@ -2,6 +2,8 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -32,6 +34,7 @@ import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import common.utils.UuidUtils;
+import dao.client.ActivityDao;
 import dao.client.UserDao;
 
 /**
@@ -387,6 +390,43 @@ public class UserService {
 			obj.put("data", JsonUtils.jsonFromObject(user));
 			out.print(obj);
 		}
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 获取用户信息列表 */
+	@RequestMapping(value ="infoList",method=RequestMethod.POST)
+	@ResponseBody
+	public void infoList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		int index = Integer.parseInt(request.getParameter("index"));//索引开始
+		int size = Integer.parseInt(request.getParameter("size"));//条数
+		
+		JSONObject obj = new JSONObject();
+		List<UserBean> userList = UserDao.loadAllUser(index, size);
+		JSONObject obj2 = new JSONObject();
+		JSONArray arr = new JSONArray();
+		for (UserBean user : userList) {
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(user));
+			//转化成字符串类型
+			obj2.put("uid", ""+user.getUid());
+			obj2.put("loginTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(user.getLoginTime())));
+			obj2.put("registerTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(user.getRegisterTime())));
+			arr.add(obj2);
+		}
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "用户列表");
+		obj.put("count", UserDao.Count());
+		obj.put("data", arr);
+		out.print(obj);
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();

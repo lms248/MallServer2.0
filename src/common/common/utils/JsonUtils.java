@@ -34,26 +34,6 @@ public class JsonUtils {
         }
         return writer.toString();  
     }
-	
-	/**
-	 * 对属性中long型数据转String输出
-	 * 
-	 * @param object
-	 * @return
-	 * @author lims
-	 */
-	public static String jsonFromObject_longToString(Object object) {
-        StringWriter writer = new StringWriter();
-        try {
-            mapper.writeValue(writer, object);
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {  
-            log.error("Unable to serialize to json: " + object);
-            return null;
-        }
-        return writer.toString();  
-    }
 
 	public static Object objectFromJson(String json, Class<?> clazz) {  
         Object object;  

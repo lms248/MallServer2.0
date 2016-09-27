@@ -69,6 +69,7 @@
         <thead>
         <tr role="row">
         	<th class="" role="columnheader" style=" text-align: center;">序号</th>
+        	<th class="" role="columnheader" style=" text-align: center;">活动ID</th>
         	<th class="" role="columnheader" style=" text-align: center;">活动标题</th>
         	<th class="" role="columnheader" style=" text-align: center;">商品ID</th>
         	<th class="" role="columnheader" style=" text-align: center;">商品名</th>
@@ -110,6 +111,7 @@
 <script id="activity_tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
 	<td class="center ">{{:#index+1}}</td>
+	<td class="center ">{{:activityId}}</td>
     <td class="center ">{{:title}}</td>
     <td class="center ">{{:goodsId}}</td>
     <td class="center ">{{:goodsName}}</td>

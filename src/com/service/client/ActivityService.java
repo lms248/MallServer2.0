@@ -153,7 +153,7 @@ public class ActivityService {
 		out.close();
 	}
 	
-	/** 活动商品列表 */
+	/** 活动商品列表（弃用） */
 	@RequestMapping(value ="goodsInfoList",method=RequestMethod.GET)
 	@ResponseBody
 	public void goodsInfoList(HttpServletRequest request, HttpServletResponse response)
@@ -206,6 +206,42 @@ public class ActivityService {
 		
 		System.out.println(obj);
 
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 删除 */
+	@RequestMapping(value ="delete",method=RequestMethod.POST)
+	@ResponseBody
+	public void delete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("------------/activity/delete-------------");
+		
+		String activityId = request.getParameter("activityId");
+		
+		JSONObject obj = new JSONObject();
+		
+		ActivityBean activity = ActivityDao.loadByActivityId(Long.parseLong(activityId));
+		
+		int result = ActivityDao.deleteByActivityId(activity.getActivityId());
+		if (result == -1) {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "删除活动失败");
+			obj.put("data", "");
+			out.print(obj);
+		} else {
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "删除活动成功");
+			out.print(obj);
+		}
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();

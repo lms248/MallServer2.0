@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.UserBean;
+
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
@@ -97,33 +98,23 @@ public class UserDao {
 	}
 	
 	/**
-	 * 加载所有列表
-	 * @param UserType ,pageNum(页码),pageSize(页数)
-	 * @return List
+	 * 加载对应区间列表
+	 * 
+	 * @param index
+	 * @param size
+	 * @return
 	 */
-	public static List<UserBean> loadAllUser(int pageNum, int pageSize){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
+	public static List<UserBean> loadAllUser(int index, int size){
+		List<UserBean> userList=new ArrayList<UserBean>();
 		try {
-			Userlist=dbUtils.query(UserBean.class, 
-					" order by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
+			userList=dbUtils.query(UserBean.class, 
+					" order by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return Userlist;
+		return userList;
 	}
-	public static List<UserBean> loadUser4type(int pageNum, int pageSize, int type){
-		List<UserBean> Userlist=new ArrayList<UserBean>();
-		try {
-			Userlist=dbUtils.query(UserBean.class, 
-					" where type=? order by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return Userlist;
-	}
-	
 	
 	/**
 	 * 查询表的数据总数量
@@ -133,7 +124,7 @@ public class UserDao {
 	public static int Count(){
 		int UserCount=0;
 		try {
-			UserCount=dbUtils.stat(UserBean.class, "select COUNT(*) from User_gw");
+			UserCount=dbUtils.stat(UserBean.class, "select COUNT(*) from user");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

@@ -160,12 +160,12 @@ public class OrderService {
 		List<OrdersBean> orderList = OrdersDao.loadByUidAndStatus(user.getUid(), Integer.parseInt(status));
 		JSONObject orderObj = new JSONObject();
 		JSONArray orderArr = new JSONArray();
-		for (int i = 0; i < orderList.size(); i++) {
-			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(orderList.get(i)));
-			ShopBean shop = ShopDao.loadByShopId(orderList.get(i).getShopId());
-			JSONArray goodsArr = JSONArray.fromObject(orderList.get(i).getGoodsList());
+		for (OrdersBean order : orderList) {
+			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
+			ShopBean shop = ShopDao.loadByShopId(order.getShopId());
+			JSONArray goodsArr = JSONArray.fromObject(order.getGoodsList());
 			JSONObject goodsObj = new JSONObject();
-			for (int j = 0; j < goodsArr.size(); j++) {
+			for (int i = 0; i < goodsArr.size(); i++) {
 				goodsObj = JSONObject.fromObject(goodsArr.get(i));
 				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
 				goodsObj.put("goodsName", goods.getName());

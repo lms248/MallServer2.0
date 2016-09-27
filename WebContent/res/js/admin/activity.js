@@ -57,7 +57,7 @@ function getActivityDateList(index) {
 }
 
 $("#pageSize").change(function(){
-	getShopDateList(0);
+	getActivityDateList(0);
 });
 
 
@@ -99,5 +99,40 @@ $("#activity_level_1").change(function(){
 		$("#activity_level_2").show();
 	}
 });
+
+
+/**
+ * 查看活动
+ * @param activityId
+ */
+function showActivity(activityId) {
+	
+}
+
+/**
+ * 修改活动
+ * @param activityId
+ */
+function updateActivity(activityId) {
+	
+}
+
+/**
+ * 删除活动
+ * @param activityId
+ */
+function deleteActivity(activityId) {
+	if (confirm("确定要删除活动ID为（"+activityId+"）的活动吗？")) {
+		$.post("/activity/delete",{activityId:activityId},function(data){
+			alert(data.msg);
+			if(data.code=="0"){
+				getActivityDateList(0);
+			}
+		},"json");
+	}
+}
+
+
+
 
 

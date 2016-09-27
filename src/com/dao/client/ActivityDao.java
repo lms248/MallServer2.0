@@ -211,4 +211,18 @@ public class ActivityDao {
 		}
 		return -1;
 	}
+	
+	/**
+	 * 删除某条列表数据
+	 * @param 
+	 * @return 
+	 */
+	public static int deleteByActivityId(long activityId){
+		try {
+			return dbUtils.delete(ActivityBean.class, "activityid", activityId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 }
