@@ -24,6 +24,7 @@ import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+import common.utils.StringUtils;
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
 import dao.client.PayDao;
@@ -186,6 +187,19 @@ public class OrderService {
 			orderObj.put("shopLogo", shop.getLogo());
 			orderObj.put("shopLogoThumb", shop.getLogoThumb());
 			orderObj.put("goodsList", goodsArr);
+			JSONArray addressArr = new JSONArray();
+			if (!StringUtils.isBlank(user.getAddress())) {
+				addressArr = JSONArray.fromObject(user.getAddress());
+			}
+			
+			JSONObject addressObj = new JSONObject();
+			for (int i = 0; i < addressArr.size(); i++) {
+				addressObj = JSONObject.fromObject(addressArr.get(i));
+				if (order.getAddressId() == addressObj.getLong("addressId")) {
+					break;
+				}
+			}
+			orderObj.put("address", addressObj);
 			orderArr.add(orderObj);
 		}
 		

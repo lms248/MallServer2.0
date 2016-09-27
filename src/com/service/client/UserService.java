@@ -669,6 +669,62 @@ public class UserService {
 	}
 	
 	/** 获取收货地址 */
+	@RequestMapping(value ="address/info",method=RequestMethod.POST)
+	@ResponseBody
+	public void getAddress(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+	
+		String token = request.getParameter("token"); 
+		String addressId = request.getParameter("addressId"); 
+		
+		JSONObject obj = new JSONObject();
+		if (token==null || addressId==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		JSONArray addressArr = new JSONArray();
+		if (!StringUtils.isBlank(user.getAddress())) {
+			addressArr = JSONArray.fromObject(user.getAddress());
+		}
+		
+		JSONObject outObj = new JSONObject();
+		for (int i = 0; i < addressArr.size(); i++) {
+			outObj = JSONObject.fromObject(addressArr.get(i));
+			if (addressId.equals(outObj.getString("addressId"))) {
+				break;
+			}
+		}
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "收货地址信息");
+		obj.put("data", outObj);
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 获取收货地址列表 */
 	@RequestMapping(value ="address/infoList",method=RequestMethod.POST)
 	@ResponseBody
 	public void getAddressList(HttpServletRequest request, HttpServletResponse response)
