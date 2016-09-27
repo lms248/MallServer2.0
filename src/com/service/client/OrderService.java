@@ -90,7 +90,7 @@ public class OrderService {
 			
 			goodsArr = JSONArray.fromObject(shopObj.getString("goodsList"));
 			for (int j = 0; j < goodsArr.size(); j++) {
-				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(i));
+				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(j));
 				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId")).getCurPrice();
 			}
 			
