@@ -70,7 +70,7 @@
                         <li><a href="#"> 全部</a></li>
                     </ul>
                 </li>
-                <li class="menu-1"><a href="#"><i class="fa fa-envelope"></i> <span>反馈</span></a></li>
+                <li class="menu-1"><a href="#" uri="feedback"><i class="fa fa-envelope"></i> <span>反馈</span></a></li>
                 <li class="menu-list"><a href="#"><i class="fa fa-file-text"></i> <span>日志</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#"> 404 Error</a></li>

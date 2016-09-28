@@ -2,6 +2,8 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -18,11 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.FeedbackBean;
 import bean.client.UserBean;
-
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
 import dao.client.FeedbackDao;
 import dao.client.UserDao;
 
@@ -121,9 +121,12 @@ public class FeedbackService {
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < feedbackList.size(); i++) {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(feedbackList.get(i)));
+			UserBean user = UserDao.loadByUid(feedbackList.get(i).getUid());
 			//转化成字符串类型
 			obj2.put("uid", ""+feedbackList.get(i).getUid());
+			obj2.put("username", ""+user==null?"":user.getUsername());
 			obj2.put("feedbackId", ""+feedbackList.get(i).getFeedbackId());
+			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(feedbackList.get(i).getCreateTime())));
 			arr.add(obj2);
 		}
 		obj.put("code", Def.CODE_SUCCESS);

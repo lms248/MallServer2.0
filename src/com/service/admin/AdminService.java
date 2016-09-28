@@ -98,10 +98,17 @@ public class AdminService {
 		return view;
 	}
 	
-	/** 活动 **/
+	/** 活动管理 **/
 	@RequestMapping(value="activity", method=RequestMethod.POST)
 	public ModelAndView activity(){
 		ModelAndView view = new ModelAndView("admin/activity");
+		return view;
+	}
+	
+	/** 反馈管理 **/
+	@RequestMapping(value="feedback", method=RequestMethod.POST)
+	public ModelAndView feedback(){
+		ModelAndView view = new ModelAndView("admin/feedback");
 		return view;
 	}
 	
@@ -116,13 +123,6 @@ public class AdminService {
 	@RequestMapping(value="mall", method=RequestMethod.POST)
 	public ModelAndView mall(){
 		ModelAndView view = new ModelAndView("admin/mall");
-		return view;
-	}
-	
-	/** 活动管理 **/
-	@RequestMapping(value="activities", method=RequestMethod.POST)
-	public ModelAndView activities(){
-		ModelAndView view = new ModelAndView("admin/activities");
 		return view;
 	}
 	
