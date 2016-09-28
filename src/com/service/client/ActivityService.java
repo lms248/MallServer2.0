@@ -203,7 +203,11 @@ public class ActivityService {
 			obj_data.put("sortIds", 0);
 		} else {
 			int pid = SortDao.loadById(activity.getSortId()).getPid();
-			obj_data.put("sortIds", pid+":"+activity.getSortId());
+			if (pid==0) {
+				obj_data.put("sortIds", activity.getSortId());
+			} else {
+				obj_data.put("sortIds", pid+":"+activity.getSortId());
+			}
 		}
 		
 		obj_data.put("goodsId", activity.getGoodsId()+"");

@@ -242,7 +242,11 @@ public class GoodsService {
 			obj_data.put("sortIds", 0);
 		} else {
 			int pid = SortDao.loadById(goods.getSortId()).getPid();
-			obj_data.put("sortIds", pid+":"+goods.getSortId());
+			if (pid == 0) {
+				obj_data.put("sortIds", goods.getSortId());
+			} else {
+				obj_data.put("sortIds", pid+":"+goods.getSortId());
+			}
 		}
 		
 		int isCollect = 0;//是否已收藏，0否，1是
