@@ -27,14 +27,13 @@ import bean.client.UserAddress;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
-
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import common.utils.UuidUtils;
-import dao.client.ActivityDao;
+
 import dao.client.UserDao;
 
 /**
@@ -220,10 +219,64 @@ public class UserService {
 		obj.put("msg", "注册成功");
 		obj.put("data", JsonUtils.jsonFromObject(user));
 		out.print(obj);
-		System.out.println(obj.toString());
+		
+		System.out.println(obj);
 		
 		request.getSession().setAttribute("username", username);
 		request.getSession().setAttribute("phone", username);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 第三方登录 */
+	@RequestMapping(value ="thirdLogin",method=RequestMethod.POST)
+	@ResponseBody
+	public void thirdLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		/*读取客户端发送的参数*/
+		String uid = request.getParameter("uid");
+		String nickname = request.getParameter("nickname");
+		String avatar = request.getParameter("avatar");
+		
+		String token = UuidUtils.getUuid();
+		long nowTime = System.currentTimeMillis();
+		/*读取数据库数据*/
+		UserBean user = UserDao.loadByUid(Long.parseLong(uid));
+		JSONObject obj = new JSONObject();
+		if(user == null){//注册第三方用户
+			
+			user = new UserBean();
+			user.setUid(Long.parseLong(uid));
+			user.setNickname(nickname);
+			user.setAvatar(avatar);
+			user.setThumbnail(avatar);
+			user.setToken(token);
+			user.setLoginTime(nowTime);
+			user.setRegisterTime(nowTime);
+			UserDao.save(user);
+			
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "登录成功");
+			obj.put("data", JsonUtils.jsonFromObject(user));
+			out.print(obj);
+		} else {
+			user.setToken(token);
+			user.setLoginTime(nowTime);
+			UserDao.update(user);
+			
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "登录成功");
+			obj.put("data", JsonUtils.jsonFromObject(user));
+			out.print(obj);
+		}
+		
+		System.out.println(obj);
 		
 		out.flush();
 		out.close();
