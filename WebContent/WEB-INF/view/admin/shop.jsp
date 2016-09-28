@@ -336,7 +336,7 @@ uploader = WebUploader.create({
     // 内部根据当前运行是创建，可能是input元素，也可能是flash.
     pick: {
     	id: '#shop_image_edit',
-    	innerHTML: '上传店铺Logo',
+    	innerHTML: '上传店铺背景图',
     	multiple: true
     },
  	// 自动上传。
