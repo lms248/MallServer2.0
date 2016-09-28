@@ -112,13 +112,6 @@ public class AdminService {
 		return view;
 	}
 	
-	/** 商品分类 **/
-	@RequestMapping(value="goods-sort", method=RequestMethod.POST)
-	public ModelAndView goods_sort(){
-		ModelAndView view = new ModelAndView("admin/goods-sort");
-		return view;
-	}
-	
 	/** 礼包商城 **/
 	@RequestMapping(value="mall", method=RequestMethod.POST)
 	public ModelAndView mall(){

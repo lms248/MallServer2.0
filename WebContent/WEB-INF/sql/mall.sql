@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-27 18:03:29
+Date: 2016-09-28 19:48:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `activity` (
   `mark` varchar(1000) DEFAULT NULL COMMENT '备注',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`activityId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for activitytype
@@ -94,7 +94,7 @@ CREATE TABLE `feedback` (
   `info` varchar(1000) DEFAULT NULL COMMENT '反馈内容',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`feedbackId`,`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for goods
@@ -120,20 +120,6 @@ CREATE TABLE `goods` (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`goodsId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for goodssort
--- ----------------------------
-DROP TABLE IF EXISTS `goodssort`;
-CREATE TABLE `goodssort` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `goodssortId` bigint(20) DEFAULT NULL COMMENT '商品分类ID',
-  `level_1` int(11) DEFAULT NULL COMMENT '类别一id',
-  `level_2` int(11) DEFAULT NULL COMMENT '类别二id',
-  `level_3` int(11) DEFAULT NULL COMMENT '类别三id',
-  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -221,4 +207,4 @@ CREATE TABLE `user` (
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`,`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
