@@ -234,6 +234,7 @@ function getGoodsSortList(pid, sortId, type) {
 	var goods_level = $("#goods_level_1");
 	if (pid > 0) {
 		goods_level = $("#goods_level_2");
+		$("#goods_level_2").html("<option value =\"0\">请选择二级分类</option>");
 	}
 	$.get("/sort/infoList",{pid:pid,type:type},function(data){
 		if(data.code=="0"){

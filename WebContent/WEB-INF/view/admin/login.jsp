@@ -37,19 +37,19 @@
                 <i class="fa fa-check"></i>
             </button>
 
-            <div class="registration">
+            <!-- <div class="registration">
                 Not a member yet?
-                <a class="" href="registration.html">
+                <a class="" href="">
                     Signup
                 </a>
-            </div>
-            <label class="checkbox">
+            </div> -->
+            <!-- <label class="checkbox">
                 <input type="checkbox" value="remember-me"> Remember me
                 <span class="pull-right">
                     <a data-toggle="modal" href="#myModal"> Forgot Password?</a>
 
                 </span>
-            </label>
+            </label> -->
 
         </div>
 

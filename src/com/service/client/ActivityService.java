@@ -38,7 +38,7 @@ import dao.client.SortDao;
 @RequestMapping("/activity")
 public class ActivityService {
 	
-	/** 添加活动 */
+	/** 添加活动(弃用，改用edit) */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
 	@ResponseBody
 	public void add(HttpServletRequest request, HttpServletResponse response)
@@ -55,7 +55,18 @@ public class ActivityService {
 		
 		JSONObject obj = new JSONObject();
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		GoodsBean goods = new GoodsBean();
+		try {
+			goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		} catch (Exception e) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该商品不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
 		if (goods == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -89,6 +100,90 @@ public class ActivityService {
 		out.close();
 	}
 	
+	/** 活动编辑 */
+	@RequestMapping(value ="edit",method=RequestMethod.POST)
+	@ResponseBody
+	public void edit(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String editType = request.getParameter("editType");
+		String goodsId = request.getParameter("goodsId");
+		String sortId = request.getParameter("sortId");
+		String title = request.getParameter("title");
+		String mark = request.getParameter("mark");
+		
+		JSONObject obj = new JSONObject();
+		
+		GoodsBean goods = new GoodsBean();
+		try {
+			goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		} catch (Exception e) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该商品不存在");
+			out.print(obj);
+			return;
+		}
+		if (goods == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该商品不存在");
+			out.print(obj);
+			return;
+		}
+		
+		if (editType != null && editType.equals("add")) { //添加活动
+			long activityId = IdGen.get().nextId();
+			
+			ActivityBean activity = new ActivityBean();
+			activity.setActivityId(activityId);
+			activity.setGoodsId(Long.parseLong(goodsId));
+			activity.setSortId(Integer.parseInt(sortId));
+			activity.setTitle(title);
+			activity.setMark(mark);
+			activity.setCreateTime(System.currentTimeMillis());
+			
+			ActivityDao.save(activity);
+			
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "添加活动成功");
+			obj.put("data", JsonUtils.jsonFromObject(ActivityDao.loadByActivityId(activityId)));
+			out.print(obj);
+		} else { //修改活动
+			if (request.getParameter("activityId") == null) {
+				obj.put("code", Def.CODE_FAIL);
+				obj.put("msg", "活动ID不正确");
+				out.print(obj);
+				return;
+			}
+			long activityId = Long.parseLong(request.getParameter("activityId"));
+			ActivityBean activity = ActivityDao.loadByActivityId(activityId);
+			if (activity == null) {
+				obj.put("code", Def.CODE_FAIL);
+				obj.put("msg", "该活动不存在");
+				out.print(obj);
+				return;
+			}
+			activity.setGoodsId(Long.parseLong(goodsId));
+			activity.setSortId(Integer.parseInt(sortId));
+			activity.setTitle(title);
+			activity.setMark(mark);
+			
+			ActivityDao.update(activity);
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "修改活动成功");
+			obj.put("data", JsonUtils.jsonFromObject(ActivityDao.loadByActivityId(activityId)));
+			out.print(obj);
+		}
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 活动信息 */
 	@RequestMapping(value ="info",method=RequestMethod.GET)
 	@ResponseBody
@@ -102,9 +197,20 @@ public class ActivityService {
 		long activityId = Long.parseLong(request.getParameter("activityId")); 
 		
 		JSONObject obj = new JSONObject();
+		ActivityBean activity = ActivityDao.loadByActivityId(activityId);
+		JSONObject obj_data = JSONObject.fromObject(activity);
+		if (activity.getSortId() <= 0) {
+			obj_data.put("sortIds", 0);
+		} else {
+			int pid = SortDao.loadById(activity.getSortId()).getPid();
+			obj_data.put("sortIds", pid+":"+activity.getSortId());
+		}
+		
+		obj_data.put("goodsId", activity.getGoodsId()+"");
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "活动信息");
-		obj.put("data", JsonUtils.jsonFromObject(ActivityDao.loadByActivityId(activityId)));
+		obj.put("data", JsonUtils.jsonFromObject(obj_data));
 		out.print(obj);
 		
 		out.flush();

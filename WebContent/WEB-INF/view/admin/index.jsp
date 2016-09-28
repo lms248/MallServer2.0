@@ -49,8 +49,8 @@
 
             <!--sidebar nav start-->
             <ul id="sidebar" class="nav nav-pills nav-stacked custom-nav">
-                <li class="menu-1 active"><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li>
-                <li class="menu-1"><a href="#" uri="user"><i class="fa fa-user"></i> <span>用户</span></a></li>
+                <!-- <li class="menu-1"><a href="#" uri="authority"><i class="fa fa-cogs"></i> <span>权限管理</span></a></li> -->
+                <li class="menu-1 active"><a href="#" uri="user"><i class="fa fa-user"></i> <span>用户</span></a></li>
                 <li class="menu-1"><a href="#" uri="shop"><i class="fa fa-th-large"></i> <span>店铺</span></a></li>
                 <li class="menu-1"><a href="#" uri="goods"><i class="fa fa-tasks"></i> <span>商品</span></a></li>
                 <li class="menu-1"><a href="#" uri="activity"><i class="fa fa-flag"></i> <span>活动</span></a></li>
@@ -191,6 +191,10 @@
 <script src="/res/AdminEx/js/data-tables/DT_bootstrap.js"></script>
 <!--dynamic table initialization -->
 <script src="/res/AdminEx/js/dynamic_table_init.js"></script>
+
+<script>
+$(".wrapper").load("admin/user",{});
+</script>
 
 </body>
 </html>

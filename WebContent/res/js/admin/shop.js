@@ -41,7 +41,6 @@ function shop_edit() {
 						getShopDateList(0);
 					}
 					$("#shop_modalCloseBtn").click();
-					$("#shop-edit-submit").html("修改");
 				},"json");
 			}
 		} else {
@@ -54,7 +53,6 @@ function shop_edit() {
 						getShopDateList(0);
 					}
 					$("#shop_modalCloseBtn").click();
-					$("#shop-edit-submit").html("修改");
 				},"json");
 			}
 		}

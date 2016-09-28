@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<div class="row">
+<!-- <div class="row">
 	<div class="col-lg-12">
     	<section class="panel">
         	<header class="panel-heading">活动编辑</header>
@@ -31,16 +31,16 @@
             </div>
     	</section>
 	</div>
-</div>
+</div> -->
 
 <div class="row">
 	<div class="col-sm-12">
         <section class="panel">
         <header class="panel-heading">
             	活动管理
-            <!-- <span class="pull-right">
-                <a id="add_activity_btn" class="btn btn-success fa fa-plus-circle" href="#modal_add_activity" data-toggle="modal">添加活动</a>
-            </span> -->
+            <span class="pull-right">
+                <a id="add_activity_btn" class="btn btn-success fa fa-plus-circle" href="#modal_edit_activity" data-toggle="modal">添加活动</a>
+            </span>
         </header>
         <div class="panel-body" style="display: block;">
         <div class="adv-table">
@@ -106,6 +106,51 @@
        </section>
 	</div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal_edit_activity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<button id="activity_modalCloseBtn" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">活动编辑</h4>
+                </div>
+                <div class="modal-body">
+					<form role="form">
+	                	<div class="form-group">
+        					<select id="activity_level_1" name="activity_level_1" style="height: 30px;">
+  								<option value ="0">请选择活动一级分类</option>
+							</select>
+                            <select id="activity_level_2" name="activity_level_2" style="height: 30px; display: none;">
+  								<option value ="0">请选择活动二级分类</option>
+							</select>
+                    	</div>
+                    	<div class="form-group">
+                    		<label for="activity_title">活动标题</label>
+                    		<input id="activity_title" type="text" class="form-control" placeholder="请输入活动标题">
+                   		</div>
+                    	<div class="form-group">
+                    		<label for="activity_goodsId">商品ID</label>
+                    		<input id="activity_goodsId" type="text" class="form-control" placeholder="请输入商品ID">
+                    	</div>
+                    	<div class="form-group">
+                    		<label for="activity_mark">备注信息</label>
+                    		<input id="activity_mark" type="text" class="form-control" placeholder="请输入备注信息">
+                    	</div>
+                    	<div class="form-group">
+                         	<button class="btn btn-danger" type="button" style="margin-right: 10px;" onclick="activity_resetEdit()">重置</button>
+                         	<button id="activity-edit-submit" class="btn btn-success" type="button" onclick="activity_edit()">添加</button>
+                    	</div>
+                	</form>
+                </div>
+        	</div>
+        </div>
+    </div>
+</div>
+<!-- modal -->
+
 
 <!-- 店铺数据表模板 -->
 <script id="activity_tableTmpl" type="text/x-jsrender">
