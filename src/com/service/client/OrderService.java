@@ -70,7 +70,7 @@ public class OrderService {
 			return;
 		}
 		
-		long payId = IdGen.get().nextId();//支付ID
+		String payId = IdGen.get().nextId()+"";//支付ID
 		long createTime = System.currentTimeMillis();
 		
 		JSONArray shopArr = new JSONArray();
@@ -91,15 +91,15 @@ public class OrderService {
 			goodsArr = JSONArray.fromObject(shopObj.getString("goodsList"));
 			for (int j = 0; j < goodsArr.size(); j++) {
 				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(j));
-				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId")).getCurPrice();
+				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getString("goodsId")).getCurPrice();
 			}
 			
 			OrdersBean order = new OrdersBean();
-			long orderId = IdGen.get().nextId();//订单ID
+			String orderId = IdGen.get().nextId()+"";//订单ID
 			order.setOrderId(orderId);
 			order.setPayId(payId);
 			order.setUid(user.getUid());
-			order.setShopId(shopObj.getLong("shopId"));
+			order.setShopId(shopObj.getString("shopId"));
 			order.setGoodsList(shopObj.getString("goodsList"));
 			order.setAddressId(shopObj.getLong("addressId"));
 			order.setStatus(Def.ORDER_STATUS_NOPAY);
@@ -172,7 +172,7 @@ public class OrderService {
 			JSONObject goodsObj = new JSONObject();
 			for (int i = 0; i < goodsList.size(); i++) {
 				goodsObj = JSONObject.fromObject(goodsList.get(i));
-				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
+				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
 				if (goods == null) {
 					continue;
 				}

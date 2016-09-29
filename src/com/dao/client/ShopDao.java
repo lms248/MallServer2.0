@@ -22,7 +22,7 @@ public class ShopDao {
 	 * @param shopId
 	 * @return
 	 */
-	public static ShopBean loadByShopId(long shopId){
+	public static ShopBean loadByShopId(String shopId){
 		ShopBean bean=null;
 		try {
 			bean=dbUtils.read(ShopBean.class, "where shopid=?", shopId);
@@ -203,7 +203,7 @@ public class ShopDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByShopId(long shopId){
+	public static int deleteByShopId(String shopId){
 		try {
 			return dbUtils.delete(ShopBean.class, "shopid", shopId);
 		} catch (Exception e) {

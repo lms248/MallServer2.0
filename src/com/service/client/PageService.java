@@ -20,6 +20,7 @@ import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
+
 import common.utils.Def;
 import common.utils.JsonUtils;
 
@@ -115,7 +116,7 @@ public class PageService {
 		}
 		
 		//首页商城商户
-		JSONObject obj_shop = new JSONObject();
+		//JSONObject obj_shop = new JSONObject();
 		JSONArray arr_shop = new JSONArray();
 		List<ShopBean> shopList = ShopDao.loadAllShop(0, 4);
 		for (int i = 0; i < shopList.size(); i++) {

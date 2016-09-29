@@ -10,9 +10,7 @@ public class UserBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 用户ID */
-	private long uid;
-	/** 开放ID */
-	private String openid;
+	private String uid;
 	/** 用户名 */
 	private String username;
 	/** 密码 */
@@ -30,7 +28,7 @@ public class UserBean extends Pojo {
 	/** 用户收货地址 */
 	private String address;
 	/** 用户默认收货地址ID */
-	private long defaultAddressId;
+	private String defaultAddressId;
 	/** 用户类型*/
 	private int type;
 	/** 最近登录时间*/
@@ -44,17 +42,11 @@ public class UserBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(long uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
-	}
-	public String getOpenid() {
-		return openid;
-	}
-	public void setOpenid(String openid) {
-		this.openid = openid;
 	}
 	public String getUsername() {
 		return username;
@@ -98,10 +90,10 @@ public class UserBean extends Pojo {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	public long getDefaultAddressId() {
+	public String getDefaultAddressId() {
 		return defaultAddressId;
 	}
-	public void setDefaultAddressId(long defaultAddressId) {
+	public void setDefaultAddressId(String defaultAddressId) {
 		this.defaultAddressId = defaultAddressId;
 	}
 	public String getAddress() {

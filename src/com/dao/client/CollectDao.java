@@ -37,7 +37,7 @@ public class CollectDao {
 	 * @param uid
 	 * @return
 	 */
-	public static List<CollectBean> loadByUid(long uid){
+	public static List<CollectBean> loadByUid(String uid){
 		List<CollectBean> collectList=new ArrayList<CollectBean>();
 		try {
 			collectList=dbUtils.query(CollectBean.class, "where uid=?", uid);
@@ -48,7 +48,7 @@ public class CollectDao {
 		return collectList;
 	}
 	
-	public static List<CollectBean> loadByUid(long uid, int index, int size){
+	public static List<CollectBean> loadByUid(String uid, int index, int size){
 		List<CollectBean> collectList=new ArrayList<CollectBean>();
 		try {
 			collectList=dbUtils.query(CollectBean.class, "where uid=? order by id desc limit ?,?", uid, index, size);
@@ -59,7 +59,7 @@ public class CollectDao {
 		return collectList;
 	}
 	
-	public static CollectBean loadByUidAndGoodId(long uid, long goodsId){
+	public static CollectBean loadByUidAndGoodId(String uid, String goodsId){
 		CollectBean bean=null;
 		try {
 			bean=dbUtils.read(CollectBean.class, "where uid=? and goodsId=?", uid, goodsId);
@@ -226,7 +226,7 @@ public class CollectDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByCollectId(long collectId){
+	public static int deleteByCollectId(String collectId){
 		try {
 			return dbUtils.delete(CollectBean.class, "collectid" ,collectId);
 		} catch (Exception e) {

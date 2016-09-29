@@ -63,7 +63,7 @@ public class CollectService {
 			return;
 		}
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		if (goods == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -74,13 +74,13 @@ public class CollectService {
 			return;
 		}
 		
-		CollectBean collect = CollectDao.loadByUidAndGoodId(user.getUid(), Long.parseLong(goodsId));
+		CollectBean collect = CollectDao.loadByUidAndGoodId(user.getUid(), goodsId);
 		if (collect == null) { //不存在则添加
-			long collectId = IdGen.get().nextId();
+			String collectId = IdGen.get().nextId()+"";
 			collect = new CollectBean();
 			collect.setCollectId(collectId);
 			collect.setUid(user.getUid());
-			collect.setGoodsId(Long.parseLong(goodsId));
+			collect.setGoodsId(goodsId);
 			collect.setCreateTime(System.currentTimeMillis());
 			CollectDao.save(collect);
 			

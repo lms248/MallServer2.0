@@ -38,7 +38,7 @@ public class CartDao {
 	 * @param uid
 	 * @return
 	 */
-	public static CartBean loadByUid(long uid){
+	public static CartBean loadByUid(String uid){
 		CartBean bean=null;
 		try {
 			bean=dbUtils.read(CartBean.class, "where uid=?", uid);

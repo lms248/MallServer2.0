@@ -14,7 +14,7 @@ public class CartBean extends Pojo {
 	/** 购物车ID */
 	private long cartId;
 	/** 用户ID */
-	private long uid;
+	private String uid;
 	/** 
 	 * 商品列表信息JSONArray，[{"goodsId":xxxx,"amount":xx,"tags":[{"tagName1":"xxx"},{"tagName2":"xxx"}]}]
 	 */
@@ -33,10 +33,10 @@ public class CartBean extends Pojo {
 	public void setCartId(long cartId) {
 		this.cartId = cartId;
 	}
-	public long getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(long uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 	public String getGoodsList() {

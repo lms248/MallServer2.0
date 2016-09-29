@@ -22,7 +22,7 @@ public class FeedbackDao {
 	 * @param feedbackId
 	 * @return
 	 */
-	public static FeedbackBean loadByFeedbackId(long feedbackId){
+	public static FeedbackBean loadByFeedbackId(String feedbackId){
 		FeedbackBean bean=null;
 		try {
 			bean=dbUtils.read(FeedbackBean.class, "where feedbackid=?", feedbackId);
@@ -38,7 +38,7 @@ public class FeedbackDao {
 	 * @param uid
 	 * @return
 	 */
-	public static FeedbackBean loadByUid(long uid){
+	public static FeedbackBean loadByUid(String uid){
 		FeedbackBean bean=null;
 		try {
 			bean=dbUtils.read(FeedbackBean.class, "where uid=?", uid);

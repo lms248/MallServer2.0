@@ -10,9 +10,9 @@ public class GoodsBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 商品ID */
-	private long goodsId;
+	private String goodsId;
 	/** 商店ID */
-	private long shopId;
+	private String shopId;
 	/** 商品名 */
 	private String name;
 	/** 标题 */
@@ -50,16 +50,16 @@ public class GoodsBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getGoodsId() {
+	public String getGoodsId() {
 		return goodsId;
 	}
-	public void setGoodsId(long goodsId) {
+	public void setGoodsId(String goodsId) {
 		this.goodsId = goodsId;
 	}
-	public long getShopId() {
+	public String getShopId() {
 		return shopId;
 	}
-	public void setShopId(long shopId) {
+	public void setShopId(String shopId) {
 		this.shopId = shopId;
 	}
 	public String getName() {

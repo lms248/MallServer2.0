@@ -22,7 +22,7 @@ public class GoodsDao {
 	 * @param goodsId
 	 * @return
 	 */
-	public static GoodsBean loadByGoodsId(long goodsId){
+	public static GoodsBean loadByGoodsId(String goodsId){
 		GoodsBean bean=null;
 		try {
 			bean=dbUtils.read(GoodsBean.class, "where goodsid=?", goodsId);
@@ -239,7 +239,7 @@ public class GoodsDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByGoodsId(long goodsId){
+	public static int deleteByGoodsId(String goodsId){
 		try {
 			return dbUtils.delete(GoodsBean.class, "goodsid" ,goodsId);
 		} catch (Exception e) {

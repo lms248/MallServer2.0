@@ -197,7 +197,7 @@ public class UserService {
 			return;
 		}
 		
-		long uid = IdGen.get().nextId();
+		String uid = IdGen.get().nextId()+"";
 		String token = UuidUtils.getUuid();
 		
 		UserBean user = new UserBean();
@@ -240,7 +240,7 @@ public class UserService {
 		PrintWriter out = response.getWriter();
 		
 		/*读取客户端发送的参数*/
-		String openid = request.getParameter("openid");
+		String uid = request.getParameter("uid");
 		String nickname = request.getParameter("nickname");
 		String avatar = request.getParameter("avatar");
 		String type = request.getParameter("type");
@@ -255,14 +255,12 @@ public class UserService {
 		}
 		
 		String token = UuidUtils.getUuid();
-		long uid = IdGen.get().nextId();
 		long nowTime = System.currentTimeMillis();
 		/*读取数据库数据*/
-		UserBean user = UserDao.loadByOpenidAndType(openid, Integer.parseInt(type));
+		UserBean user = UserDao.loadByUidAndType(uid, Integer.parseInt(type));
 		if(user == null){//注册第三方用户
 			user = new UserBean();
 			user.setUid(uid);
-			user.setOpenid(openid);
 			user.setNickname(nickname);
 			user.setAvatar(avatar);
 			user.setThumbnail(avatar);
@@ -608,7 +606,7 @@ public class UserService {
 			return;
 		}
 		
-		long addressId = IdGen.get().nextId();
+		String addressId = IdGen.get().nextId()+"";
 		JSONArray addressArr = new JSONArray();
 		try {
 			if (!StringUtils.isBlank(user.getAddress())) {
@@ -637,10 +635,10 @@ public class UserService {
 		UserDao.update(user);
 		
 		JSONObject outObj = new JSONObject();
-		if (user.getDefaultAddressId() == 0) {
+		if (StringUtils.isBlank(user.getDefaultAddressId())) {
 			JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
 			if (obj2 != null && !obj2.isNullObject()) {
-				user.setDefaultAddressId(obj2.getLong("addressId"));
+				user.setDefaultAddressId(obj2.getString("addressId"));
 			}
 		}
 		outObj.put("defaultAddressId", user.getDefaultAddressId());
@@ -708,13 +706,13 @@ public class UserService {
 			JSONObject addressObj = JSONObject.fromObject(addressArr.get(i));
 			if (addressId.equals(addressObj.get("addressId")+"")) {
 				UserAddress userAddress = new UserAddress();
-				userAddress.setAddressId(Long.parseLong(addressId));
+				userAddress.setAddressId(addressId);
 				userAddress.setContact(contact);
 				userAddress.setPhone(phone);
 				userAddress.setArea(area);
 				userAddress.setAddress(address);
 				if (isDefault.equals("true")) {
-					user.setDefaultAddressId(Long.parseLong(addressId));
+					user.setDefaultAddressId(addressId);
 				}
 				addressArr_new.add(userAddress);
 				continue;
@@ -828,10 +826,10 @@ public class UserService {
 		
 		JSONObject outObj = new JSONObject();
 		if (!StringUtils.isBlank(user.getAddress())) {
-			if (user.getDefaultAddressId() == 0) {
+			if (StringUtils.isBlank(user.getDefaultAddressId())) {
 				JSONObject obj2 = JSONObject.fromObject(addressArr.get(0));
 				if (obj2 != null && !obj2.isNullObject()) {
-					user.setDefaultAddressId(obj2.getLong("addressId"));
+					user.setDefaultAddressId(obj2.getString("addressId"));
 				}
 			}
 			outObj.put("defaultAddressId", user.getDefaultAddressId());
@@ -886,8 +884,8 @@ public class UserService {
 		for (int i = 0; i < addressArr.size(); i++) {
 			JSONObject addressObj = addressArr.getJSONObject(i);
 			if (addressId.equals(addressObj.get("addressId")+"")) {
-				if (addressId.equals(user.getDefaultAddressId()+"")) {
-					user.setDefaultAddressId(0);
+				if (addressId.equals(user.getDefaultAddressId())) {
+					user.setDefaultAddressId("");
 				}
 				continue;
 			}

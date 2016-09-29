@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-29 09:17:32
+Date: 2016-09-29 10:28:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,8 +21,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `activityId` bigint(20) NOT NULL COMMENT '活动ID',
-  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
+  `activityId` varchar(100) NOT NULL COMMENT '活动ID',
+  `goodsId` varchar(100) DEFAULT NULL COMMENT '商品ID',
   `sortId` int(11) DEFAULT NULL COMMENT '分类ID',
   `title` varchar(500) DEFAULT NULL COMMENT '活动标题',
   `mark` varchar(1000) DEFAULT NULL COMMENT '备注',
@@ -48,8 +48,8 @@ CREATE TABLE `activitytype` (
 DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `cartId` bigint(20) NOT NULL COMMENT '购物车ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `cartId` varchar(100) NOT NULL COMMENT '购物车ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `goodsList` mediumtext COMMENT '商品列表信息',
   `updateTime` bigint(20) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`,`cartId`,`uid`)
@@ -61,9 +61,9 @@ CREATE TABLE `cart` (
 DROP TABLE IF EXISTS `collect`;
 CREATE TABLE `collect` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `collectId` bigint(20) NOT NULL COMMENT '收藏ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
-  `goodsId` bigint(20) DEFAULT NULL COMMENT '商品ID',
+  `collectId` varchar(100) NOT NULL COMMENT '收藏ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
+  `goodsId` varchar(100) DEFAULT NULL COMMENT '商品ID',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`collectId`,`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -74,8 +74,8 @@ CREATE TABLE `collect` (
 DROP TABLE IF EXISTS `community`;
 CREATE TABLE `community` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `communityId` bigint(20) DEFAULT NULL COMMENT '社区ID',
-  `uid` bigint(20) DEFAULT NULL COMMENT '用户ID',
+  `communityId` varchar(100) DEFAULT NULL COMMENT '社区ID',
+  `uid` varchar(100) DEFAULT NULL COMMENT '用户ID',
   `details` text COMMENT '描述',
   `imageList` varchar(1000) DEFAULT NULL COMMENT '图片列表',
   `thumbList` varchar(1000) DEFAULT NULL COMMENT '缩略图列表',
@@ -89,8 +89,8 @@ CREATE TABLE `community` (
 DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE `feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `feedbackId` bigint(20) NOT NULL COMMENT '反馈ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `feedbackId` varchar(100) NOT NULL COMMENT '反馈ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `info` varchar(1000) DEFAULT NULL COMMENT '反馈内容',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`feedbackId`,`uid`)
@@ -102,8 +102,8 @@ CREATE TABLE `feedback` (
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `goodsId` bigint(20) NOT NULL COMMENT '商品ID',
-  `shopId` bigint(20) DEFAULT NULL COMMENT '商店ID',
+  `goodsId` varchar(100) NOT NULL COMMENT '商品ID',
+  `shopId` varchar(100) DEFAULT NULL COMMENT '商店ID',
   `name` varchar(255) DEFAULT NULL COMMENT '商品名',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `logo` varchar(255) DEFAULT NULL COMMENT '商品Logo',
@@ -128,12 +128,12 @@ CREATE TABLE `goods` (
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `ordeId` bigint(20) NOT NULL COMMENT '订单ID',
-  `payId` bigint(20) DEFAULT NULL COMMENT '订单支付ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
-  `shopId` bigint(20) NOT NULL COMMENT '店铺ID',
+  `ordeId` varchar(100) NOT NULL COMMENT '订单ID',
+  `payId` varchar(100) DEFAULT NULL COMMENT '订单支付ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
+  `shopId` varchar(100) NOT NULL COMMENT '店铺ID',
   `goodsList` text COMMENT '数量',
-  `addressId` bigint(20) DEFAULT NULL COMMENT '收货地址ID',
+  `addressId` varchar(100) DEFAULT NULL COMMENT '收货地址ID',
   `status` int(11) DEFAULT NULL COMMENT '总价格',
   `createTime` bigint(20) DEFAULT NULL COMMENT '下单时间',
   PRIMARY KEY (`id`,`ordeId`,`uid`,`shopId`)
@@ -145,7 +145,7 @@ CREATE TABLE `orders` (
 DROP TABLE IF EXISTS `pay`;
 CREATE TABLE `pay` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `payId` bigint(20) DEFAULT NULL COMMENT '支付ID',
+  `payId` varchar(100) DEFAULT NULL COMMENT '支付ID',
   `payWay` varchar(255) DEFAULT NULL COMMENT '支付方式',
   `status` int(11) DEFAULT NULL COMMENT '支付状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
@@ -158,7 +158,7 @@ CREATE TABLE `pay` (
 DROP TABLE IF EXISTS `shop`;
 CREATE TABLE `shop` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `shopId` bigint(20) NOT NULL COMMENT '商店ID',
+  `shopId` varchar(100) NOT NULL COMMENT '商店ID',
   `name` varchar(255) DEFAULT NULL COMMENT '商店名',
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `details` text COMMENT '描述，介绍',
@@ -194,8 +194,7 @@ CREATE TABLE `sort` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
-  `openid` varchar(100) DEFAULT NULL COMMENT '开放ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `username` varchar(50) DEFAULT NULL COMMENT '用户名',
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
   `phone` varchar(255) DEFAULT NULL COMMENT '手机号',
@@ -204,7 +203,7 @@ CREATE TABLE `user` (
   `thumbnail` varchar(255) DEFAULT NULL COMMENT '缩略图',
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
   `address` mediumtext COMMENT '用户收货地址',
-  `defaultAddressId` bigint(20) DEFAULT NULL COMMENT '默认地址ID',
+  `defaultAddressId` varchar(100) DEFAULT NULL COMMENT '默认地址ID',
   `type` int(11) DEFAULT NULL COMMENT '用户类型',
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',

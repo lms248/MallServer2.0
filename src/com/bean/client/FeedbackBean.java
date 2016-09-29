@@ -12,9 +12,9 @@ public class FeedbackBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 反馈ID */
-	private long feedbackId;
+	private String feedbackId;
 	/** 用户ID */
-	private long uid;
+	private String uid;
 	/** 反馈信息 */
 	private String info;
 	/** 提交时间 */
@@ -26,16 +26,16 @@ public class FeedbackBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getFeedbackId() {
+	public String getFeedbackId() {
 		return feedbackId;
 	}
-	public void setFeedbackId(long feedbackId) {
+	public void setFeedbackId(String feedbackId) {
 		this.feedbackId = feedbackId;
 	}
-	public long getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(long uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 	public String getInfo() {

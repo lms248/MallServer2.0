@@ -71,7 +71,7 @@ public class GoodsService {
 		String sortId = request.getParameter("sortId");
 		
 		System.out.println("shopId===="+shopId);
-		if (ShopDao.loadByShopId(Long.parseLong(shopId)) == null) {
+		if (ShopDao.loadByShopId(shopId) == null) {
 			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商店名不存在");
@@ -96,11 +96,11 @@ public class GoodsService {
 			tagObj.put(tt[0], JSON.toJSONString(tt[1].split("#")));
 		}
 		
-		long goodsId = IdGen.get().nextId();
+		String goodsId = IdGen.get().nextId()+"";
 		
 		GoodsBean goods = new GoodsBean();
 		goods.setGoodsId(goodsId);
-		goods.setShopId(Long.parseLong(shopId));
+		goods.setShopId(shopId);
 		goods.setCurPrice(Double.parseDouble(curPrice));
 		goods.setPrePrice(Double.parseDouble(prePrice));
 		goods.setStock(Integer.parseInt(stock));
@@ -157,7 +157,7 @@ public class GoodsService {
 		
 		String sortId = request.getParameter("sortId");
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		
 		if (goods == null) {
 			JSONObject obj = new JSONObject();
@@ -221,7 +221,7 @@ public class GoodsService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token");
-		long goodsId = Long.parseLong(request.getParameter("goodsId")); 
+		String goodsId = request.getParameter("goodsId"); 
 		
 		JSONObject obj = new JSONObject();
 		
@@ -413,7 +413,7 @@ public class GoodsService {
 		
 		JSONObject obj = new JSONObject();
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		
 		int result = GoodsDao.deleteByGoodsId(goods.getGoodsId());
 		if (result == -1) {

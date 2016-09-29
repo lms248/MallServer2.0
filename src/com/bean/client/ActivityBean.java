@@ -9,9 +9,9 @@ public class ActivityBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 活动ID */
-	private long activityId;
+	private String activityId;
 	/** 商品ID */
-	private long goodsId;
+	private String goodsId;
 	/** 分类ID */
 	private int sortId;
 	/** 活动标题 */
@@ -27,16 +27,16 @@ public class ActivityBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getActivityId() {
+	public String getActivityId() {
 		return activityId;
 	}
-	public void setActivityId(long activityId) {
+	public void setActivityId(String activityId) {
 		this.activityId = activityId;
 	}
-	public long getGoodsId() {
+	public String getGoodsId() {
 		return goodsId;
 	}
-	public void setGoodsId(long goodsId) {
+	public void setGoodsId(String goodsId) {
 		this.goodsId = goodsId;
 	}
 	public int getSortId() {

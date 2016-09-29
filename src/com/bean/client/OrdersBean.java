@@ -12,13 +12,13 @@ public class OrdersBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 订单ID */
-	private long orderId;
+	private String orderId;
 	/** 订单支付ID */
-	private long payId;
+	private String payId;
 	/** 用户ID */
-	private long uid;
+	private String uid;
 	/** 店铺ID */
-	private long shopId;
+	private String shopId;
 	/** 商品订单列表信息 */
 	private String goodsList;
 	/** 收货地址ID */
@@ -34,28 +34,28 @@ public class OrdersBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getOrderId() {
+	public String getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(long orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-	public long getPayId() {
+	public String getPayId() {
 		return payId;
 	}
-	public void setPayId(long payId) {
+	public void setPayId(String payId) {
 		this.payId = payId;
 	}
-	public long getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(long uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public long getShopId() {
+	public String getShopId() {
 		return shopId;
 	}
-	public void setShopId(long shopId) {
+	public void setShopId(String shopId) {
 		this.shopId = shopId;
 	}
 	public String getGoodsList() {

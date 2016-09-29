@@ -57,7 +57,7 @@ public class ActivityService {
 		
 		GoodsBean goods = new GoodsBean();
 		try {
-			goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+			goods = GoodsDao.loadByGoodsId(goodsId);
 		} catch (Exception e) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -77,11 +77,11 @@ public class ActivityService {
 			return;
 		}
 		
-		long activityId = IdGen.get().nextId();
+		String activityId = IdGen.get().nextId()+"";
 		
 		ActivityBean activity = new ActivityBean();
 		activity.setActivityId(activityId);
-		activity.setGoodsId(Long.parseLong(goodsId));
+		activity.setGoodsId(goodsId);
 		activity.setSortId(Integer.parseInt(sortId));
 		activity.setTitle(title);
 		activity.setMark(mark);
@@ -120,7 +120,7 @@ public class ActivityService {
 		
 		GoodsBean goods = new GoodsBean();
 		try {
-			goods = GoodsDao.loadByGoodsId(Long.parseLong(goodsId));
+			goods = GoodsDao.loadByGoodsId(goodsId);
 		} catch (Exception e) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -135,11 +135,11 @@ public class ActivityService {
 		}
 		
 		if (editType != null && editType.equals("add")) { //添加活动
-			long activityId = IdGen.get().nextId();
+			String activityId = IdGen.get().nextId()+"";
 			
 			ActivityBean activity = new ActivityBean();
 			activity.setActivityId(activityId);
-			activity.setGoodsId(Long.parseLong(goodsId));
+			activity.setGoodsId(goodsId);
 			activity.setSortId(Integer.parseInt(sortId));
 			activity.setTitle(title);
 			activity.setMark(mark);
@@ -158,7 +158,7 @@ public class ActivityService {
 				out.print(obj);
 				return;
 			}
-			long activityId = Long.parseLong(request.getParameter("activityId"));
+			String activityId = request.getParameter("activityId");
 			ActivityBean activity = ActivityDao.loadByActivityId(activityId);
 			if (activity == null) {
 				obj.put("code", Def.CODE_FAIL);
@@ -166,7 +166,7 @@ public class ActivityService {
 				out.print(obj);
 				return;
 			}
-			activity.setGoodsId(Long.parseLong(goodsId));
+			activity.setGoodsId(goodsId);
 			activity.setSortId(Integer.parseInt(sortId));
 			activity.setTitle(title);
 			activity.setMark(mark);
@@ -194,7 +194,7 @@ public class ActivityService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		long activityId = Long.parseLong(request.getParameter("activityId")); 
+		String activityId = request.getParameter("activityId"); 
 		
 		JSONObject obj = new JSONObject();
 		ActivityBean activity = ActivityDao.loadByActivityId(activityId);
@@ -337,7 +337,7 @@ public class ActivityService {
 		
 		JSONObject obj = new JSONObject();
 		
-		ActivityBean activity = ActivityDao.loadByActivityId(Long.parseLong(activityId));
+		ActivityBean activity = ActivityDao.loadByActivityId(activityId);
 		
 		int result = ActivityDao.deleteByActivityId(activity.getActivityId());
 		if (result == -1) {

@@ -79,7 +79,7 @@ public class CommunityService {
 		System.out.println("imageObj===="+imageObj);
 		System.out.println("----------------------------------------");
 		
-		long communityId = IdGen.get().nextId();
+		String communityId = IdGen.get().nextId()+"";
 		
 		//String[] images = imageList.split(";");
 		

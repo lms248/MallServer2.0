@@ -10,9 +10,9 @@ public class CommunityBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 社区ID */
-	private long communityId;
+	private String communityId;
 	/** 用户ID */
-	private long uid;
+	private String uid;
 	/** 内容详情 */
 	private String details;
 	/** 图片列表 */
@@ -28,16 +28,16 @@ public class CommunityBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getCommunityId() {
+	public String getCommunityId() {
 		return communityId;
 	}
-	public void setCommunityId(long communityId) {
+	public void setCommunityId(String communityId) {
 		this.communityId = communityId;
 	}
-	public long getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(long uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 	public String getDetails() {

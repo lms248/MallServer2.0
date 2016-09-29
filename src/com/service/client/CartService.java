@@ -431,11 +431,11 @@ public class CartService {
 	 */
 	public JSONArray getCartlist(String goodsList) {
 		JSONArray goodsList_out = JSONArray.fromObject(goodsList);
-		Map<Long, JSONArray> goodsMap = new HashMap<Long, JSONArray>();
+		Map<String, JSONArray> goodsMap = new HashMap<String, JSONArray>();
 		for (int i = 0; i < goodsList_out.size(); i++) {
 			JSONArray goodsArr = new JSONArray();
 			JSONObject goodsObj = JSONObject.fromObject(goodsList_out.get(i));
-			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getLong("goodsId"));
+			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
 			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
 			if (goodsMap.get(shop.getShopId()) == null) {
 				goodsArr.add(goodsObj);
@@ -449,7 +449,7 @@ public class CartService {
 		
 		JSONArray arr = new JSONArray();
 		JSONObject obj2 = new JSONObject();
-		for (Map.Entry<Long, JSONArray> map : goodsMap.entrySet()) {
+		for (Map.Entry<String, JSONArray> map : goodsMap.entrySet()) {
 			ShopBean shop = ShopDao.loadByShopId(map.getKey());
 			obj2 = new JSONObject();
 			obj2.put("shopId", shop.getShopId());
@@ -460,7 +460,7 @@ public class CartService {
 			for (int i = 0; i < map.getValue().size(); i++) {
 				JSONObject obj3 = JSONObject.fromObject(map.getValue().get(i));
 				JSONObject obj4 = JSONObject.fromObject(map.getValue().get(i));
-				GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getLong("goodsId"));
+				GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getString("goodsId"));
 				obj4.put("goodsId", obj3.get("goodsId"));
 				obj4.put("goodsName", goods.getName());
 				obj4.put("goodsLogo", goods.getLogo());

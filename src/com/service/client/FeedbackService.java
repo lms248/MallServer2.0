@@ -59,7 +59,7 @@ public class FeedbackService {
 			return;
 		}
 		
-		long feedbackId = IdGen.get().nextId();
+		String feedbackId = IdGen.get().nextId()+"";
 		
 		FeedbackBean feedback = new FeedbackBean();
 		feedback.setFeedbackId(feedbackId);
@@ -89,7 +89,7 @@ public class FeedbackService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		long feedbackId = Long.parseLong(request.getParameter("feedbackId")); 
+		String feedbackId = request.getParameter("feedbackId"); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);

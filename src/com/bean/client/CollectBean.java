@@ -12,11 +12,11 @@ public class CollectBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 收藏ID */
-	private long collectId;
+	private String collectId;
 	/** 用户ID */
-	private long uid;
+	private String uid;
 	/** 商品ID */
-	private long goodsId;
+	private String goodsId;
 	/** 创建时间 */
 	private long createTime;
 	
@@ -26,22 +26,22 @@ public class CollectBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getCollectId() {
+	public String getCollectId() {
 		return collectId;
 	}
-	public void setCollectId(long collectId) {
+	public void setCollectId(String collectId) {
 		this.collectId = collectId;
 	}
-	public long getUid() {
+	public String getUid() {
 		return uid;
 	}
-	public void setUid(long uid) {
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public long getGoodsId() {
+	public String getGoodsId() {
 		return goodsId;
 	}
-	public void setGoodsId(long goodsId) {
+	public void setGoodsId(String goodsId) {
 		this.goodsId = goodsId;
 	}
 	public long getCreateTime() {

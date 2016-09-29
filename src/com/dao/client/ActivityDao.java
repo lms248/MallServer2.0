@@ -22,7 +22,7 @@ public class ActivityDao {
 	 * @param activityId
 	 * @return
 	 */
-	public static ActivityBean loadByActivityId(long activityId){
+	public static ActivityBean loadByActivityId(String activityId){
 		ActivityBean bean=null;
 		try {
 			bean=dbUtils.read(ActivityBean.class, "where activityid=?", activityId);
@@ -217,7 +217,7 @@ public class ActivityDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByActivityId(long activityId){
+	public static int deleteByActivityId(String activityId){
 		try {
 			return dbUtils.delete(ActivityBean.class, "activityid", activityId);
 		} catch (Exception e) {

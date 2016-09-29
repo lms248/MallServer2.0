@@ -22,7 +22,7 @@ public class UserDao {
 	 * @param uid
 	 * @return
 	 */
-	public static UserBean loadByUid(long uid){
+	public static UserBean loadByUid(String uid){
 		UserBean bean=null;
 		try {
 			bean=dbUtils.read(UserBean.class, "where uid=?", uid);
@@ -35,14 +35,14 @@ public class UserDao {
 	
 	/**
 	 * 加载数据
-	 * @param openid
+	 * @param uid
 	 * @param type
 	 * @return
 	 */
-	public static UserBean loadByOpenidAndType(String openid, int type){
+	public static UserBean loadByUidAndType(String uid, int type){
 		UserBean bean=null;
 		try {
-			bean=dbUtils.read(UserBean.class, "where openid=? and type=?", openid, type);
+			bean=dbUtils.read(UserBean.class, "where uid=? and type=?", uid, type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

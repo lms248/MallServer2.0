@@ -61,7 +61,7 @@ public class ShopService {
 			return;
 		}
 		
-		long shopId = IdGen.get().nextId();
+		String shopId = IdGen.get().nextId()+"";
 		
 		ShopBean shop = new ShopBean();
 		shop.setShopId(shopId);
@@ -107,7 +107,7 @@ public class ShopService {
 		String[] logo = logoAndThumb.split(";");
 		String[] image = imageAndThumb.split(";");
 		
-		ShopBean shop = ShopDao.loadByShopId(Long.parseLong(shopId));
+		ShopBean shop = ShopDao.loadByShopId(shopId);
 		
 		if (shop == null) {
 			JSONObject obj = new JSONObject();
@@ -134,7 +134,7 @@ public class ShopService {
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改店铺成功");
-		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shop.getId())));
+		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shop.getShopId())));
 		out.print(obj);
 		
 		out.flush();
@@ -151,7 +151,7 @@ public class ShopService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		long shopId = Long.parseLong(request.getParameter("shopId")); 
+		String shopId = request.getParameter("shopId"); 
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
@@ -216,7 +216,7 @@ public class ShopService {
 		
 		JSONObject obj = new JSONObject();
 		
-		ShopBean shop = ShopDao.loadByShopId(Long.parseLong(shopId));
+		ShopBean shop = ShopDao.loadByShopId(shopId);
 		
 		int result = ShopDao.deleteByShopId(shop.getShopId());
 		if (result == -1) {
