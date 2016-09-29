@@ -35,6 +35,23 @@ public class UserDao {
 	
 	/**
 	 * 加载数据
+	 * @param openid
+	 * @param type
+	 * @return
+	 */
+	public static UserBean loadByOpenidAndType(String openid, int type){
+		UserBean bean=null;
+		try {
+			bean=dbUtils.read(UserBean.class, "where openid=? and type=?", openid, type);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return bean;
+	}
+	
+	/**
+	 * 加载数据
 	 * @param uid
 	 * @return
 	 */

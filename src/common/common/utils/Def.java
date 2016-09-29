@@ -99,6 +99,16 @@ public class Def {
 	/** 缩略图高度：商品 */
 	public static final int THUMB_HEIGHT_GOODS = 480;
 	
+	/*****************************用户类型**********************************/
+	/** 用户类型：平台用户 */
+	public static final int USER_TYPE_US = 1;
+	/** 用户类型：微信登录 */
+	public static final int USER_TYPE_WECHAT = 2;
+	/** 用户类型：QQ登录 */
+	public static final int USER_TYPE_QQ = 3;
+	/** 用户类型：新浪微博登录 */
+	public static final int USER_TYPE_WEIBO = 4;
+	
 	/*****************************初始昵称**********************************/
 	/** 默认昵称 */
 	public static final String[] NICKNAME_DEFAULT = {"小明","小红","小江","小青","大白","大山","大明","大强","小白","小林"};

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-28 20:59:54
+Date: 2016-09-29 09:17:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -195,6 +195,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
   `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `openid` varchar(100) DEFAULT NULL COMMENT '开放ID',
   `username` varchar(50) DEFAULT NULL COMMENT '用户名',
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
   `phone` varchar(255) DEFAULT NULL COMMENT '手机号',
@@ -204,6 +205,7 @@ CREATE TABLE `user` (
   `token` varchar(255) DEFAULT NULL COMMENT '令牌',
   `address` mediumtext COMMENT '用户收货地址',
   `defaultAddressId` bigint(20) DEFAULT NULL COMMENT '默认地址ID',
+  `type` int(11) DEFAULT NULL COMMENT '用户类型',
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
   PRIMARY KEY (`id`,`uid`)

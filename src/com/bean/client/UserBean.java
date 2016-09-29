@@ -11,6 +11,8 @@ public class UserBean extends Pojo {
 	private int id;
 	/** 用户ID */
 	private long uid;
+	/** 开放ID */
+	private String openid;
 	/** 用户名 */
 	private String username;
 	/** 密码 */
@@ -29,6 +31,8 @@ public class UserBean extends Pojo {
 	private String address;
 	/** 用户默认收货地址ID */
 	private long defaultAddressId;
+	/** 用户类型*/
+	private int type;
 	/** 最近登录时间*/
 	private long loginTime;
 	/** 注册时间 */
@@ -45,6 +49,12 @@ public class UserBean extends Pojo {
 	}
 	public void setUid(long uid) {
 		this.uid = uid;
+	}
+	public String getOpenid() {
+		return openid;
+	}
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 	public String getUsername() {
 		return username;
@@ -99,6 +109,12 @@ public class UserBean extends Pojo {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
 	}
 	public long getLoginTime() {
 		return loginTime;

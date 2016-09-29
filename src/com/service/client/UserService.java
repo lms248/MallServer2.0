@@ -209,9 +209,9 @@ public class UserService {
 		user.setNickname(Def.NICKNAME_DEFAULT[(int) (Math.random()*10)]);
 		user.setAvatar(Def.AVATAR_DEFAULT);
 		user.setThumbnail(Def.AVATAR_DEFAULT);
+		user.setType(Def.USER_TYPE_US);
 		user.setRegisterTime(System.currentTimeMillis());
 		user.setLoginTime(user.getRegisterTime());
-		
 		UserDao.save(user);
 		
 		user.setPassword("****");
@@ -240,23 +240,34 @@ public class UserService {
 		PrintWriter out = response.getWriter();
 		
 		/*读取客户端发送的参数*/
-		String uid = request.getParameter("uid");
+		String openid = request.getParameter("openid");
 		String nickname = request.getParameter("nickname");
 		String avatar = request.getParameter("avatar");
+		String type = request.getParameter("type");
+		
+		JSONObject obj = new JSONObject();
+		
+		if (type.equals(Def.USER_TYPE_US)) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户类型不正确");
+			out.print(obj);
+			return;
+		}
 		
 		String token = UuidUtils.getUuid();
+		long uid = IdGen.get().nextId();
 		long nowTime = System.currentTimeMillis();
 		/*读取数据库数据*/
-		UserBean user = UserDao.loadByUid(Long.parseLong(uid));
-		JSONObject obj = new JSONObject();
+		UserBean user = UserDao.loadByOpenidAndType(openid, Integer.parseInt(type));
 		if(user == null){//注册第三方用户
-			
 			user = new UserBean();
-			user.setUid(Long.parseLong(uid));
+			user.setUid(uid);
+			user.setOpenid(openid);
 			user.setNickname(nickname);
 			user.setAvatar(avatar);
 			user.setThumbnail(avatar);
 			user.setToken(token);
+			user.setType(Integer.parseInt(type));
 			user.setLoginTime(nowTime);
 			user.setRegisterTime(nowTime);
 			UserDao.save(user);
