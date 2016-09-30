@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,13 +29,14 @@ import bean.client.UserAddress;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
+
 import common.config.Config;
 import common.utils.Def;
+import common.utils.HttpUtils;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import common.utils.UuidUtils;
-
 import dao.client.UserDao;
 
 /**
@@ -256,6 +259,62 @@ public class UserService {
 		
 		String token = UuidUtils.getUuid();
 		long nowTime = System.currentTimeMillis();
+		
+		if (Integer.parseInt(type) == Def.USER_TYPE_WECHAT) { //微信
+			String code = request.getParameter("code");
+			Map<String,String> params1 = new HashMap<String, String>();
+			params1.put("appid", "wxd842e65051017e61");
+			params1.put("secret", "873eb6899f5ba9f621fcf51e26e0ccf7");
+			params1.put("code", code);
+			params1.put("grant_type", "authorization_code");
+			
+			//通过code获取access_token的接口
+			String access_result = HttpUtils.doGet("https://api.weixin.qq.com/sns/oauth2/access_token", params1);
+			System.out.println("access_result===="+access_result);
+			JSONObject accessObj = JSONObject.fromObject(access_result);
+			String wx_openid = accessObj.getString("openid");
+			String wx_access_token = accessObj.getString("access_token");
+			
+			UserBean wx_user = UserDao.loadByUidAndType(wx_openid, Def.USER_TYPE_WECHAT);
+			if (wx_user == null) { //注册并登录微信用户
+				Map<String,String> params2 = new HashMap<String, String>();
+				params1.put("access_token", wx_access_token);
+				params1.put("openid", wx_openid);
+				//获取用户个人信息
+				String userinfo_result = HttpUtils.doGet("https://api.weixin.qq.com/sns/userinfo", params2);
+				System.out.println("userinfo_result===="+userinfo_result);
+				JSONObject userinfoObj = JSONObject.fromObject(userinfo_result);
+				String wx_nickname = userinfoObj.getString("nickname");
+				String wx_headimgurl = userinfoObj.getString("headimgurl");
+				
+				wx_user = new UserBean();
+				wx_user.setUid(wx_openid);
+				wx_user.setNickname(wx_nickname);
+				wx_user.setAvatar(wx_headimgurl);
+				wx_user.setThumbnail(wx_headimgurl);
+				wx_user.setToken(token);
+				wx_user.setType(Integer.parseInt(type));
+				wx_user.setLoginTime(nowTime);
+				wx_user.setRegisterTime(nowTime);
+				UserDao.save(wx_user);
+				
+				obj.put("code", Def.CODE_SUCCESS);
+				obj.put("msg", "微信登录成功");
+				obj.put("data", JsonUtils.jsonFromObject(wx_user));
+				out.print(obj);
+			} else { //微信登录
+				wx_user.setToken(token);
+				wx_user.setLoginTime(nowTime);
+				UserDao.update(wx_user);
+				
+				obj.put("code", Def.CODE_SUCCESS);
+				obj.put("msg", "微信登录成功");
+				obj.put("data", JsonUtils.jsonFromObject(wx_user));
+				out.print(obj);
+			}
+			return;
+		}
+		
 		/*读取数据库数据*/
 		UserBean user = UserDao.loadByUidAndType(uid, Integer.parseInt(type));
 		if(user == null){//注册第三方用户
