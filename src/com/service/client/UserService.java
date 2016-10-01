@@ -278,8 +278,8 @@ public class UserService {
 			UserBean wx_user = UserDao.loadByUidAndType(wx_openid, Def.USER_TYPE_WECHAT);
 			if (wx_user == null) { //注册并登录微信用户
 				Map<String,String> params2 = new HashMap<String, String>();
-				params1.put("access_token", wx_access_token);
-				params1.put("openid", wx_openid);
+				params2.put("access_token", wx_access_token);
+				params2.put("openid", wx_openid);
 				//获取用户个人信息
 				String userinfo_result = HttpUtils.doGet("https://api.weixin.qq.com/sns/userinfo", params2);
 				System.out.println("userinfo_result===="+userinfo_result);
