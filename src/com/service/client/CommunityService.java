@@ -158,8 +158,8 @@ public class CommunityService {
 			}
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(communityList.get(i)));
 			//转化成字符串类型
-			obj2.put("uid", ""+communityList.get(i).getUid());
-			obj2.put("communityId", ""+communityList.get(i).getCommunityId());
+			//obj2.put("uid", ""+communityList.get(i).getUid());
+			//obj2.put("communityId", ""+communityList.get(i).getCommunityId());
 			//补充用户信息
 			obj2.put("nickname", ubean.getNickname()+"");
 			obj2.put("avatar", ubean.getAvatar()+"");

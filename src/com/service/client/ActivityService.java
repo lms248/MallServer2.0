@@ -210,7 +210,7 @@ public class ActivityService {
 			}
 		}
 		
-		obj_data.put("goodsId", activity.getGoodsId()+"");
+		//obj_data.put("goodsId", activity.getGoodsId()+"");
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "活动信息");
@@ -242,8 +242,8 @@ public class ActivityService {
 		for (int i = 0; i < activityList.size(); i++) {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(activityList.get(i)));
 			//转化成字符串类型
-			obj2.put("activityId", ""+activityList.get(i).getActivityId());
-			obj2.put("goodsId", ""+activityList.get(i).getGoodsId());
+			//obj2.put("activityId", ""+activityList.get(i).getActivityId());
+			//obj2.put("goodsId", ""+activityList.get(i).getGoodsId());
 			GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
 			if (goods != null) {
 				obj2.put("goodsName", goods.getName());

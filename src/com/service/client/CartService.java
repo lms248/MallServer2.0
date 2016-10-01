@@ -200,25 +200,6 @@ public class CartService {
 		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
 		
-		/*for (int i = 0; i < goodsList.size(); i++) {
-			JSONObject obj3 = JSONObject.fromObject(goodsList.get(i));
-			GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getLong("goodsId"));
-			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
-			obj2.put("shopId", shop.getShopId());
-			obj2.put("shopName", shop.getName());
-			obj2.put("shopImage", shop.getImage());
-			obj2.put("shopThumb", shop.getThumbnail());
-			obj2.put("goodsId", obj3.get("goodsId"));
-			obj2.put("goodsName", goods.getName());
-			obj2.put("goodsLogo", goods.getLogo());
-			obj2.put("goodsLogoThumb", goods.getLogoThumb());
-			obj2.put("prePrice", goods.getPrePrice());
-			obj2.put("curPrice", goods.getCurPrice());
-			obj2.put("amount", obj3.get("amount"));
-			obj2.put("tags", obj3.get("tags"));
-			arr.add(obj2);
-		}*/
-		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "购物车列表");
 		obj.put("data", arrOut);

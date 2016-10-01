@@ -151,7 +151,6 @@ public class GoodsService {
 		String details = request.getParameter("details");
 		String logo = request.getParameter("logo");
 		String imageList = request.getParameter("imageList");
-		System.out.println("++++++"+imageList);
 		String thumbList = request.getParameter("thumbList");
 		String[] logos = logo.split(";");
 		
@@ -256,7 +255,6 @@ public class GoodsService {
 			}
 		}
 		
-		obj_data.put("goodsId", goods.getGoodsId()+"");
 		obj_data.put("isCollect", isCollect);
 		obj_data.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goods.getCreateTime())));
 		
@@ -336,8 +334,6 @@ public class GoodsService {
 				}
 				
 				//转化成字符串类型
-				obj2.put("shopId", ""+goodsList.get(i).getShopId());
-				obj2.put("goodsId", ""+goodsList.get(i).getGoodsId());
 				obj2.put("isCollect", isCollect);
 				obj2.put("shopName", shop.getName());
 				obj2.put("shopLogo", shop.getImage());
