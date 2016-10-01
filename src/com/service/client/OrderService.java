@@ -255,6 +255,10 @@ public class OrderService {
 		order.setStatus(Def.ORDER_STATUS_CANCEL);
 		OrdersDao.update(order);
 		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "取消订单成功");
+		out.print(obj);
+		
 		System.out.println(obj);
 		
 		out.flush();
