@@ -264,7 +264,7 @@ public class UserService {
 			String code = request.getParameter("code");
 			Map<String,String> params1 = new HashMap<String, String>();
 			params1.put("appid", "wxd842e65051017e61");
-			params1.put("secret", "873eb6899f5ba9f621fcf51e26e0ccf7");
+			params1.put("secret", "83528040201236a6b4369717461c0f59");
 			params1.put("code", code);
 			params1.put("grant_type", "authorization_code");
 			
