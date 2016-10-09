@@ -3,6 +3,7 @@
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/common"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/com"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/pay"/>
         <property name="java-output-path" value="/MServer/MServer/WebContent/WEB-INF/classes"/>
         <property name="context-root" value="MServer"/>
     </wb-module>
