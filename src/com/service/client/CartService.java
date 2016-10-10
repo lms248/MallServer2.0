@@ -459,5 +459,49 @@ public class CartService {
 		return arr;
 	}
 	
+	/**
+	 * 删除对应购物车数据
+	 * @param token
+	 * @param goodsId
+	 * @param tags
+	 * @return
+	 */
+	public static int deleteCart(String token, String goodsId, String tags) {
+		System.out.println("---------删除对应购物车数据----------");
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			System.out.println("用户不存在");
+			return -1;
+		}
+		
+		CartBean cart = CartDao.loadByUid(user.getUid());
+		if (cart == null) {
+			System.out.println("购物车为空");
+			return -1;
+		} else {
+			JSONArray goodsList_all = JSONArray.fromObject(cart.getGoodsList());
+			JSONArray goodsList_temp = new JSONArray();
+			for (int i = 0; i < goodsList_all.size(); i++) {
+				JSONObject obj2 = JSONObject.fromObject(goodsList_all.get(i));
+				System.out.println("tags===="+tags);
+				System.out.println("JSON.parseObject(tags)===="+JSON.parseObject(tags));
+				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
+				if (obj2.get("goodsId") != null && goodsId != null && tags != null
+						&& goodsId.equals(obj2.get("goodsId").toString())  
+						&& JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
+					continue;
+				}
+				goodsList_temp.add(obj2);
+			}
+			
+			cart.setGoodsList(goodsList_temp.toString());
+			cart.setUpdateTime(System.currentTimeMillis());
+			CartDao.update(cart);
+		}
+		
+		return 0;
+	}
+	
 }
 

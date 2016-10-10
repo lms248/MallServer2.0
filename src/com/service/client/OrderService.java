@@ -50,6 +50,7 @@ public class OrderService {
 		
 		String token = request.getParameter("token");
 		String shopList = request.getParameter("shopList");
+		String isFromCart = request.getParameter("fromCart");
 		
 		System.out.println("shopList===="+shopList);
 		
@@ -92,6 +93,9 @@ public class OrderService {
 			for (int j = 0; j < goodsArr.size(); j++) {
 				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(j));
 				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getString("goodsId")).getCurPrice();
+				if (isFromCart != null && isFromCart.equals("true")) {
+					CartService.deleteCart(token, goodsObj.getString("goodsId"), goodsObj.getString("tags"));
+				}
 			}
 			
 			OrdersBean order = new OrdersBean();
