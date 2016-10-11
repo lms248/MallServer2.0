@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,7 +37,13 @@ public class WxPayController {
 	/** APP下单 */
 	@RequestMapping(value ="appOrder",method=RequestMethod.GET)
 	@ResponseBody
-	public void appOrder(HttpServletRequest request,HttpServletResponse response) {
+	public void appOrder(HttpServletRequest request,HttpServletResponse response) 
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
 		log.debug("开始APP下单方法...");
 		//1、接收业务参数，生成本地系统订单
 		String token = request.getParameter("token");
@@ -48,19 +55,12 @@ public class WxPayController {
 		//3、生成可用数据
 		JSONObject json = getJSONObject(responseData);
 		//4、返回处理结果
-		PrintWriter out = null;
-		try {
-			out = response.getWriter();
-			out.print(json.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally{
-			if (out != null) {
-				out.flush();
-				out.close();
-			}
-		}
+		out.print(json.toString());
+		
 		log.debug("结束APP下单方法...");
+		
+		out.flush();
+		out.close();
 	}
 	
 	/**
