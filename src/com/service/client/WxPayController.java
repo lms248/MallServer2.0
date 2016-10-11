@@ -1,4 +1,4 @@
-package pay.wx.service;
+package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +18,7 @@ import pay.wx.bean.GetBrandWCPayRequestData;
 import pay.wx.bean.UnifiedOrderRequestData;
 import pay.wx.bean.UnifiedOrderResponseData;
 import pay.wx.config.Configuration;
+import pay.wx.service.WxPayController2;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
@@ -35,7 +36,7 @@ public class WxPayController {
 	/** APP下单 */
 	@RequestMapping(value ="appOrder",method=RequestMethod.GET)
 	@ResponseBody
-	public void appOrder(HttpServletRequest request,HttpServletResponse response){
+	public void appOrder(HttpServletRequest request,HttpServletResponse response) {
 		log.debug("开始APP下单方法...");
 		//1、接收业务参数，生成本地系统订单
 		String token = request.getParameter("token");
