@@ -11,7 +11,7 @@ public class Configuration {
 	// 微信商户平台api密钥
 	public static String wechatWxpayKey = "abcdefghijklmnopqrstuvwxyzqwerty";
 	//微信商户平台支付结果通知URL
-	public static String notifyUrl = "http://test.zishu15.com/web/order/wechatWxPayGetPayResult.htm";
+	public static String notifyUrl = "http://120.24.69.203:8080/order/wxPayResult";
 	/** 统一下单URL */
 	public static String wechatUnifiedOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 	/** 查询订单URL */

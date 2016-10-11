@@ -269,5 +269,20 @@ public class OrderService {
 		out.close();
 	}
 	
+	/** 微信商户平台支付结果通知 */
+	@RequestMapping(value ="wxPayResult",method=RequestMethod.POST)
+	@ResponseBody
+	public void wxPayResult(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("---------wxPayResult-------------");
+		
+		out.flush();
+		out.close();
+	}
 	
 }

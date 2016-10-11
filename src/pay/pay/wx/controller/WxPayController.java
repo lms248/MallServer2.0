@@ -21,6 +21,7 @@ import pay.wx.config.Configuration;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
+import common.utils.IdGen;
 
 /**
  * 支付相关逻辑控制器
@@ -32,7 +33,7 @@ public class WxPayController {
 	private static Logger log = common.logger.LoggerManager.getLogger(WxPayController2.class);
 	
 	/** APP下单 */
-	@RequestMapping(value ="appOrder",method=RequestMethod.POST)
+	@RequestMapping(value ="appOrder",method=RequestMethod.GET)
 	@ResponseBody
 	public void appOrder(HttpServletRequest request,HttpServletResponse response){
 		log.debug("开始APP下单方法...");
@@ -74,7 +75,7 @@ public class WxPayController {
 		data.setMch_id(Configuration.mchId);
 		data.setNonce_str(Util.createRandom(false, 16));
 		data.setBody("the body");
-		data.setOut_trade_no("//本地系统订单号");
+		data.setOut_trade_no(IdGen.get().nextId()+"");//本地系统订单号
 		data.setTotal_fee(1);
 		data.setSpbill_create_ip("127.0.0.1");
 		data.setNotify_url(Configuration.notifyUrl);
