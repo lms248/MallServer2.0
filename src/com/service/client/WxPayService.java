@@ -94,11 +94,24 @@ public class WxPayService {
 	}
 	
 	/**
-	 * TODO:根据统一下单接口返回的数据，生成前台JS-SDK所需的数据包
+	 * TODO:根据统一下单接口返回的数据，生成前台APP所需的数据包
 	 * @param responseData
 	 * @return JSONObject
 	 */
 	public JSONObject getJSONObject(UnifiedOrderResponseData responseData){
+		log.debug("开始使用统一下单接口返回数据生成所需json...");
+		JSONObject json = JSONObject.fromObject(responseData);
+		log.debug("所需json数据  => " + json.toString());
+		log.debug("结束使用统一下单接口返回数据生成所需json...");
+		return json;
+	}
+	
+	/**
+	 * TODO:根据统一下单接口返回的数据，生成前台APP所需的数据包
+	 * @param responseData
+	 * @return JSONObject
+	 */
+	public JSONObject getJSONObject2(UnifiedOrderResponseData responseData){
 		log.debug("开始使用统一下单接口返回数据生成所需json...");
 		JSONObject json = new JSONObject();
 		String responseSign = WxPayUtil.getSign(responseData);
