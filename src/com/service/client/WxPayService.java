@@ -31,12 +31,12 @@ import common.utils.IdGen;
  */
 @Controller
 @RequestMapping("/pay/wx")
-public class WxPayController {
+public class WxPayService {
 	
-	private static Logger log = common.logger.LoggerManager.getLogger(WxPayController.class);
+	private static Logger log = common.logger.LoggerManager.getLogger(WxPayService.class);
 	
 	/** APP下单 */
-	@RequestMapping(value ="appOrder",method=RequestMethod.GET)
+	@RequestMapping(value ="appOrder",method=RequestMethod.POST)
 	@ResponseBody
 	public void appOrder(HttpServletRequest request,HttpServletResponse response) 
 			throws ServletException, IOException {
