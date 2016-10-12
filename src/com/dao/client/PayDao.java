@@ -99,34 +99,6 @@ public class PayDao {
 		}
 		return payList;
 	}
-	/**
-	 * 加载所有列表
-	 * @param type ,pageNum(页码),pageSize(页数)
-	 * @return List
-	 */
-	public static List<PayBean> loadAllShop4page(int pageNum, int pageSize){
-		List<PayBean> payList=new ArrayList<PayBean>();
-		try {
-			payList=dbUtils.query(PayBean.class, 
-					" pay by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return payList;
-	}
-	public static List<PayBean> loadShop4type(int pageNum, int pageSize, int type){
-		List<PayBean> payList=new ArrayList<PayBean>();
-		try {
-			payList=dbUtils.query(PayBean.class, 
-					" where type=? pay by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		return payList;
-	}
-	
 	
 	/**
 	 * 查询表的数据总数量
