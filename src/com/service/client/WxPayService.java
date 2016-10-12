@@ -100,10 +100,18 @@ public class WxPayService {
 	 */
 	public JSONObject getJSONObject(UnifiedOrderResponseData responseData){
 		log.debug("开始使用统一下单接口返回数据生成所需json...");
-		JSONObject json = JSONObject.fromObject(responseData);
-		log.debug("所需json数据  => " + json.toString());
+		JSONObject obj = JSONObject.fromObject(responseData);
+		if (responseData.getReturn_code() != null && responseData.getReturn_code().equals("SUCCESS")) {
+			if (responseData.getResult_code() != null && responseData.getResult_code().equals("SUCCESS")) {
+				//时间戳 timeStamp 是 String(32) 1414561699 当前的时间，其他详见时间戳规则 
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddHHmmss");
+				String timeStamp = simpleDateFormat.format(new Date());
+				obj.put("timeStamp", timeStamp);
+			}
+		}
+		log.debug("所需json数据  => " + obj.toString());
 		log.debug("结束使用统一下单接口返回数据生成所需json...");
-		return json;
+		return obj;
 	}
 	
 	/**
