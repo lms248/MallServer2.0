@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pay.wx.bean.GetBrandWCPayRequestData;
 import pay.wx.bean.UnifiedOrderRequestData;
 import pay.wx.bean.UnifiedOrderResponseData;
+import pay.wx.bean.WxPayRequestData;
 import pay.wx.config.Configuration;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
@@ -58,13 +59,14 @@ public class WxPayService {
 		JSONObject outObj = getJSONObject(responseData);
 		
 		//4、返回处理结果
-		JSONObject obj = new JSONObject();
+		/*JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "微信支付APP下单");
 		obj.put("data", outObj);
-		out.print(obj);
+		out.print(obj);*/
 		
-		System.out.println(obj);
+		out.print(outObj);
+		System.out.println(outObj);
 		
 		log.debug("结束APP下单方法...");
 		
@@ -109,20 +111,36 @@ public class WxPayService {
 	public JSONObject getJSONObject(UnifiedOrderResponseData responseData){
 		log.debug("开始使用统一下单接口返回数据生成所需json...");
 		JSONObject obj = JSONObject.fromObject(responseData);
+		JSONObject outObj = new JSONObject();
 		if (responseData.getReturn_code() != null && responseData.getReturn_code().equals("SUCCESS")) {
 			if (responseData.getResult_code() != null && responseData.getResult_code().equals("SUCCESS")) {
+				//将数据封装成APP需要的形式返回前台
+				//appId 是 String(16) wx8888888888888888 商户注册具有支付权限的公众号成功后即可获得 
+				String appid = Configuration.appid;
 				//时间戳 timeStamp 是 String(32) 1414561699 当前的时间，其他详见时间戳规则 
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddHHmmss");
-				String timeStamp = simpleDateFormat.format(new Date());
-				obj.put("timeStamp", timeStamp);
+				String timestamp = simpleDateFormat.format(new Date());
+				//随机字符串 noncestr 是 String(32) 5K8264ILTKCH16CQ2502SI8ZNMTM67VS 随机字符串，不长于32位。推荐随机数生成算法 
+				String noncestr = Util.createRandom(false, 16);
 				//订单详情扩展字符串 package 是 String(128) 暂填写固定值Sign=WXPay
-				String packageStr = "Sign=WXPay";
-				obj.put("package", packageStr);
+				String packagestr = "Sign=WXPay";
+				//预支付交易会话标识 prepay_id 是 String(64) wx201410272009395522657a690389285100 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时 
+				String prepayid = obj.getString("prepay_id");
+				
+				WxPayRequestData data = new WxPayRequestData(appid, Configuration.mchId, prepayid, packagestr, noncestr, timestamp);
+				data.setSign(WxPayUtil.getSign(data));
+				
+				outObj.put("code", Def.CODE_SUCCESS);
+				outObj.put("msg", responseData.getReturn_msg());
+				outObj.put("data", JSONObject.fromObject(data));
 			}
+		} else {
+			outObj.put("code", Def.CODE_FAIL);
+			outObj.put("msg", responseData.getReturn_msg());
 		}
 		log.debug("所需json数据  => " + obj.toString());
 		log.debug("结束使用统一下单接口返回数据生成所需json...");
-		return obj;
+		return outObj;
 	}
 	
 	/**

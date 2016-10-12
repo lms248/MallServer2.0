@@ -73,13 +73,14 @@
        	</div>
        	<div class="span6">
        		<div class="dataTables_paginate paging_bootstrap pagination">
-       			<ul><li class="prev disabled"><a href="#">← 上一页</a></li>
-       			<li class="active"><a href="#">1</a></li>
-       			<li><a href="#">2</a></li>
-       			<li><a href="#">3</a></li>
-       			<li><a href="#">4</a></li>
-       			<li><a href="#">5</a></li>
-       			<li class="next"><a href="#">下一页 → </a></li>
+       			<ul>
+       			<li class="prev"><a href="#" onclick="firstPage()">首页</a></li>
+       			<li class="prev"><a href="#" onclick="pageUp()">上一页</a></li>
+       			<li class="active"><a id="pageNum" href="#">1</a></li>
+       			<li class="next"><a href="#" onclick="pageDown()">下一页</a></li>
+       			<li class="next"><a href="#" onclick="lastPage()">尾页  </a></li>
+       			<li class="next" style="margin-left: 10px;">第<input id="pageGo" type="text" style="width: 40px;height: 30px;">页</li>
+       			<li class="active"><a href="#" onclick="goPage()">GO  </a></li>
        			</ul>
        		</div>
        	</div>
