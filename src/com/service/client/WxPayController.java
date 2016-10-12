@@ -9,19 +9,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import net.sf.json.JSONObject;
 import pay.wx.bean.GetBrandWCPayRequestData;
 import pay.wx.bean.UnifiedOrderRequestData;
 import pay.wx.bean.UnifiedOrderResponseData;
 import pay.wx.config.Configuration;
-import pay.wx.service.WxPayController2;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
+
 import common.logger.Logger;
 import common.utils.IdGen;
 
@@ -32,7 +33,7 @@ import common.utils.IdGen;
 @RequestMapping("/pay/wx")
 public class WxPayController {
 	
-	private static Logger log = common.logger.LoggerManager.getLogger(WxPayController2.class);
+	private static Logger log = common.logger.LoggerManager.getLogger(WxPayController.class);
 	
 	/** APP下单 */
 	@RequestMapping(value ="appOrder",method=RequestMethod.GET)

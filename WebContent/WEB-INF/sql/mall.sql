@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-29 10:28:07
+Date: 2016-10-12 14:57:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -66,6 +66,20 @@ CREATE TABLE `collect` (
   `goodsId` varchar(100) DEFAULT NULL COMMENT '商品ID',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`collectId`,`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for comment
+-- ----------------------------
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `commentId` varchar(255) NOT NULL COMMENT '评论ID',
+  `goodsId` varchar(255) DEFAULT NULL COMMENT '商品ID',
+  `uid` varchar(255) DEFAULT NULL COMMENT '用户ID',
+  `content` text COMMENT '评论内容',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`,`commentId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
