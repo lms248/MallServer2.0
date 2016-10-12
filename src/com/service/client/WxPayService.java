@@ -22,8 +22,8 @@ import pay.wx.bean.UnifiedOrderResponseData;
 import pay.wx.config.Configuration;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
-
 import common.logger.Logger;
+import common.utils.Def;
 import common.utils.IdGen;
 
 /**
@@ -53,10 +53,15 @@ public class WxPayService {
 		
 		//2、调用统一下单接口
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", new Object());
+		
 		//3、生成可用数据
-		JSONObject json = getJSONObject(responseData);
+		JSONObject obj = getJSONObject(responseData);
+		
 		//4、返回处理结果
-		out.print(json.toString());
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "微信支付下单");
+		obj.put("data", obj);
+		out.print(obj);
 		
 		log.debug("结束APP下单方法...");
 		
