@@ -59,7 +59,7 @@ public class WxPayService {
 		
 		//4、返回处理结果
 		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "微信支付下单");
+		obj.put("msg", "微信支付APP下单");
 		obj.put("data", obj);
 		out.print(obj);
 		
