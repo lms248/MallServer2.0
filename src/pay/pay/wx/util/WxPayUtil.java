@@ -151,7 +151,7 @@ public class WxPayUtil {
 		for (Map.Entry<String, String> mapping : mappingList) {
 			stringA.append("&"+mapping.getKey()+"="+mapping.getValue());
 		}
-		String stringSignTemp = stringA.toString().substring(1) + "&key=" + Configuration.wechatWxpayKey;
+		String stringSignTemp = stringA.toString().substring(1) + "&key=" + Configuration.wxpayKey;
 		logger.debug("stringA => " + stringA.toString().substring(1));
 		logger.debug("stringSignTemp => " + stringSignTemp);
 		logger.debug("sign => " + Util.MD5(stringSignTemp).toUpperCase());
