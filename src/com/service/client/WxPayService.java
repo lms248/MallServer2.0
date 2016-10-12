@@ -115,9 +115,9 @@ public class WxPayService {
 				SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddHHmmss");
 				String timeStamp = simpleDateFormat.format(new Date());
 				obj.put("timeStamp", timeStamp);
-				//订单详情扩展字符串 package 是 String(128) prepay_id=123456789 统一下单接口返回的prepay_id参数值，提交格式如：prepay_id=*** 
-				String _pakage = "prepay_id=" + responseData.getPrepay_id();
-				obj.put("pakage", _pakage);
+				//订单详情扩展字符串 package 是 String(128) 暂填写固定值Sign=WXPay
+				String packageStr = "Sign=WXPay";
+				obj.put("package", packageStr);
 			}
 		}
 		log.debug("所需json数据  => " + obj.toString());
