@@ -413,7 +413,7 @@ public class GoodsService {
 		
 		int result = GoodsDao.deleteByGoodsId(goods.getGoodsId());
 		if (result == -1) {
-			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "删除商品失败");
 			obj.put("data", "");
 			out.print(obj);

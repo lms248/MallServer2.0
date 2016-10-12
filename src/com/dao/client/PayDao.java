@@ -19,13 +19,13 @@ public class PayDao {
 	
 	/**
 	 * 加载数据
-	 * @param PayId
+	 * @param payId
 	 * @return
 	 */
-	public static PayBean loadByPayId(long PayId){
+	public static PayBean loadByPayId(String payId){
 		PayBean bean=null;
 		try {
-			bean=dbUtils.read(PayBean.class, "where Payid=?", PayId);
+			bean=dbUtils.read(PayBean.class, "where payid=?", payId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -38,7 +38,7 @@ public class PayDao {
 	 * @param uid
 	 * @return
 	 */
-	public static PayBean loadByUid(long uid){
+	public static PayBean loadByUid(String uid){
 		PayBean bean=null;
 		try {
 			bean=dbUtils.read(PayBean.class, "where uid=?", uid);
@@ -57,7 +57,7 @@ public class PayDao {
 	public static PayBean loadByCount(int count){
 		PayBean bean=null;
 		try {
-			bean=dbUtils.read(PayBean.class, "Pay by id desc limit ?", count);
+			bean=dbUtils.read(PayBean.class, " pay by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -71,14 +71,14 @@ public class PayDao {
 	 * @return List
 	 */
 	public static List<PayBean> loadAllPay(){
-		List<PayBean> PayList=new ArrayList<PayBean>();
+		List<PayBean> payList=new ArrayList<PayBean>();
 		try {
-			PayList=dbUtils.query(PayBean.class, " Pay by id desc");
+			payList=dbUtils.query(PayBean.class, " pay by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return PayList;
+		return payList;
 	}
 	
 	/**
@@ -89,15 +89,15 @@ public class PayDao {
 	 * @return
 	 */
 	public static List<PayBean> loadAllPay(int index, int size){
-		List<PayBean> PayList=new ArrayList<PayBean>();
+		List<PayBean> payList=new ArrayList<PayBean>();
 		try {
-			PayList=dbUtils.query(PayBean.class, 
-					" Pay by id desc limit ?,?", index, size);
+			payList=dbUtils.query(PayBean.class, 
+					" pay by id desc limit ?,?", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return PayList;
+		return payList;
 	}
 	/**
 	 * 加载所有列表
@@ -105,26 +105,26 @@ public class PayDao {
 	 * @return List
 	 */
 	public static List<PayBean> loadAllShop4page(int pageNum, int pageSize){
-		List<PayBean> PayList=new ArrayList<PayBean>();
+		List<PayBean> payList=new ArrayList<PayBean>();
 		try {
-			PayList=dbUtils.query(PayBean.class, 
-					" Pay by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
+			payList=dbUtils.query(PayBean.class, 
+					" pay by id desc limit ?,?", (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return PayList;
+		return payList;
 	}
 	public static List<PayBean> loadShop4type(int pageNum, int pageSize, int type){
-		List<PayBean> PayList=new ArrayList<PayBean>();
+		List<PayBean> payList=new ArrayList<PayBean>();
 		try {
-			PayList=dbUtils.query(PayBean.class, 
-					" where type=? Pay by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
+			payList=dbUtils.query(PayBean.class, 
+					" where type=? pay by id desc limit ?,?", type, (pageNum-1)*pageSize, pageSize);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return PayList;
+		return payList;
 	}
 	
 	
@@ -136,7 +136,7 @@ public class PayDao {
 	public static int Count(){
 		int amount=0;
 		try {
-			amount=dbUtils.stat(PayBean.class, "select COUNT(*) from Pay");
+			amount=dbUtils.stat(PayBean.class, "select COUNT(*) from pay");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -147,7 +147,7 @@ public class PayDao {
 		int amount=0;
 		try {
 			amount=dbUtils.stat(PayBean.class, 
-					"select COUNT(*) from Pay where type=?", type);
+					"select COUNT(*) from pay where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -203,9 +203,9 @@ public class PayDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByPayId(long PayId){
+	public static int deleteByPayId(String payId){
 		try {
-			return dbUtils.delete(PayBean.class, "Payid", PayId);
+			return dbUtils.delete(PayBean.class, "payid", payId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

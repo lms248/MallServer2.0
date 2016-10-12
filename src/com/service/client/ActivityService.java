@@ -341,7 +341,7 @@ public class ActivityService {
 		
 		int result = ActivityDao.deleteByActivityId(activity.getActivityId());
 		if (result == -1) {
-			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "删除活动失败");
 			obj.put("data", "");
 			out.print(obj);
