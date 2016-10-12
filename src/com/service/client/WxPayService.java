@@ -55,13 +55,16 @@ public class WxPayService {
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", new Object());
 		
 		//3、生成可用数据
-		JSONObject obj = getJSONObject(responseData);
+		JSONObject outObj = getJSONObject(responseData);
 		
 		//4、返回处理结果
+		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "微信支付APP下单");
-		obj.put("data", obj);
+		obj.put("data", outObj);
 		out.print(obj);
+		
+		System.out.println(obj);
 		
 		log.debug("结束APP下单方法...");
 		
