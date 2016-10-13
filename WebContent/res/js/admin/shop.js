@@ -251,10 +251,6 @@ function getShopDateList(index) {
 	},"json");
 }
 
-$("#pageSize").change(function(){
-	getShopDateList(0);
-});
-
 /**
  * 获取商品类别列表
  */
@@ -287,3 +283,66 @@ $("#goods_level_1").change(function(){
 	getGoodsSortList(this.value, 1);
 });
 
+$("#pageSize").change(function(){
+	getShopDateList(0);
+});
+
+function firstPage(){//首页
+	getShopDateList(0);
+	$("#pageNum").html("1");
+}
+function pageUp(){//上一页
+	var pageNum = $("#pageNum").text();
+	var pageSize = $('#pageSize').val();
+	if(parseInt(pageNum)>1){
+		var nextPage = parseInt(pageNum)-1;
+		getShopDateList((nextPage-1)*pageSize);
+		$("#pageNum").html(nextPage);
+	}	
+}
+function pageDown(){//下一页
+	var pageNum = $("#pageNum").text();
+	var pageSize = $('#pageSize').val();
+	var nextPage = parseInt(pageNum)+1;
+	var pageAmount = $("#shop_size").text() / pageSize;
+	if ($("#shop_size").text() % pageSize != 0) {
+		pageAmount += 1;
+	}
+	
+	if (nextPage > pageAmount) {
+		alert("已经到达尾页！");
+	} else {
+		getShopDateList((nextPage-1)*pageSize);
+		$("#pageNum").html(nextPage);
+	}
+}
+function lastPage(){//尾页
+	var pageNum = $("#pageNum").text();
+	var pageSize = $('#pageSize').val();
+	var nextPage = parseInt(pageNum)+1;
+	var pageAmount = $("#shop_size").text() / pageSize;
+	if ($("#shop_size").text() % pageSize != 0) {
+		pageAmount += 1;
+	}
+	
+	if (nextPage < pageAmount) {
+		getShopDateList((pageAmount-1)*pageSize);
+		$("#pageNum").html(pageAmount);
+	} 
+}
+function goPage(){//指定目标页面
+	var pageNum = $("#pageNum").text();
+	var pageGo = $("#pageGo").val();
+	var pageSize = $('#pageSize').val();
+	var pageAmount = $("#shop_size").text() / pageSize;
+	if ($("#shop_size").text() % pageSize != 0) {
+		pageAmount += 1;
+	}
+	
+	if (isNaN(pageGo) || pageGo < 1 || pageGo > pageAmount) {
+		alert("您输入的页面区间不对呀~");
+	} else if (pageGo != pageNum) {
+		getShopDateList((pageGo-1)*pageSize);
+		$("#pageNum").html(pageAmount);
+	}
+}

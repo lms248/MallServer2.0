@@ -120,24 +120,17 @@ public class WxPayUtil {
 		
 		for (Field field : fields) {
 			String fieldName = field.getName();
-			logger.debug("fieldName1 => " + fieldName);
 			if (fieldName.substring(0,1).equals("_")) {
 				fieldName = fieldName.substring(1);
 			}
-			logger.debug("fieldName2 => " + fieldName);
 			if (field != null && !fieldName.equals("sign")) {
 				String getMethodName = "get" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
-				logger.debug("getMethodName => " + getMethodName);
 				for (Method method : methods) {
-					logger.debug("method => " + method);
-					logger.debug("method.getName() => " + method.getName());
 					if (method.getName().equals(getMethodName)) {
 						try {
 							if (method.invoke(data, new Object[]{}) != null && method.invoke(data, new Object[]{}).toString().length() != 0) {
 								map.put(fieldName, method.invoke(data, new Object[]{}).toString());
-								logger.debug("#### => true");
 							}
-							logger.debug("#### => false");
 						} catch (IllegalAccessException | IllegalArgumentException
 								| InvocationTargetException e) {
 							e.printStackTrace();
