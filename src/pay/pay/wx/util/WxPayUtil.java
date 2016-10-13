@@ -120,14 +120,19 @@ public class WxPayUtil {
 		
 		for (Field field : fields) {
 			String fieldName = field.getName();
+			logger.debug("fieldName => " + fieldName);
 			if (field != null && !fieldName.equals("sign")) {
 				String getMethodName = "get" + fieldName.substring(0,1).toUpperCase() + fieldName.substring(1);
+				logger.debug("getMethodName => " + getMethodName);
 				for (Method method : methods) {
+					logger.debug("method => " + method);
 					if (method.getName().equals(getMethodName)) {
 						try {
 							if (method.invoke(data, new Object[]{}) != null && method.invoke(data, new Object[]{}).toString().length() != 0) {
 								map.put(fieldName, method.invoke(data, new Object[]{}).toString());
+								logger.debug("#### => true");
 							}
+							logger.debug("#### => false");
 						} catch (IllegalAccessException | IllegalArgumentException
 								| InvocationTargetException e) {
 							e.printStackTrace();
@@ -149,6 +154,7 @@ public class WxPayUtil {
 	  		}
     	);
 		for (Map.Entry<String, String> mapping : mappingList) {
+			logger.debug(mapping.getKey() + "=> " + mapping.getValue());
 			stringA.append("&"+mapping.getKey()+"="+mapping.getValue());
 		}
 		String stringSignTemp = stringA.toString().substring(1) + "&key=" + Configuration.wxpayKey;
@@ -168,6 +174,8 @@ public class WxPayUtil {
 //		String responseString = "<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg><appid><![CDATA[wx2421b1c4370ec43b]]></appid><mch_id><![CDATA[10000100]]></mch_id><nonce_str><![CDATA[IITRi8Iabbblz1Jc]]></nonce_str><sign><![CDATA[7921E432F65EB8ED0CE9755F0E86D72F]]></sign><result_code><![CDATA[SUCCESS]]></result_code><prepay_id><![CDATA[wx201411101639507cbf6ffd8b0779950874]]></prepay_id><trade_type><![CDATA[JSAPI]]></trade_type></xml>";
 		
 //		String notifyString = "<xml><appid><![CDATA[wxa724f52bb5f2adba]]></appid><bank_type><![CDATA[CFT]]></bank_type><cash_fee><![CDATA[1]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[Y]]></is_subscribe><mch_id><![CDATA[1229355602]]></mch_id><nonce_str><![CDATA[yt530qid6am805w4]]></nonce_str><openid><![CDATA[owaDHjnHucCHBJEfYmc0exraJsZA]]></openid><out_trade_no><![CDATA[0578772477877]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[5577CC49C305587BD004B4AB7F9E880C]]></sign><time_end><![CDATA[20150826164911]]></time_end><total_fee>1</total_fee><trade_type><![CDATA[NATIVE]]></trade_type><transaction_id><![CDATA[1009720069201508260714072542]]></transaction_id></xml>";
-
+		
+		
+		
 	}
 }
