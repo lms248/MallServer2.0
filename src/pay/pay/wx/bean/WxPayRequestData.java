@@ -54,11 +54,11 @@ public class WxPayRequestData {
 		this.prepayid = prepayid;
 	}
 
-	public String getPackagestr() {
+	public String getPackage() {
 		return packagestr;
 	}
 
-	public void setPackagestr(String packagestr) {
+	public void setPackage(String packagestr) {
 		this.packagestr = packagestr;
 	}
 
