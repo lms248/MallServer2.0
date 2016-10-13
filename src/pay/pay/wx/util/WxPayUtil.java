@@ -127,7 +127,7 @@ public class WxPayUtil {
 				for (Method method : methods) {
 					logger.debug("method => " + method);
 					logger.debug("method.getName() => " + method.getName());
-					if (method.getName().equals(getMethodName)) {
+					//if (method.getName().equals(getMethodName)) {
 						try {
 							if (method.invoke(data, new Object[]{}) != null && method.invoke(data, new Object[]{}).toString().length() != 0) {
 								map.put(fieldName, method.invoke(data, new Object[]{}).toString());
@@ -138,7 +138,7 @@ public class WxPayUtil {
 								| InvocationTargetException e) {
 							e.printStackTrace();
 						}
-					}
+					//}
 				}
 			}
 		}
