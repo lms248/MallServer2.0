@@ -39,6 +39,7 @@ import common.logger.Logger;
  * @type_name:WechatUserPayController
  * @time:上午9:38:32
  * @author:Frankhbu
+ * @deprecated
  */
 public class WxPayController2 {
 	

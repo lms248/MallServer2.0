@@ -38,7 +38,7 @@ public class OrdersDao {
 	 * @param uid
 	 * @return
 	 */
-	public static List<OrdersBean> loadByUid(long uid){
+	public static List<OrdersBean> loadByUid(String uid){
 		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
 			orderList=dbUtils.query(OrdersBean.class, "where uid=?", uid);
@@ -53,6 +53,17 @@ public class OrdersDao {
 		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
 			orderList=dbUtils.query(OrdersBean.class, "where uid=? and status=?", uid, status);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return orderList;
+	}
+	
+	public static List<OrdersBean> loadByPayId(String payId){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
+		try {
+			orderList=dbUtils.query(OrdersBean.class, "where payid=?", payId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

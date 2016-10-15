@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.client.OrdersBean;
+import bean.client.UserBean;
 import pay.wx.bean.GetBrandWCPayRequestData;
 import pay.wx.bean.UnifiedOrderRequestData;
 import pay.wx.bean.UnifiedOrderResponseData;
@@ -25,7 +30,8 @@ import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
 import common.utils.Def;
-import common.utils.IdGen;
+import dao.client.OrdersDao;
+import dao.client.UserDao;
 
 /**
  * 支付相关逻辑控制器
@@ -46,11 +52,30 @@ public class WxPayService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		JSONObject obj = new JSONObject();
+		
 		log.debug("开始APP下单方法...");
 		//1、接收业务参数，生成本地系统订单
 		String token = request.getParameter("token");
 		String payId = request.getParameter("payId");
 		
+		List<OrdersBean> orderList = OrdersDao.loadByPayId(payId);
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		
+		
+		Map<String, String> paramMap = new HashMap<>();
+		paramMap.put("payId", payId);
 		
 		//2、调用统一下单接口
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", new Object());
@@ -80,6 +105,7 @@ public class WxPayService {
 	 * @return UnifiedOrderResponseData
 	 */
 	public UnifiedOrderResponseData unifiedOrder(String tradeType,Object object){
+		Map<String, String> paramMap = (Map) object;
 		log.debug("开始调用微信统一下单方法...");
 		//1、生成请求数据对象
 		UnifiedOrderRequestData data = new UnifiedOrderRequestData();
@@ -87,7 +113,7 @@ public class WxPayService {
 		data.setMch_id(Configuration.mchId);
 		data.setNonce_str(Util.createRandom(false, 16));
 		data.setBody("the body");
-		data.setOut_trade_no(IdGen.get().nextId()+"");//本地系统订单号
+		data.setOut_trade_no(paramMap.get("payId"));//本地系统订单号
 		data.setTotal_fee(1);
 		data.setSpbill_create_ip("127.0.0.1");
 		data.setNotify_url(Configuration.notifyUrl);
@@ -147,6 +173,7 @@ public class WxPayService {
 	 * TODO:根据统一下单接口返回的数据，生成前台APP所需的数据包
 	 * @param responseData
 	 * @return JSONObject
+	 * @deprecated
 	 */
 	public JSONObject getJSONObject2(UnifiedOrderResponseData responseData){
 		log.debug("开始使用统一下单接口返回数据生成所需json...");
