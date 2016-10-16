@@ -22,7 +22,7 @@ public class OrdersDao {
 	 * @param orderId
 	 * @return
 	 */
-	public static OrdersBean loadByOrderId(long orderId){
+	public static OrdersBean loadByOrderId(String orderId){
 		OrdersBean bean=null;
 		try {
 			bean=dbUtils.read(OrdersBean.class, "where orderid=?", orderId);

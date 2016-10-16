@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
+import bean.client.GoodsBean;
 import bean.client.OrdersBean;
 import bean.client.UserBean;
 import pay.wx.bean.GetBrandWCPayRequestData;
@@ -33,6 +34,8 @@ import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
 import common.utils.Def;
+import common.utils.IdGen;
+import dao.client.GoodsDao;
 import dao.client.OrdersDao;
 import dao.client.UserDao;
 
@@ -61,10 +64,7 @@ public class WxPayService {
 		//1、接收业务参数，生成本地系统订单
 		String token = request.getParameter("token");
 		String orderIds = request.getParameter("orderIds");
-		JSONArray orderIdArr = JSON.parseArray(orderIds);
-		for (int i = 0; i < orderIdArr.size(); i++) {
-			
-		}
+		System.out.println("orderIds===="+orderIds);
 		
 		UserBean user = UserDao.loadByToken(token);
 		if (user == null) {
@@ -77,10 +77,31 @@ public class WxPayService {
 			return;
 		}
 		
+		String payId = IdGen.get().nextId()+"";
+		JSONArray orderIdArr = JSON.parseArray(orderIds);
+		int total_fee = 0;
+		String body = "";
+		for (int i = 0; i < orderIdArr.size(); i++) {
+			String orderId = orderIdArr.getString(i);
+			OrdersBean order = OrdersDao.loadByOrderId(orderId);
+			JSONArray goodsArr = JSON.parseArray(order.getGoodsList());
+			for (int j = 0; j < goodsArr.size(); j++) {
+				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(j));
+				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
+				total_fee += goods.getCurPrice()*goodsObj.getInt("amount")*100;
+				if (body.equals("")) {
+					body = goods.getName();
+				} else {
+					body += ";"+goods.getName();
+				}
+			}
+		}
 		
 		
 		Map<String, String> paramMap = new HashMap<>();
-		//paramMap.put("payId", payId);
+		paramMap.put("payId", payId);
+		paramMap.put("body", body);
+		paramMap.put("total_fee", total_fee+"");
 		
 		//2、调用统一下单接口
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", new Object());
@@ -117,9 +138,9 @@ public class WxPayService {
 		data.setAppid(Configuration.appid);
 		data.setMch_id(Configuration.mchId);
 		data.setNonce_str(Util.createRandom(false, 16));
-		data.setBody("the body");
+		data.setBody(paramMap.get("body"));
 		data.setOut_trade_no(paramMap.get("payId"));//本地系统订单号
-		data.setTotal_fee(1);
+		data.setTotal_fee(Integer.parseInt(paramMap.get("total_fee")));
 		data.setSpbill_create_ip("127.0.0.1");
 		data.setNotify_url(Configuration.notifyUrl);
 		data.setTrade_type(tradeType);

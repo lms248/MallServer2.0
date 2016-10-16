@@ -248,7 +248,7 @@ public class OrderService {
 			return;
 		}
 		
-		OrdersBean order = OrdersDao.loadByOrderId(Long.parseLong(orderId));
+		OrdersBean order = OrdersDao.loadByOrderId(orderId);
 		if (order == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该订单不存在");

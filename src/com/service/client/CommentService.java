@@ -54,7 +54,7 @@ public class CommentService {
 
 		JSONObject obj = new JSONObject();
 		
-		if (StringUtils.isBlank(token) || StringUtils.isBlank(goodsId) 
+		if (StringUtils.isBlank(token) || StringUtils.isBlank(goodsId) || StringUtils.isBlank(orderId)
 				|| StringUtils.isBlank(content) || StringUtils.isBlank(stars)) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "参数不正确");
