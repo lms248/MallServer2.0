@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
-import bean.client.PayBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
+
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
+
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
-import dao.client.PayDao;
 import dao.client.ShopDao;
 import dao.client.UserDao;
 
@@ -101,7 +101,7 @@ public class OrderService {
 			OrdersBean order = new OrdersBean();
 			String orderId = IdGen.get().nextId()+"";//订单ID
 			order.setOrderId(orderId);
-			order.setPayId(payId);
+			//order.setPayId(payId);
 			order.setUid(user.getUid());
 			order.setShopId(shopObj.getString("shopId"));
 			order.setGoodsList(shopObj.getString("goodsList"));
@@ -112,18 +112,21 @@ public class OrderService {
 			OrdersDao.save(order);
 		}
 		
-		PayBean pay = new PayBean();
+		/*PayBean pay = new PayBean();
 		pay.setPayId(payId);
 		pay.setStatus(Def.ORDER_STATUS_NOPAY);
 		pay.setCreateTime(createTime);
 		PayDao.save(pay);
 		
-		JSONObject payObj = JSONObject.fromObject(pay);
-		payObj.put("totalPrice", totalPrice);
+		JSONObject payObj = JSONObject.fromObject(pay);*/
+		
+		JSONObject orderObject = new JSONObject();
+		orderObject.put("totalPrice", totalPrice);
+		orderObject.put("shopList", shopList);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "创建订单成功");
-		obj.put("data", payObj);
+		obj.put("data", orderObject);
 		out.print(obj);
 		
 		System.out.println(obj);

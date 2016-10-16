@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MySQL
-Source Server Version : 50615
+Source Server         : mysql
+Source Server Version : 50713
 Source Host           : localhost:3306
 Source Database       : mall
 
 Target Server Type    : MYSQL
-Target Server Version : 50615
+Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2016-10-12 14:57:36
+Date: 2016-10-16 17:35:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -76,8 +76,10 @@ CREATE TABLE `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
   `commentId` varchar(255) NOT NULL COMMENT '评论ID',
   `goodsId` varchar(255) DEFAULT NULL COMMENT '商品ID',
+  `orderId` varchar(255) DEFAULT NULL COMMENT '订单ID',
   `uid` varchar(255) DEFAULT NULL COMMENT '用户ID',
   `content` text COMMENT '评论内容',
+  `star` int(11) DEFAULT NULL COMMENT '星星',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`commentId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -135,6 +137,22 @@ CREATE TABLE `goods` (
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`goodsId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `ordeId` bigint(20) NOT NULL COMMENT '订单ID',
+  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `goodsId` bigint(20) NOT NULL COMMENT '商品ID',
+  `amount` int(11) DEFAULT NULL COMMENT '数量',
+  `tags` varchar(255) DEFAULT NULL COMMENT '属性标签',
+  `price` double DEFAULT NULL COMMENT '总价格',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '下单时间',
+  PRIMARY KEY (`id`,`ordeId`,`uid`,`goodsId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for orders
