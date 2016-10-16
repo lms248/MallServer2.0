@@ -19,6 +19,8 @@ public class CommentBean extends Pojo {
 	private String uid;
 	/** 评论内容 */
 	private String content;
+	/** 评论星级 */
+	private int star;
 	/** 创建时间 */
 	private long createTime;
 	
@@ -51,6 +53,12 @@ public class CommentBean extends Pojo {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public int getStar() {
+		return star;
+	}
+	public void setStar(int star) {
+		this.star = star;
 	}
 	public long getCreateTime() {
 		return createTime;

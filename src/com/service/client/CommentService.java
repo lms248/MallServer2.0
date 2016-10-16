@@ -49,10 +49,12 @@ public class CommentService {
 		String token = request.getParameter("token");
 		String goodsId = request.getParameter("goodsId");
 		String content = request.getParameter("content");
+		String star = request.getParameter("star");
 
 		JSONObject obj = new JSONObject();
 		
-		if (StringUtils.isBlank(token) || StringUtils.isBlank(goodsId) || StringUtils.isBlank(content)) {
+		if (StringUtils.isBlank(token) || StringUtils.isBlank(goodsId) 
+				|| StringUtils.isBlank(content) || StringUtils.isBlank(star)) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "参数不正确");
 			out.print(obj);
@@ -89,6 +91,7 @@ public class CommentService {
 		comment.setGoodsId(goodsId);
 		comment.setUid(user.getUid());
 		comment.setContent(content);
+		comment.setStar(Integer.parseInt(star));
 		comment.setCreateTime(System.currentTimeMillis());
 		CommentDao.save(comment);
 		
