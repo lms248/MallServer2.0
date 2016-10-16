@@ -50,7 +50,7 @@ public class CommentService {
 		String goodsId = request.getParameter("goodsId");
 		String orderId = request.getParameter("orderId");
 		String content = request.getParameter("content");
-		String stars = request.getParameter("stars");
+		String stars = request.getParameter("star");
 
 		JSONObject obj = new JSONObject();
 		
