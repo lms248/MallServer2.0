@@ -71,11 +71,12 @@ public class OrderService {
 			return;
 		}
 		
-		String payId = IdGen.get().nextId()+"";//支付ID
+		//String payId = IdGen.get().nextId()+"";//支付ID
 		long createTime = System.currentTimeMillis();
 		
 		JSONArray shopArr = new JSONArray();
 		JSONArray goodsArr = new JSONArray();
+		com.alibaba.fastjson.JSONArray orderArr = new com.alibaba.fastjson.JSONArray();
 		try {
 			shopArr = JSONArray.fromObject(shopList);
 		} catch (Exception e) {
@@ -110,6 +111,7 @@ public class OrderService {
 			order.setCreateTime(createTime);
 			
 			OrdersDao.save(order);
+			orderArr.add(orderId);
 		}
 		
 		/*PayBean pay = new PayBean();
@@ -122,7 +124,7 @@ public class OrderService {
 		
 		JSONObject orderObject = new JSONObject();
 		orderObject.put("totalPrice", totalPrice);
-		orderObject.put("shopList", shopList);
+		orderObject.put("orderArr", orderArr);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "创建订单成功");
