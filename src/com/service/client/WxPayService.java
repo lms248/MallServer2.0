@@ -104,7 +104,7 @@ public class WxPayService {
 		paramMap.put("total_fee", total_fee+"");
 		
 		//2、调用统一下单接口
-		UnifiedOrderResponseData responseData = unifiedOrder("APP", new Object());
+		UnifiedOrderResponseData responseData = unifiedOrder("APP", paramMap);
 		
 		//3、生成可用数据
 		JSONObject outObj = getJSONObject(responseData);
@@ -131,7 +131,7 @@ public class WxPayService {
 	 * @return UnifiedOrderResponseData
 	 */
 	public UnifiedOrderResponseData unifiedOrder(String tradeType,Object object){
-		Map<String, String> paramMap = (Map) object;
+		Map<String, String> paramMap = (Map<String, String>) object;
 		log.debug("开始调用微信统一下单方法...");
 		//1、生成请求数据对象
 		UnifiedOrderRequestData data = new UnifiedOrderRequestData();
