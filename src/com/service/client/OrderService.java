@@ -76,7 +76,7 @@ public class OrderService {
 		
 		JSONArray shopArr = new JSONArray();
 		JSONArray goodsArr = new JSONArray();
-		com.alibaba.fastjson.JSONArray orderArr = new com.alibaba.fastjson.JSONArray();
+		com.alibaba.fastjson.JSONArray orderIds = new com.alibaba.fastjson.JSONArray();
 		try {
 			shopArr = JSONArray.fromObject(shopList);
 		} catch (Exception e) {
@@ -111,7 +111,7 @@ public class OrderService {
 			order.setCreateTime(createTime);
 			
 			OrdersDao.save(order);
-			orderArr.add(orderId);
+			orderIds.add(orderId);
 		}
 		
 		/*PayBean pay = new PayBean();
@@ -124,7 +124,7 @@ public class OrderService {
 		
 		JSONObject orderObject = new JSONObject();
 		orderObject.put("totalPrice", totalPrice);
-		orderObject.put("orderArr", orderArr);
+		orderObject.put("orderIds", orderIds);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "创建订单成功");
