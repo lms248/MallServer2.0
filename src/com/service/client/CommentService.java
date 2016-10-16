@@ -48,13 +48,14 @@ public class CommentService {
 		
 		String token = request.getParameter("token");
 		String goodsId = request.getParameter("goodsId");
+		String orderId = request.getParameter("orderId");
 		String content = request.getParameter("content");
-		String star = request.getParameter("star");
+		String stars = request.getParameter("stars");
 
 		JSONObject obj = new JSONObject();
 		
 		if (StringUtils.isBlank(token) || StringUtils.isBlank(goodsId) 
-				|| StringUtils.isBlank(content) || StringUtils.isBlank(star)) {
+				|| StringUtils.isBlank(content) || StringUtils.isBlank(stars)) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "参数不正确");
 			out.print(obj);
@@ -62,6 +63,12 @@ public class CommentService {
 			out.flush();
 			out.close();
 			return;
+		}
+		int star = Integer.parseInt(stars);
+		if (star < 1) {
+			star = 1;
+		} else if (star > 5) {
+			star = 5;
 		}
 		
 		UserBean user = UserDao.loadByToken(token);
@@ -89,9 +96,10 @@ public class CommentService {
 		CommentBean comment = new CommentBean();
 		comment.setCommentId(commentId);
 		comment.setGoodsId(goodsId);
+		comment.setOrderId(orderId);
 		comment.setUid(user.getUid());
 		comment.setContent(content);
-		comment.setStar(Integer.parseInt(star));
+		comment.setStar(star);
 		comment.setCreateTime(System.currentTimeMillis());
 		CommentDao.save(comment);
 		
@@ -123,9 +131,18 @@ public class CommentService {
 		List<CommentBean> commentList = CommentDao.loadAllCommentForGoodsId(goodsId, index, size);
 		
 		JSONObject obj = new JSONObject();
+		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < commentList.size(); i++) {
-			arr.add(JSONObject.fromObject(JsonUtils.jsonFromObject(commentList.get(i))));
+			obj2 = JSONObject.fromObject(commentList.get(i));
+			UserBean user = UserDao.loadByUid(commentList.get(i).getUid());
+			if (user == null) {
+				continue;
+			}
+			obj2.put("nickname", user.getNickname());
+			obj2.put("avatar", user.getAvatar());
+			obj2.put("thumbnail", user.getThumbnail());
+			arr.add(obj2);
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "评论列表");

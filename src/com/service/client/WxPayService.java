@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+
 import bean.client.OrdersBean;
 import bean.client.UserBean;
 import pay.wx.bean.GetBrandWCPayRequestData;
@@ -57,9 +60,11 @@ public class WxPayService {
 		log.debug("开始APP下单方法...");
 		//1、接收业务参数，生成本地系统订单
 		String token = request.getParameter("token");
-		String payId = request.getParameter("payId");
-		
-		List<OrdersBean> orderList = OrdersDao.loadByPayId(payId);
+		String orderIds = request.getParameter("orderIds");
+		JSONArray orderIdArr = JSON.parseArray(orderIds);
+		for (int i = 0; i < orderIdArr.size(); i++) {
+			
+		}
 		
 		UserBean user = UserDao.loadByToken(token);
 		if (user == null) {
@@ -75,7 +80,7 @@ public class WxPayService {
 		
 		
 		Map<String, String> paramMap = new HashMap<>();
-		paramMap.put("payId", payId);
+		//paramMap.put("payId", payId);
 		
 		//2、调用统一下单接口
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", new Object());

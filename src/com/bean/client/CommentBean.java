@@ -15,6 +15,8 @@ public class CommentBean extends Pojo {
 	private String commentId;
 	/** 商品ID */
 	private String goodsId;
+	/** 订单ID */
+	private String orderId;
 	/** 用户ID */
 	private String uid;
 	/** 评论内容 */
@@ -41,6 +43,12 @@ public class CommentBean extends Pojo {
 	}
 	public void setGoodsId(String goodsId) {
 		this.goodsId = goodsId;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public String getUid() {
 		return uid;
