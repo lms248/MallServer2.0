@@ -53,6 +53,7 @@ public class OrderService {
 		String isFromCart = request.getParameter("fromCart");
 		
 		System.out.println("shopList===="+shopList);
+		System.out.println("isFromCart===="+isFromCart);
 		
 		JSONObject obj = new JSONObject();
 		
@@ -95,7 +96,10 @@ public class OrderService {
 				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(j));
 				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getString("goodsId")).getCurPrice();
 				if (isFromCart != null && isFromCart.equals("true")) {
-					CartService.deleteCart(token, goodsObj.getString("goodsId"), goodsObj.getString("tags"));
+					System.out.println("#goodsId===="+goodsObj.getString("goodsId"));
+					System.out.println("#tags===="+goodsObj.getString("tags"));
+					int deleteRs = CartService.deleteCart(token, goodsObj.getString("goodsId"), goodsObj.getString("tags"));
+					System.out.println("#deleteRs===="+deleteRs);
 				}
 			}
 			
