@@ -50,7 +50,7 @@ public class OrderService {
 		
 		String token = request.getParameter("token");
 		String shopList = request.getParameter("shopList");
-		String isFromCart = request.getParameter("fromCart");
+		String isFromCart = request.getParameter("isFromCart");
 		
 		System.out.println("shopList===="+shopList);
 		System.out.println("isFromCart===="+isFromCart);
