@@ -19,7 +19,7 @@ import pay.wx.bean.OrderQueryResponseData;
 import pay.wx.bean.UnifiedOrderNotifyRequestData;
 import pay.wx.bean.UnifiedOrderRequestData;
 import pay.wx.bean.UnifiedOrderResponseData;
-import pay.wx.config.Configuration;
+import pay.wx.config.WxPayConfig;
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
@@ -35,7 +35,7 @@ public class WxPayUtil {
 	 */
 	public static UnifiedOrderResponseData unifiedOder(UnifiedOrderRequestData data){
 		String requestXMLData = WxPayUtil.castDataToXMLString(data);
-		String requestUrl = Configuration.wechatUnifiedOrderURL;
+		String requestUrl = WxPayConfig.wechatUnifiedOrderURL;
 		String requestMethod = "POST";
 		String responseString = Util.httpsRequest(requestUrl, requestMethod, requestXMLData);
 		UnifiedOrderResponseData responseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(responseString);
@@ -50,7 +50,7 @@ public class WxPayUtil {
 	 */
 	public static OrderQueryResponseData queryOrder(OrderQueryRequestData data){
 		String requestXMLData = WxPayUtil.castDataToXMLString(data);
-		String requestUrl = Configuration.wechatOrderQueryURL;
+		String requestUrl = WxPayConfig.wechatOrderQueryURL;
 		String requestMethod = "POST";
 		String responseString = Util.httpsRequest(requestUrl, requestMethod, requestXMLData);
 		OrderQueryResponseData responseData = WxPayUtil.castXMLStringToOrderQueryResponseData(responseString);
@@ -155,7 +155,7 @@ public class WxPayUtil {
 			logger.debug(mapping.getKey() + "=> " + mapping.getValue());
 			stringA.append("&"+mapping.getKey()+"="+mapping.getValue());
 		}
-		String stringSignTemp = stringA.toString().substring(1) + "&key=" + Configuration.wxpayKey;
+		String stringSignTemp = stringA.toString().substring(1) + "&key=" + WxPayConfig.wxpayKey;
 		logger.debug("stringA => " + stringA.toString().substring(1));
 		logger.debug("stringSignTemp => " + stringSignTemp);
 		logger.debug("sign => " + Util.MD5(stringSignTemp).toUpperCase());

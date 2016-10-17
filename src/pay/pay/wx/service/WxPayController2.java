@@ -21,7 +21,7 @@ import pay.wx.bean.UnifiedOrderNotifyRequestData;
 import pay.wx.bean.UnifiedOrderNotifyResponseData;
 import pay.wx.bean.UnifiedOrderRequestData;
 import pay.wx.bean.UnifiedOrderResponseData;
-import pay.wx.config.Configuration;
+import pay.wx.config.WxPayConfig;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 
@@ -104,14 +104,14 @@ public class WxPayController2 {
 		log.debug("开始调用微信统一下单方法...");
 		//1、生成请求数据对象
 		UnifiedOrderRequestData data = new UnifiedOrderRequestData();
-		data.setAppid(Configuration.appid);
-		data.setMch_id(Configuration.mchId);
+		data.setAppid(WxPayConfig.appid);
+		data.setMch_id(WxPayConfig.mchId);
 		data.setNonce_str(Util.createRandom(false, 16));
 		data.setBody("the body");
 		data.setOut_trade_no("//本地系统订单号");
 		data.setTotal_fee(1);
 		data.setSpbill_create_ip("127.0.0.1");
-		data.setNotify_url(Configuration.notifyUrl);
+		data.setNotify_url(WxPayConfig.notifyUrl);
 		data.setTrade_type(tradeType);
 		data.setSign(WxPayUtil.getSign(data));
 		//2、调用统一下单接口
@@ -142,7 +142,7 @@ public class WxPayController2 {
 				if (responseData.getResult_code() != null && responseData.getResult_code().equals("SUCCESS")) {
 					//将数据封装成JS-SDK需要的形式返回前台
 					//appId 是 String(16) wx8888888888888888 商户注册具有支付权限的公众号成功后即可获得 
-					String appId = Configuration.appid;
+					String appId = WxPayConfig.appid;
 					//时间戳 timeStamp 是 String(32) 1414561699 当前的时间，其他详见时间戳规则 
 					SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMddHHmmss");
 					String timeStamp = simpleDateFormat.format(new Date());
@@ -293,8 +293,8 @@ public class WxPayController2 {
 		String transaction_id = request.getParameter("transaction_id");
 		//1、生成查询订单的请求数据对象
 		OrderQueryRequestData orderQueryRequestData = new OrderQueryRequestData();
-		orderQueryRequestData.setAppid(Configuration.appid);
-		orderQueryRequestData.setMch_id(Configuration.mchId);
+		orderQueryRequestData.setAppid(WxPayConfig.appid);
+		orderQueryRequestData.setMch_id(WxPayConfig.mchId);
 		//优先使用out_trade_no进行订单查询
 		if (out_trade_no != null && out_trade_no.length() != 0) {
 			orderQueryRequestData.setOut_trade_no(out_trade_no);
