@@ -356,7 +356,8 @@ public class WxPayService {
 					pay.setStatus(Def.PAY_STATUS_YES);
 					List<OrdersBean> orderList = OrdersDao.loadByPayId(payResult.getOut_trade_no());
 					for (OrdersBean order : orderList) {
-						order.setStatus(Def.ORDER_STATUS_NOTDELIVER);
+						//order.setStatus(Def.ORDER_STATUS_NOTDELIVER);
+						order.setStatus(Def.ORDER_STATUS_NOTRECEIVE);
 						OrdersDao.update(order);
 					}
 				}else {
