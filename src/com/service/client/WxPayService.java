@@ -325,6 +325,7 @@ public class WxPayService {
 		//2、把接收到的数据转换成UnifiedOrderNotifyRequestData对象
 		UnifiedOrderNotifyRequestData payResult = WxPayUtil.castXMLStringToUnifiedOrderNotifyRequestData(sb.toString());
 		log.debug("UnifiedOrderNotifyRequestData => " + JSONObject.fromObject(payResult).toString());
+		System.out.println("#payResult.getResult_code()===="+payResult.getResult_code());
 		String responseSign = WxPayUtil.getSign(payResult);
 		if (responseSign != null && responseSign.equals(payResult.getSign())) {
 			if (	payResult.getReturn_code() != null &&
@@ -340,6 +341,8 @@ public class WxPayService {
 				
 				//更新本地订单信息
 				PayBean pay = PayDao.loadByPayId(payResult.getOut_trade_no());
+				System.out.println("pay===="+pay);
+				System.out.println("##payResult.getResult_code()===="+payResult.getResult_code());
 				pay.setResult_code(payResult.getResult_code());
 				
 				//判断本地订单支付状态
