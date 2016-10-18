@@ -227,6 +227,57 @@ public class OrderService {
 		out.close();
 	}
 	
+	/** 确认收货 */
+	@RequestMapping(value ="receive",method=RequestMethod.POST)
+	@ResponseBody
+	public void receive(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String token = request.getParameter("token");
+		String orderId = request.getParameter("orderId");
+		
+		JSONObject obj = new JSONObject();
+		
+		if (token==null || orderId==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			return;
+		}
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			return;
+		}
+		
+		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		if (order == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该订单不存在");
+			out.print(obj);
+			return;
+		}
+		
+		order.setStatus(Def.ORDER_STATUS_RECEIVE);
+		OrdersDao.update(order);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "确认收货成功");
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 取消订单 */
 	@RequestMapping(value ="cancel",method=RequestMethod.POST)
 	@ResponseBody
