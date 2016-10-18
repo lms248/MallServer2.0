@@ -123,13 +123,7 @@ public class WxPayService {
 		paramMap.put("body", body);
 		paramMap.put("total_fee", total_fee+"");
 		
-		//2、调用统一下单接口
-		UnifiedOrderResponseData responseData = unifiedOrder("APP", paramMap);
-		
-		//3、生成可用数据
-		JSONObject outObj = getJSONObject(responseData);
-		
-		//4、添加本地订单记录
+		//2、添加本地订单记录
 		PayBean pay = new PayBean();
 		pay.setPayId(payId);
 		pay.setPayWay(PayWay.WECHAT.toString());
@@ -139,6 +133,12 @@ public class WxPayService {
 		pay.setStatus(Def.PAY_STATUS_NO);
 		pay.setCreateTime(System.currentTimeMillis());
 		PayDao.save(pay);
+		
+		//3、调用统一下单接口
+		UnifiedOrderResponseData responseData = unifiedOrder("APP", paramMap);
+		
+		//4、生成可用数据
+		JSONObject outObj = getJSONObject(responseData);
 		
 		//5、返回处理结果
 		out.print(outObj);
