@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
-Source Server Version : 50713
+Source Server         : MySQL
+Source Server Version : 50615
 Source Host           : localhost:3306
 Source Database       : mall
 
 Target Server Type    : MYSQL
-Target Server Version : 50713
+Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-10-16 17:50:00
+Date: 2016-10-30 20:01:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -79,7 +79,7 @@ CREATE TABLE `comment` (
   `orderId` varchar(255) DEFAULT NULL COMMENT '订单ID',
   `uid` varchar(255) DEFAULT NULL COMMENT '用户ID',
   `content` text COMMENT '评论内容',
-  `star` int(11) DEFAULT NULL COMMENT '星星',
+  `star` int(11) DEFAULT NULL COMMENT '评论星级',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`,`commentId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -163,8 +163,13 @@ CREATE TABLE `pay` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
   `payId` varchar(100) DEFAULT NULL COMMENT '支付ID',
   `payWay` varchar(255) DEFAULT NULL COMMENT '支付方式',
+  `total_fee` int(11) DEFAULT NULL COMMENT '总金额（分）',
+  `fee_type` varchar(255) DEFAULT NULL COMMENT ' 货币种类,默认人民币：CNY',
+  `trade_no` varchar(255) DEFAULT NULL COMMENT '支付订单号',
+  `result_code` varchar(255) DEFAULT NULL COMMENT '业务结果,SUCCESS/FAIL',
   `status` int(11) DEFAULT NULL COMMENT '支付状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

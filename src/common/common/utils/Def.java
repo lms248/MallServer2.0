@@ -118,10 +118,20 @@ public class Def {
 	/*****************************订单状态**********************************/
 	/** 订单状态：待付款 */
 	public static final int ORDER_STATUS_NOPAY = 0;
+	/** 订单状态：待发货*/
+	public static final int ORDER_STATUS_NOTDELIVER = 5;
 	/** 订单状态：待收货*/
 	public static final int ORDER_STATUS_NOTRECEIVE = 1;
 	/** 订单状态：已收货*/
 	public static final int ORDER_STATUS_RECEIVE = 2;
 	/** 订单状态：已取消 */
 	public static final int ORDER_STATUS_CANCEL = 3;
+	/** 订单状态：售后订单 */
+	public static final int ORDER_STATUS_AFTERSALES = 4;
+	
+	/** 支付状态：未支付 */
+	public static final int PAY_STATUS_NO = 0;
+	/** 支付状态：已支付 */
+	public static final int PAY_STATUS_YES = 1;
+	
 }

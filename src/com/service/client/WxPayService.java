@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pay.common.PayWay;
 import pay.wx.bean.GetBrandWCPayRequestData;
 import pay.wx.bean.MatrixToImageWriter;
 import pay.wx.bean.OrderQueryRequestData;
@@ -34,6 +36,7 @@ import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
+import bean.client.PayBean;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
@@ -43,12 +46,13 @@ import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.thoughtworks.xstream.XStream;
+
 import common.logger.Logger;
 import common.utils.Def;
 import common.utils.IdGen;
-
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
+import dao.client.PayDao;
 import dao.client.UserDao;
 
 /**
@@ -125,15 +129,25 @@ public class WxPayService {
 		//3、生成可用数据
 		JSONObject outObj = getJSONObject(responseData);
 		
-		//4、返回处理结果
+		//4、添加本地订单记录
+		PayBean pay = new PayBean();
+		pay.setPayId(payId);
+		pay.setPayWay(PayWay.WECHAT.toString());
+		pay.setTotal_fee(total_fee);
+		pay.setFee_type(Def.CNY);
+		pay.setBody(body);
+		pay.setStatus(Def.PAY_STATUS_NO);
+		pay.setCreateTime(System.currentTimeMillis());
+		PayDao.save(pay);
+		
+		//5、返回处理结果
+		out.print(outObj);
+		System.out.println(outObj);
 		/*JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "微信支付APP下单");
 		obj.put("data", outObj);
 		out.print(obj);*/
-		
-		out.print(outObj);
-		System.out.println(outObj);
 		
 		log.debug("结束APP下单方法...");
 		
@@ -324,15 +338,28 @@ public class WxPayService {
 				responseData.setReturnMsg(OK);
 				//根据out_trade_no获取订单信息
 				
+				//更新本地订单信息
+				PayBean pay = PayDao.loadByPayId(payResult.getOut_trade_no());
+				pay.setResult_code(payResult.getResult_code());
+				
 				//判断本地订单支付状态
 				//如果支付成功，直接返回
 				//如果未支付成功，根据返回信息修改支付状态
 				if (payResult.getResult_code().equals(SUCCESS)) {
-					
+					pay.setStatus(Def.PAY_STATUS_YES);
+					List<OrdersBean> orderList = OrdersDao.loadByPayId(payResult.getOut_trade_no());
+					for (OrdersBean order : orderList) {
+						order.setStatus(Def.ORDER_STATUS_NOTDELIVER);
+						OrdersDao.update(order);
+					}
 				}else {
 					//本地订单状态修改为支付错误
+					pay.setErr_code(payResult.getErr_code());
+					pay.setErr_code_des(payResult.getErr_code_des());
+					pay.setStatus(Def.PAY_STATUS_NO);
 				}
-				//更新本地订单信息
+				pay.setPayTime(System.currentTimeMillis());
+				PayDao.update(pay);
 				
 			}else {
 				responseData.setReturnCode(FAIL);
