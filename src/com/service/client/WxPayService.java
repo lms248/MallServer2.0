@@ -135,7 +135,7 @@ public class WxPayService {
 		pay.setBody(body);
 		pay.setStatus(Def.PAY_STATUS_NO);
 		pay.setCreateTime(System.currentTimeMillis());
-		System.out.println("---------"+PayDao.save(pay));
+		PayDao.save(pay);
 		
 		//3、调用统一下单接口
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", paramMap);
@@ -344,6 +344,7 @@ public class WxPayService {
 				
 				//更新本地订单信息
 				PayBean pay = PayDao.loadByPayId(payResult.getOut_trade_no());
+				System.out.println("payResult.getOut_trade_no()===="+payResult.getOut_trade_no());
 				System.out.println("pay===="+pay);
 				System.out.println("##payResult.getResult_code()===="+payResult.getResult_code());
 				pay.setResult_code(payResult.getResult_code());
