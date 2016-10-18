@@ -105,6 +105,13 @@ public class AdminService {
 		return view;
 	}
 	
+	/** 订单管理 **/
+	@RequestMapping(value="order", method=RequestMethod.POST)
+	public ModelAndView order(){
+		ModelAndView view = new ModelAndView("admin/order");
+		return view;
+	}
+	
 	/** 反馈管理 **/
 	@RequestMapping(value="feedback", method=RequestMethod.POST)
 	public ModelAndView feedback(){

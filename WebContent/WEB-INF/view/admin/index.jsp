@@ -63,7 +63,7 @@
                 </li> -->
                 <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>订单</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#"> 待付款</a></li>
+                        <li><a href="#" uri="order"> 待付款</a></li>
                         <li><a href="#"> 待收货</a></li>
                         <li><a href="#"> 已收货</a></li>
                         <li><a href="#"> 申请退货</a></li>

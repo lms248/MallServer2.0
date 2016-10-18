@@ -341,30 +341,34 @@ public class WxPayService {
 				responseData.setReturnMsg(OK);
 				//根据out_trade_no获取订单信息
 				
-				//更新本地订单信息
-				PayBean pay = PayDao.loadByPayId(payResult.getOut_trade_no());
-				pay.setResult_code(payResult.getResult_code());
-				
-				//判断本地订单支付状态
-				//如果支付成功，直接返回
-				//如果未支付成功，根据返回信息修改支付状态
-				if (payResult.getResult_code().equals(SUCCESS)) {
-					pay.setStatus(Def.PAY_STATUS_YES);
-					List<OrdersBean> orderList = OrdersDao.loadByPayId(payResult.getOut_trade_no());
-					for (OrdersBean order : orderList) {
-						//order.setStatus(Def.ORDER_STATUS_NOTDELIVER);
-						order.setStatus(Def.ORDER_STATUS_NOTRECEIVE);
-						OrdersDao.update(order);
+				try {
+					//更新本地订单信息
+					PayBean pay = PayDao.loadByPayId(payResult.getOut_trade_no());
+					pay.setResult_code(payResult.getResult_code());
+					
+					//判断本地订单支付状态
+					//如果支付成功，直接返回
+					//如果未支付成功，根据返回信息修改支付状态
+					if (payResult.getResult_code().equals(SUCCESS)) {
+						pay.setStatus(Def.PAY_STATUS_YES);
+						List<OrdersBean> orderList = OrdersDao.loadByPayId(payResult.getOut_trade_no());
+						for (OrdersBean order : orderList) {
+							//order.setStatus(Def.ORDER_STATUS_NOTDELIVER);
+							order.setStatus(Def.ORDER_STATUS_NOTRECEIVE);
+							OrdersDao.update(order);
+						}
+					}else {
+						//本地订单状态修改为支付错误
+						pay.setErr_code(payResult.getErr_code());
+						pay.setErr_code_des(payResult.getErr_code_des());
+						pay.setStatus(Def.PAY_STATUS_NO);
 					}
-				}else {
-					//本地订单状态修改为支付错误
-					pay.setErr_code(payResult.getErr_code());
-					pay.setErr_code_des(payResult.getErr_code_des());
-					pay.setStatus(Def.PAY_STATUS_NO);
+					pay.setPayTime(System.currentTimeMillis());
+					PayDao.update(pay);
+				} catch (Exception e) {
+					log.debug("存储pay数据出错");
+					e.printStackTrace();
 				}
-				pay.setPayTime(System.currentTimeMillis());
-				PayDao.update(pay);
-				
 			}else {
 				responseData.setReturnCode(FAIL);
 				responseData.setReturnMsg("important param is null");
