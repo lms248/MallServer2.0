@@ -8,7 +8,7 @@
 function getOrderDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var params = {index:index,size:pageSize};
-	$.get("/order/infoList",params,function(data){
+	$.get("/order/infoList2",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#order_tableTmpl");
 			var htmlOutput = template.render(data.data);

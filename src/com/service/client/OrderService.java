@@ -2,6 +2,8 @@ package service.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,16 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.client.FeedbackBean;
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
-
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-
+import dao.client.FeedbackDao;
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
 import dao.client.ShopDao;
@@ -219,6 +221,41 @@ public class OrderService {
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "订单列表");
 		obj.put("data", orderArr);
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 订单列表 */
+	@RequestMapping(value ="infoList2",method=RequestMethod.GET)
+	@ResponseBody
+	public void infoList2(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		int index = Integer.parseInt(request.getParameter("index"));//索引开始
+		int size = Integer.parseInt(request.getParameter("size"));//条数
+		
+		List<OrdersBean> orderList = OrdersDao.loadAllOrder(index, size);
+		
+		JSONObject obj = new JSONObject();
+		JSONObject obj2 = new JSONObject();
+		JSONArray arr = new JSONArray();
+		for (OrdersBean order : orderList) {
+			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
+			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order.getCreateTime())));
+			arr.add(obj2);
+		}
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "订单列表");
+		obj.put("count", OrdersDao.Count());
+		obj.put("data", arr);
 		out.print(obj);
 		
 		System.out.println(obj);

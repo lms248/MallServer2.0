@@ -158,7 +158,7 @@ public class OrdersDao {
 	public static int Count(){
 		int amount=0;
 		try {
-			amount=dbUtils.stat(OrdersBean.class, "select COUNT(*) from order");
+			amount=dbUtils.stat(OrdersBean.class, "select COUNT(*) from orders");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -169,7 +169,7 @@ public class OrdersDao {
 		int amount=0;
 		try {
 			amount=dbUtils.stat(OrdersBean.class, 
-					"select COUNT(*) from order where type=?", type);
+					"select COUNT(*) from orders where type=?", type);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
