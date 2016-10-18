@@ -115,6 +115,9 @@ public class WxPayService {
 					body += ";"+goods.getName();
 				}
 			}
+			OrdersBean order2 = OrdersDao.loadByOrderId(orderId);
+			order2.setPayId(payId);
+			OrdersDao.update(order2);
 		}
 		
 		
@@ -132,7 +135,7 @@ public class WxPayService {
 		pay.setBody(body);
 		pay.setStatus(Def.PAY_STATUS_NO);
 		pay.setCreateTime(System.currentTimeMillis());
-		PayDao.save(pay);
+		System.out.println("---------"+PayDao.save(pay));
 		
 		//3、调用统一下单接口
 		UnifiedOrderResponseData responseData = unifiedOrder("APP", paramMap);
