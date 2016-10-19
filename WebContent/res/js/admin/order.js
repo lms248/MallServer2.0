@@ -41,7 +41,7 @@ function showOrderInfo(orderId) {
 			var userInfo = "&emsp;&emsp;联系人："+data.data.address.contact+"<br>"+
 				"&emsp;&emsp;手机号："+data.data.address.phone+"<br>"+
 				"&emsp;&emsp;所在区域："+data.data.address.area+"<br>"+
-				"&emsp;&emsp;详细地址："+data.data.address.address+"<br>"+
+				"&emsp;&emsp;详细地址："+data.data.address.address+"<br>";
 			$("#modal_userInfo").html(userInfo);
 			$("#show_order_btn").click();
 		} else {
