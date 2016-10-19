@@ -93,6 +93,13 @@
                     		<span>购买商品信息:</span>
                     		<div id="modal_goodsInfo"></div>
                    		</div>
+                   		<div class="form-group">
+                    		<span>总金额:<b id="modal_totalPrice" style="margin-left: 10px;"></b></span>
+                   		</div>
+                    	<div class="form-group">
+                    		<span>用户信息</span>
+                    		<div id="modal_userInfo"></div>
+                   		</div>
                     	<div class="form-group">
                          	<button class="btn btn-danger" type="button" style="margin-right: 10px;" onclick="activity_resetEdit()">重置</button>
                          	<button id="activity-edit-submit" class="btn btn-success" type="button" onclick="activity_edit()">添加</button>

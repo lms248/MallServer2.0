@@ -167,6 +167,7 @@ public class OrderService {
 		JSONArray goodsList = JSONArray.fromObject(order.getGoodsList());
 		JSONArray goodsArr = new JSONArray();
 		JSONObject goodsObj = new JSONObject();
+		double totalPrice = 0;
 		for (int i = 0; i < goodsList.size(); i++) {
 			goodsObj = JSONObject.fromObject(goodsList.get(i));
 			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
@@ -178,12 +179,15 @@ public class OrderService {
 			goodsObj.put("goodsLogoThumb", goods.getLogoThumb());
 			goodsObj.put("prePrice", goods.getPrePrice());
 			goodsObj.put("curPrice", goods.getCurPrice());
+			goodsObj.put("tagsStr", goods.getTags().toString());
 			goodsArr.add(goodsObj);
+			totalPrice += goods.getCurPrice() * goodsObj.getInt("amount");
 		}
 		orderObj.put("shopName", shop.getName());
 		orderObj.put("shopLogo", shop.getLogo());
 		orderObj.put("shopLogoThumb", shop.getLogoThumb());
 		orderObj.put("goodsList", goodsArr);
+		orderObj.put("totalPrice", totalPrice);
 		
 		UserBean user = UserDao.loadByUid(order.getUid());
 		JSONArray addressArr = new JSONArray();

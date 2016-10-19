@@ -30,13 +30,19 @@ function showOrderInfo(orderId) {
 			$("#modal_shopName").html(data.data.shopName);
 			var goodsInfo = "";
 			for (var i = 0; i < data.data.goodsList.length; i++) {
-				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）商品名："+data.data.goodsList[i].goodsName+";"+
-					"商品ID："+data.data.goodsList[i].goodsId+";"+
-					"标签："+data.data.goodsList[i].tags+";"+
-					"单价："+data.data.goodsList[i].curPrice+";"+
+				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）商品名："+data.data.goodsList[i].goodsName+";&emsp;"+
+					"商品ID："+data.data.goodsList[i].goodsId+";&emsp;"+
+					"标签："+data.data.goodsList[i].tagsStr+";&emsp;"+
+					"单价："+data.data.goodsList[i].curPrice+";&emsp;"+
 					"购买数量："+data.data.goodsList[i].amount+"<br>";
 			}
 			$("#modal_goodsInfo").html(goodsInfo);
+			$("#modal_totalPrice").html(data.data.totalPrice);
+			var userInfo = "&emsp;&emsp;联系人："+data.data.address.contact+"<br>"+
+				"&emsp;&emsp;手机号："+data.data.address.phone+"<br>"+
+				"&emsp;&emsp;所在区域："+data.data.address.area+"<br>"+
+				"&emsp;&emsp;详细地址："+data.data.address.address+"<br>"+
+			$("#modal_userInfo").html(userInfo);
 			$("#show_order_btn").click();
 		} else {
 			alert(data);
