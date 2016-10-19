@@ -28,12 +28,11 @@ function showOrderInfo(orderId) {
 	$.get("/order/info",{orderId:orderId},function(data){
 		if(data.code=="0"){
 			$("#modal_shopName").html(data.data.shopName);
-			/*String goodsInfo = "";
+			var goodsInfo = "";
 			for (var i = 0; i < data.data.goodsList.length; i++) {
 				goodsInfo += data.data.goodsList[i].goodsName + "<br>";
 			}
-			alert(goodsInfo);
-			$("#modal_goodsInfo").html(goodsInfo);*/
+			$("#modal_goodsInfo").html(goodsInfo);
 			$("#show_order_btn").click();
 		} else {
 			alert(data);
