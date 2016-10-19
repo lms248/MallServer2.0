@@ -22,9 +22,9 @@ function getOrderDateList(index) {
 
 /**
  * 查看订单详情
- * @param shopId
+ * @param orderId
  */
-/*function showOrderInfo(orderId) {
+function showOrderInfo(orderId) {
 	$.get("/order/info",{orderId:orderId},function(data){
 		if(data.code=="0"){
 			$("#modal_shopName").html(data.data.shopName);
@@ -39,7 +39,7 @@ function getOrderDateList(index) {
 			alert(data);
 		}
 	},"json");
-}*/
+}
 
 $("#pageSize").change(function(){
 	getOrderDateList(0);

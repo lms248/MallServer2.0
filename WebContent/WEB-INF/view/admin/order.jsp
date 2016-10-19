@@ -6,7 +6,7 @@
         <section class="panel">
         <header class="panel-heading">
             	订单管理
-            <span class="pull-right" style="display: none;">
+            <span class="pull-right">
                 <a id="show_order_btn" class="btn btn-success fa fa-plus-circle" href="#modal_order_info" data-toggle="modal">查看订单详情</a>
             </span>
         </header>
