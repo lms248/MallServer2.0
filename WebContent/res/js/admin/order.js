@@ -5,7 +5,7 @@
 /**
  * 获取订单数据列表
  */
-function getOrderDateList2(index) {
+function getOrderDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var params = {index:index,size:pageSize};
 	$.get("/order/infoList2",params,function(data){

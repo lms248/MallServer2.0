@@ -129,21 +129,4 @@
 
 <script>
 getOrderDateList(0);//活动列表
-/**
- * 获取订单数据列表
- */
-function getOrderDateList(index) {
-	var pageSize = $('#pageSize').val();
-	var params = {index:index,size:pageSize};
-	$.get("/order/infoList2",params,function(data){
-		if(data.code=="0"){
-			var template = $.templates("#order_tableTmpl");
-			var htmlOutput = template.render(data.data);
-			$("#orderTableData").html(htmlOutput);
-			$("#order_size").html(data.count);
-		} else {
-			alert(data);
-		}
-	},"json");
-}
 </script>
