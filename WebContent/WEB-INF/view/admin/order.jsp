@@ -99,14 +99,14 @@
                     	<div class="form-group">
                     		<span>用户信息</span>
                     		<div id="modal_userInfo"></div>
+                    	<div class="form-group">
+                    		<span>订单状态:<b id="modal_status" style="margin-left: 10px;color: red;"></b></span>
+                   		</div>
                    		</div>
                     	<div class="form-group">
                          	<button class="btn btn-danger" type="button" style="margin-right: 10px;" onclick="activity_resetEdit()">重置</button>
                          	<button id="activity-edit-submit" class="btn btn-success" type="button" onclick="activity_edit()">添加</button>
                     	</div>
-                    	<div class="form-group">
-                    		<span>订单状态:<b id="modal_status" style="margin-left: 10px;color: red;"></b></span>
-                   		</div>
                 	</form>
                 </div>
         	</div>
