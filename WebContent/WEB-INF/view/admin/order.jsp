@@ -105,6 +105,8 @@
 </div>
 <!-- modal -->
 
+<script src="/res/js/admin/order.js"></script>
+
 <!-- 店铺数据表模板 -->
 <script id="order_tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
@@ -124,8 +126,6 @@
 	</td>
 </tr>
 </script>
-
-<script src="/res/js/admin/order.js"></script>
 
 <script>
 getOrderDateList(0);//活动列表
