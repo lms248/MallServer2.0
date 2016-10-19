@@ -30,19 +30,41 @@ function showOrderInfo(orderId) {
 			$("#modal_shopName").html(data.data.shopName);
 			var goodsInfo = "";
 			for (var i = 0; i < data.data.goodsList.length; i++) {
-				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）商品名："+data.data.goodsList[i].goodsName+";&emsp;"+
-					"商品ID："+data.data.goodsList[i].goodsId+";&emsp;"+
-					"标签："+data.data.goodsList[i].tagsStr+";&emsp;"+
-					"单价："+data.data.goodsList[i].curPrice+";&emsp;"+
-					"购买数量："+data.data.goodsList[i].amount+"<br>";
+				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）商品名：<b>"+data.data.goodsList[i].goodsName+"</b>;&emsp;"+
+					"商品ID：<b>"+data.data.goodsList[i].goodsId+"</b>;&emsp;"+
+					"标签：<b>"+data.data.goodsList[i].tagsStr+"</b>;&emsp;"+
+					"单价：<b>"+data.data.goodsList[i].curPrice+"</b>;&emsp;"+
+					"购买数量：<b>"+data.data.goodsList[i].amount+"</b><br>";
 			}
 			$("#modal_goodsInfo").html(goodsInfo);
 			$("#modal_totalPrice").html(data.data.totalPrice);
-			var userInfo = "&emsp;&emsp;联系人："+data.data.address.contact+"<br>"+
-				"&emsp;&emsp;手机号："+data.data.address.phone+"<br>"+
-				"&emsp;&emsp;所在区域："+data.data.address.area+"<br>"+
-				"&emsp;&emsp;详细地址："+data.data.address.address+"<br>";
+			var userInfo = "&emsp;&emsp;联系人：<b>"+data.data.address.contact+"</b><br>"+
+				"&emsp;&emsp;手机号：<b>"+data.data.address.phone+"</b><br>"+
+				"&emsp;&emsp;所在区域：<b>"+data.data.address.area+"</b><br>"+
+				"&emsp;&emsp;详细地址：<b>"+data.data.address.address+"</b><br>";
 			$("#modal_userInfo").html(userInfo);
+			switch (data.data.status) {
+			case 0:
+				$("#modal_status").html("待付款");
+				break;
+			case 1:
+				$("#modal_status").html("待收货");
+				break;
+			case 2:
+				$("#modal_status").html("已收货");
+				break;
+			case 3:
+				$("#modal_status").html("已取消");
+				break;
+			case 4:
+				$("#modal_status").html("申请售后");
+				break;
+			case 5:
+				$("#modal_status").html("待发货");
+				break;
+			default:
+				break;
+			}
 			$("#show_order_btn").click();
 		} else {
 			alert(data);
