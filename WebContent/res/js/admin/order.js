@@ -30,7 +30,11 @@ function showOrderInfo(orderId) {
 			$("#modal_shopName").html(data.data.shopName);
 			var goodsInfo = "";
 			for (var i = 0; i < data.data.goodsList.length; i++) {
-				goodsInfo += data.data.goodsList[i].goodsName + "<br>";
+				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）商品名："+data.data.goodsList[i].goodsName+";"+
+					"商品ID："+data.data.goodsList[i].goodsId+";"+
+					"标签："+data.data.goodsList[i].tags+";"+
+					"单价："+data.data.goodsList[i].curPrice+";"+
+					"购买数量："+data.data.goodsList[i].amount+"<br>";
 			}
 			$("#modal_goodsInfo").html(goodsInfo);
 			$("#show_order_btn").click();
