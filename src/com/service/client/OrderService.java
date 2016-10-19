@@ -179,7 +179,7 @@ public class OrderService {
 			goodsObj.put("goodsLogoThumb", goods.getLogoThumb());
 			goodsObj.put("prePrice", goods.getPrePrice());
 			goodsObj.put("curPrice", goods.getCurPrice());
-			goodsObj.put("tagsStr", goodsObj.getJSONArray("tags").toString());
+			goodsObj.put("tagsStr", goodsObj.getJSONObject("tags").toString());
 			goodsArr.add(goodsObj);
 			totalPrice += goods.getCurPrice() * goodsObj.getInt("amount");
 		}
