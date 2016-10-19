@@ -20,7 +20,21 @@ public class AlipayConfig {
 	public static String partner = "2088421932867361";
 
 	//商户的私钥,需要PKCS8格式，RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.nBDxfy&treeId=58&articleId=103242&docType=1
-	public static String private_key = "MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANXK6+axcPNWohZwe/gqSAqRjnev+UQt2NgQVAzPTM+ni/jh8wfQNd3TU9QHeh1kYLL5q6NnnsOrDQA/ea8qXGaYQOdzTyLT1/0bJf2hRXXPl7tOc9IiGIjZnx7PjaeYMrdlkPiKR2yO5+ormTRyC0Ec9Y+j2IPvM9YGxEQjsyhbAgMBAAECgYBLstcGTwvETYeE1H1AqI/rlhBQ1rE279jY4CcyhfAXkqagEDkCKjn4ekwzRhZ588G9fWPFrvnrJFStIsyONjySvWF/ahLlzYrK9sUqDFhZwFxwdba+srFPyweYWtSGglfX7IKxfLBNuiiMBIv5gCu0U3ydGwRCHdOed/DBRNLvYQJBAO4rZa9ZP2w0KTGYYyJbp+rHSkEFq7nTlJDY0ArL3gZE6VBxizkbGtiK4n440Lfv38kqXewPGyMaQSQVXrJznzECQQDlzFVMvn9ZjnEljisLNxgZUy9gbCu1e6KQ0i9d1CnCqjVWz+ham54VIEvayOVrNs/Br2ipcOW2fa8DrYD/7JVLAkEA4M6NuKmhN900VN/mEvQ4118tM5rKsSiJPv+nv8kW1QwOviOuqkRvXp4Zk9LFEBmXPiaDaOIJV2Tcv9Z8AC0qwQJAILUkrveuSKDtmdrSZZZB59jfNWowDnS6fsJr238HMp3nWaPd/oeHyJoAMfPGM6xphbfhvbxD9eWNs4hOhB64YQJBALZdANt8dn2RSHnm2NOXUORFMwkJdSHthTHT1aZ6BYRpe2T2aiHuzHpIhfDHgpLsBHuiYXHDelO6e9LOEL8QM+E=";
+	public static String private_key = 
+			"MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBANXK6+axcPNWohZw"+
+			"e/gqSAqRjnev+UQt2NgQVAzPTM+ni/jh8wfQNd3TU9QHeh1kYLL5q6NnnsOrDQA/"+
+			"ea8qXGaYQOdzTyLT1/0bJf2hRXXPl7tOc9IiGIjZnx7PjaeYMrdlkPiKR2yO5+or"+
+			"mTRyC0Ec9Y+j2IPvM9YGxEQjsyhbAgMBAAECgYBLstcGTwvETYeE1H1AqI/rlhBQ"+
+			"1rE279jY4CcyhfAXkqagEDkCKjn4ekwzRhZ588G9fWPFrvnrJFStIsyONjySvWF/"+
+			"ahLlzYrK9sUqDFhZwFxwdba+srFPyweYWtSGglfX7IKxfLBNuiiMBIv5gCu0U3yd"+
+			"GwRCHdOed/DBRNLvYQJBAO4rZa9ZP2w0KTGYYyJbp+rHSkEFq7nTlJDY0ArL3gZE"+
+			"6VBxizkbGtiK4n440Lfv38kqXewPGyMaQSQVXrJznzECQQDlzFVMvn9ZjnEljisL"+
+			"NxgZUy9gbCu1e6KQ0i9d1CnCqjVWz+ham54VIEvayOVrNs/Br2ipcOW2fa8DrYD/"+
+			"7JVLAkEA4M6NuKmhN900VN/mEvQ4118tM5rKsSiJPv+nv8kW1QwOviOuqkRvXp4Z"+
+			"k9LFEBmXPiaDaOIJV2Tcv9Z8AC0qwQJAILUkrveuSKDtmdrSZZZB59jfNWowDnS6"+
+			"fsJr238HMp3nWaPd/oeHyJoAMfPGM6xphbfhvbxD9eWNs4hOhB64YQJBALZdANt8"+
+			"dn2RSHnm2NOXUORFMwkJdSHthTHT1aZ6BYRpe2T2aiHuzHpIhfDHgpLsBHuiYXHD"+
+			"elO6e9LOEL8QM+E=";
 	//支付宝的公钥，查看地址：https://openhome.alipay.com/platform/keyManage.htm?keyType=partner
 	public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVyuvmsXDzVqIWcHv4KkgKkY53r/lELdjYEFQMz0zPp4v44fMH0DXd01PUB3odZGCy+aujZ57Dqw0AP3mvKlxmmEDnc08i09f9GyX9oUV1z5e7TnPSIhiI2Z8ez42nmDK3ZZD4ikdsjufqK5k0cgtBHPWPo9iD7zPWBsREI7MoWwIDAQAB";
 	
