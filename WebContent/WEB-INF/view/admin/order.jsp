@@ -6,9 +6,9 @@
         <section class="panel">
         <header class="panel-heading">
             	订单管理
-            <!-- <span class="pull-right">
-                <a id="add_user_btn" class="btn btn-success fa fa-plus-circle" href="#modal_add_user" data-toggle="modal">添加活动</a>
-            </span> -->
+            <span class="pull-right" style="display: none;">
+                <a id="show_order_btn" class="btn btn-success fa fa-plus-circle" href="#modal_order_info" data-toggle="modal">查看订单详情</a>
+            </span>
         </header>
         <div class="panel-body" style="display: block;">
         <div class="adv-table">
@@ -37,10 +37,13 @@
         <thead>
         <tr role="row">
         	<th class="" role="columnheader" style=" text-align: center;">序号</th>
+        	<th class="" role="columnheader" style=" text-align: center;">订单ID</th>
         	<th class="" role="columnheader" style=" text-align: center;">用户ID</th>
-        	<th class="" role="columnheader" style=" text-align: center;">账号</th>
-        	<th class="" role="columnheader" style=" text-align: center;">反馈内容</th>
+        	<th class="" role="columnheader" style=" text-align: center;">店铺名</th>
+        	<th class="" role="columnheader" style=" text-align: center;">店铺Logo</th>
         	<th class="" role="columnheader" style=" text-align: center;">提交时间</th>
+        	<th class="" role="columnheader" style=" text-align: center;">订单详情</th>
+        	<th class="" role="columnheader" style=" text-align: center;">操作</th>
         </tr>
         </thead>
         
@@ -72,14 +75,53 @@
 	</div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modal_order_info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-content">
+            	<div class="modal-header">
+                	<button id="activity_modalCloseBtn" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">订单详情</h4>
+                </div>
+                <div class="modal-body">
+					<form role="form">
+                    	<div class="form-group">
+                    		<span>店铺名:<b id="modal_shopName" style="margin-left: 10px;"></b></span>
+                   		</div>
+                    	<div class="form-group">
+                    		<span>购买商品信息:</span>
+                    		<div id="modal_goodsInfo"></div>
+                   		</div>
+                    	<div class="form-group">
+                         	<button class="btn btn-danger" type="button" style="margin-right: 10px;" onclick="activity_resetEdit()">重置</button>
+                         	<button id="activity-edit-submit" class="btn btn-success" type="button" onclick="activity_edit()">添加</button>
+                    	</div>
+                	</form>
+                </div>
+        	</div>
+        </div>
+    </div>
+</div>
+<!-- modal -->
+
 <!-- 店铺数据表模板 -->
 <script id="order_tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
 	<td class="center ">{{:#index+1}}</td>
+    <td class="center ">{{:orderId}}</td>
     <td class="center ">{{:uid}}</td>
-    <td class="center ">{{:username}}</td>
-    <td class="center ">{{:info}}</td>
-    <td class="time center ">{{:createTime2}}</td>
+    <td class="center ">{{:shopName}}</td>
+    <td class="center "><img src="{{:shopLogoThumb}}" width="50" heigth="50"></td>
+	<td class="time center ">{{:createTime2}}</td>
+    <td class="center ">
+		<a class="btn btn-success" data-toggle="modal" onclick="showOrderInfo('{{:orderId}}')">查看</a>
+	</td>
+	<td class="center ">
+		 <button class="btn btn-info" type="button" onclick="showShop('{{:shopId}}')">查看</button>
+         <button class="btn btn-warning" type="button" onclick="updateShop('{{:shopId}}')">修改</button>
+         <button class="btn btn-danger" type="button" onclick="deleteShop('{{:shopId}}')">删除</button>
+	</td>
 </tr>
 </script>
 

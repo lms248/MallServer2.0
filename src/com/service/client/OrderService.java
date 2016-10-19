@@ -143,6 +143,73 @@ public class OrderService {
 		out.close();
 	}
 	
+	/** 订单详情 */
+	@RequestMapping(value ="info",method=RequestMethod.GET)
+	@ResponseBody
+	public void info(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String orderId = request.getParameter("orderId");
+		
+		JSONObject obj = new JSONObject();
+		JSONObject orderObj = new JSONObject();
+		
+		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
+		ShopBean shop = ShopDao.loadByShopId(order.getShopId());
+		if (shop == null) {
+			return;
+		}
+		JSONArray goodsList = JSONArray.fromObject(order.getGoodsList());
+		JSONArray goodsArr = new JSONArray();
+		JSONObject goodsObj = new JSONObject();
+		for (int i = 0; i < goodsList.size(); i++) {
+			goodsObj = JSONObject.fromObject(goodsList.get(i));
+			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
+			if (goods == null) {
+				continue;
+			}
+			goodsObj.put("goodsName", goods.getName());
+			goodsObj.put("goodsLogo", goods.getLogo());
+			goodsObj.put("goodsLogoThumb", goods.getLogoThumb());
+			goodsObj.put("prePrice", goods.getPrePrice());
+			goodsObj.put("curPrice", goods.getCurPrice());
+			goodsArr.add(goodsObj);
+		}
+		orderObj.put("shopName", shop.getName());
+		orderObj.put("shopLogo", shop.getLogo());
+		orderObj.put("shopLogoThumb", shop.getLogoThumb());
+		orderObj.put("goodsList", goodsArr);
+		
+		UserBean user = UserDao.loadByUid(order.getUid());
+		JSONArray addressArr = new JSONArray();
+		if (!StringUtils.isBlank(user.getAddress())) {
+			addressArr = JSONArray.fromObject(user.getAddress());
+		}
+		JSONObject addressObj = new JSONObject();
+		for (int i = 0; i < addressArr.size(); i++) {
+			addressObj = JSONObject.fromObject(addressArr.get(i));
+			if (order.getAddressId() == addressObj.getLong("addressId")) {
+				break;
+			}
+		}
+		orderObj.put("address", addressObj);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "订单详情");
+		obj.put("data", orderObj);
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 订单列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
 	@ResponseBody
@@ -245,17 +312,25 @@ public class OrderService {
 		List<OrdersBean> orderList = OrdersDao.loadAllOrder(index, size);
 		
 		JSONObject obj = new JSONObject();
-		JSONObject obj2 = new JSONObject();
-		JSONArray arr = new JSONArray();
+		JSONObject orderObj = new JSONObject();
+		JSONArray orderArr = new JSONArray();
 		for (OrdersBean order : orderList) {
-			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
-			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order.getCreateTime())));
-			arr.add(obj2);
+			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
+			ShopBean shop = ShopDao.loadByShopId(order.getShopId());
+			if (shop == null) {
+				continue;
+			}
+			orderObj.put("shopName", shop.getName());
+			orderObj.put("shopLogo", shop.getLogo());
+			orderObj.put("shopLogoThumb", shop.getLogoThumb());
+			orderObj.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(order.getCreateTime())));
+			orderArr.add(orderObj);
 		}
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "订单列表");
 		obj.put("count", OrdersDao.Count());
-		obj.put("data", arr);
+		obj.put("data", orderArr);
 		out.print(obj);
 		
 		System.out.println(obj);
