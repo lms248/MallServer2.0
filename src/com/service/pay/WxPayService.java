@@ -1,4 +1,4 @@
-package service.client;
+package service.pay;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,7 +56,7 @@ import dao.client.PayDao;
 import dao.client.UserDao;
 
 /**
- * 支付相关逻辑控制器
+ * 微信支付相关逻辑控制器
  */
 @Controller
 @RequestMapping("/pay/wx")
