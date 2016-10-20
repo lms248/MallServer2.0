@@ -31,6 +31,7 @@ import pay.wx.config.WxPayConfig;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
+import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.MapUtils;
 
@@ -56,8 +57,6 @@ public class AlipayService {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		
-		JSONObject obj = new JSONObject();
 		
 		log.debug("开始APP下单方法...");
 		//1、接收业务参数，生成本地系统订单
@@ -96,12 +95,15 @@ public class AlipayService {
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
 		requestData=requestData+"&sign=\""+rsa_sign+"\"&sign_type=\""+AlipayConfig.sign_type+"\"";
 	
-		//返回给客户端,建议在客户端使用私钥对应的公钥做一次验签，保证不是他人传输。
-		out.print(requestData);
-		
 		//4、生成可用数据
 		
 		//5、返回处理结果
+		JSONObject obj = new JSONObject();
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "支付宝支付APP下单");
+		//返回给客户端,建议在客户端使用私钥对应的公钥做一次验签，保证不是他人传输。
+		obj.put("data", requestData);
+		out.print(obj);
 		
 		out.flush();
 		out.close();
