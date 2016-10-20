@@ -92,7 +92,7 @@ public class AlipayService {
 		//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
 		Map<String, String> businessParams = (Map<String, String>) MapUtils.beanToMap(businessData);
 		String businessStr = AlipayCore.createLinkString(businessParams);
-		log.debug("businessStr => " + JSONObject.fromObject(businessStr));
+		log.debug("businessStr => " + businessStr);
 		commonData.setBiz_content(businessStr);
 		
 		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(businessData);
