@@ -3,6 +3,8 @@ package service.pay;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,16 +13,26 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pay.alipay.bean.AlipayOrderRequestData;
 import pay.alipay.config.AlipayConfig;
 import pay.alipay.sign.RSA;
 import pay.alipay.util.AlipayCore;
 import pay.alipay.util.AlipayNotify;
+import pay.wx.bean.UnifiedOrderRequestData;
+import pay.wx.bean.UnifiedOrderResponseData;
+import pay.wx.config.WxPayConfig;
+import pay.wx.util.Util;
+import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
+import common.utils.IdGen;
+import common.utils.MapUtils;
 
 /**
  * 支付宝支付相关逻辑控制器
@@ -35,10 +47,100 @@ public class AlipayService {
 	
 	private static Logger log = common.logger.LoggerManager.getLogger(AlipayService.class);
 	
-	/** APP下单 */
-	@RequestMapping(value ="appOrder",method=RequestMethod.POST)
+	/** 获取请求参数签名 */
+	@RequestMapping(value ="signatures",method=RequestMethod.POST)
 	@ResponseBody
-	public void appOrder(HttpServletRequest request,HttpServletResponse response) 
+	public void signatures(HttpServletRequest request,HttpServletResponse response) 
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject obj = new JSONObject();
+		
+		log.debug("开始APP下单方法...");
+		//1、接收业务参数，生成本地系统订单
+		String payId = IdGen.get().nextId()+"";
+		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		AlipayOrderRequestData data = new AlipayOrderRequestData();
+		data.setApp_id(AlipayConfig.appid);
+		data.setMethod("alipay.trade.app.pay");
+		data.setFormat("JSON");
+		data.setCharset("utf-8");
+		data.setSign_type("RSA");
+		data.setTimestamp(timestamp);
+		data.setVersion("1.0");
+		data.setNotify_url(AlipayConfig.notify_url);
+		data.setBody("支付宝测试1");
+		data.setSubject("这里是商品的标题");
+		data.setOut_trade_no(payId);
+		//data.setTimeout_express("60m");
+		data.setTotal_amount("0.01");
+		data.setProduct_code("QUICK_MSECURITY_PAY");
+		
+		//2、添加本地订单记录
+		
+		//3、原始订单字符串进行签名
+		
+		//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
+		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(data);
+		String requestData = AlipayCore.createLinkString(requestParams);
+	
+		//打印待签名字符串。工程目录下的log文件夹中。
+		log.debug(requestData);
+	
+		//将待签名字符串使用私钥签名。
+		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
+	
+		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
+		requestData=requestData+"&sign=\""+rsa_sign+"\"&sign_type=\""+AlipayConfig.sign_type+"\"";
+	
+		//返回给客户端,建议在客户端使用私钥对应的公钥做一次验签，保证不是他人传输。
+		out.print(requestData);
+		
+		//4、生成可用数据
+		
+		//5、返回处理结果
+		
+		out.flush();
+		out.close();
+	}
+	
+	/**
+	 * TODO:调用微信统一下单接口
+	 * @param payOrder
+	 * @return UnifiedOrderResponseData
+	 */
+	public UnifiedOrderResponseData unifiedOrder(String tradeType,Object object){
+		Map<String, String> paramMap = (Map<String, String>) object;
+		log.debug("开始调用微信统一下单方法...");
+		//1、生成请求数据对象
+		UnifiedOrderRequestData data = new UnifiedOrderRequestData();
+		data.setAppid(WxPayConfig.appid);
+		data.setMch_id(WxPayConfig.mchId);
+		data.setNonce_str(Util.createRandom(false, 16));
+		data.setBody(paramMap.get("body"));
+		data.setOut_trade_no(paramMap.get("payId"));//本地系统订单号
+		data.setTotal_fee(Integer.parseInt(paramMap.get("total_fee")));
+		data.setSpbill_create_ip("127.0.0.1");
+		data.setNotify_url(WxPayConfig.notifyUrl);
+		data.setTrade_type(tradeType);
+		data.setSign(WxPayUtil.getSign(data));
+		//2、调用统一下单接口
+		log.debug("UnifiedOrderRequestData => " + JSONObject.fromObject(data).toString());
+		UnifiedOrderResponseData responseData = WxPayUtil.unifiedOder(data);
+		log.debug("UnifiedOrderResponseData => " + JSONObject.fromObject(responseData).toString());
+		//3、根据统一下单接口返回数据修改本地订单信息
+		
+		log.debug("结束调用微信统一下单方法...");
+		return responseData;
+	}
+	
+	/** APP下单 */
+	@RequestMapping(value ="signatures2",method=RequestMethod.POST)
+	@ResponseBody
+	public void signatures2(HttpServletRequest request,HttpServletResponse response) 
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
@@ -67,7 +169,7 @@ public class AlipayService {
 			String service=request.getParameter("service");
 			//获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
 
-			if(partner.replace("\"","").equals(AlipayConfig.partner)&& service.replace("\"","").equals(AlipayConfig.service)){//确认PID和接口名称。
+			if(partner.replace("\"","").equals(AlipayConfig.partner)&& service.replace("\"","").equals(AlipayConfig.notify_url)){//确认PID和接口名称。
 			
 				//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
 				String data=AlipayCore.createLinkString(params);

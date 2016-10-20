@@ -48,7 +48,7 @@ public class AlipayConfig {
 	public static String input_charset = "utf-8";
 
 	// 接收通知的接口名
-	public static String service = "mobile.securitypay.pay";
+	public static String notify_url = "/pay/alipay/notify";
 
 }
 

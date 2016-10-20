@@ -6,7 +6,7 @@
         <section class="panel">
         <header class="panel-heading">
             	订单管理
-            <span class="pull-right">
+            <span class="pull-right" style="display: none;">
                 <a id="show_order_btn" class="btn btn-success fa fa-plus-circle" href="#modal_order_info" data-toggle="modal">查看订单详情</a>
             </span>
         </header>
@@ -41,6 +41,7 @@
         	<th class="" role="columnheader" style=" text-align: center;">用户ID</th>
         	<th class="" role="columnheader" style=" text-align: center;">店铺名</th>
         	<th class="" role="columnheader" style=" text-align: center;">店铺Logo</th>
+        	<th class="" role="columnheader" style=" text-align: center;">订单状态</th>
         	<th class="" role="columnheader" style=" text-align: center;">提交时间</th>
         	<th class="" role="columnheader" style=" text-align: center;">订单详情</th>
         	<th class="" role="columnheader" style=" text-align: center;">操作</th>
@@ -51,7 +52,7 @@
        </table>
        <div class="row-fluid">
        	<div class="span6">
-       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="user_size">0</b>&nbsp;条</div>
+       		<div class="dataTables_info" id="hidden-table-info_info">总数：<b id="order_size">0</b>&nbsp;条</div>
        	</div>
        	<div class="span6">
        		<div class="dataTables_paginate paging_bootstrap pagination">
@@ -87,6 +88,9 @@
                 <div class="modal-body">
 					<form role="form">
                     	<div class="form-group">
+                    		<span>订单ID:<b id="modal_orderId" style="margin-left: 10px;"></b></span>
+                   		</div>
+                    	<div class="form-group">
                     		<span>店铺名:<b id="modal_shopName" style="margin-left: 10px;"></b></span>
                    		</div>
                     	<div class="form-group">
@@ -104,8 +108,9 @@
                    		</div>
                    		</div>
                     	<div class="form-group">
-                         	<button class="btn btn-danger" type="button" style="margin-right: 10px;" onclick="activity_resetEdit()">重置</button>
-                         	<button id="activity-edit-submit" class="btn btn-success" type="button" onclick="activity_edit()">添加</button>
+                    		<span id="modal_btn"></span>
+                         	<!-- <button class="btn btn-danger" type="button" style="margin-right: 10px;" onclick="activity_resetEdit()">重置</button>
+                         	<button id="activity-edit-submit" class="btn btn-success" type="button" onclick="activity_edit()">添加</button> -->
                     	</div>
                 	</form>
                 </div>
@@ -123,14 +128,25 @@
     <td class="center ">{{:uid}}</td>
     <td class="center ">{{:shopName}}</td>
     <td class="center "><img src="{{:shopLogoThumb}}" width="50" heigth="50"></td>
+	<td class="center ">
+		{{if status == 0}} 待付款
+		{{else status == 1}} 待收货
+		{{else status == 2}} 已收货
+		{{else status == 3}} 已取消
+		{{else status == 4}} <b style="color: #663366;">申请售后</b>
+		{{else status == 5}} <b style="color: #009999;">待发货</b>
+		{{/if}}
+	</td>
 	<td class="time center ">{{:createTime2}}</td>
     <td class="center ">
 		<a class="btn btn-success" data-toggle="modal" onclick="showOrderInfo('{{:orderId}}')">查看</a>
 	</td>
 	<td class="center ">
-		 <button class="btn btn-info" type="button" onclick="showShop('{{:shopId}}')">查看</button>
-         <button class="btn btn-warning" type="button" onclick="updateShop('{{:shopId}}')">修改</button>
-         <button class="btn btn-danger" type="button" onclick="deleteShop('{{:shopId}}')">删除</button>
+		{{if status == 5}}
+		 	<button class="btn btn-info" type="button" onclick="showShop('{{:shopId}}')">发货</button>
+		{{else status == 1}} 
+			<button class="btn btn-warning" type="button" onclick="showShop('{{:shopId}}')">取消发货</button>
+		{{/if}}
 	</td>
 </tr>
 </script>

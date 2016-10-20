@@ -27,13 +27,20 @@ function getOrderDateList(index) {
 function showOrderInfo(orderId) {
 	$.get("/order/info",{orderId:orderId},function(data){
 		if(data.code=="0"){
+			$("#modal_orderId").html(data.data.orderId);
 			$("#modal_shopName").html(data.data.shopName);
 			var goodsInfo = "";
 			for (var i = 0; i < data.data.goodsList.length; i++) {
-				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）商品名：<b>"+data.data.goodsList[i].goodsName+"</b>;&emsp;"+
-					"商品ID：<b>"+data.data.goodsList[i].goodsId+"</b>;&emsp;"+
-					"标签：<b>"+data.data.goodsList[i].tagsStr+"</b>;&emsp;"+
-					"单价：<b>"+data.data.goodsList[i].curPrice+"</b>;&emsp;"+
+				var tags = "";
+				for (var key in data.data.goodsList[i].tags) {
+					tags += "【"+key+"："+data.data.goodsList[i].tags[key]+"】";
+			    }
+				goodsInfo += "&emsp;&emsp;（"+(i+1)+"）"+
+					"<img src='"+data.data.goodsList[i].goodsLogoThumb+"' width='50' heigth='50'>;&emsp;<br>"+
+					"&emsp;&emsp;&emsp;商品名：<b>"+data.data.goodsList[i].goodsName+"</b>;&emsp;"+
+					"商品ID：<b>"+data.data.goodsList[i].goodsId+"</b>;&emsp;<br>"+
+					"&emsp;&emsp;&emsp;标签：<b>"+tags+"</b>;&emsp;<br>"+
+					"&emsp;&emsp;&emsp;单价：<b>"+data.data.goodsList[i].curPrice+"</b>;&emsp;"+
 					"购买数量：<b>"+data.data.goodsList[i].amount+"</b><br>";
 			}
 			$("#modal_goodsInfo").html(goodsInfo);
@@ -46,21 +53,27 @@ function showOrderInfo(orderId) {
 			switch (data.data.status) {
 			case 0:
 				$("#modal_status").html("待付款");
+				$("#modal_btn").html("");
 				break;
 			case 1:
 				$("#modal_status").html("待收货");
+				$("#modal_btn").html("<button class='btn btn-danger' onclick=')'>取消发货状态</button>");
 				break;
 			case 2:
 				$("#modal_status").html("已收货");
+				$("#modal_btn").html("");
 				break;
 			case 3:
 				$("#modal_status").html("已取消");
+				$("#modal_btn").html("");
 				break;
 			case 4:
 				$("#modal_status").html("申请售后");
+				$("#modal_btn").html("");
 				break;
 			case 5:
 				$("#modal_status").html("待发货");
+				$("#modal_btn").html("<button class='btn btn-success' onclick=')'>设为已发货状态</button>");
 				break;
 			default:
 				break;

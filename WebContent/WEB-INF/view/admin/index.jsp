@@ -63,20 +63,22 @@
                 </li> -->
                 <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>订单</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="#" uri="order"> 待付款</a></li>
-                        <li><a href="#"> 待收货</a></li>
-                        <li><a href="#"> 已收货</a></li>
-                        <li><a href="#"> 申请退货</a></li>
-                        <li><a href="#"> 全部</a></li>
+                        <li><a href="#" uri="order?5"> 待发货</a></li>
+                        <li><a href="#" uri="order?0"> 待付款</a></li>
+                        <li><a href="#" uri="order?1"> 待收货</a></li>
+                        <li><a href="#" uri="order?2"> 已收货</a></li>
+                        <li><a href="#" uri="order?3"> 已取消</a></li>
+                        <li><a href="#" uri="order?4"> 申请售后</a></li>
+                        <li><a href="#" uri="order"> 全部</a></li>
                     </ul>
                 </li>
                 <li class="menu-1"><a href="#" uri="feedback"><i class="fa fa-envelope"></i> <span>反馈</span></a></li>
-                <li class="menu-list"><a href="#"><i class="fa fa-file-text"></i> <span>日志</span></a>
+                <!-- <li class="menu-list"><a href="#"><i class="fa fa-file-text"></i> <span>日志</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#"> 404 Error</a></li>
                         <li><a href="#"> 500 Error</a></li>
                     </ul>
-                </li>
+                </li> -->
 
             </ul>
             <!--sidebar nav end-->
