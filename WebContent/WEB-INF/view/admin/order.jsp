@@ -25,6 +25,18 @@
         				<option value="100">100</option>
         				</select> 
         				条<b>/</b>每页</label>
+        				
+        				<label style="margin-left: 100px;">
+        				<select id="pageSize" class="form-control" style="width: 100px;" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
+        				<option value="">全部</option>
+        				<option value="0">待付款</option>
+        				<option value="5" selected="selected">待发货</option>
+        				<option value="1">待收货</option>
+        				<option value="2">已收货</option>
+        				<option value="3">已取消</option>
+        				<option value="4">申请售后</option>
+        				</select> 
+        				</label>
         			</div>
         		</div>
         		<div class="span6">
@@ -143,9 +155,9 @@
 	</td>
 	<td class="center ">
 		{{if status == 5}}
-		 	<button class="btn btn-info" type="button" onclick="showShop('{{:shopId}}')">发货</button>
+		 	<button class="btn btn-info" type="button" onclick="showOrderInfo('{{:orderId}}')">发货</button>
 		{{else status == 1}} 
-			<button class="btn btn-warning" type="button" onclick="showShop('{{:shopId}}')">取消发货</button>
+			<button class="btn btn-warning" type="button" onclick="showOrderInfo('{{:orderId}}')">取消发货</button>
 		{{/if}}
 	</td>
 </tr>
