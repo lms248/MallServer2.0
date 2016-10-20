@@ -122,36 +122,6 @@ public class AlipayService {
 		log.debug("结束APP下单方法...");
 	}
 	
-	/**
-	 * TODO:调用微信统一下单接口
-	 * @param payOrder
-	 * @return UnifiedOrderResponseData
-	 */
-	public UnifiedOrderResponseData unifiedOrder(String tradeType,Object object){
-		Map<String, String> paramMap = (Map<String, String>) object;
-		log.debug("开始调用微信统一下单方法...");
-		//1、生成请求数据对象
-		UnifiedOrderRequestData data = new UnifiedOrderRequestData();
-		data.setAppid(WxPayConfig.appid);
-		data.setMch_id(WxPayConfig.mchId);
-		data.setNonce_str(Util.createRandom(false, 16));
-		data.setBody(paramMap.get("body"));
-		data.setOut_trade_no(paramMap.get("payId"));//本地系统订单号
-		data.setTotal_fee(Integer.parseInt(paramMap.get("total_fee")));
-		data.setSpbill_create_ip("127.0.0.1");
-		data.setNotify_url(WxPayConfig.notifyUrl);
-		data.setTrade_type(tradeType);
-		data.setSign(WxPayUtil.getSign(data));
-		//2、调用统一下单接口
-		log.debug("UnifiedOrderRequestData => " + JSONObject.fromObject(data).toString());
-		UnifiedOrderResponseData responseData = WxPayUtil.unifiedOder(data);
-		log.debug("UnifiedOrderResponseData => " + JSONObject.fromObject(responseData).toString());
-		//3、根据统一下单接口返回数据修改本地订单信息
-		
-		log.debug("结束调用微信统一下单方法...");
-		return responseData;
-	}
-	
 	/** APP下单 */
 	@RequestMapping(value ="signatures2",method=RequestMethod.POST)
 	@ResponseBody
@@ -224,6 +194,8 @@ public class AlipayService {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		
+		log.debug("开始接收支付结果通知（回调）...");
 		
 		//获取支付宝POST过来反馈信息
 		Map<String,String> params = new HashMap<String,String>();
@@ -302,6 +274,8 @@ public class AlipayService {
 		
 		out.flush();
 		out.close();
+		
+		log.debug("结束接收支付结果通知（回调）...");
 	}
 	
 }
