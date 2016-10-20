@@ -58,7 +58,7 @@ function showOrderInfo(orderId) {
 				break;
 			case 1:
 				$("#modal_status").html("待收货");
-				$("#modal_btn").html("<button class='btn btn-danger' onclick=')'>取消发货状态</button>");
+				$("#modal_btn").html("<button class='btn btn-danger' onclick='updateOrderStatus('{{:orderId}}',5)'>取消发货状态</button>");
 				break;
 			case 2:
 				$("#modal_status").html("已收货");
@@ -74,7 +74,7 @@ function showOrderInfo(orderId) {
 				break;
 			case 5:
 				$("#modal_status").html("待发货");
-				$("#modal_btn").html("<button class='btn btn-success' onclick=')'>设为已发货状态</button>");
+				$("#modal_btn").html("<button class='btn btn-success' onclick='updateOrderStatus('{{:orderId}}',1)'>设为已发货状态</button>");
 				break;
 			default:
 				break;
