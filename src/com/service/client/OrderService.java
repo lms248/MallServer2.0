@@ -3,6 +3,7 @@ package service.client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -311,8 +312,36 @@ public class OrderService {
 		
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
+		String status = request.getParameter("status");//订单状态
 		
-		List<OrdersBean> orderList = OrdersDao.loadAllOrder(index, size);
+		List<OrdersBean> orderList = new ArrayList<OrdersBean>();
+		
+		if (StringUtils.isBlank(status)) {
+			orderList = OrdersDao.loadAllOrder(index, size);
+		} else {
+			switch (Integer.parseInt(status)) {
+			case 0:
+				
+				break;
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				
+				break;
+			case 4:
+				
+				break;
+			case 5:
+				
+				break;
+			default:
+				break;
+			}
+		}
 		
 		JSONObject obj = new JSONObject();
 		JSONObject orderObj = new JSONObject();

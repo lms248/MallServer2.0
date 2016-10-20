@@ -27,7 +27,7 @@
         				条<b>/</b>每页</label>
         				
         				<label style="margin-left: 100px;">
-        				<select id="pageSize" class="form-control" style="width: 100px;" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
+        				<select id="orderStatus" class="form-control" style="width: 100px;" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
         				<option value="">全部</option>
         				<option value="0">待付款</option>
         				<option value="5" selected="selected">待发货</option>

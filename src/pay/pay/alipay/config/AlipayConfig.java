@@ -36,7 +36,7 @@ public class AlipayConfig {
 			"dn2RSHnm2NOXUORFMwkJdSHthTHT1aZ6BYRpe2T2aiHuzHpIhfDHgpLsBHuiYXHD"+
 			"elO6e9LOEL8QM+E=";
 	//支付宝的公钥，查看地址：https://openhome.alipay.com/platform/keyManage.htm?keyType=partner
-	public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVyuvmsXDzVqIWcHv4KkgKkY53r/lELdjYEFQMz0zPp4v44fMH0DXd01PUB3odZGCy+aujZ57Dqw0AP3mvKlxmmEDnc08i09f9GyX9oUV1z5e7TnPSIhiI2Z8ez42nmDK3ZZD4ikdsjufqK5k0cgtBHPWPo9iD7zPWBsREI7MoWwIDAQAB";
+	public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
 	
 	// 签名方式
 	public static String sign_type = "RSA";
