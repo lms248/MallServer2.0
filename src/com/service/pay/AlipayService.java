@@ -89,7 +89,7 @@ public class AlipayService {
 		String requestData = AlipayCore.createLinkString(requestParams);
 	
 		//打印待签名字符串。工程目录下的log文件夹中。
-		log.debug(requestData);
+		log.debug("requestData => " + requestData);
 	
 		//将待签名字符串使用私钥签名。
 		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
@@ -97,7 +97,7 @@ public class AlipayService {
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
 		requestData=requestData+"&sign=\""+rsa_sign+"\"&sign_type=\""+AlipayConfig.sign_type+"\"";
 		
-		log.debug("requestData => " + requestData);
+		log.debug("requestData sign => " + requestData);
 		
 		//4、生成可用数据
 		
