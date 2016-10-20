@@ -155,9 +155,9 @@
 	</td>
 	<td class="center ">
 		{{if status == 5}}
-		 	<button class="btn btn-info" type="button" onclick="showOrderInfo('{{:orderId}}')">发货</button>
+		 	<button class="btn btn-info" type="button" onclick="updateOrderStatus('{{:orderId}}',1)">发货</button>
 		{{else status == 1}} 
-			<button class="btn btn-warning" type="button" onclick="showOrderInfo('{{:orderId}}')">取消发货</button>
+			<button class="btn btn-warning" type="button" onclick="updateOrderStatus('{{:orderId}}',5)">取消发货</button>
 		{{/if}}
 	</td>
 </tr>

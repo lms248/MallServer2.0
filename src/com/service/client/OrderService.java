@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bean.client.FeedbackBean;
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
+
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-import dao.client.FeedbackDao;
+
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
 import dao.client.ShopDao;
@@ -314,17 +314,16 @@ public class OrderService {
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		String status = request.getParameter("status");//订单状态
 		
-		System.out.println("status===="+status);
-		
 		List<OrdersBean> orderList = new ArrayList<OrdersBean>();
+		int orderCount = 0;
 		
 		if (StringUtils.isBlank(status) || Integer.parseInt(status) == -1) {
 			orderList = OrdersDao.loadAllOrder(index, size);
+			orderCount = OrdersDao.Count();
 		} else {
 			orderList = OrdersDao.loadOrderForStatus(index, size, Integer.parseInt(status));
+			orderCount = OrdersDao.Count(Integer.parseInt(status));
 		}
-		
-		System.out.println("orderList.size()===="+orderList.size());
 		
 		JSONObject obj = new JSONObject();
 		JSONObject orderObj = new JSONObject();
@@ -344,7 +343,7 @@ public class OrderService {
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "订单列表");
-		obj.put("count", OrdersDao.Count());
+		obj.put("count", orderCount);
 		obj.put("data", orderArr);
 		out.print(obj);
 		
@@ -449,6 +448,44 @@ public class OrderService {
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "取消订单成功");
 		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 更新订单状态 */
+	@RequestMapping(value ="updateStatus",method=RequestMethod.POST)
+	@ResponseBody
+	public void updateStatus(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String orderId = request.getParameter("orderId");
+		String status = request.getParameter("status");
+		
+		JSONObject obj = new JSONObject();
+		
+		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		if (order == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该订单不存在");
+			out.print(obj);
+			return;
+		}
+		
+		if (Integer.parseInt(status) >= 0 && Integer.parseInt(status) <= 5) {
+			order.setStatus(Integer.parseInt(status));
+			OrdersDao.update(order);
+			
+			obj.put("code", Def.CODE_SUCCESS);
+			obj.put("msg", "更新订单状态成功");
+			out.print(obj);
+		}
 		
 		System.out.println(obj);
 		

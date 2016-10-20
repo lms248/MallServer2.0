@@ -178,11 +178,11 @@ public class OrdersDao {
 		}
 		return amount;
 	}
-	public static int Count(int type){
+	public static int Count(int status){
 		int amount=0;
 		try {
 			amount=dbUtils.stat(OrdersBean.class, 
-					"select COUNT(*) from orders where type=?", type);
+					"select COUNT(*) from orders where status=?", status);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

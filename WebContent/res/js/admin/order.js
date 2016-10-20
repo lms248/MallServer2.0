@@ -16,7 +16,7 @@ function getOrderDateList(index) {
 			$("#orderTableData").html(htmlOutput);
 			$("#order_size").html(data.count);
 		} else {
-			alert(data);
+			alert(data.msg);
 		}
 	},"json");
 }
@@ -81,7 +81,7 @@ function showOrderInfo(orderId) {
 			}
 			$("#show_order_btn").click();
 		} else {
-			alert(data);
+			alert(data.msg);
 		}
 	},"json");
 }
@@ -93,6 +93,15 @@ $("#pageSize").change(function(){
 $("#orderStatus").change(function(){
 	getOrderDateList(0);
 });
+
+/**
+ * 更新订单状态
+ */
+function updateOrderStatus(orderId, newStatus) {
+	$.get("/order/updateStatus",{orderId:orderId, newStatus:newStatus},function(data){
+		alert(data.msg);
+	},"json");
+}
 
 function firstPage(){//首页
 	getOrderDateList(0);
