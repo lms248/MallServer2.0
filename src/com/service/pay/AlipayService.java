@@ -95,7 +95,7 @@ public class AlipayService {
 		log.debug("businessStr => " + businessStr);
 		commonData.setBiz_content(businessStr);
 		
-		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(businessData);
+		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(commonData);
 		String requestData = AlipayCore.createLinkString(requestParams);
 		//打印待签名字符串。工程目录下的log文件夹中。
 		log.debug("requestData => " + requestData);
