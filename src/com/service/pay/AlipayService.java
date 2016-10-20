@@ -63,6 +63,16 @@ public class AlipayService {
 		//1、接收业务参数，生成本地系统订单
 		String payId = IdGen.get().nextId()+"";
 		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+		
+		//业务参数
+		AlipayOrderRequestBusinessData businessData = new AlipayOrderRequestBusinessData();
+		businessData.setBody("支付宝测试1");
+		businessData.setSubject("这里是商品的标题");
+		businessData.setOut_trade_no(payId);
+		//businessData.setTimeout_express("60m");
+		businessData.setTotal_amount("0.01");
+		businessData.setProduct_code("QUICK_MSECURITY_PAY");
+		
 		//公共参数
 		AlipayOrderRequestCommonData commonData = new AlipayOrderRequestCommonData();
 		commonData.setApp_id(AlipayConfig.appid);
@@ -73,14 +83,7 @@ public class AlipayService {
 		commonData.setTimestamp(timestamp);
 		commonData.setVersion("1.0");
 		commonData.setNotify_url(AlipayConfig.notify_url);
-		//业务参数
-		AlipayOrderRequestBusinessData businessData = new AlipayOrderRequestBusinessData();
-		businessData.setBody("支付宝测试1");
-		businessData.setSubject("这里是商品的标题");
-		businessData.setOut_trade_no(payId);
-		//businessData.setTimeout_express("60m");
-		businessData.setTotal_amount("0.01");
-		businessData.setProduct_code("QUICK_MSECURITY_PAY");
+		commonData.setBiz_content(JSONObject.fromObject(businessData).toString());
 		
 		log.debug("AlipayOrderRequestCommonData => " + JSONObject.fromObject(commonData));
 		log.debug("AlipayOrderRequestBusinessData => " + JSONObject.fromObject(businessData));
@@ -90,11 +93,6 @@ public class AlipayService {
 		//3、原始订单字符串进行签名
 		
 		//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
-		Map<String, String> businessParams = (Map<String, String>) MapUtils.beanToMap(businessData);
-		String businessStr = AlipayCore.createLinkString(businessParams);
-		log.debug("businessStr => " + businessStr);
-		commonData.setBiz_content(businessStr);
-		
 		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(commonData);
 		String requestData = AlipayCore.createLinkString(requestParams);
 		//打印待签名字符串。工程目录下的log文件夹中。
