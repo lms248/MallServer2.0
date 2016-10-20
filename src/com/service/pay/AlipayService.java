@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pay.alipay.bean.AlipayOrderRequestData;
+import pay.alipay.bean.AlipayOrderRequestBusinessData;
+import pay.alipay.bean.AlipayOrderRequestCommonData;
 import pay.alipay.config.AlipayConfig;
 import pay.alipay.sign.RSA;
 import pay.alipay.util.AlipayCore;
@@ -62,32 +63,40 @@ public class AlipayService {
 		//1、接收业务参数，生成本地系统订单
 		String payId = IdGen.get().nextId()+"";
 		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-		AlipayOrderRequestData data = new AlipayOrderRequestData();
-		data.setApp_id(AlipayConfig.appid);
-		data.setMethod("alipay.trade.app.pay");
-		data.setFormat("JSON");
-		data.setCharset("utf-8");
-		data.setSign_type("RSA");
-		data.setTimestamp(timestamp);
-		data.setVersion("1.0");
-		data.setNotify_url(AlipayConfig.notify_url);
-		data.setBody("支付宝测试1");
-		data.setSubject("这里是商品的标题");
-		data.setOut_trade_no(payId);
-		//data.setTimeout_express("60m");
-		data.setTotal_amount("0.01");
-		data.setProduct_code("QUICK_MSECURITY_PAY");
+		//公共参数
+		AlipayOrderRequestCommonData commonData = new AlipayOrderRequestCommonData();
+		commonData.setApp_id(AlipayConfig.appid);
+		commonData.setMethod("alipay.trade.app.pay");
+		commonData.setFormat("JSON");
+		commonData.setCharset("utf-8");
+		commonData.setSign_type("RSA");
+		commonData.setTimestamp(timestamp);
+		commonData.setVersion("1.0");
+		commonData.setNotify_url(AlipayConfig.notify_url);
+		//业务参数
+		AlipayOrderRequestBusinessData businessData = new AlipayOrderRequestBusinessData();
+		businessData.setBody("支付宝测试1");
+		businessData.setSubject("这里是商品的标题");
+		businessData.setOut_trade_no(payId);
+		//businessData.setTimeout_express("60m");
+		businessData.setTotal_amount("0.01");
+		businessData.setProduct_code("QUICK_MSECURITY_PAY");
 		
-		log.debug("AlipayOrderRequestData => " + JSONObject.fromObject(data));
+		log.debug("AlipayOrderRequestCommonData => " + JSONObject.fromObject(commonData));
+		log.debug("AlipayOrderRequestBusinessData => " + JSONObject.fromObject(businessData));
 		
 		//2、添加本地订单记录
 		
 		//3、原始订单字符串进行签名
 		
 		//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
-		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(data);
+		Map<String, String> businessParams = (Map<String, String>) MapUtils.beanToMap(businessData);
+		String businessStr = AlipayCore.createLinkString(businessParams);
+		log.debug("businessStr => " + JSONObject.fromObject(businessStr));
+		commonData.setBiz_content(businessStr);
+		
+		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(businessData);
 		String requestData = AlipayCore.createLinkString(requestParams);
-	
 		//打印待签名字符串。工程目录下的log文件夹中。
 		log.debug("requestData => " + requestData);
 	
