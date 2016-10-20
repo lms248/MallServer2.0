@@ -100,11 +100,12 @@ $("#orderStatus").change(function(){
 function updateOrderStatus(orderId, newStatus) {
 	$.get("/order/updateStatus",{orderId:orderId, newStatus:newStatus},function(data){
 		alert(data.msg);
+		getOrderDateList(0);
 	},"json");
 }
 
 function firstPage(){//首页
-	getOrderDateList(0);
+	getOrderDateList($("#pageNum").text());
 	$("#pageNum").html("1");
 }
 function pageUp(){//上一页
