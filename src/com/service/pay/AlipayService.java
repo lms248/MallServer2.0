@@ -78,6 +78,8 @@ public class AlipayService {
 		data.setTotal_amount("0.01");
 		data.setProduct_code("QUICK_MSECURITY_PAY");
 		
+		log.debug("AlipayOrderRequestData => " + JSONObject.fromObject(data));
+		
 		//2、添加本地订单记录
 		
 		//3、原始订单字符串进行签名
@@ -94,7 +96,9 @@ public class AlipayService {
 	
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
 		requestData=requestData+"&sign=\""+rsa_sign+"\"&sign_type=\""+AlipayConfig.sign_type+"\"";
-	
+		
+		log.debug("requestData => " + requestData);
+		
 		//4、生成可用数据
 		
 		//5、返回处理结果
@@ -107,6 +111,8 @@ public class AlipayService {
 		
 		out.flush();
 		out.close();
+		
+		log.debug("结束APP下单方法...");
 	}
 	
 	/**
