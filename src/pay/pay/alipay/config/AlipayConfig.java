@@ -48,7 +48,7 @@ public class AlipayConfig {
 	public static String input_charset = "utf-8";
 
 	// 接收通知的接口名
-	public static String notify_url = "/pay/alipay/notify";
+	public static String notify_url = "http://120.24.69.203:8080/pay/alipay/notify";
 
 }
 

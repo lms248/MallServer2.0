@@ -17,7 +17,7 @@ public class AlipayOrderRequestCommonData {
 	//sign_type	String	是	10	商户生成签名字符串所使用的签名算法类型，目前支持RSA	RSA
 	private String sign_type;
 	//sign	String	是	256	商户请求参数的签名串，详见签名	详见示例
-	private String sign;
+	//private String sign;
 	//timestamp	String	是	19	发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"	2014-07-24 03:07:50
 	private String timestamp;
 	//version	String	是	3	调用的接口版本，固定为：1.0	1.0
@@ -57,12 +57,12 @@ public class AlipayOrderRequestCommonData {
 	public void setSign_type(String sign_type) {
 		this.sign_type = sign_type;
 	}
-	public String getSign() {
+	/*public String getSign() {
 		return sign;
 	}
 	public void setSign(String sign) {
 		this.sign = sign;
-	}
+	}*/
 	public String getTimestamp() {
 		return timestamp;
 	}
