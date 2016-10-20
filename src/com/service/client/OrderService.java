@@ -314,6 +314,8 @@ public class OrderService {
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		String status = request.getParameter("status");//订单状态
 		
+		System.out.println("status===="+status);
+		
 		List<OrdersBean> orderList = new ArrayList<OrdersBean>();
 		
 		if (StringUtils.isBlank(status) || Integer.parseInt(status) == -1) {
@@ -321,6 +323,8 @@ public class OrderService {
 		} else {
 			orderList = OrdersDao.loadOrderForStatus(index, size, Integer.parseInt(status));
 		}
+		
+		System.out.println("orderList.size()===="+orderList.size());
 		
 		JSONObject obj = new JSONObject();
 		JSONObject orderObj = new JSONObject();

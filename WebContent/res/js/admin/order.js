@@ -6,8 +6,8 @@
  * 获取订单数据列表
  */
 function getOrderDateList(index) {
-	var pageSize = $('#pageSize').val();
-	var orderStatus = $('#orderStatus').val();
+	var pageSize = $("#pageSize").val();
+	var orderStatus = $("#orderStatus").val();
 	var params = {index:index,size:pageSize,status:orderStatus};
 	$.get("/order/infoList2",params,function(data){
 		if(data.code=="0"){
@@ -87,6 +87,10 @@ function showOrderInfo(orderId) {
 }
 
 $("#pageSize").change(function(){
+	getOrderDateList(0);
+});
+
+$("#orderStatus").change(function(){
 	getOrderDateList(0);
 });
 
