@@ -121,6 +121,19 @@ public class OrdersDao {
 		}
 		return orderList;
 	}
+	
+	public static List<OrdersBean> loadOrderForStatus(int index, int size, int status){
+		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
+		try {
+			orderList=dbUtils.query(OrdersBean.class, 
+					" where status=? order by id desc limit ?,?", status, index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return orderList;
+	}
+	
 	/**
 	 * 加载所有列表
 	 * @param type ,pageNum(页码),pageSize(页数)

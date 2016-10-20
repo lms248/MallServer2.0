@@ -316,31 +316,10 @@ public class OrderService {
 		
 		List<OrdersBean> orderList = new ArrayList<OrdersBean>();
 		
-		if (StringUtils.isBlank(status)) {
+		if (StringUtils.isBlank(status) || Integer.parseInt(status) == -1) {
 			orderList = OrdersDao.loadAllOrder(index, size);
 		} else {
-			switch (Integer.parseInt(status)) {
-			case 0:
-				
-				break;
-			case 1:
-				
-				break;
-			case 2:
-				
-				break;
-			case 3:
-				
-				break;
-			case 4:
-				
-				break;
-			case 5:
-				
-				break;
-			default:
-				break;
-			}
+			orderList = OrdersDao.loadOrderForStatus(index, size, Integer.parseInt(status));
 		}
 		
 		JSONObject obj = new JSONObject();
