@@ -161,7 +161,7 @@
     <td class="center ">{{:title}}</td>
     <td class="center ">{{:goodsId}}</td>
     <td class="center ">{{:goodsName}}</td>
-    <td class="center ">{{:sortId}}</td>
+    <td class="center ">{{:sortName}}</td>
     <td class="center ">{{:mark}}</td>
     <td class="time center ">{{:createTime2}}</td>
     <td class="center ">

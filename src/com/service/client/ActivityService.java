@@ -252,12 +252,13 @@ public class ActivityService {
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < activityList.size(); i++) {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(activityList.get(i)));
-			//转化成字符串类型
-			//obj2.put("activityId", ""+activityList.get(i).getActivityId());
-			//obj2.put("goodsId", ""+activityList.get(i).getGoodsId());
 			GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
 			if (goods != null) {
 				obj2.put("goodsName", goods.getName());
+			}
+			SortBean sort = SortDao.loadById(activityList.get(i).getSortId());
+			if (sort != null) {
+				obj2.put("sortName", sort.getName());
 			}
 			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(activityList.get(i).getCreateTime())));
 			arr.add(obj2);
