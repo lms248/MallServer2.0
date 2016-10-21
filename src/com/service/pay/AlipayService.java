@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
+
 import pay.alipay.bean.AlipayOrderRequestBusinessData;
 import pay.alipay.bean.AlipayOrderRequestCommonData;
 import pay.alipay.config.AlipayConfig;
@@ -33,7 +36,6 @@ import pay.alipay.sign.RSA2;
 import pay.alipay.sign.RSAUtils;
 import pay.alipay.util.AlipayCore;
 import pay.alipay.util.AlipayNotify;
-
 import common.logger.Logger;
 import common.utils.Def;
 import common.utils.IdGen;
@@ -56,7 +58,7 @@ public class AlipayService {
 	@RequestMapping(value ="signatures",method=RequestMethod.POST)
 	@ResponseBody
 	public void signatures(HttpServletRequest request,HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, AlipayApiException {
 		response.setContentType("text/html;charset=utf-8");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
@@ -104,10 +106,11 @@ public class AlipayService {
 		//将待签名字符串使用私钥签名。
 		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
 		String rsa_sign2=URLEncoder.encode(RSA2.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
+		String rsa_sign3=URLEncoder.encode(AlipaySignature.rsaSign(requestParams, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
 		log.debug("rsa_sign => " + rsa_sign);
 		log.debug("rsa_sign2 => " + rsa_sign2);
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
-		requestData=requestData+"&sign="+rsa_sign;
+		requestData=requestData+"&sign="+rsa_sign3;
 		
 		log.debug("requestData sign => " + requestData);
 		
