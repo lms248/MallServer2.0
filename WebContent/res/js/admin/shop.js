@@ -238,7 +238,8 @@ function shop_resetEdit() {
  */
 function getShopDateList(index) {
 	var pageSize = $('#pageSize').val();
-	var params = {index:index,size:pageSize};
+	var searchContent = $('#shop_search').val();
+	var params = {index:index,size:pageSize,shopId:searchContent,shopName:searchContent};
 	$.get("/shop/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#shop_tableTmpl");
@@ -282,6 +283,13 @@ $("#goods_level_1").change(function(){
 	}
 	getGoodsSortList(this.value, 1);
 });
+
+/**
+ * 店铺查询
+ */
+$('#shop_search').bind('input propertychange', function() {  
+	getShopDateList(0);
+}); 
 
 $("#pageSize").change(function(){
 	getShopDateList(0);

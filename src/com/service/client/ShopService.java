@@ -22,6 +22,7 @@ import bean.client.ShopBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+import common.utils.StringUtils;
 import dao.client.ShopDao;
 
 /**
@@ -176,7 +177,17 @@ public class ShopService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<ShopBean> shopList = ShopDao.loadAllShop(index, size);
+		//店铺查询属性,用于搜索
+		String shopId = request.getParameter("shopId");//店铺ID
+		String shopName = request.getParameter("shopName");//店铺名称
+		if (StringUtils.isBlank(shopId)) {
+			shopId = "";
+		}
+		if (StringUtils.isBlank(shopName)) {
+			shopName = "";
+		}
+		
+		List<ShopBean> shopList = ShopDao.loadAllShop_search(shopId, shopName, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();

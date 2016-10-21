@@ -99,6 +99,20 @@ public class ShopDao {
 		}
 		return shopList;
 	}
+	
+	public static List<ShopBean> loadAllShop_search(String shopId, String shopName, int index, int size){
+		List<ShopBean> shopList=new ArrayList<ShopBean>();
+		try {
+			shopList=dbUtils.query(ShopBean.class, 
+					" where shopId like ? or name like ? order by id desc limit ?,?", 
+					"%"+shopId+"%", "%"+shopName+"%", index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return shopList;
+	}
+	
 	/**
 	 * 加载所有列表
 	 * @param ShopType ,pageNum(页码),pageSize(页数)
