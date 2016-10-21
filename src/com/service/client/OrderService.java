@@ -498,7 +498,7 @@ public class OrderService {
 		JSONObject afterSaleObj = new JSONObject();
 		afterSaleObj.put("title", title);
 		afterSaleObj.put("content", content);
-		afterSaleObj.put("", content);
+		afterSaleObj.put("status", 0);
 		
 		order.setStatus(Def.ORDER_STATUS_AFTERSALES);
 		order.setAfterSaleService(afterSaleObj.toString());

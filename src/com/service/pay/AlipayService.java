@@ -187,17 +187,20 @@ public class AlipayService {
 		//将待签名字符串使用私钥签名。
 		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
 		String rsa_sign2=URLEncoder.encode(RSA2.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		String rsa_sign5=URLEncoder.encode(RSAUtils.sign2(requestData.getBytes(), AlipayConfig.private_key),AlipayConfig.input_charset);
+		String rsa_sign6=URLEncoder.encode(AlipaySignature.rsaSign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
+		//String rsa_sign5=URLEncoder.encode(RSAUtils.sign2(requestData.getBytes(), AlipayConfig.private_key),AlipayConfig.input_charset);
 		//String rsa_sign4=URLEncoder.encode(RSA4.signWithPrivateKey(AlipayConfig.private_key.getBytes(), requestData.getBytes()),AlipayConfig.input_charset);
 		//String rsa_sign3=URLEncoder.encode(RSA3.decrypt(requestData.toString(), AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
 		System.out.println("rsa_sign => " + rsa_sign);
 		//System.out.println("rsa_sign check => " + RSA.verify(requestData, rsa_sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
 		System.out.println("rsa_sign2 => " + rsa_sign2);
-		System.out.println("rsa_sign5 => " + rsa_sign5);
-		System.out.println("rsa_sign5 check => " + RSAUtils.verify(requestData.getBytes(), AlipayConfig.alipay_public_key, rsa_sign5));
+		System.out.println("rsa_sign6 => " + rsa_sign6);
+		//System.out.println("rsa_sign5 => " + rsa_sign5);
+		//System.out.println("rsa_sign5 check => " + RSAUtils.verify(requestData.getBytes(), AlipayConfig.alipay_public_key, rsa_sign5));
 		//System.out.println("rsa_sign4 => " + rsa_sign4);
 		//System.out.println("rsa_sign2 check => " + RSA2.verify(requestData, rsa_sign2, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
 		//System.out.println("rsa_sign3 => " + rsa_sign3);
+		System.out.println(AlipaySignature.rsaCheckContent(requestData, rsa_sign6, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
 		requestData=requestData+"&sign="+rsa_sign;
 		
