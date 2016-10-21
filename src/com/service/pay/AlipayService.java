@@ -1,14 +1,22 @@
 package service.pay;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.crypto.Cipher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,15 +31,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pay.alipay.bean.AlipayOrderRequestBusinessData;
 import pay.alipay.bean.AlipayOrderRequestCommonData;
 import pay.alipay.config.AlipayConfig;
+import pay.alipay.sign.Base64;
 import pay.alipay.sign.RSA;
 import pay.alipay.sign.RSA2;
 import pay.alipay.util.AlipayCore;
 import pay.alipay.util.AlipayNotify;
-import pay.wx.bean.UnifiedOrderRequestData;
-import pay.wx.bean.UnifiedOrderResponseData;
-import pay.wx.config.WxPayConfig;
-import pay.wx.util.Util;
-import pay.wx.util.WxPayUtil;
 import common.logger.Logger;
 import common.utils.Def;
 import common.utils.IdGen;
@@ -123,6 +127,16 @@ public class AlipayService {
 		out.close();
 		
 		log.debug("结束APP下单方法...");
+	}
+	
+	public static void main(String[] args) throws Exception {
+		try {
+			String rsa_sign=URLEncoder.encode(RSA.sign("{\"a\":\"123\" }", AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
+			System.out.println(rsa_sign);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/** APP下单 */
