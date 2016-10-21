@@ -498,6 +498,7 @@ public class OrderService {
 		JSONObject afterSaleObj = new JSONObject();
 		afterSaleObj.put("title", title);
 		afterSaleObj.put("content", content);
+		afterSaleObj.put("", content);
 		
 		order.setStatus(Def.ORDER_STATUS_AFTERSALES);
 		order.setAfterSaleService(afterSaleObj.toString());
@@ -562,6 +563,22 @@ public class OrderService {
 		PrintWriter out = response.getWriter();
 		
 		System.out.println("---------wxPayResult-------------");
+		
+		out.flush();
+		out.close();
+	}
+	
+	/** 支付宝商户平台支付结果通知 */
+	@RequestMapping(value ="alipayResult",method=RequestMethod.POST)
+	@ResponseBody
+	public void alipayResult(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		System.out.println("---------alipayResult-------------");
 		
 		out.flush();
 		out.close();
