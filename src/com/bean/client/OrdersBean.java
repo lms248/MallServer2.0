@@ -25,6 +25,8 @@ public class OrdersBean extends Pojo {
 	private long addressId; 
 	/** 订单状态 */
 	private int status;
+	/** 售后服务 */
+	private String afterSaleService;
 	/** 下单时间 */
 	private long createTime;
 	
@@ -75,6 +77,12 @@ public class OrdersBean extends Pojo {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getAfterSaleService() {
+		return afterSaleService;
+	}
+	public void setAfterSaleService(String afterSaleService) {
+		this.afterSaleService = afterSaleService;
 	}
 	public long getCreateTime() {
 		return createTime;

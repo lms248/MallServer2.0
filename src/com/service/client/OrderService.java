@@ -455,6 +455,64 @@ public class OrderService {
 		out.close();
 	}
 	
+	/** 申请售后服务 */
+	@RequestMapping(value ="applyAfterSaleService",method=RequestMethod.POST)
+	@ResponseBody
+	public void applyAfterSaleService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		String token = request.getParameter("token");
+		String orderId = request.getParameter("orderId");
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		
+		JSONObject obj = new JSONObject();
+		
+		if (token==null || orderId==null || title==null || content==null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "参数不正确");
+			out.print(obj);
+			return;
+		}
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			return;
+		}
+		
+		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		if (order == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "该订单不存在");
+			out.print(obj);
+			return;
+		}
+		
+		JSONObject afterSaleObj = new JSONObject();
+		afterSaleObj.put("title", title);
+		afterSaleObj.put("content", content);
+		
+		order.setStatus(Def.ORDER_STATUS_AFTERSALES);
+		order.setAfterSaleService(afterSaleObj.toString());
+		OrdersDao.update(order);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "申请售后服务成功");
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 更新订单状态 */
 	@RequestMapping(value ="updateStatus",method=RequestMethod.POST)
 	@ResponseBody

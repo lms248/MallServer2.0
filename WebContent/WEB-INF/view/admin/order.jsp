@@ -37,6 +37,8 @@
         				<option value="4">申请售后</option>
         				</select> 
         				</label>
+        				
+        				<a class="btn btn-success" onclick="getXlsFromTbl('order_table',null)"><span>导出EXCEL</span></a>
         			</div>
         		</div>
         		<div class="span6">
@@ -45,7 +47,7 @@
         			</div> -->
         		</div>
         	</div>
-        <table class="display table table-bordered dataTable" id="hidden-table-info" aria-describedby="hidden-table-info_info">
+        <table id="order_table" class="display table table-bordered dataTable" aria-describedby="hidden-table-info_info">
         <thead>
         <tr role="row">
         	<th class="" role="columnheader" style=" text-align: center;">序号</th>
@@ -164,6 +166,7 @@
 </script>
 
 <script src="/res/js/admin/order.js"></script>
+<script src="/res/js/excelUtil.js"></script>
 
 <script>
 getOrderDateList(0);//活动列表
