@@ -107,7 +107,7 @@ function resetEdit() {
 function getGoodsDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var searchContent = $('#goods_search').val();
-	var params = {index:index,size:pageSize,goodsId:searchContent,goodsName:searchContent};
+	var params = {index:index,size:pageSize,searchContent:searchContent};
 	$.get("/goods/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#tableTmpl");

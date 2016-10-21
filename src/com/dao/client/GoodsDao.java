@@ -99,11 +99,11 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
-	public static List<GoodsBean> loadAllGoods_search(String goodsId, String goodsName, int index, int size){
+	public static List<GoodsBean> loadAllGoods_search(String searchContent, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
-					" where goodsId like ? or name like ? order by id desc limit ?,?", "%"+goodsId+"%", "%"+goodsName+"%", index, size);
+					" where (goodsId like ? or name like ?) order by id desc limit ?,?", "%"+searchContent+"%", "%"+searchContent+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -123,12 +123,12 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
-	public static List<GoodsBean> loadAllGoodsForSort_search(int sortId, int sortPId, String goodsId, String goodsName, int index, int size){
+	public static List<GoodsBean> loadAllGoodsForSort_search(int sortId, int sortPId, String searchContent, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
 					" where (sortId=? or sortId in (select id from sort where pid=?))"
-					+ " and goodsId like ? or name like ? order by id desc limit ?,?", sortId, sortPId, "%"+goodsId+"%", "%"+goodsName+"%", index, size);
+					+ " and goodsId like ? or name like ? order by id desc limit ?,?", sortId, sortPId, "%"+searchContent+"%", "%"+searchContent+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -148,12 +148,12 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
-	public static List<GoodsBean> loadAllGoodsForShop_search(long shopId, String goodsId, String goodsName, int index, int size){
+	public static List<GoodsBean> loadAllGoodsForShop_search(long shopId, String searchContent, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
-					" where shopId=? and goodsId like ? or name like ? order by id desc limit ?,?", 
-					shopId, "%"+goodsId+"%", "%"+goodsName+"%", index, size);
+					" where shopId=? and (goodsId like ? or name like ?) order by id desc limit ?,?", 
+					shopId, "%"+searchContent+"%", "%"+searchContent+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -175,13 +175,13 @@ public class GoodsDao {
 	}
 	
 	public static List<GoodsBean> loadAllGoodsForShopAndSort_search(
-			long shopId, int sortId, int sortPId, String goodsId, String goodsName, int index, int size){
+			long shopId, int sortId, int sortPId, String searchContent, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
 					" where shopId=? and (sortId=? or sortId in (select id from sort where pid=?))"
-					+ " and goodsId like ? or name like ? order by id desc limit ?,?", 
-					shopId, sortId, sortPId, "%"+goodsId+"%", "%"+goodsName+"%", index, size);
+					+ " and (goodsId like ? or name like ?) order by id desc limit ?,?", 
+					shopId, sortId, sortPId, "%"+searchContent+"%", "%"+searchContent+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

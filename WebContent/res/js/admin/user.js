@@ -8,7 +8,7 @@
 function getUserDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var searchContent = $('#user_search').val();
-	var params = {index:index,size:pageSize,uid:searchContent,username:searchContent};
+	var params = {index:index,size:pageSize,searchContent:searchContent};
 	$.post("/user/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#user_tableTmpl");

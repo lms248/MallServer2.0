@@ -287,14 +287,10 @@ public class GoodsService {
 		String type = request.getParameter("type");//类别,1是普通商品,2是活动商品
 		
 		//商品查询属性,用于搜索
-		String goodsId = request.getParameter("goodsId");//商品ID
-		String goodsName = request.getParameter("goodsName");//商品名称
-		if (StringUtils.isBlank(goodsId)) {
-			goodsId = "";
-		}
-		if (StringUtils.isBlank(goodsName)) {
-			goodsName = "";
-		}
+		String searchContent = request.getParameter("searchContent");//搜索内容
+		if (StringUtils.isBlank(searchContent)) {
+			searchContent = "";
+		} 
 		
 		JSONObject obj = new JSONObject();
 		UserBean user = UserDao.loadByToken(token);
@@ -306,24 +302,24 @@ public class GoodsService {
 			List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
 			if (shopId == null) { //不分店铺
 				if (sortId == null || sortId.equals("0")) { //不分类
-					goodsList = GoodsDao.loadAllGoods_search(goodsId, goodsName, index, size);
+					goodsList = GoodsDao.loadAllGoods_search(searchContent, index, size);
 				} else { //分类
 					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
 					if (sortList.size() == 0) {//一类
-						goodsList = GoodsDao.loadAllGoodsForSort_search(Integer.parseInt(sortId), -1, goodsId, goodsName, index, size);
+						goodsList = GoodsDao.loadAllGoodsForSort_search(Integer.parseInt(sortId), -1, searchContent, index, size);
 					} else {
-						goodsList = GoodsDao.loadAllGoodsForSort_search(-1, Integer.parseInt(sortId), goodsId, goodsName, index, size);
+						goodsList = GoodsDao.loadAllGoodsForSort_search(-1, Integer.parseInt(sortId), searchContent, index, size);
 					}
 				}
 			} else { //分店铺
 				if (sortId == null || sortId.equals("0")) { //不分类
-					goodsList = GoodsDao.loadAllGoodsForShop_search(Long.parseLong(shopId), goodsId, goodsName, index, size);
+					goodsList = GoodsDao.loadAllGoodsForShop_search(Long.parseLong(shopId), searchContent, index, size);
 				} else { //分类
 					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
 					if (sortList.size() == 0) {//一类
-						goodsList = GoodsDao.loadAllGoodsForShopAndSort_search(Long.parseLong(shopId), Integer.parseInt(sortId), -1, goodsId, goodsName, index, size);
+						goodsList = GoodsDao.loadAllGoodsForShopAndSort_search(Long.parseLong(shopId), Integer.parseInt(sortId), -1, searchContent, index, size);
 					} else {
-						goodsList = GoodsDao.loadAllGoodsForShopAndSort_search(Long.parseLong(shopId), -1, Integer.parseInt(sortId), goodsId, goodsName, index, size);
+						goodsList = GoodsDao.loadAllGoodsForShopAndSort_search(Long.parseLong(shopId), -1, Integer.parseInt(sortId), searchContent, index, size);
 					}
 				}
 			}

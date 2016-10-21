@@ -236,16 +236,12 @@ public class ActivityService {
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
 		//活动查询属性,用于搜索
-		String goodsId = request.getParameter("goodsId");//商品ID
-		String title = request.getParameter("title");//活动标题
-		if (StringUtils.isBlank(goodsId)) {
-			goodsId = "";
-		}
-		if (StringUtils.isBlank(title)) {
-			title = "";
+		String searchContent = request.getParameter("searchContent");
+		if (StringUtils.isBlank(searchContent)) {
+			searchContent = "";
 		}
 		
-		List<ActivityBean> activityList = ActivityDao.loadAllActivity_search(goodsId, title, index, size);
+		List<ActivityBean> activityList = ActivityDao.loadAllActivity_search(searchContent, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();

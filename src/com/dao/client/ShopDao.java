@@ -100,12 +100,12 @@ public class ShopDao {
 		return shopList;
 	}
 	
-	public static List<ShopBean> loadAllShop_search(String shopId, String shopName, int index, int size){
+	public static List<ShopBean> loadAllShop_search(String searchContent, int index, int size){
 		List<ShopBean> shopList=new ArrayList<ShopBean>();
 		try {
 			shopList=dbUtils.query(ShopBean.class, 
-					" where shopId like ? or name like ? order by id desc limit ?,?", 
-					"%"+shopId+"%", "%"+shopName+"%", index, size);
+					" where (shopId like ? or name like ?) order by id desc limit ?,?", 
+					"%"+searchContent+"%", "%"+searchContent+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

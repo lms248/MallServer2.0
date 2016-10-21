@@ -58,7 +58,7 @@ function showOrderInfo(orderId) {
 				break;
 			case 1:
 				$("#modal_status").html("待收货");
-				$("#modal_btn").html("<button class='btn btn-danger' onclick='updateOrderStatus('{{:orderId}}',5)'>取消发货状态</button>");
+				$("#modal_btn").html("<button class='btn btn-danger' onclick='updateOrderStatus(\""+data.data.orderId+"\",5)'>取消发货状态</button>");
 				break;
 			case 2:
 				$("#modal_status").html("已收货");
@@ -74,7 +74,7 @@ function showOrderInfo(orderId) {
 				break;
 			case 5:
 				$("#modal_status").html("待发货");
-				$("#modal_btn").html("<button class='btn btn-success' onclick='updateOrderStatus('{{:orderId}}',1)'>设为已发货状态</button>");
+				$("#modal_btn").html("<button class='btn btn-success' onclick='updateOrderStatus(\""+data.data.orderId+"\",1)'>设为已发货状态</button>");
 				break;
 			default:
 				break;
@@ -98,10 +98,19 @@ $("#orderStatus").change(function(){
  * 更新订单状态
  */
 function updateOrderStatus(orderId, newStatus) {
-	$.get("/order/updateStatus",{orderId:orderId, newStatus:newStatus},function(data){
-		alert(data.msg);
-		getOrderDateList(0);
-	},"json");
+	var tip = "";
+	if (newStatus == 1) {
+		tip = "您确定要把该订单设为已发货状态吗？"
+	} else if (newStatus == 5) {
+		tip = "您确定要把该订单设为未发货状态吗？"
+	}
+	if(confirm(tip)) {
+		$.post("/order/updateStatus",{orderId:orderId, newStatus:newStatus},function(data){
+			alert(data.msg);
+			getOrderDateList(0);
+			$("#activity_modalCloseBtn").click();
+		},"json");
+	}
 }
 
 function firstPage(){//首页

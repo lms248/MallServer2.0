@@ -466,7 +466,7 @@ public class OrderService {
 		PrintWriter out = response.getWriter();
 		
 		String orderId = request.getParameter("orderId");
-		String status = request.getParameter("status");
+		String newStatus = request.getParameter("newStatus");
 		
 		JSONObject obj = new JSONObject();
 		
@@ -478,8 +478,8 @@ public class OrderService {
 			return;
 		}
 		
-		if (Integer.parseInt(status) >= 0 && Integer.parseInt(status) <= 5) {
-			order.setStatus(Integer.parseInt(status));
+		if (Integer.parseInt(newStatus) >= 0 && Integer.parseInt(newStatus) <= 5) {
+			order.setStatus(Integer.parseInt(newStatus));
 			OrdersDao.update(order);
 			
 			obj.put("code", Def.CODE_SUCCESS);

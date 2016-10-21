@@ -178,16 +178,12 @@ public class ShopService {
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
 		//店铺查询属性,用于搜索
-		String shopId = request.getParameter("shopId");//店铺ID
-		String shopName = request.getParameter("shopName");//店铺名称
-		if (StringUtils.isBlank(shopId)) {
-			shopId = "";
-		}
-		if (StringUtils.isBlank(shopName)) {
-			shopName = "";
+		String searchContent = request.getParameter("searchContent");
+		if (StringUtils.isBlank(searchContent)) {
+			searchContent = "";
 		}
 		
-		List<ShopBean> shopList = ShopDao.loadAllShop_search(shopId, shopName, index, size);
+		List<ShopBean> shopList = ShopDao.loadAllShop_search(searchContent, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();

@@ -239,7 +239,7 @@ function shop_resetEdit() {
 function getShopDateList(index) {
 	var pageSize = $('#pageSize').val();
 	var searchContent = $('#shop_search').val();
-	var params = {index:index,size:pageSize,shopId:searchContent,shopName:searchContent};
+	var params = {index:index,size:pageSize,searchContent:searchContent};
 	$.get("/shop/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#shop_tableTmpl");
