@@ -26,6 +26,7 @@ import bean.client.SortBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
+import common.utils.StringUtils;
 import dao.client.ActivityDao;
 import dao.client.GoodsDao;
 import dao.client.ShopDao;
@@ -234,7 +235,17 @@ public class ActivityService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<ActivityBean> activityList = ActivityDao.loadAllActivity(index, size);
+		//活动查询属性,用于搜索
+		String goodsId = request.getParameter("goodsId");//商品ID
+		String title = request.getParameter("title");//活动标题
+		if (StringUtils.isBlank(goodsId)) {
+			goodsId = "";
+		}
+		if (StringUtils.isBlank(title)) {
+			title = "";
+		}
+		
+		List<ActivityBean> activityList = ActivityDao.loadAllActivity_search(goodsId, title, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();

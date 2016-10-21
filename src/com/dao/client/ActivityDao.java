@@ -100,6 +100,19 @@ public class ActivityDao {
 		return activityList;
 	}
 	
+	public static List<ActivityBean> loadAllActivity_search(String goodsId, String title, int index, int size){
+		List<ActivityBean> activityList=new ArrayList<ActivityBean>();
+		try {
+			activityList=dbUtils.query(ActivityBean.class, 
+					" where goodsId like ? or title like ? order by id desc limit ?,?", 
+					"%"+goodsId+"%", "%"+title+"%", index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return activityList;
+	}
+	
 	/**
 	 * 加载所有列表
 	 * @param type ,pageNum(页码),pageSize(页数)

@@ -56,7 +56,8 @@ function activity_edit() {
  */
 function getActivityDateList(index) {
 	var pageSize = $('#pageSize').val();
-	var params = {index:index,size:pageSize};
+	var searchContent = $('#activity_search').val();
+	var params = {index:index,size:pageSize,title:searchContent,goodsId:searchContent};
 	$.get("/activity/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#activity_tableTmpl");
@@ -175,6 +176,13 @@ function activity_resetEdit() {
 	getActivitySortList(0,0,2);
 	$("#activity_level_2").hide();
 }
+
+/**
+ * 活动查询
+ */
+$('#activity_search').bind('input propertychange', function() {  
+	getActivityDateList(0);  
+}); 
 
 $("#pageSize").change(function(){
 	getActivityDateList(0);
