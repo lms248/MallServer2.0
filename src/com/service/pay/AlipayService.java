@@ -24,6 +24,7 @@ import pay.alipay.bean.AlipayOrderRequestBusinessData;
 import pay.alipay.bean.AlipayOrderRequestCommonData;
 import pay.alipay.config.AlipayConfig;
 import pay.alipay.sign.RSA;
+import pay.alipay.sign.RSA2;
 import pay.alipay.util.AlipayCore;
 import pay.alipay.util.AlipayNotify;
 import pay.wx.bean.UnifiedOrderRequestData;
@@ -99,7 +100,7 @@ public class AlipayService {
 		log.debug("requestData => " + requestData);
 	
 		//将待签名字符串使用私钥签名。
-		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
+		String rsa_sign=URLEncoder.encode(RSA2.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
 		log.debug("rsa_sign => " + rsa_sign);
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
 		requestData=requestData+"&sign="+rsa_sign;
@@ -277,5 +278,8 @@ public class AlipayService {
 		
 		log.debug("结束接收支付结果通知（回调）...");
 	}
+	
+	
+	
 	
 }
