@@ -307,6 +307,7 @@ public class GoodsService {
 			if (shopId == null) { //不分店铺
 				if (sortId == null || sortId.equals("0")) { //不分类
 					goodsList = GoodsDao.loadAllGoods_search(goodsId, goodsName, index, size);
+					System.out.println("goodsList.size()===="+goodsList.size());
 				} else { //分类
 					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
 					if (sortList.size() == 0) {//一类

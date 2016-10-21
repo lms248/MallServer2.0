@@ -103,7 +103,7 @@ public class GoodsDao {
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
-					" where goodsId like ? and name like ? order by id desc limit ?,?", goodsId, goodsName, index, size);
+					" where goodsId like ? and name like ? order by id desc limit ?,?", "%"+goodsId+"%", "%"+goodsName+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -128,7 +128,7 @@ public class GoodsDao {
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
 					" where (sortId=? or sortId in (select id from sort where pid=?))"
-					+ " and goodsId like ? and name like ? order by id desc limit ?,?", sortId, sortPId, goodsId, goodsName, index, size);
+					+ " and goodsId like ? and name like ? order by id desc limit ?,?", sortId, sortPId, "%"+goodsId+"%", "%"+goodsName+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -153,7 +153,7 @@ public class GoodsDao {
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
 					" where shopId=? and goodsId like ? and name like ? order by id desc limit ?,?", 
-					shopId, goodsId, goodsName, index, size);
+					shopId, "%"+goodsId+"%", "%"+goodsName+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -181,7 +181,7 @@ public class GoodsDao {
 			goodsList=dbUtils.query(GoodsBean.class, 
 					" where shopId=? and (sortId=? or sortId in (select id from sort where pid=?))"
 					+ " and goodsId like ? and name like ? order by id desc limit ?,?", 
-					shopId, sortId, sortPId, goodsId, goodsName, index, size);
+					shopId, sortId, sortPId, "%"+goodsId+"%", "%"+goodsName+"%", index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
