@@ -7,7 +7,8 @@
  */
 function getUserDateList(index) {
 	var pageSize = $('#pageSize').val();
-	var params = {index:index,size:pageSize};
+	var searchContent = $('#user_search').val();
+	var params = {index:index,size:pageSize,uid:searchContent,username:searchContent};
 	$.post("/user/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#user_tableTmpl");
@@ -19,6 +20,13 @@ function getUserDateList(index) {
 		}
 	},"json");
 }
+
+/**
+ * 用户查询
+ */
+$('#user_search').bind('input propertychange', function() {  
+	getUserDateList(0);
+}); 
 
 $("#pageSize").change(function(){
 	getUserDateList(0);

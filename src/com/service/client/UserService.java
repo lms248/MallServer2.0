@@ -529,8 +529,18 @@ public class UserService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
+		//用户查询属性,用于搜索
+		String uid = request.getParameter("uid");//用户ID
+		String username = request.getParameter("username");//账号
+		if (StringUtils.isBlank(uid)) {
+			uid = "";
+		}
+		if (StringUtils.isBlank(username)) {
+			username = "";
+		}
+		
 		JSONObject obj = new JSONObject();
-		List<UserBean> userList = UserDao.loadAllUser(index, size);
+		List<UserBean> userList = UserDao.loadAllUser_search(uid, username, index, size);
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (UserBean user : userList) {

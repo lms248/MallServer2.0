@@ -133,6 +133,18 @@ public class UserDao {
 		return userList;
 	}
 	
+	public static List<UserBean> loadAllUser_search(String uid, String username, int index, int size){
+		List<UserBean> userList=new ArrayList<UserBean>();
+		try {
+			userList=dbUtils.query(UserBean.class, 
+					" where uid like ? or username like ? order by id desc limit ?,?", "%"+uid+"%", "%"+username+"%", index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return userList;
+	}
+	
 	/**
 	 * 查询表的数据总数量
 	 * @param
