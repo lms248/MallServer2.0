@@ -288,13 +288,16 @@ public class GoodsService {
 		
 		//商品查询属性,用于搜索
 		String goodsId = request.getParameter("goodsId");//商品ID
-		String goodsName = request.getParameter("goodsName");//商品ID
+		String goodsName = request.getParameter("goodsName");//商品名称
 		if (StringUtils.isBlank(goodsId)) {
 			goodsId = "";
 		}
 		if (StringUtils.isBlank(goodsName)) {
 			goodsName = "";
 		}
+		
+		System.out.println("goodsId===="+goodsId);
+		System.out.println("goodsName===="+goodsName);
 		
 		JSONObject obj = new JSONObject();
 		UserBean user = UserDao.loadByToken(token);

@@ -106,7 +106,8 @@ function resetEdit() {
  */
 function getGoodsDateList(index) {
 	var pageSize = $('#pageSize').val();
-	var params = {index:index,size:pageSize};
+	var searchContent = $('#goods_search').val();
+	var params = {index:index,size:pageSize,goodsId:searchContent,goodsName:searchContent};
 	$.get("/goods/infoList",params,function(data){
 		if(data.code=="0"){
 			var template = $.templates("#tableTmpl");
@@ -270,8 +271,15 @@ function clearImageList() {
 	$("#fileList").html("");
 }
 
+/**
+ * 商品查询
+ */
+$('#goods_search').bind('input propertychange', function() {  
+	getGoodsDateList(0);  
+}); 
+
 $("#pageSize").change(function(){
-	getGoodsDateList(0)
+	getGoodsDateList(0);
 });
 
 function firstPage(){//首页

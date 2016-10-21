@@ -42,7 +42,7 @@
         		</div>
         		<div class="span6">
         			<div class="dataTables_filter" id="hidden-table-info_filter">
-        				<label>搜索: <input type="text" class="form-control" aria-controls="hidden-table-info" placeholder="请输入商品名进行查询"></label>
+        				<label>搜索: <input id="goods_search" type="text" class="form-control" aria-controls="hidden-table-info" placeholder="请输入商品名或商品ID进行查询"></label>
         			</div>
         		</div>
         	</div>
