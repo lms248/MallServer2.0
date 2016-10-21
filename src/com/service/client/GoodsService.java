@@ -296,9 +296,6 @@ public class GoodsService {
 			goodsName = "";
 		}
 		
-		System.out.println("goodsId===="+goodsId);
-		System.out.println("goodsName===="+goodsName);
-		
 		JSONObject obj = new JSONObject();
 		UserBean user = UserDao.loadByToken(token);
 		
