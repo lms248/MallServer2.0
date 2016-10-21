@@ -14,10 +14,10 @@ package pay.alipay.config;
 public class AlipayConfig {
 	
 	//APPID
-	public static String appid = "2016072800108410";//2016092301956290
+	public static String appid = "2016072800108410";
 	
 	//合作身份者ID(PID)，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://openhome.alipay.com/platform/keyManage.htm?keyType=partner
-	public static String partner = "2088421932867361";
+	public static String partner = "2088102168822341";
 
 	//商户的私钥,需要PKCS8格式，RSA公私钥生成：https://doc.open.alipay.com/doc2/detail.htm?spm=a219a.7629140.0.0.nBDxfy&treeId=58&articleId=103242&docType=1
 	public static String private_key = 
@@ -52,9 +52,7 @@ public class AlipayConfig {
 			"elO6e9LOEL8QM+E=";*/
 	
 	//支付宝的公钥，查看地址：https://openhome.alipay.com/platform/keyManage.htm?keyType=partner
-	//public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB";
-	public static String alipay_public_key2  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1zrahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyqrXaPdKBmr90DIpIxmIyKXv4GGAkPyJ/6FTFY99uhpiq0qadD/uSzQsefWo0aTvP/65zi3eof7TcZ32oWpwIDAQAB";
-	public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZOc9sUABQexmUnjMFuscM53I0hP/nJlRT3FZiBNmyVeWPX8/sEs5JHHa2OTHDdn8/hAETnsqY59uXaP+ITgeyRmMaKlOvcbuYWUyHb9P4JELHM05lDIcbN4aC24V3bASiBfs0bNoFGI5zY/4okLfYWB+7PPqirMONUhekWFQFowIDAQAB";
+	public static String alipay_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIgHnOn7LLILlKETd6BFRJ0GqgS2Y3mn1wMQmyh9zEyWlz5p1zrahRahbXAfCfSqshSNfqOmAQzSHRVjCqjsAw1jyqrXaPdKBmr90DIpIxmIyKXv4GGAkPyJ/6FTFY99uhpiq0qadD/uSzQsefWo0aTvP/65zi3eof7TcZ32oWpwIDAQAB";
 	
 	// 签名方式
 	public static String sign_type = "RSA";
@@ -66,7 +64,8 @@ public class AlipayConfig {
 	public static String input_charset = "utf-8";
 
 	// 接收通知的接口名
-	public static String notify_url = "http://120.24.69.203:8080/pay/alipay/notify";
+	public static String notify_url = "http://120.24.69.203:8080/order/alipayResult";
+	//public static String notify_url = "http://120.24.69.203:8080/pay/alipay/notify";
 
 }
 

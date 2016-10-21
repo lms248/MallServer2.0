@@ -191,7 +191,7 @@ public class AlipayService {
 		//System.out.println("rsa_sign check => " + RSA.verify(requestData, rsa_sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
 		System.out.println("rsa_sign2 => " + rsa_sign2);
 		System.out.println("rsa_sign5 => " + rsa_sign5);
-		System.out.println("rsa_sign5 check => " + RSAUtils.verify(requestData.getBytes(), AlipayConfig.alipay_public_key2, rsa_sign5));
+		System.out.println("rsa_sign5 check => " + RSAUtils.verify(requestData.getBytes(), AlipayConfig.alipay_public_key, rsa_sign5));
 		//System.out.println("rsa_sign4 => " + rsa_sign4);
 		//System.out.println("rsa_sign2 check => " + RSA2.verify(requestData, rsa_sign2, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
 		//System.out.println("rsa_sign3 => " + rsa_sign3);
