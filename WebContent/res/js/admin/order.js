@@ -90,9 +90,11 @@ function showOrderInfo(orderId) {
  * 导出订单Excel
  */
 function exportOrderExcel() {
-	$.get("/excel/exportOrders",{},function(data){
-		alert(data.msg);
-	},"json");
+	if (confirm("确定导出订单Excel表吗？")) {
+		$.get("/excel/exportOrders",{},function(data){
+			alert(data.msg);
+		},"json");
+	}
 }
 
 $("#pageSize").change(function(){

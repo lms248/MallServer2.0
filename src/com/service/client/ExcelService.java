@@ -1,5 +1,6 @@
 package service.client;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,9 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.OrdersBean;
-
 import common.utils.Def;
-
 import dao.client.OrdersDao;
 
 /*
@@ -93,15 +92,17 @@ public class ExcelService {
             row.createCell(10).setCellValue(getTimeStr(orderList.get(i).getDeliverTime()));  
             row.createCell(11).setCellValue(getTimeStr(orderList.get(i).getReceiveTime()));  
 		}
-		obj.put("code", Def.CODE_SUCCESS);
-		obj.put("msg", "导出订单列表成功");
-		out.print(obj);
 		
 		 // 第六步，将文件存到指定位置  
         try {  
-            FileOutputStream fout = new FileOutputStream("F:/order"+getTimeStr(System.currentTimeMillis())+".xls");  
+        	String filePath = "E:/foshanyigou_order_"+new SimpleDateFormat("yyyymmdd").format(System.currentTimeMillis())+".xls";
+            FileOutputStream fout = new FileOutputStream(filePath);  
             wb.write(fout);  
             fout.close();  
+            
+            obj.put("code", Def.CODE_SUCCESS);
+    		obj.put("msg", "导出订单列表成功,位置："+filePath);
+    		out.print(obj);
         } catch (Exception e) {  
         	System.err.println("导出订单表出现异常");
             e.printStackTrace();  
@@ -112,7 +113,7 @@ public class ExcelService {
 	}
 	
 	public String getTimeStr(long time) {
-		return new SimpleDateFormat("yyyy-mm-dd").format(time);
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(time);
 	}
 	
 	    

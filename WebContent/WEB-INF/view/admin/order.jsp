@@ -26,7 +26,7 @@
         				</select> 
         				条<b>/</b>每页</label>
         				
-        				<label style="margin-left: 100px;">
+        				<label style="margin-left: 50px;">
         				<select id="orderStatus" class="form-control" style="width: 100px;" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
         				<option value="">全部</option>
         				<option value="0">待付款</option>
@@ -37,8 +37,9 @@
         				<option value="4">申请售后</option>
         				</select> 
         				</label>
-        				
+        				<label style="margin-left: 20px;">
         				<a class="btn btn-success" onclick="exportOrderExcel()"><span>导出订单EXCEL</span></a>
+        				</label>
         			</div>
         		</div>
         		<div class="span6">
