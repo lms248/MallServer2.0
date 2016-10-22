@@ -86,6 +86,15 @@ function showOrderInfo(orderId) {
 	},"json");
 }
 
+/**
+ * 导出订单Excel
+ */
+function exportOrderExcel() {
+	$.get("/excel/exportOrders",{},function(data){
+		alert(data.msg);
+	},"json");
+}
+
 $("#pageSize").change(function(){
 	getOrderDateList(0);
 });

@@ -38,7 +38,7 @@
         				</select> 
         				</label>
         				
-        				<a class="btn btn-success" onclick="getXlsFromTbl('order_table',null)"><span>导出EXCEL</span></a>
+        				<a class="btn btn-success" onclick="exportOrderExcel()"><span>导出订单EXCEL</span></a>
         			</div>
         		</div>
         		<div class="span6">
@@ -166,7 +166,6 @@
 </script>
 
 <script src="/res/js/admin/order.js"></script>
-<script src="/res/js/excelUtil.js"></script>
 
 <script>
 getOrderDateList(0);//活动列表
