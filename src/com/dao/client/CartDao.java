@@ -22,7 +22,7 @@ public class CartDao {
 	 * @param cartId
 	 * @return
 	 */
-	public static CartBean loadByCartId(long cartId){
+	public static CartBean loadByCartId(String cartId){
 		CartBean bean=null;
 		try {
 			bean=dbUtils.read(CartBean.class, "where cartid=?", cartId);
@@ -203,7 +203,7 @@ public class CartDao {
 	 * @param 
 	 * @return 
 	 */
-	public static int deleteByCartId(long cartId){
+	public static int deleteByCartId(String cartId){
 		try {
 			return dbUtils.delete(CartBean.class, "cartid", cartId);
 		} catch (Exception e) {

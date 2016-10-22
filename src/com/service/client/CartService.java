@@ -72,10 +72,10 @@ public class CartService {
 		
 		JSONObject cartObj = new JSONObject();
 		CartBean cart = CartDao.loadByUid(user.getUid());
-		long cartId = 0;
+		String cartId = "";
 		if (cart == null) {
 			cart = new CartBean();
-			cartId = IdGen.get().nextId();
+			cartId = IdGen.get().nextId()+"";
 			cart.setCartId(cartId);
 			cart.setUid(user.getUid());
 			cartObj.put("goodsId", Long.parseLong(goodsId));
@@ -136,7 +136,7 @@ public class CartService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token");
-		int cartId = Integer.parseInt(request.getParameter("cartId")); 
+		String cartId = request.getParameter("cartId"); 
 		
 		JSONObject obj = new JSONObject();
 		

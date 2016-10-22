@@ -12,7 +12,7 @@ public class CartBean extends Pojo {
 	/** 序号ID */
 	private int id;
 	/** 购物车ID */
-	private long cartId;
+	private String cartId;
 	/** 用户ID */
 	private String uid;
 	/** 
@@ -27,10 +27,10 @@ public class CartBean extends Pojo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public long getCartId() {
+	public String getCartId() {
 		return cartId;
 	}
-	public void setCartId(long cartId) {
+	public void setCartId(String cartId) {
 		this.cartId = cartId;
 	}
 	public String getUid() {
