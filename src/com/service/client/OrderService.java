@@ -546,6 +546,19 @@ public class OrderService {
 			out.print(obj);
 		}
 		
+		switch (Integer.parseInt(newStatus)) {
+		case Def.ORDER_STATUS_NOPAY:
+		case Def.ORDER_STATUS_NOTDELIVER:
+		case Def.ORDER_STATUS_CANCEL:
+		case Def.ORDER_STATUS_AFTERSALES:
+		case Def.ORDER_STATUS_NOTRECEIVE:
+			order.setStatus(Integer.parseInt(newStatus));
+			OrdersDao.update(order);
+			MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
+		default:
+			break;
+		}
+		
 		System.out.println(obj);
 		
 		out.flush();
