@@ -52,7 +52,7 @@ public class CommentDao {
 		List<CommentBean> commentList=new ArrayList<CommentBean>();
 		try {
 			commentList=dbUtils.query(CommentBean.class, 
-					" where uid=? goodsid=?",uid, goodsId);
+					" where uid=? and goodsid=?",uid, goodsId);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
