@@ -294,6 +294,7 @@ public class OrderService {
 			orderObj.put("shopName", shop.getName());
 			orderObj.put("shopLogo", shop.getLogo());
 			orderObj.put("shopLogoThumb", shop.getLogoThumb());
+			orderObj.put("contactPhone", shop.getContactPhone());
 			orderObj.put("goodsList", goodsArr);
 			JSONArray addressArr = new JSONArray();
 			if (!StringUtils.isBlank(user.getAddress())) {
