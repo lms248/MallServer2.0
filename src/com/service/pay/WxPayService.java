@@ -360,7 +360,7 @@ public class WxPayService {
 							order.setPayWay(PayWay.WECHAT.getName());
 							order.setPayTime(payTime);
 							OrdersDao.update(order);
-							MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
+							MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(order.getOrderId(), order.getStatus()));
 						}
 					}else {
 						//本地订单状态修改为支付错误
