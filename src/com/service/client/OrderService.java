@@ -272,6 +272,7 @@ public class OrderService {
 			JSONArray goodsList = JSONArray.fromObject(order.getGoodsList());
 			JSONArray goodsArr = new JSONArray();
 			JSONObject goodsObj = new JSONObject();
+			JSONArray commentArr = new JSONArray();
 			for (int i = 0; i < goodsList.size(); i++) {
 				goodsObj = JSONObject.fromObject(goodsList.get(i));
 				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
@@ -284,6 +285,11 @@ public class OrderService {
 				goodsObj.put("prePrice", goods.getPrePrice());
 				goodsObj.put("curPrice", goods.getCurPrice());
 				goodsArr.add(goodsObj);
+				
+				List<CommentBean> commentList = CommentDao.loadByUidAndGoodsId(user.getUid(), goods.getGoodsId());
+				for (CommentBean comment : commentList) {
+					commentArr.add(JSONObject.fromObject(comment));
+				}
 			}
 			orderObj.put("shopName", shop.getName());
 			orderObj.put("shopLogo", shop.getLogo());
@@ -302,6 +308,7 @@ public class OrderService {
 				}
 			}
 			orderObj.put("address", addressObj);
+			orderObj.put("comment", commentArr);
 			orderArr.add(orderObj);
 		}
 		
