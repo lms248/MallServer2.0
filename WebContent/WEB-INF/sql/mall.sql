@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-10-30 20:01:29
+Date: 2016-10-22 14:19:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -139,21 +139,36 @@ CREATE TABLE `goods` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for message
+-- ----------------------------
+DROP TABLE IF EXISTS `message`;
+CREATE TABLE `message` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `messageId` varchar(100) DEFAULT NULL COMMENT '消息ID',
+  `uid` varchar(100) DEFAULT NULL COMMENT '用户ID',
+  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `content` varchar(255) DEFAULT NULL COMMENT '内容',
+  `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for orders
 -- ----------------------------
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `ordeId` varchar(100) NOT NULL COMMENT '订单ID',
+  `orderId` varchar(100) NOT NULL COMMENT '订单ID',
   `payId` varchar(100) DEFAULT NULL COMMENT '订单支付ID',
   `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `shopId` varchar(100) NOT NULL COMMENT '店铺ID',
   `goodsList` text COMMENT '数量',
   `addressId` varchar(100) DEFAULT NULL COMMENT '收货地址ID',
   `status` int(11) DEFAULT NULL COMMENT '总价格',
+  `afterSaleService` text COMMENT '售后服务',
   `createTime` bigint(20) DEFAULT NULL COMMENT '下单时间',
-  PRIMARY KEY (`id`,`ordeId`,`uid`,`shopId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`,`orderId`,`uid`,`shopId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for pay
@@ -165,8 +180,11 @@ CREATE TABLE `pay` (
   `payWay` varchar(255) DEFAULT NULL COMMENT '支付方式',
   `total_fee` int(11) DEFAULT NULL COMMENT '总金额（分）',
   `fee_type` varchar(255) DEFAULT NULL COMMENT ' 货币种类,默认人民币：CNY',
+  `body` varchar(1000) DEFAULT NULL COMMENT '商品描述',
   `trade_no` varchar(255) DEFAULT NULL COMMENT '支付订单号',
   `result_code` varchar(255) DEFAULT NULL COMMENT '业务结果,SUCCESS/FAIL',
+  `err_code` varchar(255) DEFAULT NULL COMMENT '错误代码',
+  `err_code_des` varchar(255) DEFAULT NULL COMMENT '错误代码描述',
   `status` int(11) DEFAULT NULL COMMENT '支付状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
