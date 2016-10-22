@@ -24,18 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alipay.api.AlipayApiException;
-import com.alipay.api.internal.util.AlipaySignature;
-
 import pay.alipay.bean.AlipayOrderRequestBusinessData;
 import pay.alipay.bean.AlipayOrderRequestCommonData;
 import pay.alipay.config.AlipayConfig;
 import pay.alipay.sign.Base64;
 import pay.alipay.sign.RSA;
 import pay.alipay.sign.RSA2;
-import pay.alipay.sign.RSAUtils;
 import pay.alipay.util.AlipayCore;
 import pay.alipay.util.AlipayNotify;
+
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 import common.logger.Logger;
 import common.utils.Def;
 import common.utils.IdGen;
@@ -67,52 +66,19 @@ public class AlipayService {
 		log.debug("开始APP下单方法...");
 		//1、接收业务参数，生成本地系统订单
 		String payId = IdGen.get().nextId()+"";
-		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		
-		//业务参数
-		AlipayOrderRequestBusinessData businessData = new AlipayOrderRequestBusinessData();
-		businessData.setBody("支付宝测试1");
-		businessData.setSubject("这里是商品的标题");
-		businessData.setOut_trade_no(payId);
-		//businessData.setTimeout_express("60m");
-		businessData.setTotal_amount("0.01");
-		businessData.setProduct_code("QUICK_MSECURITY_PAY");
+		String requestData = getOrderInfo("订单标题", "订单描述", "0.01", payId);
 		
-		//公共参数
-		AlipayOrderRequestCommonData commonData = new AlipayOrderRequestCommonData();
-		commonData.setApp_id(AlipayConfig.appid);
-		commonData.setMethod("alipay.trade.app.pay");
-		commonData.setFormat("JSON");
-		commonData.setCharset("utf-8");
-		commonData.setSign_type("RSA");
-		commonData.setTimestamp(timestamp);
-		commonData.setVersion("1.0");
-		commonData.setNotify_url(AlipayConfig.notify_url);
-		commonData.setBiz_content(JSONObject.fromObject(businessData).toString());
-		
-		log.debug("AlipayOrderRequestCommonData => " + JSONObject.fromObject(commonData));
-		log.debug("AlipayOrderRequestBusinessData => " + JSONObject.fromObject(businessData));
 		
 		//2、添加本地订单记录
 		
 		//3、原始订单字符串进行签名
 		
 		//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
-		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(commonData);
-		String requestData = AlipayCore.createLinkString(requestParams);
-		//打印待签名字符串。工程目录下的log文件夹中。
-		log.debug("requestData => " + requestData);
+		
 	
 		//将待签名字符串使用私钥签名。
-		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		String rsa_sign2=URLEncoder.encode(RSA2.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		String rsa_sign3=URLEncoder.encode(AlipaySignature.rsaSign(requestParams, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		log.debug("rsa_sign => " + rsa_sign);
-		log.debug("rsa_sign2 => " + rsa_sign2);
-		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
-		requestData=requestData+"&sign="+rsa_sign3;
 		
-		log.debug("requestData sign => " + requestData);
 		
 		//4、生成可用数据
 		
@@ -130,35 +96,27 @@ public class AlipayService {
 		log.debug("结束APP下单方法...");
 	}
 	
-	public static void main2(String[] args) throws Exception {
-		try {
-			String rsa_sign=URLEncoder.encode(RSA.sign("{\"a\":\"123\" }", AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-			String rsa_sign2=URLEncoder.encode(sign("{\"a\":\"123\" }", AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-			System.out.println(rsa_sign);
-			System.out.println(RSA.verify("{\"a\":\"123\" }", rsa_sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
-			System.out.println(rsa_sign2);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		
-		System.out.println("开始APP下单方法...");
-		//1、接收业务参数，生成本地系统订单
-		String payId = IdGen.get().nextId()+"";
+	/**
+	 * 获取订单信息
+	 * @param subject 商品的标题
+	 * @param body 商品描述
+	 * @param total_amount 订单总金额
+	 * @param out_trade_no 商户网站唯一订单号
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	public String getOrderInfo(String subject, String body, String total_amount, String out_trade_no) throws UnsupportedEncodingException { 
 		String timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		
 		//业务参数
 		AlipayOrderRequestBusinessData businessData = new AlipayOrderRequestBusinessData();
-		businessData.setBody("支付宝测试1");
-		businessData.setSubject("这里是商品的标题");
-		businessData.setOut_trade_no(payId);
-		//businessData.setTimeout_express("60m");
-		businessData.setTotal_amount("0.01");
+		businessData.setBody(body);
+		businessData.setSubject(subject);
+		businessData.setOut_trade_no(out_trade_no);
+		businessData.setTimeout_express("30m");
+		businessData.setTotal_amount(total_amount);
 		businessData.setProduct_code("QUICK_MSECURITY_PAY");
-		
+		log.debug("AlipayOrderRequestBusinessData => " + JSONObject.fromObject(businessData));
 		//公共参数
 		AlipayOrderRequestCommonData commonData = new AlipayOrderRequestCommonData();
 		commonData.setApp_id(AlipayConfig.appid);
@@ -170,72 +128,18 @@ public class AlipayService {
 		commonData.setVersion("1.0");
 		commonData.setNotify_url(AlipayConfig.notify_url);
 		commonData.setBiz_content(JSONObject.fromObject(businessData).toString());
+		log.debug("AlipayOrderRequestCommonData => " + JSONObject.fromObject(commonData));
 		
-		System.out.println("AlipayOrderRequestCommonData => " + JSONObject.fromObject(commonData));
-		System.out.println("AlipayOrderRequestBusinessData => " + JSONObject.fromObject(businessData));
-		
-		//2、添加本地订单记录
-		
-		//3、原始订单字符串进行签名
-		
-		//将post接收到的数组所有元素，按照“参数=参数值”的模式用“&”字符拼接成字符串。需要排序。
 		Map<String, String> requestParams = (Map<String, String>) MapUtils.beanToMap(commonData);
 		String requestData = AlipayCore.createLinkString(requestParams);
-		//打印待签名字符串。工程目录下的log文件夹中。
-		System.out.println("requestData => " + requestData);
-	
-		//将待签名字符串使用私钥签名。
+		log.debug("requestData => " + requestData);
 		String rsa_sign=URLEncoder.encode(RSA.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		String rsa_sign2=URLEncoder.encode(RSA2.sign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		String rsa_sign6=URLEncoder.encode(AlipaySignature.rsaSign(requestData, AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		//String rsa_sign5=URLEncoder.encode(RSAUtils.sign2(requestData.getBytes(), AlipayConfig.private_key),AlipayConfig.input_charset);
-		//String rsa_sign4=URLEncoder.encode(RSA4.signWithPrivateKey(AlipayConfig.private_key.getBytes(), requestData.getBytes()),AlipayConfig.input_charset);
-		//String rsa_sign3=URLEncoder.encode(RSA3.decrypt(requestData.toString(), AlipayConfig.private_key, AlipayConfig.input_charset),AlipayConfig.input_charset);
-		System.out.println("rsa_sign => " + rsa_sign);
-		//System.out.println("rsa_sign check => " + RSA.verify(requestData, rsa_sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
-		System.out.println("rsa_sign2 => " + rsa_sign2);
-		System.out.println("rsa_sign6 => " + rsa_sign6);
-		//System.out.println("rsa_sign5 => " + rsa_sign5);
-		//System.out.println("rsa_sign5 check => " + RSAUtils.verify(requestData.getBytes(), AlipayConfig.alipay_public_key, rsa_sign5));
-		//System.out.println("rsa_sign4 => " + rsa_sign4);
-		//System.out.println("rsa_sign2 check => " + RSA2.verify(requestData, rsa_sign2, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
-		//System.out.println("rsa_sign3 => " + rsa_sign3);
-		System.out.println(AlipaySignature.rsaCheckContent(requestData, rsa_sign6, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
+		log.debug("rsa_sign => " + rsa_sign);
 		//把签名得到的sign和签名类型sign_type拼接在待签名字符串后面。
-		requestData=requestData+"&sign="+rsa_sign;
+		requestData = requestData + "&sign=" + rsa_sign;
 		
-		System.out.println("requestData sign => " + requestData);
-		
-		//4、生成可用数据
-		
-		//5、返回处理结果
-		
-		System.out.println("结束APP下单方法...");
-	}
-	
-	public static String sign(String content, String privateKey, String input_charset) {
-	        try 
-	        {
-	         byte[] decode = Base64.decode(privateKey);
-	         PKCS8EncodedKeySpec priPKCS8   = new PKCS8EncodedKeySpec(decode );
-	           KeyFactory keyf= KeyFactory.getInstance("RSA");
-	           PrivateKey priKey= keyf.generatePrivate(priPKCS8);
-
-	            java.security.Signature signature = java.security.Signature.getInstance("SHA1WithRSA");
-
-	            signature.initSign(priKey);
-	            signature.update( content.getBytes(input_charset) );
-
-	            byte[] signed = signature.sign();
-	            
-	            return Base64.encode(signed);
-	        }
-	        catch (Exception e) 
-	        {
-	           e.printStackTrace();
-	        }
-	        
-	        return null;
+		log.debug("requestData + sign => " + requestData);
+		return requestData;
 	}
 	
 	/** APP下单 */
