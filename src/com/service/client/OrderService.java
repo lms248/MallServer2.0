@@ -410,6 +410,7 @@ public class OrderService {
 		order.setStatus(Def.ORDER_STATUS_RECEIVE);
 		order.setReceiveTime(System.currentTimeMillis());
 		OrdersDao.update(order);
+		MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "确认收货成功");
@@ -461,6 +462,7 @@ public class OrderService {
 		
 		order.setStatus(Def.ORDER_STATUS_CANCEL);
 		OrdersDao.update(order);
+		MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "取消订单成功");
@@ -520,6 +522,7 @@ public class OrderService {
 		order.setStatus(Def.ORDER_STATUS_AFTERSALES);
 		order.setAfterSaleService(afterSaleObj.toString());
 		OrdersDao.update(order);
+		MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "申请售后服务成功");

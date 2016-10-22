@@ -34,6 +34,7 @@ import pay.wx.bean.WxPayRequestData;
 import pay.wx.config.WxPayConfig;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
+import service.client.MessageService;
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
 import bean.client.PayBean;
@@ -359,6 +360,7 @@ public class WxPayService {
 							order.setPayWay(PayWay.WECHAT.getName());
 							order.setPayTime(payTime);
 							OrdersDao.update(order);
+							MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 						}
 					}else {
 						//本地订单状态修改为支付错误
