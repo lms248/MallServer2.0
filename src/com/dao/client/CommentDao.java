@@ -38,15 +38,26 @@ public class CommentDao {
 	 * @param uid
 	 * @return
 	 */
-	public static CommentBean loadByUid(String uid){
-		CommentBean bean=null;
+	public static List<CommentBean> loadByUid(String uid){
+		List<CommentBean> commentList=new ArrayList<CommentBean>();
 		try {
-			bean=dbUtils.read(CommentBean.class, "where uid=?", uid);
+			commentList=dbUtils.query(CommentBean.class, "where uid=?", uid);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return bean;
+		return commentList;
+	}
+	public static List<CommentBean> loadByUidAndGoodsId(String uid, String goodsId){
+		List<CommentBean> commentList=new ArrayList<CommentBean>();
+		try {
+			commentList=dbUtils.query(CommentBean.class, 
+					" where uid=? goodsid=?",uid, goodsId);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return commentList;
 	}
 	
 	/**
@@ -99,7 +110,7 @@ public class CommentDao {
 		}
 		return commentList;
 	}
-	public static List<CommentBean> loadAllCommentForGoodsId(String goodsId, int index, int size){
+	public static List<CommentBean> loadCommentForGoodsId(String goodsId, int index, int size){
 		List<CommentBean> commentList=new ArrayList<CommentBean>();
 		try {
 			commentList=dbUtils.query(CommentBean.class, 

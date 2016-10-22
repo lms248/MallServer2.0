@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import bean.client.MessageBean;
 import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
+import common.utils.JsonUtils;
 import dao.client.MessageDao;
 import dao.client.UserDao;
 
@@ -58,9 +60,14 @@ public class MessageService {
 		
 		List<MessageBean> messageList = MessageDao.loadMessageByUid(index, size, user.getUid());
 		
+		JSONArray arr = new JSONArray();
+		for (MessageBean message : messageList) {
+			arr.add(JSONObject.fromObject(JsonUtils.jsonFromObject(message)));
+		}
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "购物车列表");
-		obj.put("data", JSONObject.fromObject(messageList));
+		obj.put("data", arr);
 		out.print(obj);
 		
 		System.out.println(obj);

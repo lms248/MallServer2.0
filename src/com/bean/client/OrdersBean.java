@@ -27,8 +27,16 @@ public class OrdersBean extends Pojo {
 	private int status;
 	/** 售后服务 */
 	private String afterSaleService;
+	/** 支付方式 */
+	private String payWay;
 	/** 下单时间 */
 	private long createTime;
+	/** 支付时间 */
+	private long payTime;
+	/** 发货时间 */
+	private long deliverTime;
+	/** 收货时间 */
+	private long receiveTime;
 	
 	public int getId() {
 		return id;
@@ -84,11 +92,35 @@ public class OrdersBean extends Pojo {
 	public void setAfterSaleService(String afterSaleService) {
 		this.afterSaleService = afterSaleService;
 	}
+	public String getPayWay() {
+		return payWay;
+	}
+	public void setPayWay(String payWay) {
+		this.payWay = payWay;
+	}
 	public long getCreateTime() {
 		return createTime;
 	}
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
+	}
+	public long getPayTime() {
+		return payTime;
+	}
+	public void setPayTime(long payTime) {
+		this.payTime = payTime;
+	}
+	public long getDeliverTime() {
+		return deliverTime;
+	}
+	public void setDeliverTime(long deliverTime) {
+		this.deliverTime = deliverTime;
+	}
+	public long getReceiveTime() {
+		return receiveTime;
+	}
+	public void setReceiveTime(long receiveTime) {
+		this.receiveTime = receiveTime;
 	}
 	
 }

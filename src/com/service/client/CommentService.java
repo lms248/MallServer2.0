@@ -128,7 +128,7 @@ public class CommentService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<CommentBean> commentList = CommentDao.loadAllCommentForGoodsId(goodsId, index, size);
+		List<CommentBean> commentList = CommentDao.loadCommentForGoodsId(goodsId, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();

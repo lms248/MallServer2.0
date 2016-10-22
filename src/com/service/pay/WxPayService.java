@@ -343,6 +343,7 @@ public class WxPayService {
 				
 				try {
 					//更新本地订单信息
+					long payTime = System.currentTimeMillis();
 					PayBean pay = PayDao.loadByPayId(payResult.getOut_trade_no());
 					pay.setResult_code(payResult.getResult_code());
 					
@@ -355,6 +356,8 @@ public class WxPayService {
 						for (OrdersBean order : orderList) {
 							//order.setStatus(Def.ORDER_STATUS_NOTDELIVER);
 							order.setStatus(Def.ORDER_STATUS_NOTRECEIVE);
+							order.setPayWay(PayWay.WECHAT.getName());
+							order.setPayTime(payTime);
 							OrdersDao.update(order);
 						}
 					}else {
@@ -363,7 +366,7 @@ public class WxPayService {
 						pay.setErr_code_des(payResult.getErr_code_des());
 						pay.setStatus(Def.PAY_STATUS_NO);
 					}
-					pay.setPayTime(System.currentTimeMillis());
+					pay.setPayTime(payTime);
 					PayDao.update(pay);
 				} catch (Exception e) {
 					log.debug("存储pay数据出错");

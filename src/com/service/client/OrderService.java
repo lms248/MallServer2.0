@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.client.CommentBean;
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
-
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-
+import dao.client.CommentDao;
 import dao.client.GoodsDao;
 import dao.client.OrdersDao;
 import dao.client.ShopDao;
@@ -154,10 +154,19 @@ public class OrderService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		String token = request.getParameter("token");
 		String orderId = request.getParameter("orderId");
 		
 		JSONObject obj = new JSONObject();
 		JSONObject orderObj = new JSONObject();
+		
+		UserBean user = UserDao.loadByToken(token);
+		if (user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "用户不存在");
+			out.print(obj);
+			return;
+		}
 		
 		OrdersBean order = OrdersDao.loadByOrderId(orderId);
 		orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
@@ -168,6 +177,7 @@ public class OrderService {
 		JSONArray goodsList = JSONArray.fromObject(order.getGoodsList());
 		JSONArray goodsArr = new JSONArray();
 		JSONObject goodsObj = new JSONObject();
+		JSONArray commentArr = new JSONArray();
 		double totalPrice = 0;
 		for (int i = 0; i < goodsList.size(); i++) {
 			goodsObj = JSONObject.fromObject(goodsList.get(i));
@@ -182,14 +192,19 @@ public class OrderService {
 			goodsObj.put("curPrice", goods.getCurPrice());
 			goodsArr.add(goodsObj);
 			totalPrice += goods.getCurPrice() * goodsObj.getInt("amount");
+			
+			List<CommentBean> commentList = CommentDao.loadByUidAndGoodsId(user.getUid(), goods.getGoodsId());
+			for (CommentBean comment : commentList) {
+				commentArr.add(JSONObject.fromObject(comment));
+			}
 		}
 		orderObj.put("shopName", shop.getName());
 		orderObj.put("shopLogo", shop.getLogo());
 		orderObj.put("shopLogoThumb", shop.getLogoThumb());
+		orderObj.put("contactPhone", shop.getContactPhone());
 		orderObj.put("goodsList", goodsArr);
 		orderObj.put("totalPrice", totalPrice);
 		
-		UserBean user = UserDao.loadByUid(order.getUid());
 		JSONArray addressArr = new JSONArray();
 		if (!StringUtils.isBlank(user.getAddress())) {
 			addressArr = JSONArray.fromObject(user.getAddress());
@@ -202,6 +217,7 @@ public class OrderService {
 			}
 		}
 		orderObj.put("address", addressObj);
+		orderObj.put("comment", commentArr);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "订单详情");
@@ -392,6 +408,7 @@ public class OrderService {
 		}
 		
 		order.setStatus(Def.ORDER_STATUS_RECEIVE);
+		order.setReceiveTime(System.currentTimeMillis());
 		OrdersDao.update(order);
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -551,8 +568,9 @@ public class OrderService {
 		case Def.ORDER_STATUS_NOTDELIVER:
 		case Def.ORDER_STATUS_CANCEL:
 		case Def.ORDER_STATUS_AFTERSALES:
-		case Def.ORDER_STATUS_NOTRECEIVE:
+		case Def.ORDER_STATUS_NOTRECEIVE://发货
 			order.setStatus(Integer.parseInt(newStatus));
+			order.setDeliverTime(System.currentTimeMillis());
 			OrdersDao.update(order);
 			MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		default:
