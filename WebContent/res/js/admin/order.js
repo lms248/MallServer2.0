@@ -92,7 +92,7 @@ function showOrderInfo(orderId) {
 function exportOrderExcel() {
 	if (confirm("确定导出订单Excel表吗？")) {
 		$.get("/excel/exportOrders",{},function(data){
-			alert(data.msg);
+			$("#exportOrderExcel").click();
 		},"json");
 	}
 }

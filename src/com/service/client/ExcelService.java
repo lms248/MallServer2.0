@@ -95,13 +95,21 @@ public class ExcelService {
 		
 		 // 第六步，将文件存到指定位置  
         try {  
-        	String filePath = "E:/foshanyigou_order_"+new SimpleDateFormat("yyyymmdd").format(System.currentTimeMillis())+".xls";
-            FileOutputStream fout = new FileOutputStream(filePath);  
-            wb.write(fout);  
-            fout.close();  
+        	//String filePath = "E:/foshanyigou_order_"+new SimpleDateFormat("yyyymmdd").format(System.currentTimeMillis())+".xls";
+        	String filePath = request.getSession().getServletContext().getRealPath("/download/file/temp");
+	        
+			File file_thumb = new File(filePath);
+	        if (!file_thumb.exists()) {
+	        	file_thumb.mkdirs();//创建文件目录
+	        }
             
+	        FileOutputStream fout = new FileOutputStream(filePath+"/"+"order.xls");  
+            wb.write(fout);  
+            fout.close();
+	        
             obj.put("code", Def.CODE_SUCCESS);
-    		obj.put("msg", "导出订单列表成功,位置："+filePath);
+    		obj.put("msg", "导出订单列表成功");
+    		obj.put("data", "/download/file/temp/order.xls");
     		out.print(obj);
         } catch (Exception e) {  
         	System.err.println("导出订单表出现异常");

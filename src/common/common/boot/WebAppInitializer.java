@@ -40,6 +40,7 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		defaultDispatcher.addMapping("*.html");
 		defaultDispatcher.addMapping("/res/*");
 		defaultDispatcher.addMapping("/upload/*");
+		defaultDispatcher.addMapping("/download/*");
 		
 		HiddenHttpMethodFilter hiddenHttpMethodFilter = new HiddenHttpMethodFilter();
 		FilterRegistration.Dynamic filter1 = servletContext.addFilter("hiddenHttpMethodFilter", hiddenHttpMethodFilter);

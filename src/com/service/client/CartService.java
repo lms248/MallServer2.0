@@ -259,7 +259,7 @@ public class CartService {
 				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
 				if (obj2.get("goodsId") != null && goodsId != null && tags != null
 						&& goodsId.equals(obj2.get("goodsId").toString())  
-						&& JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
+						&& JSONObject.fromObject(JSON.parseObject(tags)).equals(JSONObject.fromObject(obj2.get("tags")))) {
 					continue;
 				}
 				goodsList_temp.add(obj2);
@@ -334,7 +334,7 @@ public class CartService {
 					System.out.println("goodsObj_del.getString('tags')=="+goodsObj_del.getString("tags"));
 					if (goodsObj.get("goodsId") != null 
 							&& goodsObj_del.getString("goodsId").equals(goodsObj.get("goodsId").toString())  
-							&& goodsObj_del.getString("tags").equals(goodsObj.get("tags").toString())) {
+							&& JSONObject.fromObject(goodsObj_del.getString("tags")).equals(JSONObject.fromObject(goodsObj.get("tags")))) {
 						continue;
 					}
 					goodsList_temp.add(goodsObj);
@@ -489,7 +489,7 @@ public class CartService {
 				System.out.println("obj2.get('tags').toString()===="+obj2.get("tags").toString());
 				if (obj2.get("goodsId") != null && goodsId != null && tags != null
 						&& goodsId.equals(obj2.get("goodsId").toString())  
-						&& JSON.parseObject(tags).toString().equals(obj2.get("tags").toString())) {
+						&& JSONObject.fromObject(JSON.parseObject(tags)).equals(JSONObject.fromObject(obj2.get("tags")))) {
 					continue;
 				}
 				goodsList_temp.add(obj2);

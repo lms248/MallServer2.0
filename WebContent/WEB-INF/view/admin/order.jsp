@@ -39,6 +39,7 @@
         				</label>
         				<label style="margin-left: 20px;">
         				<a class="btn btn-success" onclick="exportOrderExcel()"><span>导出订单EXCEL</span></a>
+        				<a href="/download/file/temp/order.xls" class="btn btn-success" style="display: none;" ><span id="exportOrderExcel">导出订单EXCEL</span></a>
         				</label>
         			</div>
         		</div>
