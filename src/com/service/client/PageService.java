@@ -142,6 +142,7 @@ public class PageService {
 	}
 	
 	/** 社区 */
+	@Deprecated
 	@RequestMapping(value ="community",method=RequestMethod.GET)
 	@ResponseBody
 	public void community(HttpServletRequest request, HttpServletResponse response)
@@ -162,6 +163,7 @@ public class PageService {
 	}
 	
 	/** 购物车 */
+	@Deprecated
 	@RequestMapping(value ="shoppingCart",method=RequestMethod.GET)
 	@ResponseBody
 	public void shoppingCart(HttpServletRequest request, HttpServletResponse response)
@@ -182,6 +184,7 @@ public class PageService {
 	}
 	
 	/** 我（个人中心） */
+	@Deprecated
 	@RequestMapping(value ="me",method=RequestMethod.GET)
 	@ResponseBody
 	public void me(HttpServletRequest request, HttpServletResponse response)
@@ -201,4 +204,26 @@ public class PageService {
 		out.close();
 	}
 	
+	/** 应用信息 */
+	@RequestMapping(value ="appInfo",method=RequestMethod.GET)
+	@ResponseBody
+	public void appInfo(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject obj = new JSONObject();
+		JSONObject outObj = new JSONObject();
+		outObj.put("contactPhone", "13800000000");
+		outObj.put("aboutUs", "这里是关于我们的内容");
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "应用信息");
+		obj.put("data", outObj);
+		out.print(obj);
+		
+		out.flush();
+		out.close();
+	}
 }
