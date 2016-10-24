@@ -1,4 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="service.admin.AdminUserService"%>
+<%@page import="bean.admin.Navigation"%>
+<%@page import="bean.admin.User"%>
+<%@page import="bean.admin.AuthMap"%>
+<%@page import="bean.admin.Group"%>
+<%@page import="java.util.List"%>
+<%
+List<Navigation> navigation=AdminUserService.getNavigation(session);
+List<AuthMap> authList=AdminUserService.authList;
+List<Group> group=AdminUserService.groupContent;
+User user=(User)session.getAttribute("admin_user");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +39,7 @@
   <script src="js/html5shiv.js"></script>
   <script src="js/respond.min.js"></script>
   <![endif]-->
+  
 </head>
 
 <body class="sticky-header">
@@ -61,7 +74,7 @@
                         <li><a href="#"> 全部</a></li>
                     </ul>
                 </li> -->
-                <li class="menu-1"><a href="#" uri="order"><i class="fa fa-envelope"></i> <span>订单</span></a></li>
+                <li class="menu-1"><a href="#" uri="order"><i class="fa fa-bar-chart-o"></i> <span>订单</span></a></li>
                 <!-- <li class="menu-list"><a href=""><i class="fa fa-bar-chart-o"></i> <span>订单</span></a>
                     <ul class="sub-menu-list">
                         <li><a href="#" uri="order?5"> 待发货</a></li>
@@ -109,14 +122,14 @@
                 <ul class="notification-menu">
                     <li>
                         <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="/res/img/user-avatar.png" alt="" />
-                            John Doe
+                            <img src="/res/img/admin-user-avatar.jpg" alt="" />
+                            <%=user==null?"":user.getName() %>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                            <li><a href="#"><i class="fa fa-user"></i> <span>个人中心</span></a></li>
-                  			<li><a href="#"><i class="fa fa-cog"></i> <span>设置</span></a></li>
-                  			<li><a href="#"><i class="fa fa-sign-out"></i> <span>注销登录</span></a></li>
+                            <!-- <li><a href="#"><i class="fa fa-user"></i> <span>个人中心</span></a></li> -->
+                  			<li><a href="#modal_update_user" data-toggle="modal"><i class="fa fa-cog"></i> <span>修改账号和密码</span></a></li>
+                  			<li><a href="/admin/user/logout"><i class="fa fa-sign-out"></i> <span>注销登录</span></a></li>
                         </ul>
                     </li>
 
@@ -176,6 +189,35 @@
     <!-- main content end-->
 </section>
 
+<!-- Modal -->
+<div class="modal fade" id="modal_update_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+        	<div class="modal-header">
+            	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">Form Tittle</h4>
+            </div>
+            <div class="modal-body">
+				<form role="form">
+                	<div class="form-group">
+                    	<label for="modal_username">账号</label>
+                    	<input type="text" class="form-control" id="modal_username" placeholder="请输入账号">
+                    </div>
+                    <div class="form-group">
+                    	<label for="modal_password">密码</label>
+                        <input type="password" class="form-control" id="modal_password" placeholder="请输入密码">
+                    </div>
+                    <div class="form-group">
+                    	<label for="modal_repassword">确认密码</label>
+                        <input type="password" class="form-control" id="modal_repassword" placeholder="请输入确认密码">
+                    </div>
+                    <button id="updateUser" type="button" class="btn btn-primary">提交修改</button>
+                </form>
+            </div>
+		</div>
+	</div>
+</div>
+
 <!-- Placed js at the end of the document so the pages load faster -->
 <script src="/res/js/jquery-2.2.2.min.js"></script>
 <script src="/res/js/jquery-ui-1.9.2.custom.min.js"></script>
@@ -197,6 +239,25 @@
 
 <script>
 $(".wrapper").load("admin/user",{});
+</script>
+
+<script>
+$("#updateUser").on("click",function(){
+	var id = "0";
+	var groupid = "0";
+	var name = $("#modal_username").val();
+	var password = $("#modal_password").val();
+	var repassword = $("#modal_repassword").val();
+	var auth = "0";
+	if(confirm("修改后需要用此新账号密码登录，确定修改吗？")) {
+		var requestData={id:id,groupid:groupid,name:name,password:password,repassword:repassword,auth:auth};
+		$.post("/admin/user/updateUserNew",requestData,function(data, textStatus, jqXHR){
+			var json=JSON.parse(data);
+			alert(json.data);
+			window.location.href = "/admin/login";
+		},"json");
+	}
+});
 </script>
 
 </body>

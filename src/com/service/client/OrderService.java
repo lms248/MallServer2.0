@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.admin.User;
 import bean.client.CommentBean;
 import bean.client.GoodsBean;
 import bean.client.OrdersBean;
@@ -324,7 +325,7 @@ public class OrderService {
 		out.close();
 	}
 	
-	/** 订单列表 */
+	/** 订单列表后台管理 */
 	@RequestMapping(value ="infoList2",method=RequestMethod.GET)
 	@ResponseBody
 	public void infoList2(HttpServletRequest request, HttpServletResponse response)
@@ -333,6 +334,18 @@ public class OrderService {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
+		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
 		
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
@@ -349,7 +362,6 @@ public class OrderService {
 			orderCount = OrdersDao.Count(Integer.parseInt(status));
 		}
 		
-		JSONObject obj = new JSONObject();
 		JSONObject orderObj = new JSONObject();
 		JSONArray orderArr = new JSONArray();
 		for (OrdersBean order : orderList) {
@@ -552,10 +564,20 @@ public class OrderService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String orderId = request.getParameter("orderId");
 		String newStatus = request.getParameter("newStatus");
-		
-		JSONObject obj = new JSONObject();
 		
 		OrdersBean order = OrdersDao.loadByOrderId(orderId);
 		if (order == null) {

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.admin.User;
 import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
@@ -49,12 +50,22 @@ public class ActivityService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String goodsId = request.getParameter("goodsId");
 		String sortId = request.getParameter("sortId");
 		String title = request.getParameter("title");
 		String mark = request.getParameter("mark");
-		
-		JSONObject obj = new JSONObject();
 		
 		GoodsBean goods = new GoodsBean();
 		try {
@@ -111,13 +122,23 @@ public class ActivityService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String editType = request.getParameter("editType");
 		String goodsId = request.getParameter("goodsId");
 		String sortId = request.getParameter("sortId");
 		String title = request.getParameter("title");
 		String mark = request.getParameter("mark");
-		
-		JSONObject obj = new JSONObject();
 		
 		GoodsBean goods = new GoodsBean();
 		try {
@@ -341,9 +362,19 @@ public class ActivityService {
 		
 		System.out.println("------------/activity/delete-------------");
 		
-		String activityId = request.getParameter("activityId");
-		
 		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		String activityId = request.getParameter("activityId");
 		
 		ActivityBean activity = ActivityDao.loadByActivityId(activityId);
 		

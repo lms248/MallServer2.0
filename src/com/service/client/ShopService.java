@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bean.admin.User;
 import bean.client.ShopBean;
 import common.utils.Def;
 import common.utils.IdGen;
@@ -42,6 +43,20 @@ public class ShopService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		System.out.println("------------/shop/add-------------");
+		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String name = request.getParameter("name");
 		String title = request.getParameter("title");
 		String details = request.getParameter("details");
@@ -52,7 +67,6 @@ public class ShopService {
 		String[] image = imageAndThumb.split(";");
 		
 		if (ShopDao.loadByShopname(name) != null) {
-			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该店铺名已存在");
 			out.print(obj);
@@ -78,7 +92,6 @@ public class ShopService {
 		
 		ShopDao.save(shop);
 		
-		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加店铺成功");
 		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopId)));
@@ -98,6 +111,20 @@ public class ShopService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		System.out.println("------------/shop/update-------------");
+		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String shopId = request.getParameter("shopId");
 		String name = request.getParameter("name");
 		String title = request.getParameter("title");
@@ -111,7 +138,6 @@ public class ShopService {
 		ShopBean shop = ShopDao.loadByShopId(shopId);
 		
 		if (shop == null) {
-			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该店铺(shopId:"+shopId+")不存在");
 			out.print(obj);
@@ -132,7 +158,6 @@ public class ShopService {
 		
 		ShopDao.update(shop);
 		
-		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改店铺成功");
 		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shop.getShopId())));
@@ -217,9 +242,19 @@ public class ShopService {
 		
 		System.out.println("------------/shop/delete-------------");
 		
-		String shopId = request.getParameter("shopId");
-		
 		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		String shopId = request.getParameter("shopId");
 		
 		ShopBean shop = ShopDao.loadByShopId(shopId);
 		

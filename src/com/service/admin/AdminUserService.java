@@ -175,7 +175,7 @@ public class AdminUserService {
 		if (user!=null && password.equals(user.getPassword())) {
 			session.setAttribute("admin_user", user);
 			out.print(Def.CODE_SUCCESS);
-			log.info(username+" login background.");
+			log.info(username+" login management platform.");
 		} else {
 			out.print(Def.CODE_FAIL);
 		}
@@ -385,6 +385,39 @@ public class AdminUserService {
 			user.setPassword(pwd);
 			user.initAuthArray();
 			updateUser(user);
+			return JsonRespUtils.success("更新成功");
+		}
+		return JsonRespUtils.fail("更新失败");
+	}
+	
+	@RequestMapping(value ="updateUserNew",method = RequestMethod.POST)
+	@ResponseBody
+	public String updateUserNew(
+			@RequestParam(value = "id") String id,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "password") String password,
+			@RequestParam(value = "repassword") String repassword,
+			@RequestParam(value = "groupid") String groupid,
+			@RequestParam(value = "auth") String auth) {
+		if(StringUtils.isBlank(name,password,repassword,groupid)){
+			return JsonRespUtils.fail("必要数据不能为空");
+		}
+		if(!password.equals(repassword)){
+			return JsonRespUtils.fail("两次密码不一样");
+		}
+		User user=userContentById.get(Integer.valueOf(id));
+		if(user!=null){
+			deleteUser(user);
+			user=new User();
+			user.setId(userContentByName.size());
+			user.setName(name);
+			user.setPassword(repassword);
+			user.setGroupid(Integer.valueOf(groupid));
+			user.setAuth(auth);
+			user.initAuthArray();
+			AdminUserService.userContentByName.put(name, user);
+			AdminUserService.userContentById.put(user.getId(), user);
+			AdminUserService.flushUserContent();
 			return JsonRespUtils.success("更新成功");
 		}
 		return JsonRespUtils.fail("更新失败");

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
+import bean.admin.User;
 import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
@@ -55,6 +56,18 @@ public class GoodsService {
 		
 		System.out.println("-----goods:::add------");
 		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String name = request.getParameter("name");
 		String shopId = request.getParameter("shopId");
 		String curPrice = request.getParameter("curPrice");
@@ -72,7 +85,6 @@ public class GoodsService {
 		
 		System.out.println("shopId===="+shopId);
 		if (ShopDao.loadByShopId(shopId) == null) {
-			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商店名不存在");
 			out.print(obj);
@@ -117,7 +129,6 @@ public class GoodsService {
 		
 		GoodsDao.save(goods);
 		
-		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加商品成功");
 		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodsId)));
@@ -141,6 +152,18 @@ public class GoodsService {
 		
 		System.out.println("-----goods:::update------");
 		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		String goodsId = request.getParameter("goodsId");
 		String name = request.getParameter("name");
 		String curPrice = request.getParameter("curPrice");
@@ -159,7 +182,6 @@ public class GoodsService {
 		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		
 		if (goods == null) {
-			JSONObject obj = new JSONObject();
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品(goodsId:"+goodsId+")不存在");
 			out.print(obj);
@@ -197,7 +219,6 @@ public class GoodsService {
 		
 		GoodsDao.update(goods);
 		
-		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改商品成功");
 		obj.put("data", JsonUtils.jsonFromObject(goods.getGoodsId()));
@@ -411,9 +432,19 @@ public class GoodsService {
 		
 		System.out.println("------------/goods/delete-------------");
 		
-		String goodsId = request.getParameter("goodsId");
-		
 		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		String goodsId = request.getParameter("goodsId");
 		
 		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
 		

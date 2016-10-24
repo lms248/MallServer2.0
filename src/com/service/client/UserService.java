@@ -25,11 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import service.basic.UploadService;
+import bean.admin.User;
 import bean.client.UserAddress;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
-
 import common.config.Config;
 import common.utils.Def;
 import common.utils.HttpUtils;
@@ -37,6 +37,7 @@ import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import common.utils.UuidUtils;
+
 import dao.client.UserDao;
 
 /**
@@ -526,6 +527,18 @@ public class UserService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
@@ -535,7 +548,6 @@ public class UserService {
 			searchContent = "";
 		}
 		
-		JSONObject obj = new JSONObject();
 		List<UserBean> userList = UserDao.loadAllUser_search(searchContent, index, size);
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();

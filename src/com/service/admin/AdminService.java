@@ -26,22 +26,7 @@ public class AdminService {
 	@RequestMapping(value="login", method=RequestMethod.GET)
 	public ModelAndView login(){
 		ModelAndView view = new ModelAndView("admin/login");
-		view.addObject("username", "mose");
-		view.addObject("password", "123456");
-		
-		//log.info("Mose open the (/admin/login) page.");
         return view;
-	}
-	
-	/** 退出登录 **/
-	@RequestMapping(value="logout", method=RequestMethod.GET)
-	public ModelAndView logout(){
-		ModelAndView view = new ModelAndView("admin/login");
-		view.addObject("username", "mose");
-		view.addObject("password", "123456");
-		
-		log.info("Mose open the (/admin/login) page.");
-		return view;
 	}
 	
 	/** 管理主界面 **/

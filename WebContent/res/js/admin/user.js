@@ -16,7 +16,7 @@ function getUserDateList(index) {
 			$("#userTableData").html(htmlOutput);
 			$("#user_size").html(data.count);
 		} else {
-			alert(data);
+			alert(data.msg);
 		}
 	},"json");
 }
