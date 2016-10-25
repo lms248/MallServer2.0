@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-11-30 21:18:51
+Date: 2016-10-28 20:33:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,6 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `pay`;
 CREATE TABLE `pay` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `uid` varchar(100) DEFAULT NULL COMMENT '用户ID',
   `payId` varchar(100) DEFAULT NULL COMMENT '支付ID',
   `payWay` varchar(255) DEFAULT NULL COMMENT '支付方式',
   `total_fee` int(11) DEFAULT NULL COMMENT '总金额（分）',

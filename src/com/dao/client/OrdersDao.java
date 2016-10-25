@@ -122,7 +122,7 @@ public class OrdersDao {
 		return orderList;
 	}
 	
-	public static List<OrdersBean> loadOrderForStatus(int index, int size, int status){
+	public static List<OrdersBean> loadOrderByStatus(int index, int size, int status){
 		List<OrdersBean> orderList=new ArrayList<OrdersBean>();
 		try {
 			orderList=dbUtils.query(OrdersBean.class, 

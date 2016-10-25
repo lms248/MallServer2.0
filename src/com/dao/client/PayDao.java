@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bean.client.OrdersBean;
 import bean.client.PayBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
@@ -57,7 +57,7 @@ public class PayDao {
 	public static PayBean loadByCount(int count){
 		PayBean bean=null;
 		try {
-			bean=dbUtils.read(PayBean.class, " pay by id desc limit ?", count);
+			bean=dbUtils.read(PayBean.class, " order by id desc limit ?", count);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class PayDao {
 	public static List<PayBean> loadAllPay(){
 		List<PayBean> payList=new ArrayList<PayBean>();
 		try {
-			payList=dbUtils.query(PayBean.class, " pay by id desc");
+			payList=dbUtils.query(PayBean.class, " order by id desc");
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();
@@ -92,7 +92,19 @@ public class PayDao {
 		List<PayBean> payList=new ArrayList<PayBean>();
 		try {
 			payList=dbUtils.query(PayBean.class, 
-					" pay by id desc limit ?,?", index, size);
+					" order by id desc limit ?,?", index, size);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return payList;
+	}
+	
+	public static List<PayBean> loadPayByStatus(int index, int size, int status){
+		List<PayBean> payList=new ArrayList<PayBean>();
+		try {
+			payList=dbUtils.query(PayBean.class, 
+					" where status=? order by id desc limit ?,?", status, index, size);
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			e.printStackTrace();

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-10-22 14:19:26
+Date: 2016-10-28 20:33:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -150,7 +150,7 @@ CREATE TABLE `message` (
   `content` varchar(255) DEFAULT NULL COMMENT '内容',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for orders
@@ -166,7 +166,11 @@ CREATE TABLE `orders` (
   `addressId` varchar(100) DEFAULT NULL COMMENT '收货地址ID',
   `status` int(11) DEFAULT NULL COMMENT '总价格',
   `afterSaleService` text COMMENT '售后服务',
+  `payWay` varchar(50) DEFAULT NULL COMMENT '支付方式',
   `createTime` bigint(20) DEFAULT NULL COMMENT '下单时间',
+  `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
+  `deliverTime` bigint(20) DEFAULT NULL COMMENT '发货时间',
+  `receiveTime` bigint(20) DEFAULT NULL COMMENT '收货时间',
   PRIMARY KEY (`id`,`orderId`,`uid`,`shopId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -176,6 +180,7 @@ CREATE TABLE `orders` (
 DROP TABLE IF EXISTS `pay`;
 CREATE TABLE `pay` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
+  `uid` varchar(100) DEFAULT NULL COMMENT '用户ID',
   `payId` varchar(100) DEFAULT NULL COMMENT '支付ID',
   `payWay` varchar(255) DEFAULT NULL COMMENT '支付方式',
   `total_fee` int(11) DEFAULT NULL COMMENT '总金额（分）',

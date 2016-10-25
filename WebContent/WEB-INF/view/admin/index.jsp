@@ -32,8 +32,7 @@ User user=(User)session.getAttribute("admin_user");
   <link href="/res/AdminEx/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
   <link href="/res/AdminEx/js/advanced-datatable/css/demo_table.css" rel="stylesheet" />
   <link href="/res/AdminEx/js/data-tables/DT_bootstrap.css" rel="stylesheet" />
-
-
+  
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
   <script src="js/html5shiv.js"></script>
@@ -86,6 +85,7 @@ User user=(User)session.getAttribute("admin_user");
                         <li><a href="#" uri="order"> 全部</a></li>
                     </ul>
                 </li> -->
+                <li class="menu-1"><a href="#" uri="pay"><i class="fa fa-yen"></i> <span>支付清单</span></a></li>
                 <li class="menu-1"><a href="#" uri="feedback"><i class="fa fa-envelope"></i> <span>反馈</span></a></li>
                 <!-- <li class="menu-list"><a href="#"><i class="fa fa-file-text"></i> <span>日志</span></a>
                     <ul class="sub-menu-list">
@@ -195,21 +195,21 @@ User user=(User)session.getAttribute("admin_user");
 		<div class="modal-content">
         	<div class="modal-header">
             	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-                <h4 class="modal-title">Form Tittle</h4>
+                <h4 class="modal-title">修改账号密码</h4>
             </div>
             <div class="modal-body">
 				<form role="form">
                 	<div class="form-group">
                     	<label for="modal_username">账号</label>
-                    	<input type="text" class="form-control" id="modal_username" placeholder="请输入账号">
+                    	<input type="text" class="form-control" id="modal_username" value="<%=user==null?"":user.getName() %>" placeholder="请输入账号">
                     </div>
                     <div class="form-group">
                     	<label for="modal_password">密码</label>
-                        <input type="password" class="form-control" id="modal_password" placeholder="请输入密码">
+                        <input type="password" class="form-control" id="modal_password" value="<%=user==null?"":user.getPassword() %>" placeholder="请输入密码">
                     </div>
                     <div class="form-group">
                     	<label for="modal_repassword">确认密码</label>
-                        <input type="password" class="form-control" id="modal_repassword" placeholder="请输入确认密码">
+                        <input type="password" class="form-control" id="modal_repassword" value="<%=user==null?"":user.getPassword() %>" placeholder="请输入确认密码">
                     </div>
                     <button id="updateUser" type="button" class="btn btn-primary">提交修改</button>
                 </form>
@@ -237,6 +237,7 @@ User user=(User)session.getAttribute("admin_user");
 <!--dynamic table initialization -->
 <script src="/res/AdminEx/js/dynamic_table_init.js"></script>
 
+
 <script>
 $(".wrapper").load("admin/user",{});
 </script>
@@ -252,9 +253,10 @@ $("#updateUser").on("click",function(){
 	if(confirm("修改后需要用此新账号密码登录，确定修改吗？")) {
 		var requestData={id:id,groupid:groupid,name:name,password:password,repassword:repassword,auth:auth};
 		$.post("/admin/user/updateUserNew",requestData,function(data, textStatus, jqXHR){
-			var json=JSON.parse(data);
-			alert(json.data);
-			window.location.href = "/admin/login";
+			alert(data.data);
+			if (data.code == 0) {
+				window.location.reload();
+			}
 		},"json");
 	}
 });

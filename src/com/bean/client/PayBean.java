@@ -11,6 +11,8 @@ public class PayBean extends Pojo {
 	
 	/** 序号ID */
 	private int id;
+	/** 用户ID */
+	private String uid;
 	/** 支付ID */
 	private String payId;
 	/** 支付方式 */
@@ -41,6 +43,12 @@ public class PayBean extends Pojo {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getPayId() {
 		return payId;

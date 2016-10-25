@@ -358,7 +358,7 @@ public class OrderService {
 			orderList = OrdersDao.loadAllOrder(index, size);
 			orderCount = OrdersDao.Count();
 		} else {
-			orderList = OrdersDao.loadOrderForStatus(index, size, Integer.parseInt(status));
+			orderList = OrdersDao.loadOrderByStatus(index, size, Integer.parseInt(status));
 			orderCount = OrdersDao.Count(Integer.parseInt(status));
 		}
 		

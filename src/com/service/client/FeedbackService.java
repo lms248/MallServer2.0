@@ -122,10 +122,7 @@ public class FeedbackService {
 		for (FeedbackBean feedback : feedbackList) {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(feedback));
 			UserBean user = UserDao.loadByUid(feedback.getUid());
-			//转化成字符串类型
-			//obj2.put("uid", ""+feedback.getUid());
 			obj2.put("username", ""+user==null?"":user.getUsername());
-			//obj2.put("feedbackId", ""+feedback.getFeedbackId());
 			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(feedback.getCreateTime())));
 			arr.add(obj2);
 		}

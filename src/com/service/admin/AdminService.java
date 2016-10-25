@@ -97,6 +97,13 @@ public class AdminService {
 		return view;
 	}
 	
+	/** 支付清单管理 **/
+	@RequestMapping(value="pay", method=RequestMethod.POST)
+	public ModelAndView pay(){
+		ModelAndView view = new ModelAndView("admin/pay");
+		return view;
+	}
+	
 	/** 反馈管理 **/
 	@RequestMapping(value="feedback", method=RequestMethod.POST)
 	public ModelAndView feedback(){

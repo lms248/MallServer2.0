@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<link href="/res/AdminEx/js/bootstrap-datetimepicker/css/datetimepicker-custom.css" rel="stylesheet" />
+<link href="/res/AdminEx/css/style.css" rel="stylesheet">
+
 <div class="row">
 	<div class="col-sm-12">
         <section class="panel">
@@ -15,7 +18,7 @@
         <div id="hidden-table-info_wrapper" class="dataTables_wrapper form-inline" role="grid">
         	<div class="row-fluid">
         		<div class="span6">
-        			<div id="hidden-table-info_length" class="dataTables_length">
+        			<div id="hidden-table-info_length" class="dataTables_length" style="width: 100%;">
         				<label>
         				<select id="pageSize" class="form-control" size="1" name="hidden-table-info_length" aria-controls="hidden-table-info">
         				<option value="5">5</option>
@@ -23,6 +26,9 @@
         				<option value="25">25</option>
         				<option value="50">50</option>
         				<option value="100">100</option>
+        				<option value="200">200</option>
+        				<option value="500">500</option>
+        				<option value="1000">1000</option>
         				</select> 
         				条<b>/</b>每页</label>
         				
@@ -37,6 +43,25 @@
         				<option value="4">申请售后</option>
         				</select> 
         				</label>
+        				
+        				<label style="margin-left: 10px;">
+        				<div class="input-group date form_datetime">
+                        	<input type="text" class="form-control" readonly="" size="14">
+                            <div class="input-group-btn">
+                            	<button type="button" class="btn btn-primary date-reset"><i class="fa fa-times"></i></button>
+                                <button type="button" class="btn btn-success date-set"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
+                        	—
+        				<div class="input-group date form_datetime">
+                        	<input type="text" class="form-control" readonly="" size="14">
+                            <div class="input-group-btn">
+                            	<button type="button" class="btn btn-primary date-reset"><i class="fa fa-times"></i></button>
+                                <button type="button" class="btn btn-success date-set"><i class="fa fa-calendar"></i></button>
+                            </div>
+                        </div>
+        				</label>
+        				
         				<label style="margin-left: 20px;">
         				<a class="btn btn-success" onclick="exportOrderExcel()"><span>导出订单EXCEL</span></a>
         				<a href="/download/file/temp/order.xls" class="btn btn-success" style="display: none;" ><span id="exportOrderExcel">导出订单EXCEL</span></a>
@@ -48,6 +73,7 @@
         				<label>搜索: <input type="text" class="form-control" aria-controls="hidden-table-info" placeholder="请输入用户ID进行查询"></label>
         			</div> -->
         		</div>
+        		
         	</div>
         <table id="order_table" class="display table table-bordered dataTable" aria-describedby="hidden-table-info_info">
         <thead>
@@ -136,6 +162,7 @@
 </div>
 <!-- modal -->
 
+
 <!-- 店铺数据表模板 -->
 <script id="order_tableTmpl" type="text/x-jsrender">
 <tr class="gradeA odd">
@@ -169,6 +196,12 @@
 
 <script src="/res/js/admin/order.js"></script>
 
+<!--pickers plugins-->
+<script src="/res/AdminEx/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
+<!--pickers initialization-->
+<script src="/res/AdminEx/js/pickers-init.js"></script>
+
 <script>
-getOrderDateList(0);//活动列表
+getOrderDateList(0);//订单列表
 </script>

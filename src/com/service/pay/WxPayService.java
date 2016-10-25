@@ -130,6 +130,7 @@ public class WxPayService {
 		//2、添加本地订单记录
 		PayBean pay = new PayBean();
 		pay.setPayId(payId);
+		pay.setUid(user.getUid());
 		pay.setPayWay(PayWay.WECHAT.toString());
 		pay.setTotal_fee(total_fee);
 		pay.setFee_type(Def.CNY);

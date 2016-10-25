@@ -103,6 +103,30 @@ public class AdminUserService {
 		log.info("Flush userContent json data completed.");
 	}
 	
+	/**
+	 * 回写用户数据
+	 */
+	public static void flushUserContentById(){
+		log.info("Star flush userContent json data.");
+		try {
+			String filePath=Config.CONFIG_DIR + File.separator + "user.json";
+			Object[] users=(Object[])userContentById.values().toArray();
+			for(Object u:users){
+				User us=(User)u;
+				if(us.getId()==0){
+					us.setAuth("all");
+					us.setGroupid(0);
+				}
+			}
+			String json=JsonUtils.jsonFromObject(users);
+			FileUtils.writeStringToFile(filePath, json);
+		} catch (Exception e) {
+			log.error(e.toString());
+			e.printStackTrace();
+		}
+		log.info("Flush userContent json data completed.");
+	}
+	
 	
 	/**授权*/
 	public static Map<String,AuthMap> authContent=new HashMap<String, AuthMap>();
@@ -405,19 +429,16 @@ public class AdminUserService {
 		if(!password.equals(repassword)){
 			return JsonRespUtils.fail("两次密码不一样");
 		}
+		System.out.println("id===="+Integer.valueOf(id));
 		User user=userContentById.get(Integer.valueOf(id));
+		System.out.println("user===="+user);
 		if(user!=null){
-			deleteUser(user);
-			user=new User();
-			user.setId(userContentByName.size());
-			user.setName(name);
-			user.setPassword(repassword);
-			user.setGroupid(Integer.valueOf(groupid));
 			user.setAuth(auth);
+			user.setGroupid(Integer.valueOf(groupid));
+			user.setName(name);
+			user.setPassword(password);
 			user.initAuthArray();
-			AdminUserService.userContentByName.put(name, user);
-			AdminUserService.userContentById.put(user.getId(), user);
-			AdminUserService.flushUserContent();
+			updateUserById(user);
 			return JsonRespUtils.success("更新成功");
 		}
 		return JsonRespUtils.fail("更新失败");
@@ -439,6 +460,12 @@ public class AdminUserService {
 		userContentById.put(user.getId(), user);
 		userContentByName.put(user.getName(), user);
 		AdminUserService.flushUserContent();
+	}
+	
+	public static void updateUserById(User user){
+		userContentById.put(user.getId(), user);
+		userContentByName.put(user.getName(), user);
+		AdminUserService.flushUserContentById();
 	}
 	
 	public static void deleteUser(User user){
