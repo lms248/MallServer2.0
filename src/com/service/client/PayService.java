@@ -3,6 +3,7 @@ package service.client;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import bean.client.PayBean;
 import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.JsonUtils;
+import common.utils.StringUtils;
 import dao.client.PayDao;
 import dao.client.UserDao;
 
@@ -46,7 +48,13 @@ public class PayService {
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		String status = request.getParameter("status");//订单状态
 		
-		List<PayBean> payList = PayDao.loadPayByStatus(index, size, Integer.parseInt(status));
+		List<PayBean> payList = new ArrayList<PayBean>();
+		
+		if (StringUtils.isBlank(status) || status.equals("-1")) {
+			payList = PayDao.loadAllPay(index, size);
+		} else {
+			payList = PayDao.loadPayByStatus(index, size, Integer.parseInt(status));
+		}
 		
 		JSONObject obj = new JSONObject();
 		JSONObject outObj = new JSONObject();
