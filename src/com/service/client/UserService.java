@@ -1016,8 +1016,8 @@ public class UserService {
         System.out.println(user.toString());
 		
         List<UserBean> userList = userDao.loadAllUser(0, 10);
-        System.out.println("S::"+userList.size());
         
+        System.out.println("S::"+userList.size());
         for (UserBean userBean : userList) {
         	System.out.println(userBean.toString());
 		}
