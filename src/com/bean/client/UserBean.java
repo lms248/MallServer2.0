@@ -120,4 +120,15 @@ public class UserBean extends Pojo {
 	public void setRegisterTime(long registerTime) {
 		this.registerTime = registerTime;
 	}
+	@Override
+	public String toString() {
+		return "UserBean [id=" + id + ", uid=" + uid + ", username=" + username
+				+ ", password=" + password + ", phone=" + phone + ", nickname="
+				+ nickname + ", avatar=" + avatar + ", thumbnail=" + thumbnail
+				+ ", token=" + token + ", address=" + address
+				+ ", defaultAddressId=" + defaultAddressId + ", type=" + type
+				+ ", loginTime=" + loginTime + ", registerTime=" + registerTime
+				+ "]";
+	}
+	
 }

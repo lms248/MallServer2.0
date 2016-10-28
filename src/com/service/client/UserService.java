@@ -1,7 +1,11 @@
 package service.client;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +20,10 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +38,7 @@ import bean.client.UserAddress;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
+
 import common.config.Config;
 import common.utils.Def;
 import common.utils.HttpUtils;
@@ -37,7 +46,6 @@ import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import common.utils.UuidUtils;
-
 import dao.client.UserDao;
 
 /**
@@ -978,6 +986,42 @@ public class UserService {
 		
 		System.out.println(obj);
 		
+		out.flush();
+		out.close();
+	}
+	
+	/** 测试mybatis */
+	@RequestMapping(value ="mybatis",method=RequestMethod.GET)
+	@ResponseBody
+	public void mybatis(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+        System.out.println("resource===="+Config.MYBATIS_CONFIG);
+//        Reader reader = Resources.getResourceAsReader(Config.MYBATIS_CONFIG);  
+//        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();  
+//        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(reader); 
+//        SqlSession session = sqlSessionFactory.openSession();
+        
+        //InputStream inputStream = Resources.getResourceAsStream(Config.MYBATIS_CONFIG);
+        InputStream inputStream = new FileInputStream(new File(Config.MYBATIS_CONFIG));
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession session = sqlSessionFactory.openSession();
+        
+        dao.mybatis.UserDao userDao = session.getMapper(dao.mybatis.UserDao.class);  
+        UserBean user = userDao.loadById(10);  
+        System.out.println(user.toString());
+		
+        List<UserBean> userList = userDao.loadAllUser(0, 10);
+        System.out.println("S::"+userList.size());
+        
+        for (UserBean userBean : userList) {
+        	System.out.println(userBean.toString());
+		}
+        
 		out.flush();
 		out.close();
 	}

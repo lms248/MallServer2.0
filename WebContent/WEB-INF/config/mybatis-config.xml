@@ -3,19 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
+  <typeAliases>
+  	<!-- MyBatis 会在包名下面搜索需要的 Java Bean -->
+  	<package name="bean.client"/>
+  	
+  	<!-- <typeAlias alias="UserBean" type="dao.mybatis.UserBean"/> -->
+  </typeAliases>
+	
   <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
-        <property name="driver" value="${driver}"/>
-        <property name="url" value="${url}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/mall?characterEncoding=utf8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
       </dataSource>
     </environment>
   </environments>
+  
   <mappers>
-    <mapper resource="org/mybatis/example/BlogMapper.xml"/>
+    <mapper resource="dao/mybatis/mapper/UserMapper.xml"/>
   </mappers>
 </configuration>
 
