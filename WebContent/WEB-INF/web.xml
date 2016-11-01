@@ -15,6 +15,9 @@
   <!-- 指定Spring Bean的配置文件所在目录。默认配置在WEB-INF目录下 -->  
   <context-param>  
     <param-name>contextConfigLocation</param-name>  
-    <param-value>/WEB-INF/spring-config.xml</param-value>  
-  </context-param>  
+    <param-value>
+    	/WEB-INF/spring-config.xml;
+    	/WEB-INF/spring-mybatis.xml
+    </param-value>  
+  </context-param>
 </web-app>

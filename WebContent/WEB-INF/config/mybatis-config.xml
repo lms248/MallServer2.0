@@ -11,7 +11,7 @@
   	<!-- <typeAlias alias="UserBean" type="dao.mybatis.UserBean"/> -->
   </typeAliases>
 	
-  <environments default="development">
+  <!-- <environments default="development">
     <environment id="development">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
@@ -25,7 +25,7 @@
   
   <mappers>
     <mapper resource="dao/mybatis/mapper/*.xml"/>
-  </mappers>
+  </mappers> -->
 </configuration>
 
 
