@@ -14,6 +14,7 @@ import common.logger.LoggerManager;
 /**
  * 用户dao
  */
+@Deprecated
 public class UserDao {
 	private static Logger log=LoggerManager.getLogger();
 	

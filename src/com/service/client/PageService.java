@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,16 +21,14 @@ import bean.client.ActivityBean;
 import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import bean.client.UserBean;
-
 import common.utils.Def;
 import common.utils.JsonUtils;
-
-import dao.client.ActivityDao;
-import dao.client.CollectDao;
-import dao.client.GoodsDao;
-import dao.client.ShopDao;
-import dao.client.SortDao;
-import dao.client.UserDao;
+import dao.mybatis.ActivityDao;
+import dao.mybatis.CollectDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.ShopDao;
+import dao.mybatis.SortDao;
+import dao.mybatis.UserDao;
 
 /**
  * 界面
@@ -37,6 +36,20 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/page")
 public class PageService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private ShopDao shopDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+    private SortDao sortDao;
+	@Autowired  
+	private ActivityDao activityDao;
+	@Autowired  
+    private CollectDao collectDao;
+	
 	/** 首页 */
 	@RequestMapping(value ="home",method=RequestMethod.GET)
 	@ResponseBody
@@ -48,14 +61,14 @@ public class PageService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token");
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		
 		//首页banner
 		JSONObject obj_banner = new JSONObject();
 		JSONArray arr_banner = new JSONArray();
-		List<ActivityBean> bannerList = ActivityDao.loadActivityForSort(Def.ACTIVITY_BANNER, -1, 0, 5);
+		List<ActivityBean> bannerList = activityDao.loadBySort(Def.ACTIVITY_BANNER, -1, 0, 5);
 		for (int i = 0; i < bannerList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(bannerList.get(i).getGoodsId());
+			GoodsBean goods = goodsDao.loadByGoodsId(bannerList.get(i).getGoodsId());
 			
 			obj_banner.put("title", bannerList.get(i).getTitle());
 			obj_banner.put("goodsId", goods.getGoodsId());
@@ -69,19 +82,19 @@ public class PageService {
 		JSONObject obj_tags = new JSONObject();
 		JSONArray arr_tags = new JSONArray();
 		obj_tags.put("sortId", Def.ACTIVITY_DAJUHUI);
-		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_DAJUHUI));//大聚惠
+		obj_tags.put("data", sortDao.loadByPid(Def.ACTIVITY_DAJUHUI));//大聚惠
 		arr_tags.add(obj_tags);
 		obj_tags.put("sortId", Def.ACTIVITY_HAIWAIGOU);
-		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_HAIWAIGOU));//海外购
+		obj_tags.put("data", sortDao.loadByPid(Def.ACTIVITY_HAIWAIGOU));//海外购
 		arr_tags.add(obj_tags);
 		obj_tags.put("sortId", Def.ACTIVITY_CHAOSHIBAIHUO);
-		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_CHAOSHIBAIHUO));//超市百货
+		obj_tags.put("data", sortDao.loadByPid(Def.ACTIVITY_CHAOSHIBAIHUO));//超市百货
 		arr_tags.add(obj_tags);
 		obj_tags.put("sortId", Def.ACTIVITY_CHANGJIAZHIXIAO);
-		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_CHANGJIAZHIXIAO));//厂家直销
+		obj_tags.put("data", sortDao.loadByPid(Def.ACTIVITY_CHANGJIAZHIXIAO));//厂家直销
 		arr_tags.add(obj_tags);
 		obj_tags.put("sortId", Def.ACTIVITY_MEISHIYULE);
-		obj_tags.put("data", SortDao.loadByPid(Def.ACTIVITY_MEISHIYULE));//美食娱乐
+		obj_tags.put("data", sortDao.loadByPid(Def.ACTIVITY_MEISHIYULE));//美食娱乐
 		arr_tags.add(obj_tags);
 		
 		
@@ -89,17 +102,17 @@ public class PageService {
 		JSONObject obj_promotion = new JSONObject();
 		JSONArray arr_promotion = new JSONArray();
 		
-		List<ActivityBean> promotionList = ActivityDao.loadActivityForSort(Def.ACTIVITY_PROMOTION, -1, 0, 10);
+		List<ActivityBean> promotionList = activityDao.loadBySort(Def.ACTIVITY_PROMOTION, -1, 0, 10);
 		for (int i = 0; i < promotionList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
-			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			GoodsBean goods = goodsDao.loadByGoodsId(promotionList.get(i).getGoodsId());
+			ShopBean shop = shopDao.loadByShopId(goods.getShopId());
 			if (shop == null) {
 				continue;
 			}
 			
 			int isCollect = 0;//是否已收藏，0否，1是
 			if (user != null) {
-				if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+				if (collectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
 					isCollect = 1;
 				}
 			}
@@ -118,7 +131,7 @@ public class PageService {
 		//首页商城商户
 		//JSONObject obj_shop = new JSONObject();
 		JSONArray arr_shop = new JSONArray();
-		List<ShopBean> shopList = ShopDao.loadAllShop(0, 4);
+		List<ShopBean> shopList = shopDao.loadAllShop(0, 4);
 		for (int i = 0; i < shopList.size(); i++) {
 			arr_shop.add(JsonUtils.jsonFromObject(shopList.get(i)));
 		}
@@ -176,7 +189,7 @@ public class PageService {
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "购物车数据");
-		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadAllGoods(1, 10)));
+		obj.put("data", JsonUtils.jsonFromObject(goodsDao.loadAllGoods(1, 10)));
 		out.print(obj);
 		
 		out.flush();

@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.GoodsBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
  * 商品dao
  */
+@Deprecated
 public class GoodsDao {
 	private static Logger log=LoggerManager.getLogger();
 	
@@ -136,7 +136,7 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
-	public static List<GoodsBean> loadAllGoodsForShop(long shopId, int index, int size){
+	public static List<GoodsBean> loadAllGoodsForShop(String shopId, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
@@ -148,7 +148,7 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
-	public static List<GoodsBean> loadAllGoodsForShop_search(long shopId, String searchContent, int index, int size){
+	public static List<GoodsBean> loadAllGoodsForShop_search(String shopId, String searchContent, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
@@ -161,7 +161,7 @@ public class GoodsDao {
 		return goodsList;
 	}
 	
-	public static List<GoodsBean> loadAllGoodsForShopAndSort(long shopId, int sortId, int sortPId, int index, int size){
+	public static List<GoodsBean> loadAllGoodsForShopAndSort(String shopId, int sortId, int sortPId, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 
@@ -175,7 +175,7 @@ public class GoodsDao {
 	}
 	
 	public static List<GoodsBean> loadAllGoodsForShopAndSort_search(
-			long shopId, int sortId, int sortPId, String searchContent, int index, int size){
+			String shopId, int sortId, int sortPId, String searchContent, int index, int size){
 		List<GoodsBean> goodsList=new ArrayList<GoodsBean>();
 		try {
 			goodsList=dbUtils.query(GoodsBean.class, 

@@ -13,6 +13,7 @@ import common.logger.LoggerManager;
 /**
  * 社区dao
  */
+@Deprecated
 public class CommunityDao {
 	private static Logger log=LoggerManager.getLogger();
 	

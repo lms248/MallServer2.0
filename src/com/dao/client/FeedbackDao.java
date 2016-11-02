@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.FeedbackBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
  * 反馈dao
  */
+@Deprecated
 public class FeedbackDao {
 	private static Logger log=LoggerManager.getLogger();
 	

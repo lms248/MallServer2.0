@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,8 +22,8 @@ import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-import dao.client.MessageDao;
-import dao.client.UserDao;
+import dao.mybatis.MessageDao;
+import dao.mybatis.UserDao;
 
 /**
  * 消息
@@ -30,6 +31,11 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/message")
 public class MessageService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private static MessageDao messageDao;
 	
 	/** 消息列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
@@ -47,7 +53,7 @@ public class MessageService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -58,7 +64,7 @@ public class MessageService {
 			return;
 		}
 		
-		List<MessageBean> messageList = MessageDao.loadMessageByUid(index, size, user.getUid());
+		List<MessageBean> messageList = messageDao.loadByUid(user.getUid(), index, size);
 		
 		JSONArray arr = new JSONArray();
 		for (MessageBean message : messageList) {
@@ -90,7 +96,7 @@ public class MessageService {
 		message.setTitle(title);
 		message.setContent(content);
 		message.setCreateTime(System.currentTimeMillis());
-		MessageDao.save(message);
+		messageDao.save(message);
 		System.out.println("添加消息成功");
 	}
 	

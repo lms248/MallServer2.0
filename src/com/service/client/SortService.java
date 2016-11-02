@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +22,8 @@ import bean.client.SortBean;
 import common.utils.Def;
 import common.utils.JsonUtils;
 
-import dao.client.SortDao;
+import dao.mybatis.SortDao;
+
 
 /**
  * 商品分类
@@ -29,6 +31,9 @@ import dao.client.SortDao;
 @Controller
 @RequestMapping("/sort")
 public class SortService {
+	
+	@Autowired  
+    private SortDao sortDao;
 	
 	/** 分类列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
@@ -43,7 +48,7 @@ public class SortService {
 		int pid = Integer.parseInt(request.getParameter("pid"));//父类ID
 		int type = Integer.parseInt(request.getParameter("type"));//类型
 		
-		List<SortBean> sortList = SortDao.loadByPidAndType(pid, type);
+		List<SortBean> sortList = sortDao.loadByPidAndType(pid, type);
 		
 		JSONObject obj = new JSONObject();
 		JSONArray arr = new JSONArray();

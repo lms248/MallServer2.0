@@ -13,6 +13,7 @@ import common.logger.LoggerManager;
 /**
  * 商品收藏dao
  */
+@Deprecated
 public class CollectDao {
 	private static Logger log=LoggerManager.getLogger();
 	

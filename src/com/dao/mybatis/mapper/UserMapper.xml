@@ -5,20 +5,100 @@
 
 <mapper namespace="dao.mybatis.UserDao">
 	
-	<!-- <select id="loadAllUser" resultType="userBean">
-		select * from user order by id desc limit #{index},#{size};
-	</select> -->
+	<sql id="sql_select">
+		select * from user      
+	</sql>
+	
+	<sql id="sql_cols">
+		id,uid,username,password,phone,nickname,avatar,thumbnail,token,address,defaultAddressId,type,loginTime,registerTime
+	</sql>
+	
+	<sql id="sql_cols_value">
+		#{id},#{uid},#{username},#{password},#{phone},#{nickname},#{avatar},#{thumbnail},
+		#{token},#{address},#{defaultAddressId},#{type},#{loginTime},#{registerTime}
+	</sql>
 	
 	<!-- 根据ID加载对应用户 -->
 	<select id="loadById" resultType="userBean">
-		select * from user where id = #{id};
+		<include refid="sql_select"/> 
+			where id = #{id};
 	</select>
 	
-	<!-- 根据ID加载对应用户 -->
+	<!-- 根据用户ID加载对应用户 -->
+	<select id="loadByUid" resultType="userBean">
+		<include refid="sql_select"/> 
+			where uid = #{uid};
+	</select>
+	
+	<!-- 根据用户名字加载对应用户 -->
+	<select id="loadByUsername" resultType="userBean">
+		<include refid="sql_select"/> 
+			where username = #{username};
+	</select>
+	
+	<!-- 根据token加载对应用户 -->
+	<select id="loadByToken" resultType="userBean">
+		<include refid="sql_select"/> 
+			where token = #{token};
+	</select>
+	
+	<!-- 根据用户ID和渠道类型加载对应用户 -->
+	<select id="loadByUidAndType" resultType="userBean">
+		<include refid="sql_select"/> 
+			where uid = #{uid} and type = #{type};
+	</select>
+	
+	<!-- 加载所有用户 -->
 	<select id="loadAllUser" resultType="userBean">
-		select * from user order by id desc;
+		<include refid="sql_select"/> 
+			order by id desc 
+			limit #{index},#{size};
 	</select>
 	
+	<!-- 加载所有用户,加入查询条件 -->
+	<select id="loadAllUser_search" resultType="userBean">
+		<include refid="sql_select"/> 
+			where (uid like "%"#{searchContent}"%" or username like "%"#{searchContent}"%")
+			order by id desc 
+			limit #{index},#{size};
+	</select>
+	
+	<!-- 查询表的数据总数量 -->
+	<select id="count" resultType="int">
+		select COUNT(*) from user;
+	</select>
+	
+	<!-- 插入列表数据 -->
+	<insert id="save" parameterType="userBean">
+		insert into user(<include refid="sql_cols"/>)  
+             values(<include refid="sql_cols_value"/>)
+	</insert>
+	
+	<!-- 更新列表数据 -->
+	<update id="update" parameterType="userBean">
+		update user
+    		<set>
+      			uid = #{uid},
+      			username = #{username},
+      			password = #{password},
+      			phone = #{phone},
+      			nickname = #{nickname},
+      			avatar = #{avatar},
+      			thumbnail = #{thumbnail},
+				token = #{token},
+				address = #{address},
+				defaultAddressId = #{defaultAddressId},
+				type = #{type},
+				loginTime = #{loginTime},
+				registerTime = #{registerTime}
+    		</set>
+  		where id=#{id}
+	</update>
+	
+	<!-- 删除列表数据 -->
+	<delete id="deleteByUid" parameterType="userBean">
+    	delete from user where uid = #{uid};
+   	</delete>
 </mapper>
 
 

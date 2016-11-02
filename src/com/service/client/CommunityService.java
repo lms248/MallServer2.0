@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +25,13 @@ import bean.client.CommunityBean;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
+
 import common.config.Config;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
-import dao.client.CommunityDao;
-import dao.client.UserDao;
+import dao.mybatis.CommunityDao;
+import dao.mybatis.UserDao;
 
 /**
  * 社区
@@ -38,6 +39,11 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/community")
 public class CommunityService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private CommunityDao communityDao;
 	
 	/** 发布信息 */
 	@RequestMapping(value ="publish",method=RequestMethod.POST)
@@ -50,7 +56,7 @@ public class CommunityService {
 		PrintWriter out = response.getWriter();
 		
 		String token = request.getParameter("token");
-		UserBean ubean = UserDao.loadByToken(token);
+		UserBean ubean = userDao.loadByToken(token);
 		JSONObject obj = new JSONObject();
 		if (ubean == null) {
 			obj.put("code", Def.CODE_FAIL);
@@ -90,7 +96,7 @@ public class CommunityService {
 		community.setImageList(JSON.toJSONString(imageObj.get("imageList")));
 		community.setThumbList(JSON.toJSONString(imageObj.get("thumbList")));
 		community.setCreateTime(System.currentTimeMillis());
-		CommunityDao.save(community);
+		communityDao.save(community);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "社区信息");
@@ -111,9 +117,9 @@ public class CommunityService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		int communityId = Integer.parseInt(request.getParameter("communityId")); 
+		String communityId = request.getParameter("communityId"); 
 		
-		CommunityBean community = CommunityDao.loadByCommunityId(communityId);
+		CommunityBean community = communityDao.loadByCommunityId(communityId);
 		
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
@@ -139,28 +145,24 @@ public class CommunityService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<CommunityBean> communityList = CommunityDao.loadAllCommunity(index, size);
+		List<CommunityBean> communityList = communityDao.loadAllCommunity(index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < communityList.size(); i++) {
-			UserBean ubean = UserDao.loadByUid(communityList.get(i).getUid());
+			UserBean ubean = userDao.loadByUid(communityList.get(i).getUid());
 			if (ubean == null) {
 				try {
-					CommunityDao.delete(communityList.get(i).getId());
+					communityDao.deleteByCommunityId(communityList.get(i).getCommunityId());
 				} finally {
-					communityList = CommunityDao.loadAllCommunity(index, size);
+					communityList = communityDao.loadAllCommunity(index, size);
 					arr = new JSONArray();
 					i = 0;
 				}
 				continue;
 			}
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(communityList.get(i)));
-			//转化成字符串类型
-			//obj2.put("uid", ""+communityList.get(i).getUid());
-			//obj2.put("communityId", ""+communityList.get(i).getCommunityId());
-			//补充用户信息
 			obj2.put("nickname", ubean.getNickname()+"");
 			obj2.put("avatar", ubean.getAvatar()+"");
 			obj2.put("thumbAvatar", ubean.getThumbnail()+"");

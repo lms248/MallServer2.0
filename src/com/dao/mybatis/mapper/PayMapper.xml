@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.mybatis.PayDao">
+	
+	<sql id="sql_select">
+		select * from pay      
+	</sql>
+	
+	<sql id="sql_cols">
+		id,uid,payId,payWay,total_fee,fee_type,body,trade_no,
+		result_code,err_code,err_code_des,status,createTime,payTime
+	</sql>
+	
+	<sql id="sql_cols_value">
+		#{id},#{uid},#{payId},#{payWay},#{total_fee},#{fee_type},#{body},#{trade_no}
+		#{result_code},#{err_code},#{err_code_des},#{status},#{createTime},#{payTime}
+	</sql>
+	
+	<!-- 根据ID加载对应支付 -->
+	<select id="loadById" resultType="payBean">
+		<include refid="sql_select"/> 
+			where id = #{id};
+	</select>
+	
+	<!-- 根据支付ID加载对应支付 -->
+	<select id="loadByPayId" resultType="payBean">
+		<include refid="sql_select"/> 
+			where payid = #{payId};
+	</select>
+	
+	<!-- 根据状态加载对应支付 -->
+	<select id="loadByStatus" resultType="payBean">
+		<include refid="sql_select"/> 
+			where status = #{status}
+			order by id desc 
+			limit #{index},#{size};
+	</select>
+	
+	<!-- 加载所有支付 -->
+	<select id="loadAllPay" resultType="payBean">
+		<include refid="sql_select"/> 
+			order by id desc 
+			limit #{index},#{size};
+	</select>
+	
+	<!-- 查询表的数据总数量 -->
+	<select id="count" resultType="int">
+		select COUNT(*) from pay;
+	</select>
+	
+	<!-- 插入列表数据 -->
+	<insert id="save" parameterType="payBean">
+		insert into pay(<include refid="sql_cols"/>)  
+             values(<include refid="sql_cols_value"/>)
+	</insert>
+	
+	<!-- 更新列表数据 -->
+	<update id="update" parameterType="payBean">
+		update pay
+    		<set>
+      			uid = #{uid},
+      			payId = #{payId},
+      			payWay = #{payWay},
+      			total_fee = #{total_fee},
+      			fee_type = #{fee_type},
+      			body = #{body},
+      			trade_no = #{trade_no},
+      			result_code = #{result_code},
+				err_code = #{err_code},
+				err_code_des = #{err_code_des},
+				status = #{status},
+				createTime = #{createTime},
+				payTime = #{payTime}
+    		</set>
+  		where id=#{id}
+	</update>
+	
+	<!-- 删除列表数据 -->
+	<delete id="deleteByPayId" parameterType="payBean">
+    	delete from pay where payid = #{payId};
+   	</delete>
+</mapper>
+
+

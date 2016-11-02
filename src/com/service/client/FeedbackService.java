@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,8 +24,8 @@ import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-import dao.client.FeedbackDao;
-import dao.client.UserDao;
+import dao.mybatis.FeedbackDao;
+import dao.mybatis.UserDao;
 
 /**
  * 反馈
@@ -32,6 +33,11 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/feedback")
 public class FeedbackService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private FeedbackDao feedbackDao;
 	
 	/** 添加反馈 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -48,7 +54,7 @@ public class FeedbackService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -67,11 +73,11 @@ public class FeedbackService {
 		feedback.setInfo(info);
 		feedback.setCreateTime(System.currentTimeMillis());
 		
-		FeedbackDao.save(feedback);
+		feedbackDao.save(feedback);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加反馈成功");
-		obj.put("data", JsonUtils.jsonFromObject(FeedbackDao.loadByFeedbackId(feedbackId)));
+		obj.put("data", JsonUtils.jsonFromObject(feedbackDao.loadByFeedbackId(feedbackId)));
 		out.print(obj);
 		System.out.println(obj);
 		
@@ -94,7 +100,7 @@ public class FeedbackService {
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "反馈信息");
-		obj.put("data", JsonUtils.jsonFromObject(FeedbackDao.loadByFeedbackId(feedbackId)));
+		obj.put("data", JsonUtils.jsonFromObject(feedbackDao.loadByFeedbackId(feedbackId)));
 		out.print(obj);
 		
 		out.flush();
@@ -114,21 +120,21 @@ public class FeedbackService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<FeedbackBean> feedbackList = FeedbackDao.loadAllFeedback(index, size);
+		List<FeedbackBean> feedbackList = feedbackDao.loadAllFeedback(index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (FeedbackBean feedback : feedbackList) {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(feedback));
-			UserBean user = UserDao.loadByUid(feedback.getUid());
+			UserBean user = userDao.loadByUid(feedback.getUid());
 			obj2.put("username", ""+user==null?"":user.getUsername());
 			obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(feedback.getCreateTime())));
 			arr.add(obj2);
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "反馈列表");
-		obj.put("count", FeedbackDao.Count());
+		obj.put("count", feedbackDao.count());
 		obj.put("data", arr);
 		out.print(obj);
 		

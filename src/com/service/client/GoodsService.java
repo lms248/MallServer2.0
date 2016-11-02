@@ -11,12 +11,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSON;
 
 import bean.admin.User;
 import bean.client.ActivityBean;
@@ -24,18 +26,19 @@ import bean.client.GoodsBean;
 import bean.client.ShopBean;
 import bean.client.SortBean;
 import bean.client.UserBean;
+
+import com.alibaba.fastjson.JSON;
+
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-import dao.client.ActivityDao;
-import dao.client.CollectDao;
-import dao.client.GoodsDao;
-import dao.client.ShopDao;
-import dao.client.SortDao;
-import dao.client.UserDao;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import dao.mybatis.ActivityDao;
+import dao.mybatis.CollectDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.ShopDao;
+import dao.mybatis.SortDao;
+import dao.mybatis.UserDao;
 
 /**
  * 商品
@@ -43,6 +46,19 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("/goods")
 public class GoodsService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private ShopDao shopDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+    private SortDao sortDao;
+	@Autowired  
+	private ActivityDao activityDao;
+	@Autowired  
+    private CollectDao collectDao;
 	
 	/** 添加商品 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -84,7 +100,7 @@ public class GoodsService {
 		String sortId = request.getParameter("sortId");
 		
 		System.out.println("shopId===="+shopId);
-		if (ShopDao.loadByShopId(shopId) == null) {
+		if (shopDao.loadByShopId(shopId) == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商店名不存在");
 			out.print(obj);
@@ -127,11 +143,11 @@ public class GoodsService {
 		goods.setThumbList(JSON.toJSONString(thumbList.split(",")));
 		goods.setCreateTime(System.currentTimeMillis());
 		
-		GoodsDao.save(goods);
+		goodsDao.save(goods);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加商品成功");
-		obj.put("data", JsonUtils.jsonFromObject(GoodsDao.loadByGoodsId(goodsId)));
+		obj.put("data", JsonUtils.jsonFromObject(goodsDao.loadByGoodsId(goodsId)));
 		out.print(obj);
 		
 		System.out.println(obj);
@@ -179,7 +195,7 @@ public class GoodsService {
 		
 		String sortId = request.getParameter("sortId");
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
+		GoodsBean goods = goodsDao.loadByGoodsId(goodsId);
 		
 		if (goods == null) {
 			obj.put("code", Def.CODE_FAIL);
@@ -217,7 +233,7 @@ public class GoodsService {
 		goods.setImageList(JSON.toJSONString(imageList.split(",")));
 		goods.setThumbList(JSON.toJSONString(thumbList.split(",")));
 		
-		GoodsDao.update(goods);
+		goodsDao.update(goods);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改商品成功");
@@ -245,12 +261,12 @@ public class GoodsService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
+		GoodsBean goods = goodsDao.loadByGoodsId(goodsId);
 		
 		JSONObject obj_data = JSONObject.fromObject(goods);
-		ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+		ShopBean shop = shopDao.loadByShopId(goods.getShopId());
 		if (shop != null) {
 			obj_data.put("shopName", shop.getName());
 			obj_data.put("shopLogo", shop.getImage());
@@ -261,7 +277,7 @@ public class GoodsService {
 		if (goods.getSortId() <= 0) {
 			obj_data.put("sortIds", 0);
 		} else {
-			int pid = SortDao.loadById(goods.getSortId()).getPid();
+			int pid = sortDao.loadById(goods.getSortId()).getPid();
 			if (pid == 0) {
 				obj_data.put("sortIds", goods.getSortId());
 			} else {
@@ -271,7 +287,7 @@ public class GoodsService {
 		
 		int isCollect = 0;//是否已收藏，0否，1是
 		if (user != null) {
-			if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+			if (collectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
 				isCollect = 1;
 			}
 		}
@@ -314,7 +330,7 @@ public class GoodsService {
 		} 
 		
 		JSONObject obj = new JSONObject();
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
@@ -323,30 +339,30 @@ public class GoodsService {
 			List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
 			if (shopId == null) { //不分店铺
 				if (sortId == null || sortId.equals("0")) { //不分类
-					goodsList = GoodsDao.loadAllGoods_search(searchContent, index, size);
+					goodsList = goodsDao.loadAllGoods_search(searchContent, index, size);
 				} else { //分类
-					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+					List<SortBean> sortList = sortDao.loadByPid(Integer.parseInt(sortId));
 					if (sortList.size() == 0) {//一类
-						goodsList = GoodsDao.loadAllGoodsForSort_search(Integer.parseInt(sortId), -1, searchContent, index, size);
+						goodsList = goodsDao.loadAllGoodsBySort_search(Integer.parseInt(sortId), -1, searchContent, index, size);
 					} else {
-						goodsList = GoodsDao.loadAllGoodsForSort_search(-1, Integer.parseInt(sortId), searchContent, index, size);
+						goodsList = goodsDao.loadAllGoodsBySort_search(-1, Integer.parseInt(sortId), searchContent, index, size);
 					}
 				}
 			} else { //分店铺
 				if (sortId == null || sortId.equals("0")) { //不分类
-					goodsList = GoodsDao.loadAllGoodsForShop_search(Long.parseLong(shopId), searchContent, index, size);
+					goodsList = goodsDao.loadAllGoodsByShop_search(shopId, searchContent, index, size);
 				} else { //分类
-					List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+					List<SortBean> sortList = sortDao.loadByPid(Integer.parseInt(sortId));
 					if (sortList.size() == 0) {//一类
-						goodsList = GoodsDao.loadAllGoodsForShopAndSort_search(Long.parseLong(shopId), Integer.parseInt(sortId), -1, searchContent, index, size);
+						goodsList = goodsDao.loadAllGoodsByShopAndSort_search(shopId, Integer.parseInt(sortId), -1, searchContent, index, size);
 					} else {
-						goodsList = GoodsDao.loadAllGoodsForShopAndSort_search(Long.parseLong(shopId), -1, Integer.parseInt(sortId), searchContent, index, size);
+						goodsList = goodsDao.loadAllGoodsByShopAndSort_search(shopId, -1, Integer.parseInt(sortId), searchContent, index, size);
 					}
 				}
 			}
 			
 			for (int i = 0; i < goodsList.size(); i++) {
-				ShopBean shop = ShopDao.loadByShopId(goodsList.get(i).getShopId());
+				ShopBean shop = shopDao.loadByShopId(goodsList.get(i).getShopId());
 				if (shop == null) {
 					continue;
 				}
@@ -355,7 +371,7 @@ public class GoodsService {
 				int isCollect = 0;//是否已收藏，0否，1是
 				
 				if (user != null) {
-					if (CollectDao.loadByUidAndGoodId(user.getUid(), goodsList.get(i).getGoodsId()) != null) {
+					if (collectDao.loadByUidAndGoodId(user.getUid(), goodsList.get(i).getGoodsId()) != null) {
 						isCollect = 1;
 					}
 				}
@@ -369,29 +385,29 @@ public class GoodsService {
 				obj2.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(goodsList.get(i).getCreateTime())));
 				arr.add(obj2);
 			}
-			obj.put("count", GoodsDao.Count());
+			obj.put("count", goodsDao.count());
 		} else if (type.equals("2")) {
 			List<ActivityBean> activityList = new ArrayList<ActivityBean>();
-			List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+			List<SortBean> sortList = sortDao.loadByPid(Integer.parseInt(sortId));
 			if (sortList.size() == 0) {//一类
-				activityList = ActivityDao.loadActivityForSort(Integer.parseInt(sortId), -1, index, size);
+				activityList = activityDao.loadBySort(Integer.parseInt(sortId), -1, index, size);
 			} else {
-				activityList = ActivityDao.loadActivityForSort(-1, Integer.parseInt(sortId), index, size);
+				activityList = activityDao.loadBySort(-1, Integer.parseInt(sortId), index, size);
 			}
 			
 			for (int i = 0; i < activityList.size(); i++) {
-				GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
+				GoodsBean goods = goodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
 				if (goods == null) {
 					continue;
 				}
-				ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+				ShopBean shop = shopDao.loadByShopId(goods.getShopId());
 				if (shop == null) {
 					continue;
 				}
 				
 				int isCollect = 0;//是否已收藏，0否，1是
 				if (user != null) {
-					if (CollectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
+					if (collectDao.loadByUidAndGoodId(user.getUid(), goods.getGoodsId()) != null) {
 						isCollect = 1;
 					}
 				}
@@ -446,9 +462,9 @@ public class GoodsService {
 		
 		String goodsId = request.getParameter("goodsId");
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
+		GoodsBean goods = goodsDao.loadByGoodsId(goodsId);
 		
-		int result = GoodsDao.deleteByGoodsId(goods.getGoodsId());
+		int result = goodsDao.deleteByGoodsId(goods.getGoodsId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "删除商品失败");

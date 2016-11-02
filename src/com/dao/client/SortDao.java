@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.SortBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
  * 商品分类dao
  */
+@Deprecated
 public class SortDao {
 	private static Logger log=LoggerManager.getLogger();
 	

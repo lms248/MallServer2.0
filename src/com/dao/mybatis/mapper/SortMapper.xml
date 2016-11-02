@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.mybatis.SortDao">
+	
+	<sql id="sql_select">
+		select * from sort      
+	</sql>
+	
+	<sql id="sql_cols">
+		id,pid,name,type,level,mark,logo
+	</sql>
+	
+	<sql id="sql_cols_value">
+		#{id},#{pid},#{name},#{type},#{level},#{mark},#{logo}
+	</sql>
+	
+	<!-- 根据商品分类ID加载对应商品分类 -->
+	<select id="loadById" resultType="sortBean">
+		<include refid="sql_select"/> 
+			where id = #{id};
+	</select>
+	
+	<!-- 根据商品分类父类ID加载对应商品分类 -->
+	<select id="loadByPid" resultType="sortBean">
+		<include refid="sql_select"/> 
+			where pid = #{pid};
+	</select>
+	
+	<!-- 根据商品父类ID和类型加载对应商品分类 -->
+	<select id="loadByPidAndType" resultType="sortBean">
+		<include refid="sql_select"/> 
+			where pid = #{pid} and type = #{type};
+	</select>
+	
+	<!-- 加载所有商品分类 -->
+	<select id="loadAllSort" resultType="sortBean">
+		<include refid="sql_select"/> 
+			order by id desc 
+			limit #{index},#{size};
+	</select>
+	
+	<!-- 查询表的数据总数量 -->
+	<select id="count" resultType="int">
+		select COUNT(*) from sort;
+	</select>
+	
+	<!-- 插入列表数据 -->
+	<insert id="save" parameterType="sortBean">
+		insert into sort(<include refid="sql_cols"/>)  
+             values(<include refid="sql_cols_value"/>)
+	</insert>
+	
+	<!-- 更新列表数据 -->
+	<update id="update" parameterType="sortBean">
+		update sort
+    		<set>
+      			pid = #{pid},
+      			name = #{name},
+      			type = #{type},
+      			level = #{level},
+      			mark = #{mark},
+      			logo = #{logo}
+    		</set>
+  		where id=#{id}
+	</update>
+	
+	<!-- 删除列表数据 -->
+	<delete id="deleteBySortId" parameterType="sortBean">
+    	delete from sort where sortid = #{sortId};
+   	</delete>
+</mapper>
+
+

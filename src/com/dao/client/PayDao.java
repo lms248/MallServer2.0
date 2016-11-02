@@ -6,14 +6,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import bean.client.OrdersBean;
 import bean.client.PayBean;
+
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
- * 订单dao
+ * 支付dao
  */
+@Deprecated
 public class PayDao {
 	private static Logger log=LoggerManager.getLogger();
 	

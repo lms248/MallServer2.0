@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.CommentBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
  * 评论dao
  */
+@Deprecated
 public class CommentDao {
 	private static Logger log=LoggerManager.getLogger();
 	

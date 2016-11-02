@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,10 +29,10 @@ import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-import dao.client.ActivityDao;
-import dao.client.GoodsDao;
-import dao.client.ShopDao;
-import dao.client.SortDao;
+import dao.mybatis.ActivityDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.ShopDao;
+import dao.mybatis.SortDao;
 
 /**
  * 活动
@@ -39,6 +40,15 @@ import dao.client.SortDao;
 @Controller
 @RequestMapping("/activity")
 public class ActivityService {
+	
+	@Autowired  
+	private ShopDao shopDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+	private SortDao sortDao;
+	@Autowired  
+	private ActivityDao activityDao;
 	
 	/** 添加活动(弃用，改用edit) */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -69,7 +79,7 @@ public class ActivityService {
 		
 		GoodsBean goods = new GoodsBean();
 		try {
-			goods = GoodsDao.loadByGoodsId(goodsId);
+			goods = goodsDao.loadByGoodsId(goodsId);
 		} catch (Exception e) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -99,11 +109,11 @@ public class ActivityService {
 		activity.setMark(mark);
 		activity.setCreateTime(System.currentTimeMillis());
 		
-		ActivityDao.save(activity);
+		activityDao.save(activity);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加活动成功");
-		obj.put("data", JsonUtils.jsonFromObject(ActivityDao.loadByActivityId(activityId)));
+		obj.put("data", JsonUtils.jsonFromObject(activityDao.loadByActivityId(activityId)));
 		out.print(obj);
 		
 		System.out.println(obj);
@@ -142,7 +152,7 @@ public class ActivityService {
 		
 		GoodsBean goods = new GoodsBean();
 		try {
-			goods = GoodsDao.loadByGoodsId(goodsId);
+			goods = goodsDao.loadByGoodsId(goodsId);
 		} catch (Exception e) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -167,11 +177,11 @@ public class ActivityService {
 			activity.setMark(mark);
 			activity.setCreateTime(System.currentTimeMillis());
 			
-			ActivityDao.save(activity);
+			activityDao.save(activity);
 			
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "添加活动成功");
-			obj.put("data", JsonUtils.jsonFromObject(ActivityDao.loadByActivityId(activityId)));
+			obj.put("data", JsonUtils.jsonFromObject(activityDao.loadByActivityId(activityId)));
 			out.print(obj);
 		} else { //修改活动
 			if (request.getParameter("activityId") == null) {
@@ -181,7 +191,7 @@ public class ActivityService {
 				return;
 			}
 			String activityId = request.getParameter("activityId");
-			ActivityBean activity = ActivityDao.loadByActivityId(activityId);
+			ActivityBean activity = activityDao.loadByActivityId(activityId);
 			if (activity == null) {
 				obj.put("code", Def.CODE_FAIL);
 				obj.put("msg", "该活动不存在");
@@ -193,10 +203,10 @@ public class ActivityService {
 			activity.setTitle(title);
 			activity.setMark(mark);
 			
-			ActivityDao.update(activity);
+			activityDao.update(activity);
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "修改活动成功");
-			obj.put("data", JsonUtils.jsonFromObject(ActivityDao.loadByActivityId(activityId)));
+			obj.put("data", JsonUtils.jsonFromObject(activityDao.loadByActivityId(activityId)));
 			out.print(obj);
 		}
 		
@@ -219,12 +229,12 @@ public class ActivityService {
 		String activityId = request.getParameter("activityId"); 
 		
 		JSONObject obj = new JSONObject();
-		ActivityBean activity = ActivityDao.loadByActivityId(activityId);
+		ActivityBean activity = activityDao.loadByActivityId(activityId);
 		JSONObject obj_data = JSONObject.fromObject(activity);
 		if (activity.getSortId() <= 0) {
 			obj_data.put("sortIds", 0);
 		} else {
-			int pid = SortDao.loadById(activity.getSortId()).getPid();
+			int pid = sortDao.loadById(activity.getSortId()).getPid();
 			if (pid==0) {
 				obj_data.put("sortIds", activity.getSortId());
 			} else {
@@ -262,18 +272,18 @@ public class ActivityService {
 			searchContent = "";
 		}
 		
-		List<ActivityBean> activityList = ActivityDao.loadAllActivity_search(searchContent, index, size);
+		List<ActivityBean> activityList = activityDao.loadAllActivity_search(searchContent, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < activityList.size(); i++) {
 			obj2 = JSONObject.fromObject(JsonUtils.jsonFromObject(activityList.get(i)));
-			GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
+			GoodsBean goods = goodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
 			if (goods != null) {
 				obj2.put("goodsName", goods.getName());
 			}
-			SortBean sort = SortDao.loadById(activityList.get(i).getSortId());
+			SortBean sort = sortDao.loadById(activityList.get(i).getSortId());
 			if (sort != null) {
 				obj2.put("sortName", sort.getName());
 			}
@@ -282,7 +292,7 @@ public class ActivityService {
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "活动列表");
-		obj.put("count", ActivityDao.Count());
+		obj.put("count", activityDao.count());
 		obj.put("data", arr);
 		out.print(obj);
 		
@@ -311,19 +321,19 @@ public class ActivityService {
 		JSONArray arr = new JSONArray();
 		
 		List<ActivityBean> activityList = new ArrayList<ActivityBean>();
-		List<SortBean> sortList = SortDao.loadByPid(Integer.parseInt(sortId));
+		List<SortBean> sortList = sortDao.loadByPid(Integer.parseInt(sortId));
 		if (sortList.size() == 0) {//一类
-			activityList = ActivityDao.loadActivityForSort(Integer.parseInt(sortId), -1, index, size);
+			activityList = activityDao.loadBySort(Integer.parseInt(sortId), -1, index, size);
 		} else {
-			activityList = ActivityDao.loadActivityForSort(-1, Integer.parseInt(sortId), index, size);
+			activityList = activityDao.loadBySort(-1, Integer.parseInt(sortId), index, size);
 		}
 		
 		for (int i = 0; i < activityList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
+			GoodsBean goods = goodsDao.loadByGoodsId(activityList.get(i).getGoodsId());
 			if (goods == null) {
 				continue;
 			}
-			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			ShopBean shop = shopDao.loadByShopId(goods.getShopId());
 			if (shop == null) {
 				continue;
 			}
@@ -376,9 +386,9 @@ public class ActivityService {
 		
 		String activityId = request.getParameter("activityId");
 		
-		ActivityBean activity = ActivityDao.loadByActivityId(activityId);
+		ActivityBean activity = activityDao.loadByActivityId(activityId);
 		
-		int result = ActivityDao.deleteByActivityId(activity.getActivityId());
+		int result = activityDao.deleteByActivityId(activity.getActivityId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "删除活动失败");

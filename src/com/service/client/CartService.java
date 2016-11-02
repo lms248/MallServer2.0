@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,14 +24,14 @@ import bean.client.ShopBean;
 import bean.client.UserBean;
 
 import com.alibaba.fastjson.JSON;
+
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
-
-import dao.client.CartDao;
-import dao.client.GoodsDao;
-import dao.client.ShopDao;
-import dao.client.UserDao;
+import dao.mybatis.CartDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.ShopDao;
+import dao.mybatis.UserDao;
 
 /**
  * 购物车
@@ -38,6 +39,15 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/cart")
 public class CartService {
+	
+	@Autowired  
+	private static UserDao userDao;
+	@Autowired  
+	private ShopDao shopDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+	private static CartDao cartDao;
 	
 	/** 添加购物车 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -59,7 +69,7 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -71,7 +81,7 @@ public class CartService {
 		}
 		
 		JSONObject cartObj = new JSONObject();
-		CartBean cart = CartDao.loadByUid(user.getUid());
+		CartBean cart = cartDao.loadByUid(user.getUid());
 		String cartId = "";
 		if (cart == null) {
 			cart = new CartBean();
@@ -86,7 +96,7 @@ public class CartService {
 			
 			cart.setGoodsList(goodsList.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
-			CartDao.save(cart);
+			cartDao.save(cart);
 		} else {
 			cartId = cart.getCartId();
 			cartObj.put("goodsId", Long.parseLong(goodsId));
@@ -112,12 +122,12 @@ public class CartService {
 			
 			cart.setGoodsList(goodsList2.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
-			CartDao.update(cart);
+			cartDao.update(cart);
 		}
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加购物车成功");
-		obj.put("data", JsonUtils.jsonFromObject(CartDao.loadByCartId(cartId)));
+		obj.put("data", JsonUtils.jsonFromObject(cartDao.loadByCartId(cartId)));
 		out.print(obj);
 		System.out.println(obj);
 		
@@ -140,7 +150,7 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -153,7 +163,7 @@ public class CartService {
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "购物车信息");
-		obj.put("data", JsonUtils.jsonFromObject(CartDao.loadByCartId(cartId)));
+		obj.put("data", JsonUtils.jsonFromObject(cartDao.loadByCartId(cartId)));
 		out.print(obj);
 		
 		out.flush();
@@ -174,7 +184,7 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -185,7 +195,7 @@ public class CartService {
 			return;
 		}
 		
-		CartBean cart = CartDao.loadByUid(user.getUid());
+		CartBean cart = cartDao.loadByUid(user.getUid());
 		
 		if (cart == null || cart.getGoodsList() == null) {
 			obj.put("code", Def.CODE_SUCCESS);
@@ -229,7 +239,7 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -240,7 +250,7 @@ public class CartService {
 			return;
 		}
 		
-		CartBean cart = CartDao.loadByUid(user.getUid());
+		CartBean cart = cartDao.loadByUid(user.getUid());
 		if (cart == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "购物车为空");
@@ -267,7 +277,7 @@ public class CartService {
 			
 			cart.setGoodsList(goodsList_temp.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
-			CartDao.update(cart);
+			cartDao.update(cart);
 		}
 		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
@@ -302,7 +312,7 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -313,7 +323,7 @@ public class CartService {
 			return;
 		}
 		
-		CartBean cart = CartDao.loadByUid(user.getUid());
+		CartBean cart = cartDao.loadByUid(user.getUid());
 		if (cart == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "购物车为空");
@@ -344,7 +354,7 @@ public class CartService {
 			
 			cart.setGoodsList(goodsList_temp.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
-			CartDao.update(cart);
+			cartDao.update(cart);
 		}
 		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
@@ -376,7 +386,7 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -387,10 +397,10 @@ public class CartService {
 			return;
 		}
 		
-		CartBean cart = CartDao.loadByUid(user.getUid());
+		CartBean cart = cartDao.loadByUid(user.getUid());
 		
-		//CartDao.delete(cart.getId());
-		CartDao.deleteByCartId(cart.getCartId());
+		//cartDao.delete(cart.getId());
+		cartDao.deleteByCartId(cart.getCartId());
 		
 		JSONArray arrOut = getCartlist(cart.getGoodsList());
 		
@@ -416,8 +426,8 @@ public class CartService {
 		for (int i = 0; i < goodsList_out.size(); i++) {
 			JSONArray goodsArr = new JSONArray();
 			JSONObject goodsObj = JSONObject.fromObject(goodsList_out.get(i));
-			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
-			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			GoodsBean goods = goodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
+			ShopBean shop = shopDao.loadByShopId(goods.getShopId());
 			if (goodsMap.get(shop.getShopId()) == null) {
 				goodsArr.add(goodsObj);
 				goodsMap.put(shop.getShopId(), goodsArr);
@@ -431,7 +441,7 @@ public class CartService {
 		JSONArray arr = new JSONArray();
 		JSONObject obj2 = new JSONObject();
 		for (Map.Entry<String, JSONArray> map : goodsMap.entrySet()) {
-			ShopBean shop = ShopDao.loadByShopId(map.getKey());
+			ShopBean shop = shopDao.loadByShopId(map.getKey());
 			obj2 = new JSONObject();
 			obj2.put("shopId", shop.getShopId());
 			obj2.put("shopName", shop.getName());
@@ -441,7 +451,7 @@ public class CartService {
 			for (int i = 0; i < map.getValue().size(); i++) {
 				JSONObject obj3 = JSONObject.fromObject(map.getValue().get(i));
 				JSONObject obj4 = JSONObject.fromObject(map.getValue().get(i));
-				GoodsBean goods = GoodsDao.loadByGoodsId(obj3.getString("goodsId"));
+				GoodsBean goods = goodsDao.loadByGoodsId(obj3.getString("goodsId"));
 				obj4.put("goodsId", obj3.get("goodsId"));
 				obj4.put("goodsName", goods.getName());
 				obj4.put("goodsLogo", goods.getLogo());
@@ -469,13 +479,13 @@ public class CartService {
 	public static int deleteCart(String token, String goodsId, String tags) {
 		System.out.println("---------删除对应购物车数据----------");
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			System.out.println("用户不存在");
 			return -1;
 		}
 		
-		CartBean cart = CartDao.loadByUid(user.getUid());
+		CartBean cart = cartDao.loadByUid(user.getUid());
 		if (cart == null) {
 			System.out.println("购物车为空");
 			return -1;
@@ -497,7 +507,7 @@ public class CartService {
 			
 			cart.setGoodsList(goodsList_temp.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
-			CartDao.update(cart);
+			cartDao.update(cart);
 		}
 		
 		return 0;

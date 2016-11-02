@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,11 +30,11 @@ import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-import dao.client.CommentDao;
-import dao.client.GoodsDao;
-import dao.client.OrdersDao;
-import dao.client.ShopDao;
-import dao.client.UserDao;
+import dao.mybatis.CommentDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.OrdersDao;
+import dao.mybatis.ShopDao;
+import dao.mybatis.UserDao;
 
 /**
  * 订单
@@ -41,6 +42,17 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/order")
 public class OrderService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private ShopDao shopDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+	private CommentDao commentDao;
+	@Autowired  
+	private OrdersDao ordersDao;
 	
 	/** 创建订单 */
 	@RequestMapping(value ="create",method=RequestMethod.POST)
@@ -68,7 +80,7 @@ public class OrderService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -98,7 +110,7 @@ public class OrderService {
 			goodsArr = JSONArray.fromObject(shopObj.getString("goodsList"));
 			for (int j = 0; j < goodsArr.size(); j++) {
 				JSONObject goodsObj = JSONObject.fromObject(goodsArr.get(j));
-				totalPrice += GoodsDao.loadByGoodsId(goodsObj.getString("goodsId")).getCurPrice();
+				totalPrice += goodsDao.loadByGoodsId(goodsObj.getString("goodsId")).getCurPrice();
 				if (isFromCart != null && isFromCart.equals("true")) {
 					System.out.println("#goodsId===="+goodsObj.getString("goodsId"));
 					System.out.println("#tags===="+goodsObj.getString("tags"));
@@ -118,7 +130,7 @@ public class OrderService {
 			order.setStatus(Def.ORDER_STATUS_NOPAY);
 			order.setCreateTime(createTime);
 			
-			OrdersDao.save(order);
+			ordersDao.save(order);
 			orderIds.add(orderId);
 		}
 		
@@ -161,7 +173,7 @@ public class OrderService {
 		JSONObject obj = new JSONObject();
 		JSONObject orderObj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -169,9 +181,9 @@ public class OrderService {
 			return;
 		}
 		
-		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		OrdersBean order = ordersDao.loadByOrderId(orderId);
 		orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
-		ShopBean shop = ShopDao.loadByShopId(order.getShopId());
+		ShopBean shop = shopDao.loadByShopId(order.getShopId());
 		if (shop == null) {
 			return;
 		}
@@ -182,7 +194,7 @@ public class OrderService {
 		double totalPrice = 0;
 		for (int i = 0; i < goodsList.size(); i++) {
 			goodsObj = JSONObject.fromObject(goodsList.get(i));
-			GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
+			GoodsBean goods = goodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
 			if (goods == null) {
 				continue;
 			}
@@ -194,7 +206,7 @@ public class OrderService {
 			goodsArr.add(goodsObj);
 			totalPrice += goods.getCurPrice() * goodsObj.getInt("amount");
 			
-			List<CommentBean> commentList = CommentDao.loadByUidAndGoodsId(user.getUid(), goods.getGoodsId());
+			List<CommentBean> commentList = commentDao.loadByUidAndGoodsId(user.getUid(), goods.getGoodsId());
 			for (CommentBean comment : commentList) {
 				commentArr.add(JSONObject.fromObject(comment));
 			}
@@ -253,7 +265,7 @@ public class OrderService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -261,12 +273,12 @@ public class OrderService {
 			return;
 		}
 		
-		List<OrdersBean> orderList = OrdersDao.loadByUidAndStatus(user.getUid(), Integer.parseInt(status));
+		List<OrdersBean> orderList = ordersDao.loadByUidAndStatus(user.getUid(), Integer.parseInt(status));
 		JSONObject orderObj = new JSONObject();
 		JSONArray orderArr = new JSONArray();
 		for (OrdersBean order : orderList) {
 			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
-			ShopBean shop = ShopDao.loadByShopId(order.getShopId());
+			ShopBean shop = shopDao.loadByShopId(order.getShopId());
 			if (shop == null) {
 				continue;
 			}
@@ -276,7 +288,7 @@ public class OrderService {
 			JSONArray commentArr = new JSONArray();
 			for (int i = 0; i < goodsList.size(); i++) {
 				goodsObj = JSONObject.fromObject(goodsList.get(i));
-				GoodsBean goods = GoodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
+				GoodsBean goods = goodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
 				if (goods == null) {
 					continue;
 				}
@@ -287,7 +299,7 @@ public class OrderService {
 				goodsObj.put("curPrice", goods.getCurPrice());
 				goodsArr.add(goodsObj);
 				
-				List<CommentBean> commentList = CommentDao.loadByUidAndGoodsId(user.getUid(), goods.getGoodsId());
+				List<CommentBean> commentList = commentDao.loadByUidAndGoodsId(user.getUid(), goods.getGoodsId());
 				for (CommentBean comment : commentList) {
 					commentArr.add(JSONObject.fromObject(comment));
 				}
@@ -355,18 +367,18 @@ public class OrderService {
 		int orderCount = 0;
 		
 		if (StringUtils.isBlank(status) || Integer.parseInt(status) == -1) {
-			orderList = OrdersDao.loadAllOrder(index, size);
-			orderCount = OrdersDao.Count();
+			orderList = ordersDao.loadAllOrder(index, size);
+			orderCount = ordersDao.count();
 		} else {
-			orderList = OrdersDao.loadOrderByStatus(index, size, Integer.parseInt(status));
-			orderCount = OrdersDao.Count(Integer.parseInt(status));
+			orderList = ordersDao.loadByStatus(Integer.parseInt(status), index, size);
+			orderCount = ordersDao.countByStatus(Integer.parseInt(status));
 		}
 		
 		JSONObject orderObj = new JSONObject();
 		JSONArray orderArr = new JSONArray();
 		for (OrdersBean order : orderList) {
 			orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
-			ShopBean shop = ShopDao.loadByShopId(order.getShopId());
+			ShopBean shop = shopDao.loadByShopId(order.getShopId());
 			if (shop == null) {
 				continue;
 			}
@@ -411,7 +423,7 @@ public class OrderService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -419,7 +431,7 @@ public class OrderService {
 			return;
 		}
 		
-		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		OrdersBean order = ordersDao.loadByOrderId(orderId);
 		if (order == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该订单不存在");
@@ -429,7 +441,7 @@ public class OrderService {
 		
 		order.setStatus(Def.ORDER_STATUS_RECEIVE);
 		order.setReceiveTime(System.currentTimeMillis());
-		OrdersDao.update(order);
+		ordersDao.update(order);
 		MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -464,7 +476,7 @@ public class OrderService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -472,7 +484,7 @@ public class OrderService {
 			return;
 		}
 		
-		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		OrdersBean order = ordersDao.loadByOrderId(orderId);
 		if (order == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该订单不存在");
@@ -481,7 +493,7 @@ public class OrderService {
 		}
 		
 		order.setStatus(Def.ORDER_STATUS_CANCEL);
-		OrdersDao.update(order);
+		ordersDao.update(order);
 		MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -518,7 +530,7 @@ public class OrderService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -526,7 +538,7 @@ public class OrderService {
 			return;
 		}
 		
-		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		OrdersBean order = ordersDao.loadByOrderId(orderId);
 		if (order == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该订单不存在");
@@ -541,7 +553,7 @@ public class OrderService {
 		
 		order.setStatus(Def.ORDER_STATUS_AFTERSALES);
 		order.setAfterSaleService(afterSaleObj.toString());
-		OrdersDao.update(order);
+		ordersDao.update(order);
 		MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		
 		obj.put("code", Def.CODE_SUCCESS);
@@ -579,7 +591,7 @@ public class OrderService {
 		String orderId = request.getParameter("orderId");
 		String newStatus = request.getParameter("newStatus");
 		
-		OrdersBean order = OrdersDao.loadByOrderId(orderId);
+		OrdersBean order = ordersDao.loadByOrderId(orderId);
 		if (order == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该订单不存在");
@@ -589,7 +601,7 @@ public class OrderService {
 		
 		if (Integer.parseInt(newStatus) >= 0 && Integer.parseInt(newStatus) <= 5) {
 			order.setStatus(Integer.parseInt(newStatus));
-			OrdersDao.update(order);
+			ordersDao.update(order);
 			
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "更新订单状态成功");
@@ -604,7 +616,7 @@ public class OrderService {
 		case Def.ORDER_STATUS_NOTRECEIVE://发货
 			order.setStatus(Integer.parseInt(newStatus));
 			order.setDeliverTime(System.currentTimeMillis());
-			OrdersDao.update(order);
+			ordersDao.update(order);
 			MessageService.addMessage(order.getUid(), "【订单状态】", MessageService.getOrderMessage(orderId, order.getStatus()));
 		default:
 			break;

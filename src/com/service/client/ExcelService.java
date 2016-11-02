@@ -17,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.client.OrdersBean;
 import common.utils.Def;
-import dao.client.OrdersDao;
+import dao.mybatis.OrdersDao;
 
 /*
  * Excel表
@@ -33,6 +34,9 @@ import dao.client.OrdersDao;
 @RequestMapping("/excel")
 public class ExcelService {
 		
+	@Autowired  
+	private OrdersDao ordersDao;
+	
 	/** 导出订单列表 */
 	@RequestMapping(value ="exportOrders",method=RequestMethod.GET)
 	@ResponseBody
@@ -43,7 +47,7 @@ public class ExcelService {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		
-		List<OrdersBean> orderList = OrdersDao.loadAllOrder();
+		List<OrdersBean> orderList = ordersDao.loadAllOrder(0, 1000);
 		
 		if (orderList.size() == 0) {
 			return;

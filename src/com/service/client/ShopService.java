@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import bean.admin.User;
 import bean.client.ShopBean;
+
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-import dao.client.ShopDao;
+
+import dao.mybatis.ShopDao;
 
 /**
  * 店铺
@@ -32,6 +35,9 @@ import dao.client.ShopDao;
 @Controller
 @RequestMapping("/shop")
 public class ShopService {
+	
+	@Autowired  
+    private ShopDao shopDao;
 	
 	/** 添加店铺 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -66,7 +72,7 @@ public class ShopService {
 		String[] logo = logoAndThumb.split(";");
 		String[] image = imageAndThumb.split(";");
 		
-		if (ShopDao.loadByShopname(name) != null) {
+		if (shopDao.loadByShopname(name) != null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该店铺名已存在");
 			out.print(obj);
@@ -90,11 +96,11 @@ public class ShopService {
 		shop.setContactPhone(contactPhone);
 		shop.setCreateTime(System.currentTimeMillis());
 		
-		ShopDao.save(shop);
+		shopDao.save(shop);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "添加店铺成功");
-		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopId)));
+		obj.put("data", JsonUtils.jsonFromObject(shopDao.loadByShopId(shopId)));
 		out.print(obj);
 		
 		out.flush();
@@ -135,7 +141,7 @@ public class ShopService {
 		String[] logo = logoAndThumb.split(";");
 		String[] image = imageAndThumb.split(";");
 		
-		ShopBean shop = ShopDao.loadByShopId(shopId);
+		ShopBean shop = shopDao.loadByShopId(shopId);
 		
 		if (shop == null) {
 			obj.put("code", Def.CODE_FAIL);
@@ -156,11 +162,11 @@ public class ShopService {
 		shop.setThumbnail(image[1]);
 		shop.setContactPhone(contactPhone);
 		
-		ShopDao.update(shop);
+		shopDao.update(shop);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "修改店铺成功");
-		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shop.getShopId())));
+		obj.put("data", JsonUtils.jsonFromObject(shopDao.loadByShopId(shop.getShopId())));
 		out.print(obj);
 		
 		out.flush();
@@ -182,7 +188,7 @@ public class ShopService {
 		JSONObject obj = new JSONObject();
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "店铺信息");
-		obj.put("data", JsonUtils.jsonFromObject(ShopDao.loadByShopId(shopId)));
+		obj.put("data", JsonUtils.jsonFromObject(shopDao.loadByShopId(shopId)));
 		out.print(obj);
 		
 		out.flush();
@@ -208,7 +214,7 @@ public class ShopService {
 			searchContent = "";
 		}
 		
-		List<ShopBean> shopList = ShopDao.loadAllShop_search(searchContent, index, size);
+		List<ShopBean> shopList = shopDao.loadAllShop_search(searchContent, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
@@ -220,7 +226,7 @@ public class ShopService {
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "店铺列表");
-		obj.put("count", ShopDao.Count());
+		obj.put("count", shopDao.count());
 		obj.put("data", arr);
 		out.print(obj);
 		
@@ -256,9 +262,9 @@ public class ShopService {
 		
 		String shopId = request.getParameter("shopId");
 		
-		ShopBean shop = ShopDao.loadByShopId(shopId);
+		ShopBean shop = shopDao.loadByShopId(shopId);
 		
-		int result = ShopDao.deleteByShopId(shop.getShopId());
+		int result = shopDao.deleteByShopId(shop.getShopId());
 		if (result == -1) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "删除店铺失败");

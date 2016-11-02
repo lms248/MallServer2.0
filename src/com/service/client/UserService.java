@@ -1,11 +1,7 @@
 package service.client;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,10 +16,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +39,7 @@ import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
 import common.utils.UuidUtils;
-import dao.client.UserDao;
+import dao.mybatis.UserDao;
 
 /**
  * 用户
@@ -54,6 +47,9 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/user")
 public class UserService {
+	
+	@Autowired  
+    private UserDao userDao;
 	
 	/** 用户登录 */
 	@RequestMapping(value ="login",method=RequestMethod.POST)
@@ -75,7 +71,7 @@ public class UserService {
 		String password = req_obj.getString("password");*/
 		
 		/*读取数据库数据*/
-		UserBean user = UserDao.loadByUsername(username);
+		UserBean user = userDao.loadByUsername(username);
 		JSONObject obj = new JSONObject();
 		if(user == null || !password.equals(user.getPassword())){
 			obj.put("code", Def.CODE_FAIL);
@@ -85,7 +81,7 @@ public class UserService {
 		else {
 			String token = UuidUtils.getUuid();
 			user.setToken(token);
-			UserDao.update(user);
+			userDao.update(user);
 			user.setPassword("****");
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "登录成功");
@@ -118,7 +114,7 @@ public class UserService {
 			out.print(obj);
 			return;
 		}
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "找不到对应用户");
@@ -126,7 +122,7 @@ public class UserService {
 			return;
 		}
 		user.setToken("");
-		UserDao.update(user);
+		userDao.update(user);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "成功注销登录");
@@ -189,7 +185,7 @@ public class UserService {
 			return;
 		}
 		
-		if (UserDao.loadByUsername(username) != null) {
+		if (userDao.loadByUsername(username) != null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该用户已存在");
 			out.print(obj);
@@ -224,7 +220,7 @@ public class UserService {
 		user.setType(Def.USER_TYPE_US);
 		user.setRegisterTime(System.currentTimeMillis());
 		user.setLoginTime(user.getRegisterTime());
-		UserDao.save(user);
+		userDao.save(user);
 		
 		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
@@ -284,7 +280,7 @@ public class UserService {
 			String wx_openid = accessObj.getString("openid");
 			String wx_access_token = accessObj.getString("access_token");
 			
-			UserBean wx_user = UserDao.loadByUidAndType(wx_openid, Def.USER_TYPE_WECHAT);
+			UserBean wx_user = userDao.loadByUidAndType(wx_openid, Def.USER_TYPE_WECHAT);
 			if (wx_user == null) { //注册并登录微信用户
 				Map<String,String> params2 = new HashMap<String, String>();
 				params2.put("access_token", wx_access_token);
@@ -305,7 +301,7 @@ public class UserService {
 				wx_user.setType(Integer.parseInt(type));
 				wx_user.setLoginTime(nowTime);
 				wx_user.setRegisterTime(nowTime);
-				UserDao.save(wx_user);
+				userDao.save(wx_user);
 				
 				obj.put("code", Def.CODE_SUCCESS);
 				obj.put("msg", "微信登录成功");
@@ -314,7 +310,7 @@ public class UserService {
 			} else { //微信登录
 				wx_user.setToken(token);
 				wx_user.setLoginTime(nowTime);
-				UserDao.update(wx_user);
+				userDao.update(wx_user);
 				
 				obj.put("code", Def.CODE_SUCCESS);
 				obj.put("msg", "微信登录成功");
@@ -325,7 +321,7 @@ public class UserService {
 		}
 		
 		/*读取数据库数据*/
-		UserBean user = UserDao.loadByUidAndType(uid, Integer.parseInt(type));
+		UserBean user = userDao.loadByUidAndType(uid, Integer.parseInt(type));
 		if(user == null){//注册第三方用户
 			user = new UserBean();
 			user.setUid(uid);
@@ -336,7 +332,7 @@ public class UserService {
 			user.setType(Integer.parseInt(type));
 			user.setLoginTime(nowTime);
 			user.setRegisterTime(nowTime);
-			UserDao.save(user);
+			userDao.save(user);
 			
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "登录成功");
@@ -345,7 +341,7 @@ public class UserService {
 		} else {
 			user.setToken(token);
 			user.setLoginTime(nowTime);
-			UserDao.update(user);
+			userDao.update(user);
 			
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "登录成功");
@@ -379,7 +375,7 @@ public class UserService {
 		String password_new = request.getParameter("password_new");
 		
 		JSONObject obj = new JSONObject();
-		UserBean user = UserDao.loadByUsername(username);
+		UserBean user = userDao.loadByUsername(username);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -395,11 +391,11 @@ public class UserService {
 		}
 		
 		user.setPassword(password_new);
-		UserDao.update(user);
+		userDao.update(user);
 		String token = UuidUtils.getUuid();
 		user.setToken(token);
 		user.setPassword(password_new);
-		UserDao.update(user);
+		userDao.update(user);
 		
 		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
@@ -454,7 +450,7 @@ public class UserService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByUsername(username);
+		UserBean user = userDao.loadByUsername(username);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -463,7 +459,7 @@ public class UserService {
 		}
 		
 		user.setPassword(password);
-		UserDao.update(user);
+		userDao.update(user);
 		
 		if(session_phone==null || session_phoneCode==null){
 			obj.put("code", Def.CODE_FAIL);
@@ -481,7 +477,7 @@ public class UserService {
 		String token = UuidUtils.getUuid();
 		user.setToken(token);
 		user.setPassword(password);
-		UserDao.update(user);
+		userDao.update(user);
 		
 		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
@@ -508,7 +504,7 @@ public class UserService {
 		String token = request.getParameter("token"); 
 		
 		JSONObject obj = new JSONObject();
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -556,7 +552,7 @@ public class UserService {
 			searchContent = "";
 		}
 		
-		List<UserBean> userList = UserDao.loadAllUser_search(searchContent, index, size);
+		List<UserBean> userList = userDao.loadAllUser_search(searchContent, index, size);
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (UserBean user : userList) {
@@ -569,7 +565,7 @@ public class UserService {
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "用户列表");
-		obj.put("count", UserDao.Count());
+		obj.put("count", userDao.count());
 		obj.put("data", arr);
 		out.print(obj);
 		
@@ -601,7 +597,7 @@ public class UserService {
 		String nickname = request.getParameter("nickname");
 		
 		JSONObject obj = new JSONObject();
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -638,7 +634,7 @@ public class UserService {
 		}
 		
 		//更新数据库
-		UserDao.update(user);
+		userDao.update(user);
 		
 		user.setPassword("****");
 		obj.put("code", Def.CODE_SUCCESS);
@@ -680,7 +676,7 @@ public class UserService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -717,7 +713,7 @@ public class UserService {
 		
 		addressArr.add(userAddress);
 		user.setAddress(addressArr.toString());
-		UserDao.update(user);
+		userDao.update(user);
 		
 		JSONObject outObj = new JSONObject();
 		if (StringUtils.isBlank(user.getDefaultAddressId())) {
@@ -770,7 +766,7 @@ public class UserService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -838,7 +834,7 @@ public class UserService {
 			out.close();
 			return;
 		}
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -893,7 +889,7 @@ public class UserService {
 			out.close();
 			return;
 		}
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -953,7 +949,7 @@ public class UserService {
 			out.close();
 			return;
 		}
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -978,7 +974,7 @@ public class UserService {
 		}
 		
 		user.setAddress(addressArr_new.toString());
-		UserDao.update(user);
+		userDao.update(user);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "删除地址成功");
@@ -990,39 +986,4 @@ public class UserService {
 		out.close();
 	}
 	
-	/** 测试mybatis */
-	@RequestMapping(value ="mybatis",method=RequestMethod.GET)
-	@ResponseBody
-	public void mybatis(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException{
-		response.setContentType("text/html;charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-		
-        System.out.println("resource===="+Config.MYBATIS_CONFIG);
-//        Reader reader = Resources.getResourceAsReader(Config.MYBATIS_CONFIG);  
-//        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();  
-//        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(reader); 
-//        SqlSession session = sqlSessionFactory.openSession();
-        
-        //InputStream inputStream = Resources.getResourceAsStream(Config.MYBATIS_CONFIG);
-        InputStream inputStream = new FileInputStream(new File(Config.MYBATIS_CONFIG));
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        SqlSession session = sqlSessionFactory.openSession();
-        
-        dao.mybatis.UserDao userDao = session.getMapper(dao.mybatis.UserDao.class);  
-        UserBean user = userDao.loadById(10);  
-        System.out.println(user.toString());
-		
-        List<UserBean> userList = userDao.loadAllUser(0, 10);
-        
-        System.out.println("S::"+userList.size());
-        for (UserBean userBean : userList) {
-        	System.out.println(userBean.toString());
-		}
-        
-		out.flush();
-		out.close();
-	}
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,15 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bean.client.CommentBean;
 import bean.client.GoodsBean;
 import bean.client.UserBean;
-
 import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-
-import dao.client.CommentDao;
-import dao.client.GoodsDao;
-import dao.client.UserDao;
+import dao.mybatis.CommentDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.UserDao;
 
 /**
  * 商品评论
@@ -35,6 +34,13 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/comment")
 public class CommentService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+	private CommentDao commentDao;
 	
 	/** 发表评论 */
 	@RequestMapping(value ="publish",method=RequestMethod.POST)
@@ -71,7 +77,7 @@ public class CommentService {
 			star = 5;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -81,7 +87,7 @@ public class CommentService {
 			out.close();
 			return;
 		}
-		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
+		GoodsBean goods = goodsDao.loadByGoodsId(goodsId);
 		if (goods == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -101,7 +107,7 @@ public class CommentService {
 		comment.setContent(content);
 		comment.setStar(star);
 		comment.setCreateTime(System.currentTimeMillis());
-		CommentDao.save(comment);
+		commentDao.save(comment);
 		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "发表评论成功");
@@ -128,14 +134,14 @@ public class CommentService {
 		int index = Integer.parseInt(request.getParameter("index"));//索引开始
 		int size = Integer.parseInt(request.getParameter("size"));//条数
 		
-		List<CommentBean> commentList = CommentDao.loadCommentForGoodsId(goodsId, index, size);
+		List<CommentBean> commentList = commentDao.loadByGoodsId(goodsId, index, size);
 		
 		JSONObject obj = new JSONObject();
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < commentList.size(); i++) {
 			obj2 = JSONObject.fromObject(commentList.get(i));
-			UserBean user = UserDao.loadByUid(commentList.get(i).getUid());
+			UserBean user = userDao.loadByUid(commentList.get(i).getUid());
 			if (user == null) {
 				continue;
 			}
@@ -182,7 +188,7 @@ public class CommentService {
 			return;
 		}
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -193,7 +199,7 @@ public class CommentService {
 			return;
 		}
 		
-		int result = CommentDao.deleteByCommentId(commentId);
+		int result = commentDao.deleteByCommentId(commentId);
 		if (result == -1) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "删除评论失败");

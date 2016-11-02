@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.ShopBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
  * 商店dao
  */
+@Deprecated
 public class ShopDao {
 	private static Logger log=LoggerManager.getLogger();
 	

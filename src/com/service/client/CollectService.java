@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +26,10 @@ import common.utils.Def;
 import common.utils.IdGen;
 import common.utils.JsonUtils;
 
-import dao.client.CollectDao;
-import dao.client.GoodsDao;
-import dao.client.ShopDao;
-import dao.client.UserDao;
+import dao.mybatis.CollectDao;
+import dao.mybatis.GoodsDao;
+import dao.mybatis.ShopDao;
+import dao.mybatis.UserDao;
 
 /**
  * 商品收藏
@@ -36,6 +37,15 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/collect")
 public class CollectService {
+	
+	@Autowired  
+    private UserDao userDao;
+	@Autowired  
+	private ShopDao shopDao;
+	@Autowired  
+	private GoodsDao goodsDao;
+	@Autowired  
+    private CollectDao collectDao;
 	
 	/** 添加或取消收藏 */
 	@RequestMapping(value ="edit",method=RequestMethod.POST)
@@ -52,7 +62,7 @@ public class CollectService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -63,7 +73,7 @@ public class CollectService {
 			return;
 		}
 		
-		GoodsBean goods = GoodsDao.loadByGoodsId(goodsId);
+		GoodsBean goods = goodsDao.loadByGoodsId(goodsId);
 		if (goods == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "该商品不存在");
@@ -74,7 +84,7 @@ public class CollectService {
 			return;
 		}
 		
-		CollectBean collect = CollectDao.loadByUidAndGoodId(user.getUid(), goodsId);
+		CollectBean collect = collectDao.loadByUidAndGoodId(user.getUid(), goodsId);
 		if (collect == null) { //不存在则添加
 			String collectId = IdGen.get().nextId()+"";
 			collect = new CollectBean();
@@ -82,13 +92,13 @@ public class CollectService {
 			collect.setUid(user.getUid());
 			collect.setGoodsId(goodsId);
 			collect.setCreateTime(System.currentTimeMillis());
-			CollectDao.save(collect);
+			collectDao.save(collect);
 			
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "添加收藏成功");
 			obj.put("type", 1);
 		} else { //已存在则删除
-			CollectDao.deleteByCollectId(collect.getCollectId());
+			collectDao.deleteByCollectId(collect.getCollectId());
 			obj.put("code", Def.CODE_SUCCESS);
 			obj.put("msg", "取消收藏成功");
 			obj.put("type", 0);
@@ -118,7 +128,7 @@ public class CollectService {
 		
 		JSONObject obj = new JSONObject();
 		
-		UserBean user = UserDao.loadByToken(token);
+		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
 			obj.put("msg", "用户不存在");
@@ -129,16 +139,16 @@ public class CollectService {
 			return;
 		}
 		
-		List<CollectBean> collectList = CollectDao.loadByUid(user.getUid(), index, size);
+		List<CollectBean> collectList = collectDao.loadByUid(user.getUid(), index, size);
 		
 		JSONObject obj2 = new JSONObject();
 		JSONArray arr = new JSONArray();
 		for (int i = 0; i < collectList.size(); i++) {
-			GoodsBean goods = GoodsDao.loadByGoodsId(collectList.get(i).getGoodsId());
+			GoodsBean goods = goodsDao.loadByGoodsId(collectList.get(i).getGoodsId());
 			if (goods == null) {
 				continue;
 			}
-			ShopBean shop = ShopDao.loadByShopId(goods.getShopId());
+			ShopBean shop = shopDao.loadByShopId(goods.getShopId());
 			if (shop == null) {
 				continue;
 			}

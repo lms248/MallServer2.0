@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,8 +25,8 @@ import bean.client.UserBean;
 import common.utils.Def;
 import common.utils.JsonUtils;
 import common.utils.StringUtils;
-import dao.client.PayDao;
-import dao.client.UserDao;
+import dao.mybatis.PayDao;
+import dao.mybatis.UserDao;
 
 /**
  * 支付订单
@@ -33,6 +34,11 @@ import dao.client.UserDao;
 @Controller
 @RequestMapping("/pay")
 public class PayService {
+	
+	@Autowired  
+	private UserDao userDao;
+	@Autowired  
+	private PayDao payDao;
 	
 	/** 支付订单列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
@@ -51,9 +57,9 @@ public class PayService {
 		List<PayBean> payList = new ArrayList<PayBean>();
 		
 		if (StringUtils.isBlank(status) || status.equals("-1")) {
-			payList = PayDao.loadAllPay(index, size);
+			payList = payDao.loadAllPay(index, size);
 		} else {
-			payList = PayDao.loadPayByStatus(index, size, Integer.parseInt(status));
+			payList = payDao.loadByStatus(Integer.parseInt(status), index, size);
 		}
 		
 		JSONObject obj = new JSONObject();
@@ -61,7 +67,7 @@ public class PayService {
 		JSONArray arr = new JSONArray();
 		for (PayBean pay : payList) {
 			outObj = JSONObject.fromObject(JsonUtils.jsonFromObject(pay));
-			UserBean user = UserDao.loadByUid(pay.getUid());
+			UserBean user = userDao.loadByUid(pay.getUid());
 			outObj.put("username", ""+user==null?"":user.getUsername());
 			outObj.put("createTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(pay.getCreateTime())));
 			outObj.put("payTime2", ""+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(pay.getPayTime())));
@@ -69,7 +75,7 @@ public class PayService {
 		}
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "支付订单列表");
-		obj.put("count", PayDao.Count());
+		obj.put("count", payDao.count());
 		obj.put("data", arr);
 		out.print(obj);
 		

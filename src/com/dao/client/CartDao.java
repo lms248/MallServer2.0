@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.client.CartBean;
-
 import common.logger.Logger;
 import common.logger.LoggerManager;
 
 /**
  * 购物车dao
  */
+@Deprecated
 public class CartDao {
 	private static Logger log=LoggerManager.getLogger();
 	
