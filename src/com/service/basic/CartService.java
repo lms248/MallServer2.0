@@ -84,8 +84,6 @@ public class CartService {
 		
 		JSONObject obj = new JSONObject();
 		
-		System.out.println("token===="+token);
-		System.out.println("userDao.loadByToken(token)===="+userDao.loadByToken(token));
 		UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			obj.put("code", Def.CODE_FAIL);
