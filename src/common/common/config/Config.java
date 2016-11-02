@@ -24,8 +24,6 @@ public class Config {
 	public static String DEFAULT_LOG_PATTERN = "";
 	/** 数据库配置 */
 	public static String DB_CONFIG = "c3p0-config.xml";
-	/** MyBatis配置 */
-	public static String MYBATIS_CONFIG = "mybatis-config.xml";
 	
 	/**
 	 * 初始化配置
@@ -37,7 +35,6 @@ public class Config {
 		CONFIG_DIR = ROOT_DIR+"WEB-INF" + File.separator + CONFIG_DIR + File.separator;
 		LOGGER_CONFIG = CONFIG_DIR + LOGGER_CONFIG;
 		DB_CONFIG = CONFIG_DIR + DB_CONFIG;
-		MYBATIS_CONFIG = CONFIG_DIR + MYBATIS_CONFIG;
 		
 		//设置日志参数
 		DEFAULT_LOG_PATH = ROOT_DIR+"logs";
@@ -50,6 +47,5 @@ public class Config {
 		System.out.println("CONFIG_DIR=="+CONFIG_DIR);
 		System.out.println("LOGGER_CONFIG=="+LOGGER_CONFIG);
 		System.out.println("DB_CONFIG=="+DB_CONFIG);
-		System.out.println("MYBATIS_CONFIG=="+MYBATIS_CONFIG);
 	}
 }

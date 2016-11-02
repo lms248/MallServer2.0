@@ -34,11 +34,11 @@ import pay.wx.bean.WxPayRequestData;
 import pay.wx.config.WxPayConfig;
 import pay.wx.util.Util;
 import pay.wx.util.WxPayUtil;
-import service.client.MessageService;
-import bean.client.GoodsBean;
-import bean.client.OrdersBean;
-import bean.client.PayBean;
-import bean.client.UserBean;
+import service.basic.MessageService;
+import bean.basic.GoodsBean;
+import bean.basic.OrdersBean;
+import bean.basic.PayBean;
+import bean.basic.UserBean;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -51,10 +51,10 @@ import com.thoughtworks.xstream.XStream;
 import common.logger.Logger;
 import common.utils.Def;
 import common.utils.IdGen;
-import dao.client.GoodsDao;
-import dao.client.OrdersDao;
-import dao.client.PayDao;
-import dao.client.UserDao;
+import dao.old.GoodsDao;
+import dao.old.OrdersDao;
+import dao.old.PayDao;
+import dao.old.UserDao;
 
 /**
  * 微信支付相关逻辑控制器
