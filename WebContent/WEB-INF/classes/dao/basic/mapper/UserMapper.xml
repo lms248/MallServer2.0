@@ -6,7 +6,7 @@
 <mapper namespace="dao.basic.UserDao">
 	
 	<sql id="sql_select">
-		select * from user      
+		select * from user 
 	</sql>
 	
 	<sql id="sql_cols">
