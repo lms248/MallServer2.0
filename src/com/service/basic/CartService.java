@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,6 +49,20 @@ public class CartService {
 	private GoodsDao goodsDao;
 	@Autowired  
 	private CartDao cartDao;
+	
+	private static CartService cartService;
+	
+	/** 
+     * 构造方法执行后调用 init() 
+     */  
+    @PostConstruct  
+    public void init() {  
+    	cartService = this;  
+    	cartService.userDao = this.userDao;
+    	cartService.shopDao = this.shopDao;
+    	cartService.goodsDao = this.goodsDao;
+    	cartService.cartDao = this.cartDao;
+    }  
 	
 	/** 添加购物车 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -481,13 +496,13 @@ public class CartService {
 	public static int deleteCart(String token, String goodsId, String tags) {
 		System.out.println("---------删除对应购物车数据----------");
 		
-		/*UserBean user = userDao.loadByToken(token);
+		UserBean user = cartService.userDao.loadByToken(token);
 		if (user == null) {
 			System.out.println("用户不存在");
 			return -1;
 		}
 		
-		CartBean cart = cartDao.loadByUid(user.getUid());
+		CartBean cart = cartService.cartDao.loadByUid(user.getUid());
 		if (cart == null) {
 			System.out.println("购物车为空");
 			return -1;
@@ -509,8 +524,8 @@ public class CartService {
 			
 			cart.setGoodsList(goodsList_temp.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
-			cartDao.update(cart);
-		}*/
+			cartService.cartDao.update(cart);
+		}
 		
 		return 0;
 	}

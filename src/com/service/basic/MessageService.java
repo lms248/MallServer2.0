@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,19 @@ public class MessageService {
 	@Autowired  
     private UserDao userDao;
 	@Autowired  
-	private static MessageDao messageDao;
+	private MessageDao messageDao;
+	
+	private static MessageService messageService;
+	
+	/** 
+     * 构造方法执行后调用 init() 
+     */  
+    @PostConstruct  
+    public void init() {  
+    	messageService = this;  
+    	messageService.userDao = this.userDao;
+    	messageService.messageDao = this.messageDao;
+    }
 	
 	/** 消息列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
@@ -96,7 +109,7 @@ public class MessageService {
 		message.setTitle(title);
 		message.setContent(content);
 		message.setCreateTime(System.currentTimeMillis());
-		messageDao.save(message);
+		messageService.messageDao.save(message);
 		System.out.println("添加消息成功");
 	}
 	
