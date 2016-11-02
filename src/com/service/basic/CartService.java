@@ -41,13 +41,13 @@ import dao.basic.UserDao;
 public class CartService {
 	
 	@Autowired  
-	private static UserDao userDao;
+	private UserDao userDao;
 	@Autowired  
 	private ShopDao shopDao;
 	@Autowired  
 	private GoodsDao goodsDao;
 	@Autowired  
-	private static CartDao cartDao;
+	private CartDao cartDao;
 	
 	/** 添加购物车 */
 	@RequestMapping(value ="add",method=RequestMethod.POST)
@@ -481,7 +481,7 @@ public class CartService {
 	public static int deleteCart(String token, String goodsId, String tags) {
 		System.out.println("---------删除对应购物车数据----------");
 		
-		UserBean user = userDao.loadByToken(token);
+		/*UserBean user = userDao.loadByToken(token);
 		if (user == null) {
 			System.out.println("用户不存在");
 			return -1;
@@ -510,7 +510,7 @@ public class CartService {
 			cart.setGoodsList(goodsList_temp.toString());
 			cart.setUpdateTime(System.currentTimeMillis());
 			cartDao.update(cart);
-		}
+		}*/
 		
 		return 0;
 	}
