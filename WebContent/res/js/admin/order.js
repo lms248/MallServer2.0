@@ -26,7 +26,7 @@ function getOrderDateList(index) {
  * @param orderId
  */
 function showOrderInfo(orderId) {
-	$.get("/order/info",{orderId:orderId},function(data){
+	$.get("/order/infoForAdmin",{orderId:orderId},function(data){
 		if(data.code=="0"){
 			$("#modal_orderId").html(data.data.orderId);
 			$("#modal_shopName").html(data.data.shopName);

@@ -243,6 +243,75 @@ public class OrderService {
 		out.close();
 	}
 	
+	/** 后台查看订单详情 */
+	@RequestMapping(value ="infoForAdmin",method=RequestMethod.GET)
+	@ResponseBody
+	public void infoForAdmin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
+		response.setContentType("text/html;charset=utf-8");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+		
+		JSONObject obj = new JSONObject();
+		User admin_user = (User) request.getSession().getAttribute("admin_user");
+		if (admin_user == null) {
+			obj.put("code", Def.CODE_FAIL);
+			obj.put("msg", "未登录或登录已过期，请重新登录");
+			out.print(obj);
+			
+			out.flush();
+			out.close();
+			return;
+		}
+		
+		String orderId = request.getParameter("orderId");
+		
+		JSONObject orderObj = new JSONObject();
+		
+		OrdersBean order = ordersDao.loadByOrderId(orderId);
+		orderObj = JSONObject.fromObject(JsonUtils.jsonFromObject(order));
+		ShopBean shop = shopDao.loadByShopId(order.getShopId());
+		if (shop == null) {
+			return;
+		}
+		JSONArray goodsList = JSONArray.fromObject(order.getGoodsList());
+		JSONArray goodsArr = new JSONArray();
+		JSONObject goodsObj = new JSONObject();
+		double totalPrice = 0;
+		for (int i = 0; i < goodsList.size(); i++) {
+			goodsObj = JSONObject.fromObject(goodsList.get(i));
+			GoodsBean goods = goodsDao.loadByGoodsId(goodsObj.getString("goodsId"));
+			if (goods == null) {
+				continue;
+			}
+			goodsObj.put("goodsName", goods.getName());
+			goodsObj.put("goodsLogo", goods.getLogo());
+			goodsObj.put("goodsLogoThumb", goods.getLogoThumb());
+			goodsObj.put("prePrice", goods.getPrePrice());
+			goodsObj.put("curPrice", goods.getCurPrice());
+			goodsArr.add(goodsObj);
+			totalPrice += goods.getCurPrice() * goodsObj.getInt("amount");
+			
+		}
+		orderObj.put("shopName", shop.getName());
+		orderObj.put("shopLogo", shop.getLogo());
+		orderObj.put("shopLogoThumb", shop.getLogoThumb());
+		orderObj.put("contactPhone", shop.getContactPhone());
+		orderObj.put("goodsList", goodsArr);
+		orderObj.put("totalPrice", totalPrice);
+		
+		obj.put("code", Def.CODE_SUCCESS);
+		obj.put("msg", "订单详情");
+		obj.put("data", orderObj);
+		out.print(obj);
+		
+		System.out.println(obj);
+		
+		out.flush();
+		out.close();
+	}
+	
 	/** 订单列表 */
 	@RequestMapping(value ="infoList",method=RequestMethod.GET)
 	@ResponseBody
