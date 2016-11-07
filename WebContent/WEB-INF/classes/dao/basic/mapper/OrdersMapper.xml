@@ -10,12 +10,12 @@
 	</sql>
 	
 	<sql id="sql_cols">
-		id,ordersId,payId,uid,shopId,goodsList,addressId,status,
+		id,orderId,payId,uid,shopId,goodsList,addressId,status,
 		afterSaleService,payWay,createTime,payTime,deliverTime,receiveTime
 	</sql>
 	
 	<sql id="sql_cols_value">
-		#{id},#{ordersId},#{payId},#{uid},#{shopId},#{goodsList},#{addressId},#{status},
+		#{id},#{orderId},#{payId},#{uid},#{shopId},#{goodsList},#{addressId},#{status},
 		#{afterSaleService},#{payWay},#{createTime},#{payTime},#{deliverTime},#{receiveTime}
 	</sql>
 	
@@ -26,9 +26,9 @@
 	</select>
 	
 	<!-- 根据订单ID加载对应订单-->
-	<select id="loadByOrdersId" resultType="ordersBean">
+	<select id="loadByOrderId" resultType="ordersBean">
 		<include refid="sql_select"/> 
-			where ordersid = #{ordersId};
+			where orderid = #{orderId};
 	</select>
 	
 	<!-- 根据状态加载对应订单-->
@@ -72,7 +72,7 @@
 	<update id="update" parameterType="ordersBean">
 		update orders
     		<set>
-      			ordersId = #{ordersId},
+      			orderId = #{orderId},
       			payId = #{payId},
       			uid = #{uid},
       			shopId = #{shopId},
@@ -90,8 +90,8 @@
 	</update>
 	
 	<!-- 删除列表数据 -->
-	<delete id="deleteByOrdersId" parameterType="ordersBean">
-    	delete from orders where ordersid = #{ordersId};
+	<delete id="deleteByOrderId" parameterType="ordersBean">
+    	delete from orders where orderid = #{orderId};
    	</delete>
 </mapper>
 
