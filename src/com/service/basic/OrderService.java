@@ -301,6 +301,20 @@ public class OrderService {
 		orderObj.put("goodsList", goodsArr);
 		orderObj.put("totalPrice", totalPrice);
 		
+		JSONArray addressArr = new JSONArray();
+		UserBean user = userDao.loadByUid(order.getUid());
+		if (!StringUtils.isBlank(user.getAddress())) {
+			addressArr = JSONArray.fromObject(user.getAddress());
+		}
+		JSONObject addressObj = new JSONObject();
+		for (int i = 0; i < addressArr.size(); i++) {
+			addressObj = JSONObject.fromObject(addressArr.get(i));
+			if (order.getAddressId() == addressObj.getLong("addressId")) {
+				break;
+			}
+		}
+		orderObj.put("address", addressObj);
+		
 		obj.put("code", Def.CODE_SUCCESS);
 		obj.put("msg", "订单详情");
 		obj.put("data", orderObj);
