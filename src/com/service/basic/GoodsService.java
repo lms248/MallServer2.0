@@ -376,6 +376,11 @@ public class GoodsService {
 					}
 				}
 				
+				SortBean sort = sortDao.loadById(goodsList.get(i).getSortId());
+				if (sort != null) {
+					obj2.put("sortName", sort.getName());
+				}
+				
 				//转化成字符串类型
 				obj2.put("isCollect", isCollect);
 				obj2.put("shopName", shop.getName());

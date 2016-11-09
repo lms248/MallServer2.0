@@ -198,7 +198,7 @@
     <td class="center "><img src="{{:logoThumb}}" width="50" heigth="50"></td>
     <td class="center ">{{:prePrice}}</td>
     <td class="center ">{{:curPrice}}</td>
-    <td class="center ">{{:sortId}}</td>
+    <td class="center ">{{:sortName}}</td>
     <td class="center ">{{:createTime2}}</td>
     <td class="center ">
 		 <button class="btn btn-info" type="button" onclick="showGoods('{{:goodsId}}')">查看</button>
