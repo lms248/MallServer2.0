@@ -3,8 +3,7 @@ package common.boot;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import service.admin.AdminUserService;
-
+import main.service.admin.AdminUserService;
 import common.config.Config;
 import common.logger.LoggerManager;
 import common.utils.TimerManagerUtils;

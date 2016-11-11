@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="service.admin.AdminUserService"%>
-<%@page import="bean.admin.Navigation"%>
-<%@page import="bean.admin.User"%>
-<%@page import="bean.admin.AuthMap"%>
-<%@page import="bean.admin.Group"%>
+<%@page import="main.service.admin.AdminUserService"%>
+<%@page import="main.bean.admin.Navigation"%>
+<%@page import="main.bean.admin.User"%>
+<%@page import="main.bean.admin.AuthMap"%>
+<%@page import="main.bean.admin.Group"%>
 <%@page import="java.util.List"%>
 <%
 List<Navigation> navigation=AdminUserService.getNavigation(session);

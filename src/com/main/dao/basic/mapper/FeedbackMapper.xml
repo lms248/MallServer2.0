@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="main.dao.basic.FeedbackDao">
+	
+	<sql id="sql_select">
+		select * from feedback 
+	</sql>
+	
+	<sql id="sql_cols">
+		id,feedbackId,uid,info,createTime
+	</sql>
+	
+	<sql id="sql_cols_value">
+		#{id},#{feedbackId},#{uid},#{info},#{createTime}
+	</sql>
+	
+	<!-- 根据ID加载对应反馈 -->
+	<select id="loadById" resultType="feedbackBean">
+		<include refid="sql_select"/> 
+			where id = #{id};
+	</select>
+	
+	<!-- 根据反馈ID加载对应反馈 -->
+	<select id="loadByFeedbackId" resultType="feedbackBean">
+		<include refid="sql_select"/> 
+			where feedbackid = #{feedbackId};
+	</select>
+	
+	<!-- 加载所有反馈 -->
+	<select id="loadAllFeedback" resultType="feedbackBean">
+		<include refid="sql_select"/> 
+			order by id desc 
+			limit #{index},#{size};
+	</select>
+	
+	<!-- 查询表的数据总数量 -->
+	<select id="count" resultType="int">
+		select COUNT(*) from feedback;
+	</select>
+	
+	<!-- 插入列表数据 -->
+	<insert id="save" parameterType="feedbackBean">
+		insert into feedback(<include refid="sql_cols"/>)  
+             values(<include refid="sql_cols_value"/>)
+	</insert>
+	
+	<!-- 更新列表数据 -->
+	<update id="update" parameterType="feedbackBean">
+		update feedback
+    		<set>
+      			feedbackId = #{feedbackId},
+      			uid = #{uid},
+      			info = #{info},
+      			createTime = #{createTime}
+    		</set>
+  		where id=#{id}
+	</update>
+	
+	<!-- 删除列表数据 -->
+	<delete id="deleteByFeedbackId" parameterType="feedbackBean">
+    	delete from feedback where feedbackid = #{feedbackId};
+   	</delete>
+</mapper>
+
+

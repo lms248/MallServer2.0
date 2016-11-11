@@ -1,0 +1,16 @@
+[INFO 2016-10-30T21:28:31.875 service.admin.AdminUserService initAuthContent 141] Star init authContent json data.
+[INFO 2016-10-30T21:28:32.138 service.admin.AdminUserService initAuthContent 154] Init authContent json data complete.
+[INFO 2016-10-30T21:28:32.139 service.admin.AdminUserService initUserContent 56] Star init userContent json data.
+[INFO 2016-10-30T21:28:32.160 service.admin.AdminUserService initUserContent 75] Init userContent json data complete.
+[INFO 2016-10-30T21:28:32.160 service.admin.AdminUserService initNavigationContent 235] Star init navigationContent json data.
+[INFO 2016-10-30T21:28:32.177 service.admin.AdminUserService initNavigationContent 240] Init navigationContent json data complete.
+[INFO 2016-10-30T21:28:32.177 service.admin.AdminUserService initGroupContent 297] Star init groupContent json data.
+[INFO 2016-10-30T21:28:32.181 service.admin.AdminUserService initGroupContent 302] Init groupContent json data complete.
+[INFO 2016-10-30T21:34:58.188 service.admin.AdminUserService initAuthContent 141] Star init authContent json data.
+[INFO 2016-10-30T21:34:58.406 service.admin.AdminUserService initAuthContent 154] Init authContent json data complete.
+[INFO 2016-10-30T21:34:58.407 service.admin.AdminUserService initUserContent 56] Star init userContent json data.
+[INFO 2016-10-30T21:34:58.410 service.admin.AdminUserService initUserContent 75] Init userContent json data complete.
+[INFO 2016-10-30T21:34:58.410 service.admin.AdminUserService initNavigationContent 235] Star init navigationContent json data.
+[INFO 2016-10-30T21:34:58.414 service.admin.AdminUserService initNavigationContent 240] Init navigationContent json data complete.
+[INFO 2016-10-30T21:34:58.414 service.admin.AdminUserService initGroupContent 297] Star init groupContent json data.
+[INFO 2016-10-30T21:34:58.416 service.admin.AdminUserService initGroupContent 302] Init groupContent json data complete.

@@ -1,0 +1,18 @@
+[INFO 2016-12-17T00:39:44.998 service.admin.AdminUserService initAuthContent 141] Star init authContent json data.
+[INFO 2016-12-17T00:39:45.208 service.admin.AdminUserService initAuthContent 154] Init authContent json data complete.
+[INFO 2016-12-17T00:39:45.209 service.admin.AdminUserService initUserContent 56] Star init userContent json data.
+[INFO 2016-12-17T00:39:45.212 service.admin.AdminUserService initUserContent 75] Init userContent json data complete.
+[INFO 2016-12-17T00:39:45.212 service.admin.AdminUserService initNavigationContent 235] Star init navigationContent json data.
+[INFO 2016-12-17T00:39:45.216 service.admin.AdminUserService initNavigationContent 240] Init navigationContent json data complete.
+[INFO 2016-12-17T00:39:45.216 service.admin.AdminUserService initGroupContent 297] Star init groupContent json data.
+[INFO 2016-12-17T00:39:45.218 service.admin.AdminUserService initGroupContent 302] Init groupContent json data complete.
+[INFO 2016-12-17T00:39:54.264 service.admin.AdminUserService login 202] admin login management platform.
+[INFO 2016-12-17T00:40:26.008 service.admin.AdminUserService initAuthContent 141] Star init authContent json data.
+[INFO 2016-12-17T00:40:26.214 service.admin.AdminUserService initAuthContent 154] Init authContent json data complete.
+[INFO 2016-12-17T00:40:26.214 service.admin.AdminUserService initUserContent 56] Star init userContent json data.
+[INFO 2016-12-17T00:40:26.217 service.admin.AdminUserService initUserContent 75] Init userContent json data complete.
+[INFO 2016-12-17T00:40:26.217 service.admin.AdminUserService initNavigationContent 235] Star init navigationContent json data.
+[INFO 2016-12-17T00:40:26.221 service.admin.AdminUserService initNavigationContent 240] Init navigationContent json data complete.
+[INFO 2016-12-17T00:40:26.222 service.admin.AdminUserService initGroupContent 297] Star init groupContent json data.
+[INFO 2016-12-17T00:40:26.223 service.admin.AdminUserService initGroupContent 302] Init groupContent json data complete.
+[INFO 2016-12-17T00:40:34.401 service.admin.AdminUserService login 202] admin login management platform.
