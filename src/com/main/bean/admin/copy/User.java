@@ -1,7 +1,4 @@
-package main.bean.admin;
-
-import java.util.HashSet;
-import java.util.Set;
+package main.bean.admin.copy;
 
 import main.service.admin.AdminUserService;
 import common.utils.StringUtils;
@@ -18,8 +15,6 @@ public class User {
 	
 	/**权限数组*/
 	private int[] authArray;
-	
-	private String roles;
 	
 	public int getId() {
 		return id;
@@ -76,59 +71,5 @@ public class User {
 				if(i==code)return true;
 			}
 		return false;
-	}
-	
-	
-	public String getRoles() {
-		return roles;
-	}
-	public void setRoles(String roles) {
-		this.roles = roles;
-	}
-	public void initRoleSet() {
-		
-	}
-	public Set<Role> getRoleSet() {
-		if (StringUtils.isBlank(roles)) {
-			return new HashSet<Role>();
-		}
-		Set<Role> set = new HashSet<Role>();
-		for (String roleName : roles.split(",")) {
-			Role role = AdminUserService.roleContentByName.get(roleName);
-			if (role != null) {
-				set.add(role);
-			}
-		}
-		return set;
-	}
-	
-	/**
-	 * 获取角色名集合
-	 * @param username
-	 * @return
-	 */
-	public Set<String> getRolesName() {
-		Set<String> set = new HashSet<String>();
-		if (StringUtils.isNotBlank(getRoles())) {
-			for (String roleName : getRoles().split(",")) {
-				set.add(roleName);
-			}
-		}
-		return set;
-	}
-	
-	/**
-	 * 获取权限名集合
-	 * @param username
-	 * @return
-	 */
-	public Set<String> getPermissionsName() {
-		Set<String> permissions = new HashSet<String>();
-		for (Role role : getRoleSet()) {
-			for (Permission Permission : role.getPermissionSet()) {
-				permissions.add(Permission.getName());
-			}
-		}
-		return permissions;
 	}
 }

@@ -31,6 +31,10 @@ public class Server implements ServletContextListener{
 		AdminUserService.initAuthContent();
 		//初始化用户数据
 		AdminUserService.initUserContent();
+		//初始化角色数据
+		AdminUserService.initRoleContent();
+		//初始化权限数据
+		AdminUserService.initPermissionContent();
 		//初始化主页导航
 		AdminUserService.initNavigationContent();
 		//初始化用户组数据

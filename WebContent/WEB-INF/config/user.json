@@ -1,1 +1,1 @@
-[{"id":0,"groupid":0,"name":"admin","password":"123456","auth":"all"}]
+[{"id":0,"groupid":0,"name":"admin","password":"123456","auth":"all","roles":"admin"}]

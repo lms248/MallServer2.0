@@ -8,8 +8,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,6 +23,8 @@ import javax.servlet.http.HttpSession;
 import main.bean.admin.AuthMap;
 import main.bean.admin.Group;
 import main.bean.admin.Navigation;
+import main.bean.admin.Permission;
+import main.bean.admin.Role;
 import main.bean.admin.User;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -46,8 +50,16 @@ import common.utils.StringUtils;
 @RequestMapping("admin/user")
 public class AdminUserService {
 	private static Logger log = LoggerManager.getLogger();
-	public static Map<String,User> userContentByName = new ConcurrentHashMap<String,User>();
+	/*用户数据*/
 	public static Map<Integer,User> userContentById = new ConcurrentHashMap<Integer,User>();
+	public static Map<String,User> userContentByName = new ConcurrentHashMap<String,User>();
+	/*角色数据*/
+	public static Map<Integer,Role> roleContentById = new ConcurrentHashMap<Integer,Role>();
+	public static Map<String,Role> roleContentByName = new ConcurrentHashMap<String,Role>();
+	/*权限数据*/
+	public static Map<Integer,Permission> permissionContentById = new ConcurrentHashMap<Integer,Permission>();
+	public static Map<String,Permission> permissionContentByName = new ConcurrentHashMap<String,Permission>();
+	
 	
 	/**
 	 * 初始化用户数据
@@ -128,6 +140,67 @@ public class AdminUserService {
 		log.info("Flush userContent json data completed.");
 	}
 	
+	/**
+	 * 初始化角色数据
+	 */
+	public static void initRoleContent(){
+		try {
+			log.info("Star init roleContent json data.");
+			String filePath = Config.CONFIG_DIR + File.separator + "role.json";
+			String jsonSrc = FileUtils.readFileToJSONString(filePath);
+			Role[] list = (Role[])JsonUtils.objectFromJson(jsonSrc, Role[].class);
+			Map<String,Role> tempContentByName = new ConcurrentHashMap<String,Role>();
+			Map<Integer,Role> tempContentById = new ConcurrentHashMap<Integer,Role>();
+			for(Role r : list){
+				if(tempContentByName.containsKey(r.getName())){
+					throw new IllegalArgumentException("Repeated roleName:"+r.getName());
+				}
+				if(tempContentById.containsKey(r.getId())){
+					throw new IllegalArgumentException("Repeated roleId:"+r.getId());
+				}
+				//u.initAuthArray();
+				tempContentByName.put(r.getName(), r);
+				tempContentById.put(r.getId(), r);
+			}
+			roleContentByName = tempContentByName;
+			roleContentById = tempContentById;
+			log.info("Init roleContent json data complete.");
+		} catch (Exception e) {
+			log.error(e.toString());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 初始化权限数据
+	 */
+	public static void initPermissionContent(){
+		try {
+			log.info("Star init permissionContent json data.");
+			String filePath = Config.CONFIG_DIR + File.separator + "permission.json";
+			String jsonSrc = FileUtils.readFileToJSONString(filePath);
+			Permission[] list = (Permission[])JsonUtils.objectFromJson(jsonSrc, Permission[].class);
+			Map<String,Permission> tempContentByName = new ConcurrentHashMap<String,Permission>();
+			Map<Integer,Permission> tempContentById = new ConcurrentHashMap<Integer,Permission>();
+			for(Permission p : list){
+				if(tempContentByName.containsKey(p.getName())){
+					throw new IllegalArgumentException("Repeated permissionName:"+p.getName());
+				}
+				if(tempContentById.containsKey(p.getId())){
+					throw new IllegalArgumentException("Repeated permissionId:"+p.getId());
+				}
+				//u.initAuthArray();
+				tempContentByName.put(p.getName(), p);
+				tempContentById.put(p.getId(), p);
+			}
+			permissionContentByName = tempContentByName;
+			permissionContentById = tempContentById;
+			log.info("Init permissionContent json data complete.");
+		} catch (Exception e) {
+			log.error(e.toString());
+			e.printStackTrace();
+		}
+	}
 	
 	/**授权*/
 	public static Map<String,AuthMap> authContent=new HashMap<String, AuthMap>();
@@ -541,4 +614,24 @@ public class AdminUserService {
 		Collections.sort(list, userSorter);
 		return list;
 	}
+	
+	
+	/**
+	 * 获取用户
+	 * @param username
+	 * @return
+	 */
+	public User getUserByName(String username) {
+		User user = new User();
+		if(StringUtils.isNotBlank(username)){
+			for (Entry<String, User> entry : userContentByName.entrySet()) {
+				String name=entry.getKey();
+				if(name.equals(username.trim())){
+					user = entry.getValue();
+				}
+			}
+		}
+		return user;
+	}
+	
 }
