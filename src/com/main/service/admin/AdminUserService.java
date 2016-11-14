@@ -28,6 +28,9 @@ import main.bean.admin.Role;
 import main.bean.admin.User;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -273,6 +276,13 @@ public class AdminUserService {
 		if (user!=null && password.equals(user.getPassword())) {
 			session.setAttribute("admin_user", user);
 			out.print(Def.CODE_SUCCESS);
+			
+			//SecurityUtils.getSecurityManager().logout(SecurityUtils.getSubject());  
+	        // 登录后存放进shiro token  
+	        UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());  
+	        Subject subject = SecurityUtils.getSubject();  
+	        subject.login(token);
+			
 			log.info(username+" login management platform.");
 		} else {
 			out.print(Def.CODE_FAIL);

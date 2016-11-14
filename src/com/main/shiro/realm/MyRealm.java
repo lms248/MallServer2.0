@@ -1,8 +1,5 @@
 package main.shiro.realm;
 
-import java.util.Set;
-
-import main.bean.admin.Role;
 import main.bean.admin.User;
 import main.service.admin.AdminUserService;
 
@@ -32,6 +29,8 @@ public class MyRealm extends AuthorizingRealm {
         User user = adminUserService.getUserByName(username);
         if(user != null){  
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();  
+            System.out.println("user.getRolesName()===="+user.getRolesName());
+            System.out.println("user.getPermissionsName()===="+user.getPermissionsName());
             //获取用户的角色名称
             info.setRoles(user.getRolesName());
             //获取用户的权限

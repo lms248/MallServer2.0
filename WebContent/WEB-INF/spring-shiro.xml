@@ -32,7 +32,7 @@
         <!-- 身份认证失败，则跳转到登录页面的配置 -->  
         <property name="loginUrl" value="/admin/login"/>
         <!-- 权限认证失败，则跳转到指定页面 -->  
-        <property name="unauthorizedUrl" value="/unauthorized.jsp"/>  
+        <property name="unauthorizedUrl" value="/admin"/>  
         <!-- Shiro连接约束配置,即过滤链的定义 -->  
         <property name="filterChainDefinitions">  
             <value>  
@@ -41,9 +41,9 @@
                 /admin/user/login=anon
                 /res/**=anon  
                 <!-- 需要权限为add的用户才能访问此请求-->  
-                /user=perms[user:add]  
+                /test=perms[user:add]  
                 <!-- 需要管理员角色才能访问此页面 -->  
-                /user/add=roles[admin]  
+                /admin/**=authc,roles[admin]
                 <!--拦截非静态资源的所有请求-->    
                 <!-- /** = authc -->
             </value>  
