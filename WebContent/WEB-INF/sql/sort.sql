@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : mysql
+Source Server         : MySQL
 Source Server Version : 50615
 Source Host           : localhost:3306
 Source Database       : mall
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-24 18:46:38
+Date: 2016-11-15 11:51:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `sort` (
   `mark` varchar(255) DEFAULT NULL COMMENT '备注',
   `logo` varchar(255) DEFAULT NULL COMMENT '分类logo',
   PRIMARY KEY (`id`),
-  KEY `sort_id` (`pid`)
+  UNIQUE KEY `index_id` (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

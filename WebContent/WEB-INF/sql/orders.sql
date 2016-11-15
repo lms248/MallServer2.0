@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-26 16:59:20
+Date: 2016-11-15 11:50:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,13 +21,20 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `ordeId` bigint(20) NOT NULL COMMENT '订单ID',
-  `payId` bigint(20) DEFAULT NULL COMMENT '订单支付ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
-  `shopId` bigint(20) NOT NULL COMMENT '店铺ID',
+  `orderId` varchar(100) NOT NULL COMMENT '订单ID',
+  `payId` varchar(100) DEFAULT NULL COMMENT '订单支付ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
+  `shopId` varchar(100) NOT NULL COMMENT '店铺ID',
   `goodsList` text COMMENT '数量',
-  `addressId` bigint(20) DEFAULT NULL COMMENT '收货地址ID',
+  `addressId` varchar(100) DEFAULT NULL COMMENT '收货地址ID',
   `status` int(11) DEFAULT NULL COMMENT '总价格',
+  `afterSaleService` text COMMENT '售后服务',
+  `payWay` varchar(50) DEFAULT NULL COMMENT '支付方式',
   `createTime` bigint(20) DEFAULT NULL COMMENT '下单时间',
-  PRIMARY KEY (`id`,`ordeId`,`uid`,`shopId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
+  `deliverTime` bigint(20) DEFAULT NULL COMMENT '发货时间',
+  `receiveTime` bigint(20) DEFAULT NULL COMMENT '收货时间',
+  PRIMARY KEY (`id`,`orderId`,`uid`,`shopId`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_orderId` (`orderId`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;

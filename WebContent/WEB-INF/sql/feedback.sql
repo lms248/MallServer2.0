@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-09-03 18:18:32
+Date: 2016-11-15 11:50:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,9 +21,11 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE `feedback` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号ID',
-  `feedbackId` bigint(20) NOT NULL COMMENT '反馈ID',
-  `uid` bigint(20) NOT NULL COMMENT '用户ID',
+  `feedbackId` varchar(100) NOT NULL COMMENT '反馈ID',
+  `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `info` varchar(1000) DEFAULT NULL COMMENT '反馈内容',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`feedbackId`,`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`,`feedbackId`,`uid`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_feedbackId` (`feedbackId`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;

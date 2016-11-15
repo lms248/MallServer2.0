@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-10-28 20:33:43
+Date: 2016-11-15 11:50:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,5 +34,7 @@ CREATE TABLE `pay` (
   `status` int(11) DEFAULT NULL COMMENT '支付状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_payId` (`payId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

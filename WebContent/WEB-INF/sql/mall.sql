@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50615
 File Encoding         : 65001
 
-Date: 2016-10-28 20:33:26
+Date: 2016-11-15 11:48:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,7 +27,9 @@ CREATE TABLE `activity` (
   `title` varchar(500) DEFAULT NULL COMMENT '活动标题',
   `mark` varchar(1000) DEFAULT NULL COMMENT '备注',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`activityId`)
+  PRIMARY KEY (`id`,`activityId`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_activityId` (`activityId`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -52,7 +54,9 @@ CREATE TABLE `cart` (
   `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `goodsList` mediumtext COMMENT '商品列表信息',
   `updateTime` bigint(20) DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`,`cartId`,`uid`)
+  PRIMARY KEY (`id`,`cartId`,`uid`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_cartId` (`cartId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -65,7 +69,9 @@ CREATE TABLE `collect` (
   `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `goodsId` varchar(100) DEFAULT NULL COMMENT '商品ID',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`collectId`,`uid`)
+  PRIMARY KEY (`id`,`collectId`,`uid`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_collectId` (`collectId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -81,7 +87,9 @@ CREATE TABLE `comment` (
   `content` text COMMENT '评论内容',
   `star` int(11) DEFAULT NULL COMMENT '评论星级',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`commentId`)
+  PRIMARY KEY (`id`,`commentId`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_commentId` (`commentId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -96,7 +104,9 @@ CREATE TABLE `community` (
   `imageList` varchar(1000) DEFAULT NULL COMMENT '图片列表',
   `thumbList` varchar(1000) DEFAULT NULL COMMENT '缩略图列表',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_communityId` (`communityId`) USING BTREE
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -109,7 +119,9 @@ CREATE TABLE `feedback` (
   `uid` varchar(100) NOT NULL COMMENT '用户ID',
   `info` varchar(1000) DEFAULT NULL COMMENT '反馈内容',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`feedbackId`,`uid`)
+  PRIMARY KEY (`id`,`feedbackId`,`uid`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_feedbackId` (`feedbackId`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -135,7 +147,9 @@ CREATE TABLE `goods` (
   `type` int(11) DEFAULT NULL COMMENT '类型',
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`goodsId`)
+  PRIMARY KEY (`id`,`goodsId`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_goodsId` (`goodsId`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -149,7 +163,9 @@ CREATE TABLE `message` (
   `title` varchar(255) DEFAULT NULL COMMENT '标题',
   `content` varchar(255) DEFAULT NULL COMMENT '内容',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_messageId` (`messageId`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -171,7 +187,9 @@ CREATE TABLE `orders` (
   `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
   `deliverTime` bigint(20) DEFAULT NULL COMMENT '发货时间',
   `receiveTime` bigint(20) DEFAULT NULL COMMENT '收货时间',
-  PRIMARY KEY (`id`,`orderId`,`uid`,`shopId`)
+  PRIMARY KEY (`id`,`orderId`,`uid`,`shopId`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_orderId` (`orderId`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -193,7 +211,9 @@ CREATE TABLE `pay` (
   `status` int(11) DEFAULT NULL COMMENT '支付状态',
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `payTime` bigint(20) DEFAULT NULL COMMENT '支付时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_payId` (`payId`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -213,7 +233,10 @@ CREATE TABLE `shop` (
   `contactPhone` varchar(255) DEFAULT NULL COMMENT '联系客服电话',
   `type` varchar(255) DEFAULT NULL,
   `createTime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`,`shopId`)
+  PRIMARY KEY (`id`,`shopId`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_shopId` (`shopId`) USING BTREE,
+  KEY `index_name` (`name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -229,7 +252,7 @@ CREATE TABLE `sort` (
   `mark` varchar(255) DEFAULT NULL COMMENT '备注',
   `logo` varchar(255) DEFAULT NULL COMMENT '分类logo',
   PRIMARY KEY (`id`),
-  KEY `sort_id` (`pid`)
+  UNIQUE KEY `index_id` (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -251,5 +274,9 @@ CREATE TABLE `user` (
   `type` int(11) DEFAULT NULL COMMENT '用户类型',
   `loginTime` bigint(20) DEFAULT NULL COMMENT '最新登录时间',
   `registerTime` bigint(20) DEFAULT NULL COMMENT '注册时间',
-  PRIMARY KEY (`id`,`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`,`uid`),
+  UNIQUE KEY `index_id` (`id`) USING BTREE,
+  UNIQUE KEY `index_uid` (`uid`) USING BTREE,
+  KEY `index_username` (`username`) USING BTREE,
+  KEY `index_token` (`token`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
