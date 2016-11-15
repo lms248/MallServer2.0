@@ -1,4 +1,4 @@
 [
-	{"id":0,"name":"/shop"},
+	{"id":0,"name":"user:logout"},
 	{"id":1,"name":"/goods"}
 ]

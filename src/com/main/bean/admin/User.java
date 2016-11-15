@@ -125,8 +125,8 @@ public class User {
 	public Set<String> getPermissionsName() {
 		Set<String> permissions = new HashSet<String>();
 		for (Role role : getRoleSet()) {
-			for (Permission Permission : role.getPermissionSet()) {
-				permissions.add(Permission.getName());
+			for (Permission permission : role.getPermissionSet()) {
+				permissions.add(permission.getName());
 			}
 		}
 		return permissions;

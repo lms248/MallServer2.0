@@ -1,4 +1,4 @@
 [
-	{"id":0,"name":"admin","description":"管理员","permissions":""},
+	{"id":0,"name":"admin","description":"管理员","permissions":"user:logout"},
 	{"id":1,"name":"normal","description":"普通用户","permissions":""}
 ]
