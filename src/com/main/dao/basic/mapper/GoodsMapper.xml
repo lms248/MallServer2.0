@@ -31,12 +31,6 @@
 			where goodsid = #{goodsId};
 	</select>
 	
-	<!-- 根据商品名字加载对应商品 -->
-	<select id="loadByGoodsname" resultType="goodsBean">
-		<include refid="sql_select"/> 
-			where name = #{name};
-	</select>
-	
 	<!-- 加载所有商品 -->
 	<select id="loadAllGoods" resultType="goodsBean">
 		<include refid="sql_select"/> 

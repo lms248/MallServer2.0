@@ -17,8 +17,6 @@ public interface GoodsDao {
 	
 	public GoodsBean loadByGoodsId(String goodsId);
 	
-	public GoodsBean loadByGoodsname(String name);
-	
 	public List<GoodsBean> loadAllGoods(@Param("index")int index, @Param("size")int size);
 	
 	public List<GoodsBean> loadAllGoods_search(
